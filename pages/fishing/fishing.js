@@ -417,6 +417,16 @@ Page({
       });
     }
     
+    // 如果选项数量大于1，使用Fisher-Yates洗牌算法随机排序选项
+    if (qteOptions.length > 1) {
+      for (let i = qteOptions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        // 交换位置
+        [qteOptions[i], qteOptions[j]] = [qteOptions[j], qteOptions[i]];
+      }
+      console.log('[钓鱼游戏] QTE选项已随机排序');
+    }
+    
     // 更新状态为QTE
     this.setData({
       state: 'qte',
