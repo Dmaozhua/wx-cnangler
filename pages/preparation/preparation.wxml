@@ -1,0 +1,62 @@
+<!--pages/preparation/preparation.wxml-->
+<page-meta>
+  <!-- 自定义导航栏 -->
+  <navigation-bar title="钓鱼准备" background="#BDC3C7" color="#000000" back="{{true}}"></navigation-bar>
+</page-meta>
+
+<!-- 背景图容器 -->
+<view class="scene-bg-container">
+  <image class="scene-bg" src="{{water.image}}" mode="aspectFill"></image>
+</view>
+
+<view class="container">
+  <!-- 返回主页按钮 -->
+  <!-- 返回按钮 -->
+  <view class="back-btn" bindtap=  "onBackToHome">
+    <text class="back-icon">←</text>
+  </view>
+  
+  <view class="header">
+    <text class="title">钓鱼准备</text>
+    <text class="subtitle">选择合适的钓点开始钓鱼</text>
+  </view>
+
+  <!-- 卡片网格布局 -->
+  <view class="cards-grid">
+    <!-- 天气信息 -->
+    <view class="info-card weather-card">
+      <view class="card-title">当前天气</view>
+      <view class="weather-info">
+        <text class="weather-name">{{weather.name}}</text>
+        <text class="weather-desc">{{weather.description}}</text>
+      </view>
+    </view>
+    
+    <!-- 水域信息 -->
+    <view class="info-card water-card">
+      <view class="card-title">钓场水域</view>
+      <view class="water-info">
+        <text class="water-name">{{water.name}}</text>
+        <text class="water-desc">{{water.description}}</text>
+      </view>
+      <image class="water-image" src="{{water.image}}" mode="aspectFill"></image>
+    </view>
+  
+    <!-- 栖息地选择 -->
+    <view class="info-card habitat-card">
+    <view class="card-title">选择钓点</view>
+    <radio-group class="habitat-options" bindchange="onHabitatChange">
+      <label class="habitat-option {{selectedHabitat === item.key ? 'habitat-option-selected' : ''}}" wx:for="{{habitatsList}}" wx:key="index">
+        <radio value="{{item.key}}" checked="{{selectedHabitat === item.key}}" color="#1E3A8A"/>
+        <text class="habitat-name">{{item.name}}</text>
+      </label>
+    </radio-group>
+  </view>
+  </view>
+  
+  <!-- 开始钓鱼按钮 -->
+  <view class="button-group">
+    <button class="random-btn" bindtap="onRandomAgain" hover-class="btn-hover">再次随机</button>
+    <button class="start-btn" bindtap="onStart" hover-class="btn-hover">出发钓鱼</button>
+  </view>
+</view>

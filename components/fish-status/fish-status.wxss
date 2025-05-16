@@ -1,0 +1,95 @@
+/* components/fish-status/fish-status.wxss */
+.fish-status-container {
+  position: fixed;
+  left: 0;
+  top: 45%;
+  transform: translateX(-100%) translateY(-50%);
+  width: 600rpx;
+  background-color: rgba(234, 234, 234, 0.9);
+  border-radius: 0 16rpx 16rpx 0;
+  box-shadow: 2rpx 2rpx 10rpx rgba(0, 0, 0, 0.2);
+  padding: 20rpx;
+  z-index: 100;
+  transition: all 0.6s ease;
+}
+
+.visible {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.status-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.fish-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.fish-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 10rpx;
+}
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5rpx;
+}
+
+/* 自定义进度条样式 */
+.progress-bar {
+  width: 100%;
+  height: 16rpx;
+  background-color: #f0f0f0; /* 背景色 */
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+
+.progress-inner {
+  height: 100%;
+  border-radius: 8rpx;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡效果 */
+}
+
+.fish-progress-inner {
+  background-color: #ff4d4f; /* 鱼儿血量进度条颜色 */
+}
+
+.line-progress-inner {
+  background-color: #1E3A8A; /* 钓线状态进度条颜色 */
+}
+
+.progress-label {
+  font-size: 30rpx;
+  color: #666;
+  margin-top: 5rpx;
+}
+
+.line-info {
+  margin-top: 10rpx;
+}
+
+.qte-status {
+  margin-top: 10rpx;
+  padding: 10rpx;
+  background-color: #f0f2f5;
+  border-radius: 8rpx;
+  text-align: center;
+}
+
+.qte-text {
+  font-size: 32rpx;
+  color:rgb(234, 130, 18);
+  font-weight: bold;
+}

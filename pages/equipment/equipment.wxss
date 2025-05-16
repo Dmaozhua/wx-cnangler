@@ -6,7 +6,10 @@
 .back-button text {
     display: none; /* 隐藏返回按钮文本 */
 }
-
+/* 自定义导航栏样式 */
+.custom-nav-bar .weui-navigation-bar__inner {
+    --height: 50px; /* 调整导航栏高度 */
+}
 .back-button {
     position: absolute;
     top: 20rpx;

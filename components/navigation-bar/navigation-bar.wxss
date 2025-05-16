@@ -1,5 +1,5 @@
 .weui-navigation-bar {
-  --weui-FG-0:rgba(0,0,0,.9);
+  --weui-FG-0:rgba(172, 157, 157, 0.9);
   --height: 44px;
   --left: 16px;
 }
@@ -71,7 +71,7 @@
   flex: 1;
   height: 100%;
   padding-left: 0;
-  margin-left: -60px;
+  margin-left: -55px;
   font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
   letter-spacing: 0.5px;
 }

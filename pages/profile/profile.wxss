@@ -1,10 +1,40 @@
 /* pages/profile/profile.wxss */
+/* 自定义导航栏样式 */
+.custom-nav-bar .weui-navigation-bar__inner {
+    --height: 50px; /* 调整导航栏高度 */
+}
+/* 设置页面级别的背景色 */
+page {
+  background-color: #f8f9fa;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 页面容器 */
+.page-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+  position: relative;
+  overflow: hidden;
+}
 
 /* 整体容器 */
 .profile-container {
   padding: 30rpx;
   background-color: #f8f9fa;
-  min-height: 100vh;
+  flex: 1;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background-color: transparent;
 }
 
 /* 用户信息卡片 */

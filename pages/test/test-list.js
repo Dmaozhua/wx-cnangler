@@ -1,9 +1,22 @@
 // pages/test/test-list.js
 const testData = require('../../data/testDataNew');
 
+// 测试类型定义
+const TEST_TYPES = {
+  1: "基础认知与偏好类",
+  2: "行为决策与应对类",
+  3: "情绪管理与心态类",
+  4: "价值观念与深层动机类",
+  5: "场景模拟与深层心理类"
+};
+
 Page({
   data: {
     testList: [],
+    categorizedTests: [], // 按类型分类的测试数据
+    categoryCollapsed: {}, // 记录每个分类是否折叠
+    
+    highlightedArticles: [], // 用于存储高亮处理后的文章数据
     btnPosition: {
       x: 0,
       y: 0
@@ -20,7 +33,10 @@ Page({
         testList.push({
           id: testData[key].id,
           title: testData[key].title,
-          key: key
+          titleshort: testData[key].titleshort || testData[key].title, // 使用短标题，如果没有则使用完整标题
+          type: testData[key].type || 1, // 默认为类型1
+          key: key,
+          needScroll: false // 默认不需要滚动
         });
       }
     }
@@ -31,8 +47,59 @@ Page({
     // 初始化按钮位置（默认在右侧中间）
     this.initButtonPosition();
     
+    // 按类型分类测试
+    this.categorizeTests(testList);
+    
     this.setData({
       testList: testList
+    }, () => {
+      // 在数据渲染完成后检查文字长度
+      this.checkTextOverflow();
+    });
+  },
+  
+  // 按类型分类测试
+  categorizeTests: function(testList) {
+    // 初始化分类数据
+    const categorizedTests = [];
+    const categoryCollapsed = {};
+    
+    // 遍历所有测试类型
+    for (const typeId in TEST_TYPES) {
+      const type = parseInt(typeId);
+      const typeName = TEST_TYPES[type];
+      
+      // 筛选该类型的测试
+      const testsInCategory = testList.filter(test => test.type === type);
+      
+      if (testsInCategory.length > 0) {
+        categorizedTests.push({
+          type: type,
+          typeName: typeName,
+          tests: testsInCategory
+        });
+        
+        // 默认不折叠
+        categoryCollapsed[type] = false;
+      }
+    }
+    
+    this.setData({
+      categorizedTests: categorizedTests,
+      categoryCollapsed: categoryCollapsed
+    });
+  },
+  
+  // 切换分类的折叠状态
+  toggleCategory: function(e) {
+    const type = e.currentTarget.dataset.type;
+    const categoryCollapsed = this.data.categoryCollapsed;
+    
+    // 切换折叠状态
+    categoryCollapsed[type] = !categoryCollapsed[type];
+    
+    this.setData({
+      categoryCollapsed: categoryCollapsed
     });
   },
   
@@ -179,4 +246,36 @@ Page({
     }
   },
   
+  // 检查文字是否超出按钮宽度
+  checkTextOverflow: function() {
+    // 获取按钮的宽度信息
+    const query = wx.createSelectorQuery();
+    query.selectAll('.btn-text-container').boundingClientRect();
+    query.selectAll('.btn-text').boundingClientRect();
+    
+    query.exec(res => {
+      if (res[0] && res[1] && res[0].length === res[1].length) {
+        const containers = res[0];
+        const texts = res[1];
+        
+        const updatedList = [...this.data.testList];
+        
+        for (let i = 0; i < containers.length; i++) {
+          const containerWidth = containers[i].width;
+          const textWidth = texts[i].width;
+          
+          // 如果文字宽度超过容器宽度，则需要滚动
+          if (textWidth > containerWidth) {
+            updatedList[i].needScroll = true;
+          } else {
+            updatedList[i].needScroll = false;
+          }
+        }
+        
+        this.setData({
+          testList: updatedList
+        });
+      }
+    });
+  }
 });

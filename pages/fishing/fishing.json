@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "fish-status": "/components/fish-status/fish-status"
+  }
+}

@@ -1,19 +1,73 @@
+/* 设置页面级别的背景色 */
+page {
+  background: linear-gradient(to bottom, #2C3E50 0%, #BDC3C7 70%, #ECF0F1 100%);
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to bottom, #2C3E50 0%, #BDC3C7 70%, #ECF0F1 100%);
+  position: relative;
+  overflow: hidden;
+}
+
 .container {
     padding: 20rpx;
-    background: linear-gradient(to bottom, #1E3A8A 0%, #4169E1 70%, #ffffff 100%);
-    min-height: 100vh;
-    transition: background 0.3s ease-in-out;
+    flex: 1;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    background-color: transparent;
+    -webkit-overflow-scrolling: touch; /* 保持滚动流畅 */
+    overflow: scroll;
+    scrollbar-width: none; /* Firefox 隐藏 */
+}
+.scroll-area::-webkit-scrollbar { display: none; 
+height: 100%;
+}
+/* 隐藏滚动条 - 增强版，确保所有滚动元素的滚动条都被隐藏 */
+.container::-webkit-scrollbar {
+  display: none;
+}
+page::-webkit-scrollbar,
+.page-container::-webkit-scrollbar,
+scroll-view::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+/* 确保iOS设备也隐藏滚动条 */
+.container,
+page,
+.page-container,
+scroll-view {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
 }
 
 .welcome-card {
     border-radius: 20rpx;
     padding: 30rpx 20rpx;
     margin-bottom: 20rpx;
-    box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8rpx 16rpx rgba(24, 2, 59, 0.1);
     text-align: center;
     position: relative;
     overflow: hidden;
     transition: background 0.5s ease-in-out;
+      border: 2rpx solid rgba(255, 255, 255, 0.2); /* 添加透明边框 */
+  border-radius: 30rpx; /* 更大的圆角 */
+  padding: 40rpx 30rpx; /* 增加内边距 */
 }
 
 .welcome-card::after {
@@ -23,7 +77,8 @@
     right: -50%;
     width: 200rpx;
     height: 200rpx;
-    background: rgba(255, 255, 255, 0.1);
+
+      background: rgba(255, 255, 255, 0.1); /* 调整伪元素背景透明度 */
     border-radius: 50%;
     z-index: 0;
 }
@@ -36,6 +91,7 @@
     position: relative;
     z-index: 1;
     transition: color 0.5s ease-in-out;
+      text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1); /* 添加文字阴影 */
 }
 
 .welcome-subtitle {
@@ -44,6 +100,7 @@
     position: relative;
     z-index: 1;
     transition: color 0.5s ease-in-out;
+      text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1); /* 添加文字阴影 */
 }
 
 .banner-swiper {
@@ -150,12 +207,12 @@
 }
 
 .test-more-btn {
-    background: linear-gradient(135deg, #FF8C00, #FFA500);
+    background: linear-gradient(135deg, #2C3E50, #BDC3C7);
 }
 
 .test-btn {
-    background: linear-gradient(135deg, #1E3A8A, #4169E1);
-    color: white;
+    background: linear-gradient(135deg, #6664e7, #8ab6d3);
+    color: rgb(255, 255, 255);
     width: 100%;
     height: 90rpx;
     display: flex;
@@ -178,7 +235,7 @@
 
 /* 随机测试按钮特殊样式 */
 .random-test-btn {
-    background: linear-gradient(45deg, #FF8C00, #FF4500, #FF6347, #FF8C00);
+    background: linear-gradient(45deg, #46b1cc, #6664e7, #8ab6d3, #f1a43e);
     background-size: 300% 300%;
     animation: randomGradient 3s ease infinite, pulse 2s infinite;
     position: relative;
@@ -225,23 +282,13 @@
     100% { transform: rotate(360deg); }
 }
 
-.test-btn::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    transition: all 0.4s ease;
-}
-
-.test-btn:active::after {
-    left: 100%;
+/* 移除从左到右的方块移动动效 */
+.test-btn:active {
+    opacity: 0.9;
 }
 
 .gear-btn {
-    background: linear-gradient(135deg, #D2691E, #FF8C00);
+    background: linear-gradient(135deg, #5e6c86, #BDC3C7);
     color: white;
     width: 100%;
     height: 90rpx;
@@ -252,7 +299,7 @@
     border-radius: 15rpx;
     font-size: 30rpx;
     font-weight: bold;
-    box-shadow: 0 4rpx 8rpx rgba(210, 105, 30, 0.3);
+    box-shadow: 0 4rpx 8rpx rgba(212, 231, 105, 0.3);
     transition: all 0.3s ease;
     border: none;
     position: relative;
@@ -263,19 +310,9 @@
     justify-content: center;
 }
 
-.gear-btn::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    transition: all 0.4s ease;
-}
-
-.gear-btn:active::after {
-    left: 100%;
+/* 移除从左到右的方块移动动效 */
+.gear-btn:active {
+    opacity: 0.9;
 }
 
 .btn-hover {
@@ -347,7 +384,7 @@
   right: 0;
   z-index: 999;
   height: 80rpx;
-  background: #fffbe6;
+  background:rgb(37, 71, 96);
   padding: 20rpx 30rpx;
   display: flex;
   align-items: center;
@@ -394,27 +431,35 @@
     overflow: hidden;
 }
 
-.feature-btn::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    transition: all 0.4s ease;
+/* 移除从左到右的方块移动动效 */
+.feature-btn:active {
+    opacity: 0.9;
 }
 
-.feature-btn:active::after {
-    left: 100%;
+.simulator-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(45deg);
+    animation: shine 3s linear infinite;
+}
+
+.simulator-icon {
+    display: inline-block;
+    margin-right: 8rpx;
+    animation: spin 3s linear infinite;
 }
 
 .equipment-btn {
-    background: linear-gradient(135deg, #4169E1, #1E90FF);
+    background: linear-gradient(135deg, #C0B283, #3CB371);
 }
 
 .weather-btn {
-    background: linear-gradient(135deg, #FF8C00, #FFA500);
+    background: linear-gradient(135deg, #3CB371, #C0B283);
 }
 
 .other-btn {
@@ -422,7 +467,11 @@
 }
 
 .simulator-btn {
-    background: linear-gradient(135deg, #20B2AA, #3CB371);
+    background: linear-gradient(45deg, #46b1cc, #3CB371, #8ab6d3, #f1a43e);
+    background-size: 300% 300%;
+    animation: randomGradient 3s ease infinite, pulse 2s infinite;
+    position: relative;
+    overflow: hidden;
 }
 
 .tips {

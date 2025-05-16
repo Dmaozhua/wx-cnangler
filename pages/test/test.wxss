@@ -1,24 +1,61 @@
 /* /pages/test/test.wxss */
 .container {
-  padding: 30rpx;
+  padding: 20rpx;
   background-color: #F0F8FF;
   min-height: 100vh;
   position: fixed;
-  top: 0;
+  top: 180rpx; /* 导航栏高度 */
   left: 0;
   right: 0;
   bottom: 0;
   width: 100%;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-y: hidden; /* 修改为hidden，禁止垂直滚动 */
+  overflow-x: hidden;
+  z-index: 1;
+  padding-bottom: 180rpx; /* 根据导航按钮高度调整 */
+  background: linear-gradient(135deg, #f4f4f5 0%, #9ac0e6 100%);
 }
-
+.question-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 32rpx;
+  }
+  .question-number {
+    font-size: 44rpx;
+    font-weight: 700;
+    color: #1E3A8A;
+    margin-right: 20rpx;
+  }
+  /* .question-tag {
+    background: rgba(30,58,138,0.1);
+    color: #1E3A8A;
+    padding: 8rpx 20rpx;
+    border-radius: 40rpx;
+    font-size: 24rpx;
+  } */
+  
+.question-content {
+  background: #ffffff;                /* 白底更专业 */
+  border: none;                       /* 移除边框 */
+  border-radius: 20rpx;               /* 更大圆角 */
+  padding: 30rpx 25rpx;               /* 增加内边距 */
+  box-shadow: 0 8rpx 24rpx rgba(30, 58, 138, 0.08); /* 深度阴影 */
+}
+.custom-nav-bar {
+  box-shadow: 0 2rpx 8rpx rgba(30, 58, 138, 0.1); /* 新增导航栏阴影 */
+}
+/* 自定义导航栏样式 */
+.custom-nav-bar .weui-navigation-bar__title {
+  font-size: 36rpx;
+  font-weight: 500;
+}
 /* 标题样式 */
 .title-box {
   background: linear-gradient(135deg, #1E3A8A, #4169E1);
   border-radius: 20rpx;
-  padding: 30rpx 20rpx;
-  margin-bottom: 30rpx;
+  padding: 20rpx 15rpx;
+  margin-bottom: 10rpx;
   text-align: center;
   box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.1);
   position: relative;
@@ -45,10 +82,46 @@
   z-index: 1;
 }
 
-/* 问题进度样式 */
-.progress-info {
-  text-align: center;
-  margin-bottom: 30rpx;
+/* 进度条样式 */
+.progress-bar-wrapper {
+  margin: 20rpx 0 30rpx 0;
+  padding: 0 10rpx;
+}
+
+.progress-bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 16rpx;
+  background-color: #e0e6ed;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: inset 0 1rpx 3rpx rgba(0, 0, 0, 0.1);
+  margin-bottom: 10rpx !important;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, #1E3A8A, #4169E1);
+  border-radius: 20rpx;
+  transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  position: relative;
+  box-shadow: 0 1rpx 3rpx rgba(65, 105, 225, 0.3);
+}
+
+.progress-bar-inner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 10rpx;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 0 20rpx 20rpx 0;
 }
 
 .progress-text {
@@ -61,8 +134,8 @@
 .question-content {
   background-color: #f9f9f9;
   border-radius: 16rpx;
-  padding: 40rpx 30rpx;
-  margin-bottom: 40rpx;
+  padding: 25rpx 20rpx;
+  margin-bottom: 10rpx;
   text-align: center;
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
   border-left: 4rpx solid #1E3A8A;
@@ -79,25 +152,29 @@
 
 /* 选项样式 */
 .options-box {
-  margin-bottom: 40rpx;
+  margin-bottom: 10rpx !important;
+  padding-bottom: 100rpx; /* 为底部固定的导航按钮留出空间 */
 }
 
 .option-item {
   background: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 12rpx;
-  margin: 20rpx 0;
-  padding: 24rpx 20rpx;
-  transition: all 0.25s ease;
+  margin: 15rpx 0;
+  padding: 20rpx 15rpx;
   position: relative;
   overflow: hidden;
+  transform: none; /* 移除初始位移，确保状态切换时不会有残留效果 */
+  /* 添加动画效果 */
+  transition: all 0.3s ease;
 }
 
 .option-item.active {
   background: #f0f7ff;
   border-color: #4169E1;
-  transform: translateX(10rpx);
-  box-shadow: 0 2rpx 10rpx rgba(65, 105, 225, 0.15);
+  transform: scale(1.02); /* 添加轻微放大效果 */
+  box-shadow: 0 4rpx 12rpx rgba(65, 105, 225, 0.25);
+  animation: selectPulse 0.5s ease;
 }
 
 .option-text {
@@ -125,8 +202,15 @@
 .nav-buttons {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
     width: 100%;
+    position: relative;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    padding: 20rpx 0;
+    box-sizing: border-box;
+    z-index: 10;
+    margin-top: 20rpx;
 }
 
 .nav-btn {
@@ -197,6 +281,19 @@
 @keyframes scaleIn {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+/* 选项选中动画 */
+@keyframes selectPulse {
+  0% { transform: scale(1); box-shadow: 0 2rpx 10rpx rgba(65, 105, 225, 0.15); }
+  50% { transform: scale(1.05); box-shadow: 0 6rpx 16rpx rgba(65, 105, 225, 0.3); }
+  100% { transform: scale(1.02); box-shadow: 0 4rpx 12rpx rgba(65, 105, 225, 0.25); }
+}
+
+/* 勾选图标淡入动画 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-10rpx); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 .result-title {
@@ -285,6 +382,7 @@
 
 
 
+
 .prev-btn {
     margin-right: auto;
 }
@@ -292,3 +390,95 @@
 .next-btn {
     margin-left: auto;
 }
+
+/* 主题色 */
+:root {
+  --primary-blue: #1E3A8A;       /* 主色 */
+  --light-blue: #4169E1;        /* 渐变辅助色 */
+  --bg-gray: #F8F9FA;           /* 背景浅灰 */
+  --text-dark: #333333;         /* 主文本色 */
+  --text-medium: #666666;       /* 次文本色 */
+  --hover-effect: rgba(30, 58, 138, 0.08); /* hover遮罩 */
+}
+
+/* 统一字体 */
+body, text {
+  font-family: 'PingFang SC', 'Helvetica Neue', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.5rpx;
+}
+/* 标题层级 */
+.title { font-size: 40rpx; font-weight: 600; }
+.section-title, .recommend-title { font-size: 34rpx; font-weight: 500; }
+.question-text { font-size: 34rpx; line-height: 1.8; }
+.option-text { font-size: 32rpx; line-height: 1.6; }
+
+.option-item {
+  border-radius: 16rpx;              /* 圆角统一 */
+  transition: none;                 /* 移除过渡动画，防止状态残留 */
+  position: relative;
+  overflow: hidden;
+}
+/* 移除hover效果，避免鼠标位置导致的视觉残留 */
+.option-item.active {
+  box-shadow: 0 4rpx 16rpx rgba(65, 105, 225, 0.2); /* 更强阴影 */
+  border-color: var(--light-blue);   /* 选中边框色 */
+  transform: none;                  /* 移除放大效果，避免切换题目时的残留 */
+}
+/* 选项文本增加左侧图标空间（预留交互区域） */
+.option-text {
+  padding-left: 58rpx;               /* 为可能的图标/标记预留空间 */
+  position: relative;
+  padding-right: 50rpx;
+}
+.option-item.active .option-text::before {
+  content: "✅";                     /* 选中时显示勾选标记 */
+  position: absolute;
+  left: 15rpx;
+  color: var(--light-blue);
+  font-size: 32rpx;
+  animation: fadeIn 0.3s ease;
+}
+.progress-info {
+  margin: 30rpx 0;
+}
+.progress-bar {
+  height: 6rpx;
+  background: #E0E6ED;
+  border-radius: 3rpx;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+  transition: width 0.3s ease; /* 进度变化动画 */
+}
+
+.result-content {
+    width: 90%;                     /* 更大弹窗 */
+    border-radius: 24rpx;           /* 圆角 */
+    padding: 50rpx 40rpx;           /* 增加内边距 */
+  }
+  .section-container {
+    border: 1px solid #E0E6ED;      /* 分隔线 */
+    border-radius: 16rpx;
+    padding: 30rpx;
+  }
+  .recommend-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10rpx;
+    padding: 20rpx;
+    font-size: 30rpx;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.06); /* 推荐项阴影 */
+  }
+  .result-btn {
+    margin-top: 50rpx;
+    padding: 20rpx 60rpx;
+    font-size: 32rpx;
+  }
+  /* 安全区域适配 */
+.safe-area {
+    padding-bottom: env(safe-area-inset-bottom);
+  }

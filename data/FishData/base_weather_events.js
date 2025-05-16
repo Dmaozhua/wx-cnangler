@@ -17,9 +17,10 @@ export const BaseWeatherEvents = [
     id: 'EVENT_02',
     type: EVENT_TYPES.BASE_WEATHER,
     name: '阳光明媚',
+    description: '阳光明媚，钓鱼的人心情很好。',
     effect: {
-      baitEfficiency: 0.2,
-      fishActivity: 0.1
+      baitEfficiency: 0.2,//20%的鱼饵效率
+      fishActivity: 0.1//10%的鱼类活跃度
     },
     // 选项通过getEventOptions('EVENT_02')获取
   }

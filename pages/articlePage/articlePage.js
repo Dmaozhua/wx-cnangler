@@ -10,31 +10,37 @@ Page({
   },
 
   onLoad: function(options) {
+    // 显示加载状态
+    this.setData({
+      loading: true,
+      showNoResults: false
+    });
+    
+    // 加载文章数据
     this.loadArticles();
   },
 
   // 加载文章数据
   loadArticles: function() {
     try {
+      // 记录开始加载时间，用于性能统计
+      const startTime = Date.now();
+      
       // 动态加载文章数据
       const articleData = [];
       
-      // 获取textData目录下的所有文章文件
-      const fs = wx.getFileSystemManager();
-      // 使用正则表达式匹配文章文件名模式
-      const articlePattern = /article\d+\.js$/;
-      
-      // 尝试读取data/textData目录下的所有文章文件
+      // 使用微信小程序的文件系统API获取文章文件列表
       try {
-        // 使用文件系统API读取目录下的所有文件
+        // 获取文件系统管理器实例
         const fs = wx.getFileSystemManager();
-        // 读取data/textData目录下的所有文件
-        const fileList = fs.readdirSync('data/textData');
-        // 过滤出所有js文件
-        const articleFiles = fileList.filter(file => file.endsWith('.js'));
         
-        // 遍历所有文章文件并尝试加载
-        articleFiles.forEach((fileName, index) => {
+        // 尝试读取textData目录下的所有文件
+        // 由于小程序的安全限制，我们无法直接列出目录内容
+        // 所以我们使用一个足够大的范围来尝试加载文章
+        const maxArticleNumber = 50; // 设置一个足够大的数字来尝试加载文章
+        
+        for (let i = 1; i <= maxArticleNumber; i++) {
+          const fileName = `article${i}.js`;
           try {
             // 动态构建require路径
             const articleModule = require(`../../data/textData/${fileName}`);
@@ -48,15 +54,26 @@ Page({
             }
             console.log(`成功加载文章: ${fileName}`);
           } catch (e) {
-            console.error(`加载${fileName}失败:`, e);
+            // 如果连续5个文件都加载失败，则认为已经没有更多文章了
+            if (i > 5 && articleData.length === 0) {
+              console.log('没有找到任何文章文件，停止尝试加载');
+              break;
+            }
+            // 如果已经加载了一些文章，并且连续5个文件都加载失败，则认为已经加载完所有文章
+            if (articleData.length > 0 && i - articleData.length >= 5) {
+              console.log('已加载所有可用文章文件，停止尝试加载');
+              break;
+            }
+            console.log(`尝试加载${fileName}：文件不存在或格式不正确`);
           }
-        });
+        }
       } catch (e) {
-        console.error('读取文章目录失败:', e);
+        console.error('加载文章失败:', e);
       }
       
       // 如果没有加载到任何文章，使用默认数据
       if (articleData.length === 0) {
+        console.log('未能加载任何文章，使用默认数据');
         // 文章1数据
         const article1 = {
           "title": "春季路亚鲈鱼技巧与找鱼方式全解析",
@@ -72,7 +89,25 @@ Page({
           ]
         };
         articleData.push(article1);
+        
+        // 显示提示信息
+        wx.showToast({
+          title: '使用默认文章数据',
+          icon: 'none',
+          duration: 2000
+        });
+      } else {
+        console.log(`成功加载了${articleData.length}篇文章`);
       }
+      
+      // 对文章数据进行排序（按ID或日期）
+      articleData.sort((a, b) => {
+        // 如果有publishDate字段，按日期排序（新的在前）
+        if (a.publishDate && b.publishDate) {
+          return new Date(b.publishDate) - new Date(a.publishDate);
+        }
+        return 0; // 保持原有顺序
+      });
       
       // 处理文章数据
       const articles = articleData.map((fishingData, index) => {
@@ -127,6 +162,10 @@ Page({
         previewNodes: article.previewText
       }));
       
+      // 计算加载时间
+      const loadTime = Date.now() - startTime;
+      console.log(`文章加载完成，共加载${articles.length}篇文章，耗时${loadTime}ms`);
+      
       this.setData({
         articles: articles,
         originalArticles: articles, // 保存原始文章列表
@@ -135,6 +174,15 @@ Page({
         showNoResults: false,
         highlightedArticles: initialHighlightedArticles // 初始化高亮文章数据
       });
+      
+      // 显示加载成功提示
+      if (articles.length > 0) {
+        wx.showToast({
+          title: `已加载${articles.length}篇文章`,
+          icon: 'success',
+          duration: 1500
+        });
+      }
     } catch (error) {
       console.error("加载文章失败:", error);
       wx.showToast({

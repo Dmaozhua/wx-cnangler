@@ -1,6 +1,7 @@
 Page({
     data: {
         categories: ["水滴轮", "纺车轮", "枪柄杆", "直柄杆", "硬饵", "软饵"],
+        highlightedArticles: [] ,// 用于存储高亮处理后的文章数据
         currentCategory: "水滴轮",
         dropdownOpen: false,
         alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ#".split(""),

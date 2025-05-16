@@ -1,4 +1,9 @@
 /* pages/articleDetail/articleDetail.wxss */
+
+/* 自定义导航栏样式 */
+.custom-nav-bar .weui-navigation-bar__inner {
+    --height: 50px; /* 调整导航栏高度 */
+}
 .container {
   padding: 20rpx;
   background-color: #f8f9fa;
@@ -195,7 +200,7 @@
 }
 
 .child-title {
-  font-size: 36rpx;
+  font-size: 38rpx;
   font-weight: bold;
   color: #1E3A8A;
   margin-bottom: 20rpx;
@@ -239,6 +244,32 @@
   word-break: break-all;
 }
 
+/* 曾孙节点样式 */
+.great-grandchild {
+  margin: 20rpx 0 20rpx 20rpx;
+  padding-left: 16rpx;
+  border-left: 3rpx solid #6c757d;
+}
+
+.great-grandchild-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #495057;
+  margin-bottom: 12rpx;
+}
+
+.great-grandchild-content {
+  font-size: 28rpx;
+  color: #6c757d;
+  line-height: 1.7;
+  margin-bottom: 12rpx;
+  text-align: justify;
+  width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
 /* 底部导航 */
 .nav-buttons {
   display: flex;
@@ -263,7 +294,92 @@
   transition: all 0.3s ease;
 }
 
+/* 导航栏返回按钮样式 */
+.custom-nav-bar {
+  position: relative;
+    height: 100%; /* 新增 */
+}
+
+.nav-back-btn {
+  position: absolute;
+  left: 20rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 80rpx; /* 扩大热区 */
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* 最高层级 */
+}
+
+.back-icon {
+  width: 400rpx;
+  height: 400rpx;
+    display: block; /* 新增 */
+}
+
 .nav-button:active {
   transform: translateY(2rpx);
   box-shadow: 0 2rpx 8rpx rgba(65, 105, 225, 0.2);
+}
+
+/* 浮动主页按钮 */
+.float-home-btn {
+    position: fixed;
+    bottom: 40rpx;
+    right: 40rpx;
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+    background-color: #1E3A8A;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    transition: all 0.3s ease;
+    opacity: 0.9; /* 稍微透明，减少视觉干扰 */
+}
+
+.float-btn-hover {
+    transform: scale(0.95);
+    background-color: #152a62;
+}
+
+.home-btn-text {
+    font-size: 24rpx;
+}
+/* 滑动容器样式 */
+.swipe-container {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  background: #fff;
+  box-shadow: -8rpx 0 40rpx rgba(0, 0, 0, 0);
+  transition: 
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease,
+    box-shadow 0.3s ease;
+}
+/* 滑动时状态 */
+.swipe-container[style*="translateX"] {
+  transition: none; /* 滑动过程中禁用过渡 */
+  box-shadow: -8rpx 0 40rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 防止内容溢出 */
+.container {
+  overflow-x: hidden;
+}
+
+.main-container {
+  overflow-x: hidden; /* 禁止横向滚动 */
+  width: 100%; /* 确保宽度不溢出 */
+}
+
+.article-container {
+  overflow-x: hidden; /* 已有样式，确保保留 */
+  /* 其他样式保持不变 */
 }

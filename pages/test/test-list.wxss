@@ -1,14 +1,37 @@
+
+.custom-nav-bar .weui-navigation-bar__inner {
+  height: 50px; /* 直接设置高度 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #ECF0F1;
+}
+
+.main-scroll-view {
+    height: 100vh;
+    background-color: #f8f9fa;
+    box-sizing: border-box;
+}
 .container {
     padding: 20rpx;
+    padding-top: calc(50px + 100rpx); /* 导航栏高度 + 原来的padding */
+    padding-bottom: 80rpx; /* 添加底部边距，确保内容不紧贴屏幕底部 */
     background-color: #F0F8FF;
-    min-height: 100vh;
+    height: auto; /* 关键修改点 */
+    min-height: 100vh; /* 保证最小高度 */
     box-sizing: border-box;
-    overflow-y: auto;       /* 允许纵向滚动 */
-    position: relative;     /* 由 fixed 改为 relative */
+    overflow-y: auto; 
+    position: relative;
     width: 100%;
-    display: flex;          /* 使用 flex 布局 */
-    flex-direction: column; /* 子元素从上到下排列 */
-    justify-content: flex-start; /* 强制顶部对齐 */
+    display: flex;
+    flex-direction: column;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start; /* 确保内容从顶部开始排列 */
 }
 
 .home-btn {
@@ -108,12 +131,58 @@
     display: block;
 }
 
+/* 分类样式 */
+.test-categories {
+    width: 100%;
+    margin-bottom: 60rpx; /* 添加底部边距，确保折叠时有足够空间 */
+    align-self: flex-start; /* 确保从顶部开始排列 */
+    flex-grow: 0; /* 防止自动扩展占据剩余空间 */
+     box-shadow: 0 8rpx 30rpx rgba(0,0,0,0.05); /* 柔和投影 */
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx 30rpx;
+    margin: 20rpx 0 20rpx 0; /* 保持上下边距一致 */
+    background: linear-gradient(135deg, #1E3A8A, #3B82F6);
+    color: white;
+    border-radius: 10rpx;
+    font-size: 30rpx;
+    font-weight: bold;
+  border-radius: 16rpx; /* 更大圆角 */
+  box-shadow: 0 6rpx 12rpx rgba(30, 58, 138, 0.15); /* 更深阴影 */
+  background: linear-gradient(135deg, #555d70, #93ace4); /* 优化渐变颜色 */
+  transition: transform 0.2s ease, box-shadow 0.3s ease; /* 添加过渡动画 */
+
+}
+
+.category-title {
+    flex: 1;
+}
+
+.category-toggle {
+  /* 优化图标样式 */
+  font-size: 36rpx; /* 增大图标字体 */
+  margin-left: 12rpx; /* 增加图标与文字间距 */
+  color: #ffffff; /* 明确图标颜色 */
+}
+.category-header:hover {
+  /* 添加悬停效果 */
+  transform: scale(1.02);
+  box-shadow: 0 8rpx 16rpx rgba(30, 58, 138, 0.2);
+}
 .test-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15rpx;
     padding: 10rpx;
     align-items: start; /* 修改为顶部对齐 */
+    width: 100%;
+    flex: 1; /* 允许网格占据剩余空间 */
+    min-height: 0; /* 关键：允许内容收缩 */
+    overflow-y: visible; /* 确保内容可以溢出并被容器的滚动捕获 */
 }
 
 .test-grid-2x2 {
@@ -121,11 +190,12 @@
     gap: 20rpx;
 }
 
+
 .test-btn {
-    background: linear-gradient(135deg, #1E3A8A, #4169E1);
+    background: linear-gradient(135deg, #6664e7, #8ab6d3);
     color: white;
     width: 100%;
-    height: 100rpx;
+    height: 110rpx;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -133,7 +203,7 @@
     border-radius: 15rpx;
     font-size: 30rpx;
     font-weight: bold;
-    box-shadow: 0 4rpx 8rpx rgba(30, 58, 138, 0.3);
+  box-shadow: 0 6rpx 12rpx rgba(30, 58, 138, 0.25); /* 更强阴影 */
     transition: all 0.3s ease;
     border: none;
     position: relative;
@@ -153,10 +223,49 @@
 }
 
 .test-btn:active::after {
-    left: 100%;
+  /* 优化点击反馈 */
+  transform: scale(0.96); /* 更小缩放比例 */
+  box-shadow: 0 4rpx 8rpx rgba(30, 58, 138, 0.3);
 }
-
+.test-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 3rpx 6rpx rgba(99, 102, 241, 0.3);
+}
+.test-btn:hover {
+  background: linear-gradient(135deg, #7672f5, #9ac5e8); /* 更亮渐变 */
+}
 .btn-hover {
     transform: scale(0.95);
     opacity: 0.9;
+}
+
+/* 按钮文字容器 */
+.btn-text-container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* 普通文字样式（居中显示） */
+.btn-text {
+    display: inline-block;
+    text-align: center;
+}
+
+/* 滚动文字样式 */
+.scrolling-text {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scrollText 8s linear infinite;
+    padding-left: 100%;
+}
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-200%);
+    }
 }

@@ -107,8 +107,11 @@ Component({
     },
 
     onViewDetails() {
-      // 触发viewdetails事件，并传递当前成就信息
-      this.triggerEvent('viewdetails', { achievement: this.properties.achievement });
+      console.log('成就弹窗: 点击查看详情按钮');
+      console.log('当前成就信息:', JSON.stringify(this.properties.achievement));
+      
+      // 触发viewDetails事件，并传递当前成就信息
+      this.triggerEvent('viewDetails', { achievement: this.properties.achievement });
       
       // 直接跳转到成就页面，并传递成就ID
       if (this.properties.achievement && this.properties.achievement.id) {
@@ -116,15 +119,36 @@ Component({
         const pages = getCurrentPages();
         const currentPage = pages[pages.length - 1];
         
+        console.log('当前页面路径:', currentPage ? currentPage.route : '未知');
+        
         if (currentPage && currentPage.route === 'pages/achievements/achievements') {
-            currentPage.handleViewDetails({
-              detail: { achievement: this.properties.achievement }
-            });
-            this.onClose();
+            console.log('当前已在成就页面，直接调用handleViewDetails方法');
+            if (typeof currentPage.handleViewDetails === 'function') {
+              currentPage.handleViewDetails({
+                detail: { achievement: this.properties.achievement }
+              });
+              this.onClose();
+            } else {
+              console.error('handleViewDetails方法不存在或不是函数');
+              // 尝试直接调用showAchievementDetail方法
+              if (typeof currentPage.showAchievementDetail === 'function') {
+                console.log('尝试直接调用showAchievementDetail方法');
+                currentPage.showAchievementDetail({
+                  currentTarget: {
+                    dataset: { achievement: this.properties.achievement }
+                  }
+                });
+                this.onClose();
+              } else {
+                console.error('showAchievementDetail方法也不存在');
+              }
+            }
           } else {
+            console.log('不在成就页面，跳转到成就页面');
             wx.switchTab({
               url: `/pages/achievements/achievements`,
               success: () => {
+                console.log('成功跳转到成就页面');
                 // 成功跳转后再关闭弹窗，避免页面隐藏时触发 close
                 setTimeout(() => this.onClose(), 300);
               }

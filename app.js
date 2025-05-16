@@ -9,6 +9,14 @@ App({
   },
   
   onLaunch() {
+    // 全局错误捕获
+    wx.onError((error) => {
+      console.error('Global Error:', error);
+      wx.showToast({
+        title: '程序出现异常',
+        icon: 'none'
+      });
+    });
     // 初始化用户成就数据
     const savedAchievements = wx.getStorageSync('achievements') || {}
     

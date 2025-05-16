@@ -1,7 +1,8 @@
-<page-meta>
+<page-meta page-style="overflow: hidden;">
   <!-- 自定义导航栏 -->
-  <navigation-bar title="装备" background="#1E3A8A" color="#ffffff" back="{{true}}"></navigation-bar>
+  <navigation-bar title="装备" background="#ECF0F1" color="#000000" back="{{false}}" sticky="{{true}}" placeholder="{{true}}" extClass="custom-nav-bar"></navigation-bar>
 </page-meta>
+
 
 <view class="container" bindtap="closeDropdown" bindtouchstart="touchStart" bindtouchend="touchEnd">
     <!-- 下拉菜单 -->

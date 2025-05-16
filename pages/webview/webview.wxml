@@ -1,7 +1,7 @@
 <!-- pages/webview/webview.wxml -->
 <page-meta>
   <!-- 自定义导航栏 -->
-  <navigation-bar title="网页浏览" background="#1E3A8A" color="#ffffff" back="{{true}}"></navigation-bar>
+  <navigation-bar title="网页浏览" background="#BDC3C7" color="#000000" back="{{true}}"></navigation-bar>
 </page-meta>
 
 <view class="webview-container">

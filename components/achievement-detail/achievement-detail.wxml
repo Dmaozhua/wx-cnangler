@@ -1,4 +1,4 @@
-<!--components/achievement-detail/achievement-detail.wxml-->
+<!-- 在 components/achievement-detail/achievement-detail.wxml 中 -->
 <view class="achievement-detail-mask" wx:if="{{visible}}" catchtouchmove="preventTouchMove">
   <view class="achievement-detail-content" animation="{{animationData}}">
     <view class="achievement-header">

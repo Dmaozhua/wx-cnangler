@@ -1,0 +1,30 @@
+<!--components/fish-status/fish-status.wxml-->
+<view class="fish-status-container {{isVisible ? 'visible' : 'hidden'}}" animation="{{animationData}}">
+  <view class="status-content">
+    <!-- 鱼的信息 -->
+    <view class="fish-info" wx:if="{{currentFish}}">
+      <text class="fish-name">{{currentFish.name}}</text>
+      <view class="progress-container">
+        <view class="progress-bar">
+          <view class="progress-inner fish-progress-inner" style="width: {{currentFish.hp / (currentFish.BaseHP * currentFish.strengthVal) * 100}}%;"></view>
+        </view>
+        <text class="progress-label">鱼儿血量</text>
+      </view>
+    </view>
+    
+    <!-- 钓线状态 -->
+    <view class="line-info">
+      <view class="progress-container">
+        <view class="progress-bar">
+          <view class="progress-inner line-progress-inner" style="width: {{playerHP}}%;"></view>
+        </view>
+        <text class="progress-label">钓线状态</text>
+      </view>
+    </view>
+    
+    <!-- QTE状态提示 -->
+    <view class="qte-status" wx:if="{{qteState}}">
+      <text class="qte-text">{{qteState}}</text>
+    </view>
+  </view>
+</view>

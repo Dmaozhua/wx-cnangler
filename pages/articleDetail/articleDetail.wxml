@@ -1,10 +1,31 @@
-<!-- pages/articleDetail/articleDetail.wxml -->
-<page-meta>
-  <!-- 自定义导航栏 -->
-  <navigation-bar title="文章详情" background="#1E3A8A" color="#ffffff" back="{{true}}"></navigation-bar>
+<page-meta page-style="{{ pageStyle }}">
+  <navigation-bar 
+    title="文章详情" 
+    background="#ECF0F1" 
+    color="#000000" 
+    back="{{false}}" 
+    sticky="{{true}}" 
+    placeholder="{{true}}" 
+    extClass="custom-nav-bar">
+    
+    <!-- 添加自定义返回按钮 -->
+    <view class="nav-back-btn" bindtap="navigateBack">
+      <image class="back-icon" src="/images/back_icon.png" mode="aspectFit"></image>
+    </view>
+  </navigation-bar>
 </page-meta>
+<!-- 在原有容器外添加滑动动画容器 -->
+<view 
+  class="swipe-wrapper"
+  style="{{swipeTransform}}"
+  bindtouchstart="touchStart"
+  bindtouchmove="touchMove"
+  bindtouchend="touchEnd"
+>
 
-<view class="container">
+
+<view class="main-container">
+
   <!-- 加载中提示 -->
   <view class="loading-container" wx:if="{{loading}}">
     <view class="loading">加载中...</view>
@@ -21,19 +42,14 @@
       </view>
     </view>
 
-    <!-- 文章引言 -->
-    <view class="article-section" wx:if="{{article.introduction}}">
-      <view class="section-title" wx:if="{{article.introduction.title}}">{{article.introduction.title}}</view>
-      <view class="section-content" wx:if="{{article.introduction.text}}">{{article.introduction.text}}</view>
-    </view>
-
-    <!-- 直接显示文章内容 -->
+    <!-- 文章内容区域 - 根据数据结构选择性显示 -->
+    <!-- 1. 直接显示文章内容 -->
     <view class="article-content" wx:if="{{article.content}}">
       <text user-select="true" decode="true" space="nbsp">{{article.content}}</text>
     </view>
 
-    <!-- 显示文章子节点 -->
-    <view class="article-children" wx:if="{{article.children && article.children.length > 0}}">
+    <!-- 2. 显示文章子节点 -->
+    <view class="article-children" wx:elif="{{article.children && article.children.length > 0}}">
       <block wx:for="{{article.children}}" wx:key="title" wx:for-item="child">
         <view class="article-child">
           <view class="child-title">{{child.title}}</view>
@@ -44,7 +60,17 @@
             <block wx:for="{{child.children}}" wx:key="title" wx:for-item="grandchild">
               <view class="grandchild">
                 <view class="grandchild-title">{{grandchild.title}}</view>
-                <view class="grandchild-content">{{grandchild.content}}</view>
+                <view class="grandchild-content" wx:if="{{grandchild.content}}">{{grandchild.content}}</view>
+                
+                <!-- 显示第三层子节点 -->
+                <view class="great-grandchild-children" wx:if="{{grandchild.children && grandchild.children.length > 0}}">
+                  <block wx:for="{{grandchild.children}}" wx:key="title" wx:for-item="greatGrandchild">
+                    <view class="great-grandchild">
+                      <view class="great-grandchild-title">{{greatGrandchild.title}}</view>
+                      <view class="great-grandchild-content">{{greatGrandchild.content}}</view>
+                    </view>
+                  </block>
+                </view>
               </view>
             </block>
           </view>
@@ -52,8 +78,8 @@
       </block>
     </view>
 
-    <!-- 文章章节 (保留原有结构以兼容处理后的数据) -->
-    <view class="article-chapters" wx:if="{{article.chapters && article.chapters.length > 0}}">
+    <!-- 3. 文章章节 -->
+    <view class="article-chapters" wx:elif="{{article.chapters && article.chapters.length > 0}}">
       <block wx:for="{{article.chapters}}" wx:key="title" wx:for-item="chapter">
         <view class="chapter">
           <view class="chapter-title">{{chapter.title}}</view>
@@ -80,4 +106,9 @@
       <button class="nav-button" bindtap="navigateToHome">首页</button>
     </view>
   </view>
+</view>
+
+</view>
+<view class="float-home-btn" hover-class="float-btn-hover" bindtap="navigateToHome">
+    <text class="home-btn-text">列表</text>
 </view>

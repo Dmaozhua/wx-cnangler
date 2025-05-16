@@ -1,22 +1,28 @@
 <page-meta>
   <!-- 自定义导航栏 -->
-  <navigation-bar id="navigation-bar" title="钓鱼人测试" background="#1E3A8A" color="#ffffff" back="{{false}}"></navigation-bar>
+  <navigation-bar id="navigation-bar" title="钓鱼人测试" background="#BDC3C7" color="#000000" back="{{false}}"></navigation-bar>
 </page-meta>
 
-<view wx:if="{{showPrompt}}" class="first-tip">
-  <text class="icon-huanying1 iconfont topicon"></text>
-  <text class="huanyingtips">欢迎使用钓鱼人测试!</text>
-  <image 
-    src="/images/tab/鱼钩 (1).png" 
-    class="close-btn" 
-    bindtap="closePrompt"
-  />
-</view>
-<!-- 提示信息 -->
-<view class="tips" wx:if="{{showTips}}">
-    <text>{{tipsText}}</text>
-</view>
-<scroll-view class="container" style="background: {{containerStyle}};" scroll-y bindtouchmove="touchMove">
+<view class="page-container" style="background: {{containerStyle}};">
+  <view wx:if="{{showPrompt}}" class="first-tip">
+    <text class="icon-huanying1 iconfont topicon"></text>
+    <text class="huanyingtips">欢迎使用钓鱼人测试!</text>
+    <image 
+      src="/images/tab/鱼钩 (1).png" 
+      class="close-btn" 
+      bindtap="closePrompt"
+    />
+  </view>
+  <!-- 提示信息 -->
+  <view class="tips" wx:if="{{showTips}}">
+      <text>{{tipsText}}</text>
+  </view>
+    <scroll-view class="container" scroll-y="true" show-scrollbar="false" bindtouchmove="touchMove">
+    <!-- 添加用于颜色分析的隐藏canvas -->    
+    <canvas 
+    canvas-id="colorAnalyzerCanvas" id="colorAnalyzerCanvas" style="width: 100px; height: 100px; position: absolute; left: -1000px; visibility: hidden;"
+    type="2d"
+    ></canvas>
     <!-- 成就弹窗组件 -->
     <achievement-popup 
         wx:if="{{achievementPopupVisible}}" 
@@ -31,28 +37,13 @@
     
     <view class="welcome-card" style="background: {{welcomeCardStyle}}; transition: background 0.3s ease-in-out;">
         <view class="welcome" style="color: {{welcomeTextColor}}; transition: color 0.3s ease-in-out;">🎣 欢迎来到 钓鱼人测试！🎣</view>
-        <view class="welcome-subtitle" style="color: {{welcomeTextColor}}; opacity: 0.9; transition: color 0.3s ease-in-out;">您的专业钓鱼助手</view>
+        <view class="welcome-subtitle" style="color: {{welcomeTextColor}}; opacity: 0.9; transition: color 0.3s ease-in-out;">这里是专业的路亚钓鱼频道</view>
     </view>
     
     <swiper class="banner-swiper" indicator-dots="true" autoplay="true" interval="3000" bindchange="onSwiperChange" circular="true">
-        <swiper-item>
-            <view catch:tap="onBannerTap" data-index="0" style="width:100%;height:100%;">
-                <image src="/images/banner/1.jpg" mode="aspectFill" class="banner-image"/> 
-            </view>
-        </swiper-item>
-        <swiper-item>
-            <view catch:tap="onBannerTap" data-index="1" style="width:100%;height:100%;">
-                <image src="/images/banner/2.jpg" mode="aspectFill" class="banner-image"/>
-            </view>
-        </swiper-item>
-        <swiper-item>
-            <view catch:tap="onBannerTap" data-index="2" style="width:100%;height:100%;">
-                <image src="/images/banner/3.jpg" mode="aspectFill" class="banner-image"/>
-            </view>
-        </swiper-item>
-        <swiper-item>
-            <view catch:tap="onBannerTap" data-index="3" style="width:100%;height:100%;">
-                <image src="/images/banner/4.jpg" mode="aspectFill" class="banner-image"/>
+        <swiper-item wx:for="{{bannerList}}" wx:key="index">
+            <view catch:tap="onBannerTap" data-index="{{index}}" style="width:100%;height:100%;">
+                <image src="{{item.webpUrl || item.imageUrl}}" mode="aspectFill" class="banner-image"/> 
             </view>
         </swiper-item>
     </swiper>
@@ -76,10 +67,10 @@
             <text class="section-subtitle">找到最适合你的钓具</text>
         </view>
         <view class="gear-grid  test-grid-2x2">
-            <button class="gear-btn" hover-class="btn-hover" bindtap="goToGearTest1">本命钓竿</button>
-            <button class="gear-btn" hover-class="btn-hover" bindtap="goToGearTest2">缘分渔轮</button>
+            <button class="gear-btn" hover-class="btn-hover" bindtap="goToGearTest1">钓竿推荐-新手向</button>
+            <button class="gear-btn" hover-class="btn-hover" bindtap="goToGearTest2">渔轮推荐-新手向</button>
             <button class="gear-btn" hover-class="btn-hover" bindtap="goToGearTest3">小众配件</button>
-            <button class="gear-btn more-btn" hover-class="btn-hover">展示更多 <text class="arrow-icon">⌄</text></button>
+            <button class="gear-btn more-btn" hover-class="btn-hover" bindtap="onMoreBtnTap">展示更多 <text class="arrow-icon">⌄</text></button>
         </view> 
     </view> 
 
@@ -94,4 +85,5 @@
             <button class="feature-btn simulator-btn" hover-class="btn-hover" bindtap="goToFishingSimulator">钓鱼模拟器</button>
         </view>
     </view>
-</scroll-view>
+  </scroll-view>
+</view>

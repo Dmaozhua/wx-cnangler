@@ -1,12 +1,20 @@
 <!--pages/achievements/achievements.wxml-->
-
-<page-meta>
-  <!-- 自定义导航栏 -->
-  <navigation-bar title="成就" background="#1E3A8A" color="#ffffff" back="{{false}}"></navigation-bar>
+<page-meta page-style="{{ pageStyle }}">
+  <navigation-bar 
+    title="成就" 
+    background="#ECF0F1" 
+    color="#000000" 
+    back="{{false}}" 
+    sticky="{{true}}" 
+    placeholder="{{true}}" 
+    extClass="custom-nav-bar">
+  </navigation-bar>
 </page-meta>
 
-<canvas id="lottie-canvas" type="2d" style="width: 300px; height: 300px; position: absolute; left: -9999px;"></canvas>
-<view class="achievement-container">
+
+<canvas id="lottie-canvas" type="2d" style="width: 300rpx; height: 300rpx; position: absolute; left: -9999px;"></canvas>
+<view class="page-container">
+  <scroll-view class="achievement-container" scroll-y enable-flex>
   <!-- 成就头衔 -->
   <view class="title-bar">
     <image src="/images/tab/路亚饵.png" class="title-icon"/>
@@ -28,12 +36,7 @@
   </scroll-view>
 
   <!-- 成就列表 -->
-  <scroll-view 
-    scroll-y 
-    class="achievement-list" 
-    scroll-into-view="{{scrollIntoViewId}}" 
-    scroll-with-animation="true"
-  >
+  <view class="achievement-list-container">
     <block wx:for="{{filteredAchievements}}" wx:key="id">
       <view 
         id="{{item.scrollId}}" 
@@ -78,20 +81,26 @@
         </view>
       </view>
     </block>
+  </view>
+
   </scroll-view>
 
   <!-- 成就弹窗组件 -->
   <achievement-popup 
+    wx:if="{{showPopup}}"
     visible="{{showPopup}}" 
     achievement="{{newAchievement}}" 
     bind:close="closePopup"
-    bind:viewdetails="handleViewDetails"
+    bind:viewDetails="handleViewDetails"
   />
   
   <!-- 成就详情弹窗组件 -->
-  <achievement-detail
-    visible="{{showDetailPopup}}"
-    achievement="{{selectedAchievement}}"
-    bind:close="closeDetailPopup"
-  />
+  <achievement-detail 
+  
+  wx:if="{{showDetailPopup}}" 
+
+  visible="{{showDetailPopup}}" 
+  achievement="{{selectedAchievement}}" 
+  bind:close="closeDetailPopup"
+/>
 </view>

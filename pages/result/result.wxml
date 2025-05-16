@@ -1,0 +1,52 @@
+<!--pages/result/result.wxml-->
+<page-meta>
+  <!-- 自定义导航栏 -->
+  <navigation-bar title="钓鱼结果" background="#1E3A8A" color="#ffffff" back="{{false}}"></navigation-bar>
+</page-meta>
+
+<view class="container">
+  <view class="result-card">
+    <view class="result-header">
+      <text class="result-title">钓鱼结束</text>
+      <text class="result-subtitle">本次钓鱼结果</text>
+    </view>
+    
+    <view class="result-stats">
+      <view class="stat-item">
+        <text class="stat-value">{{fishCaught}}</text>
+        <text class="stat-label">钓起</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{fishEscaped}}</text>
+        <text class="stat-label">脱钩</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{fishCaught + fishEscaped}}</text>
+        <text class="stat-label">总计</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{successRate}}%</text>
+        <text class="stat-label">成功率</text>
+      </view>
+    </view>
+    
+    <view class="fishing-info">
+      <view class="info-item">
+        <text class="info-label">钓场:</text>
+        <text class="info-value">{{water.name}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">天气:</text>
+        <text class="info-value">{{weather.name}}</text>
+      </view>
+    </view>
+    
+    <view class="result-message">
+      <text wx:if="{{fishCaught > fishEscaped}}">恭喜你！本次钓鱼收获颇丰。</text>
+      <text wx:elif="{{fishCaught === fishEscaped}}">不错的尝试，继续努力！</text>
+      <text wx:else>下次再接再厉，钓鱼需要耐心。</text>
+    </view>
+  </view>
+  
+  <button class="restart-btn" bindtap="restart" hover-class="btn-hover">重新开始</button>
+</view>

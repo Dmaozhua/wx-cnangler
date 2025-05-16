@@ -1,3 +1,5 @@
+// 在Page对象顶部引入工具
+const { getDominantColor, rgbToHex } = require('../../utils/colorAnalyzer')
 Page({
     data: {
         showPrompt: true,
@@ -13,11 +15,26 @@ Page({
         achievementPopupVisible: false,
         currentAchievement: null,
         // 背景渐变样式
-        containerStyle: "linear-gradient(to bottom, #1E3A8A 0%, #4169E1 50%, #ffffff 100%)",
+        containerStyle: "linear-gradient(to bottom, #BDC3C7 0%, #BDC3C7 30%, #ffffff 95%)",
         // 标题样式
-        welcomeCardStyle: "linear-gradient(135deg, #1E3A8A, #4169E1)",
-        welcomeTextColor: "white",
-        sectionTitleStyle: {}
+        welcomeCardStyle: "linear-gradient(135deg,rgb(43, 75, 107), #F5F0E7)", // 蓝紫色渐变
+        welcomeTextColor: "black", // 白色字体
+        sectionTitleStyle: {},
+        // 添加bannerList初始化，支持webp格式
+        bannerList: [
+            { 
+                imageUrl: "/images/banner/1.jpg",
+                webpUrl: "/images/banner/1.webp"
+            },
+            { 
+                imageUrl: "/images/banner/2.jpg",
+                webpUrl: "/images/banner/2.webp"
+            },
+            { 
+                imageUrl: "/images/banner/3.jpg",
+                webpUrl: "/images/banner/3.webp"
+            }
+        ]
         
     },
     onLoad() {
@@ -127,15 +144,37 @@ Page({
 
     // 齿轮测试页面导航
     goToGearTest1() {
-        wx.navigateTo({ url: "/pages/gearTest/test1" });
+        // 跳转到钓竿测试，使用testEquipment.js中的ganzi数据
+        const testEquipment = require('../../data/testEquipment');
+        // 使用ganzi数据
+        wx.setStorageSync('selectedTest', testEquipment.ganzi);
+        wx.navigateTo({ url: "/pages/test/test?id=1" });
     },
 
     goToGearTest2() {
-        wx.navigateTo({ url: "/pages/gearTest/test2" });
+        // 跳转到渔轮测试，使用testEquipment.js中的lunzi数据
+        const testEquipment = require('../../data/testEquipment');
+        // 使用lunzi数据
+        wx.setStorageSync('selectedTest', testEquipment.multiDimTest);
+        wx.navigateTo({ url: "/pages/test/test?id=3" });
+    },
+    
+    // 处理更多按钮点击事件
+    onMoreBtnTap() {
+        wx.showToast({
+            title: '数据正在准备中，敬请期待，谢谢',
+            icon: 'none',
+            duration: 2000
+        });
     },
 
     goToGearTest3() {
-        wx.navigateTo({ url: "/pages/gearTest/test3" });
+        // 显示提示信息
+        wx.showToast({
+            title: '数据正在准备中，敬请期待，谢谢',
+            icon: 'none',
+            duration: 2000
+        });
     },
 
     goToGearTest4() {
@@ -401,14 +440,14 @@ Page({
     goToFishingSimulator() {
         console.log('[钓鱼模拟器] 用户点击了钓鱼模拟器按钮');
         
-        // 跳转到钓鱼模拟器欢迎页面
+        // 跳转到钓鱼模拟器首页
         wx.navigateTo({ 
-            url: "/pages/fishingWelcome/fishingWelcome",
+            url: "/pages/fishingHome/fishingHome",
             success: (res) => {
-                console.log('[钓鱼模拟器] 成功跳转到钓鱼模拟器欢迎页面', res);
+                console.log('[钓鱼模拟器] 成功跳转到钓鱼模拟器首页', res);
             },
             fail: (err) => {
-                console.error('[钓鱼模拟器] 跳转到钓鱼模拟器欢迎页面失败:', err);
+                console.error('[钓鱼模拟器] 跳转到钓鱼模拟器首页失败:', err);
                 // 跳转失败时显示提示
                 this.setData({
                     showTips: true,
@@ -505,72 +544,241 @@ Page({
                 }
             });
         }
+        else if (index == 2) {
+            // 第san张图点击打开fishingHome页面（tabBar页面使用switchTab）
+            wx.navigateTo({
+                url: "/pages/fishingHome/fishingHome",
+                success: (res) => {
+                    console.log('[Banner跳转]', '成功跳转到fishingHome页面');
+                },
+                fail: (err) => {
+                    console.error('[Banner跳转]', '跳转到fishingHome页面失败:', err);
+                }
+            });
+        }
     },
     
     // 处理轮播图切换事件，提取主色调并设置背景渐变色
     onSwiperChange(e) {
         const index = e.detail.current;
         
-        // 预设的颜色方案，避免Canvas API兼容性问题
-        const colorSchemes = [
-            { dark: '#1E3A8A', light: '#4169E1' }, // 第一张图的颜色方案
-            { dark: '#8B4513', light: '#D2691E' }, // 第二张图的颜色方案
-            { dark: '#006400', light: '#32CD32' }, // 第三张图的颜色方案
-            { dark: '#191970', light: '#4682B4' }  // 第四张图的颜色方案
-        ];
-        
-        // 使用预设的颜色方案
-        const scheme = colorSchemes[index] || colorSchemes[0]; // 如果找不到对应的颜色方案，使用默认方案
-        
-        // 生成渐变样式
-        const gradientStyle = `linear-gradient(to bottom, ${scheme.dark} 0%, ${scheme.light} 20%, #ffffff 40%)`;
-        
-        // 生成欢迎卡片渐变样式
-        const welcomeCardStyle = `linear-gradient(135deg, ${scheme.dark}, ${scheme.light})`;
-        
-        // 判断颜色亮度，决定文字颜色
-        // 简单的亮度计算公式：(R*299 + G*587 + B*114) / 1000
-        const getColorBrightness = (hex) => {
-            // 移除#号并转换为RGB
-            const r = parseInt(hex.slice(1, 3), 16);
-            const g = parseInt(hex.slice(3, 5), 16);
-            const b = parseInt(hex.slice(5, 7), 16);
-            return (r * 299 + g * 587 + b * 114) / 1000;
-        };
-        
-        // 计算主色调亮度
-        const brightness = getColorBrightness(scheme.light);
-        // 亮度阈值，低于此值使用白色文字，高于此值使用黑色文字
-        const textColor = brightness < 128 ? 'white' : 'black';
-        
-        // 设置各部分标题颜色
-        const sectionTitleStyle = {
-            testTitle: scheme.dark,
-            gearTitle: scheme.dark,
-            featuresTitle: scheme.dark
-        };
-        
-        // 设置页面背景样式和标题样式
-        this.setData({
-            containerStyle: gradientStyle,
-            welcomeCardStyle: welcomeCardStyle,
-            welcomeTextColor: textColor,
-            sectionTitleStyle: sectionTitleStyle
-        });
-        
-        // 获取导航栏组件实例并更新其背景色和文字颜色
-        const navigationBar = this.selectComponent('#navigation-bar');
-        if (navigationBar) {
-            // 计算导航栏背景色的亮度，决定文字颜色
-            const navBgBrightness = getColorBrightness(scheme.dark);
-            const navTextColor = navBgBrightness < 128 ? 'white' : 'black';
-            
-            // 使用banner的主色调作为导航栏背景色，并根据亮度设置文字颜色
-            navigationBar.setData({
-                background: scheme.dark,
-                color: navTextColor
-            });
+        // 添加边界检查
+        if (!this.data.bannerList || index >= this.data.bannerList.length) {
+          console.error('Invalid banner index:', index);
+          return;
         }
+      
+        const currentBanner = this.data.bannerList[index];
+        
+        // 添加图片路径检查，优先使用webp格式
+        const imagePath = currentBanner?.webpUrl || currentBanner?.imageUrl;
+        if (!imagePath) {
+          console.error('Banner image path is undefined');
+          return;
+        }
+      
+        getDominantColor(imagePath, (rgbColor) => {
+          // 添加回调结果检查
+          if (!rgbColor || typeof rgbColor !== 'string') {
+            console.error('Invalid color result:', rgbColor);
+            return;
+          }
+          
+          try {
+            const mainColorHex = rgbToHex(rgbColor);
+            this.updateStyles(mainColorHex);
+          } catch (error) {
+            console.error('Color conversion failed:', error);
+            this.updateStyles('#ffffff'); // 降级处理
+          }
+        });
+      },
+        // 更新样式（统一处理颜色生成）
+  updateStyles(mainColor) {
+    // 生成渐变色（主色到白色）
+    const gradientStyle = this.generateGradient(mainColor)
+    // 生成欢迎卡样式
+    const welcomeCardStyle = this.generateWelcomeCardGradient(mainColor)
+    // 计算文字颜色
+    const textColor = this.calculateTextColor(mainColor)
+    
+    this.setData({
+      containerStyle: gradientStyle,
+      welcomeCardStyle: welcomeCardStyle,
+      welcomeTextColor: textColor
+    })
+
+    // 更新导航栏
+    this.updateNavigationBar(mainColor)
+  },
+
+  // 生成渐变背景
+  generateGradient(baseColor) {
+    return `linear-gradient(to bottom, ${baseColor} 0%, ${this.mixWithWhite(baseColor, 0.5)} 30%, #ffffff 95%)`
+  },
+
+  // 生成欢迎卡渐变
+  generateWelcomeCardGradient(baseColor) {
+    const darkenColor = this.shadeColor(baseColor, -20)
+    return `linear-gradient(135deg, ${darkenColor}, ${baseColor})`
+  },
+
+  // 颜色混合工具
+  mixWithWhite(color, ratio) {
+    // 校验输入颜色格式
+    if (!color || !/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(color)) {
+      console.error('Invalid color:', color);
+      return '#ffffff';
+    }
+
+    // 展开为完整6位格式（处理#fff缩写）
+    const hex = color.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => '#' + r + r + g + g + b + b);
+    
+    // 确保ratio在0-1之间
+    const safeRatio = Math.max(0, Math.min(1, ratio));
+
+    // 安全解析颜色分量
+    const parseChannel = (str) => {
+      const val = parseInt(str, 16);
+      return Number.isNaN(val) ? 0 : val;
+    };
+
+    const r = parseChannel(hex.substr(1, 2));
+    const g = parseChannel(hex.substr(3, 2));
+    const b = parseChannel(hex.substr(5, 2));
+
+    // 混合计算
+    const mixedR = Math.round(r * (1 - safeRatio) + 255 * safeRatio);
+    const mixedG = Math.round(g * (1 - safeRatio) + 255 * safeRatio);
+    const mixedB = Math.round(b * (1 - safeRatio) + 255 * safeRatio);
+
+    // 确保每个颜色分量都是两位十六进制
+    const toHex = (c) => {
+      const hex = Math.max(0, Math.min(255, c)).toString(16);
+      return hex.length === 1 ? '0' + hex : hex;
+    };
+
+    return `#${toHex(mixedR)}${toHex(mixedG)}${toHex(mixedB)}`;
+  },
+
+  // 颜色加深/减淡
+  shadeColor(color, percent) {
+    // 校验输入颜色格式
+    if (!color || !/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(color)) {
+      console.error('Invalid color format for shading:', color);
+      return '#ffffff';
+    }
+
+    try {
+      // 确保颜色格式正确
+      const hex = color.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => '#' + r + r + g + g + b + b);
+      const num = parseInt(hex.replace('#',''), 16);
+      const amt = Math.round(2.55 * percent);
+      const R = (num >> 16) + amt;
+      const G = (num >> 8 & 0x00FF) + amt;
+      const B = (num & 0x0000FF) + amt;
+      return `#${(1 << 24 | (R < 255 ? R < 1 ? 0 : R : 255) << 16 | 
+              (G < 255 ? G < 1 ? 0 : G : 255) << 8 | 
+              (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1)}`;
+    } catch (error) {
+      console.error('Error shading color:', error);
+      return '#ffffff';
+    }
+  },
+
+  // 计算文字颜色（基于亮度）
+  calculateTextColor(hexColor) {
+    // 校验输入颜色格式
+    if (!hexColor || !/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hexColor)) {
+      console.error('Invalid color format for text color calculation:', hexColor);
+      return '#000000'; // 默认黑色文字
+    }
+
+    // 展开为完整6位格式（处理#fff缩写）
+    const hex = hexColor.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => '#' + r + r + g + g + b + b);
+    
+    // 安全解析颜色分量
+    const parseChannel = (str) => {
+      const val = parseInt(str, 16);
+      return Number.isNaN(val) ? 0 : val;
+    };
+    
+    const r = parseChannel(hex.substr(1,2))
+    const g = parseChannel(hex.substr(3,2))
+    const b = parseChannel(hex.substr(5,2))
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000
+    return brightness > 128 ? 'black' : 'white'
+  },
+
+  // 更新导航栏颜色
+  updateNavigationBar(color) {
+    const navigationBar = this.selectComponent('#navigation-bar')
+    if (navigationBar) {
+      navigationBar.setData({
+        background: color,
+        color: this.calculateTextColor(color)
+      })
+    }
+        // // 预设的颜色方案，避免Canvas API兼容性问题
+        // const colorSchemes = [
+        //     { dark: '#1E3A8A', light: '#4169E1' }, // 第一张图的颜色方案
+        //     { dark: '#8B4513', light: '#D2691E' }, // 第二张图的颜色方案
+        //     { dark: '#006400', light: '#32CD32' }, // 第三张图的颜色方案
+        //     { dark: '#191970', light: '#4682B4' }  // 第四张图的颜色方案
+        // ];
+        
+        // // 使用预设的颜色方案
+        // const scheme = colorSchemes[index] || colorSchemes[0]; // 如果找不到对应的颜色方案，使用默认方案
+        
+        // // 生成渐变样式
+        // const gradientStyle = `linear-gradient(to bottom, ${scheme.dark} 0%, ${scheme.light} 20%, #ffffff 40%)`;
+        
+        // // 生成欢迎卡片渐变样式
+        // const welcomeCardStyle = `linear-gradient(135deg, ${scheme.dark}, ${scheme.light})`;
+        
+        // // 判断颜色亮度，决定文字颜色
+        // // 简单的亮度计算公式：(R*299 + G*587 + B*114) / 1000
+        // const getColorBrightness = (hex) => {
+        //     // 移除#号并转换为RGB
+        //     const r = parseInt(hex.slice(1, 3), 16);
+        //     const g = parseInt(hex.slice(3, 5), 16);
+        //     const b = parseInt(hex.slice(5, 7), 16);
+        //     return (r * 299 + g * 587 + b * 114) / 1000;
+        // };
+        
+        // // 计算主色调亮度
+        // const brightness = getColorBrightness(scheme.light);
+        // // 亮度阈值，低于此值使用白色文字，高于此值使用黑色文字
+        // const textColor = brightness < 128 ? 'white' : 'black';
+        
+        // // 设置各部分标题颜色
+        // const sectionTitleStyle = {
+        //     testTitle: scheme.dark,
+        //     gearTitle: scheme.dark,
+        //     featuresTitle: scheme.dark
+        // };
+        
+        // // 设置页面背景样式和标题样式
+        // this.setData({
+        //     containerStyle: gradientStyle,
+        //     welcomeCardStyle: welcomeCardStyle,
+        //     welcomeTextColor: textColor,
+        //     sectionTitleStyle: sectionTitleStyle
+        // });
+        
+        // // 获取导航栏组件实例并更新其背景色和文字颜色
+        // const navigationBar = this.selectComponent('#navigation-bar');
+        // if (navigationBar) {
+        //     // 计算导航栏背景色的亮度，决定文字颜色
+        //     const navBgBrightness = getColorBrightness(scheme.dark);
+        //     const navTextColor = navBgBrightness < 128 ? 'white' : 'black';
+            
+        //     // 使用banner的主色调作为导航栏背景色，并根据亮度设置文字颜色
+        //     navigationBar.setData({
+        //         background: scheme.dark,
+        //         color: navTextColor
+        //     });
+        // }
     }
     
 

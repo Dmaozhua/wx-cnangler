@@ -1,0 +1,103 @@
+<!--pages/fishing/fishing.wxml-->
+<page-meta>
+  <!-- 自定义导航栏 -->
+  <navigation-bar title="钓鱼中" background="#BDC3C7" color="#000000" back="{{false}}"></navigation-bar>
+</page-meta>
+ <!-- 新增背景图容器 -->
+ <view class="scene-bg-container">
+    <image class="scene-bg" src="{{backgroundImage}}" mode="aspectFill"></image>
+  </view>
+
+<!-- 鱼状态组件 -->
+<fish-status 
+  currentFish="{{currentFish}}" 
+  playerHP="{{playerHP}}" 
+  visible="{{showFishStatus}}" 
+  qteState="{{qteStatusText}}" 
+  bind:animationEnd="onFishStatusAnimationEnd"
+  bind:lockInteraction="onFishStatusLockInteraction"
+></fish-status>
+
+<view class="container">
+  <!-- 返回准备页面按钮 -->
+  <view class="back-btn" bindtap="goBack">
+    <text class="back-icon">←</text>
+  </view>
+
+  <!-- 状态信息区域 -->
+  <view class="status-bar">
+    <view class="status-item">
+      <text class="status-label">剩余时间</text>
+      <text class="status-value">{{fishingTimePercent}}%</text>
+      <view class="progress-bar">
+  <view class="progress-inner time-progress-inner" style="{{'width:' + fishingTimePercent + '%'}}"></view>
+</view>
+    </view>
+  </view>
+  
+  <!-- 事件加成显示区域 -->
+  <view class="event-buffs-container" wx:if="{{hasEventBuffs}}">
+    <view class="event-buffs-title">事件加成</view>
+    <view class="event-buffs-list">
+      <view class="event-buff-item" wx:for="{{eventBuffs}}" wx:key="type">
+        <text class="event-buff-text">{{item.description}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="event-buffs-container" wx:else>
+    <view class="event-buffs-title">事件加成</view>
+    <view class="event-buffs-empty">
+      <text>暂无事件</text>
+    </view>
+  </view>
+  
+  <!-- 钓鱼场景 -->
+  <view class="fishing-scene">
+    <!-- <image class="scene-bg" src="/images/icons/stream.png" mode="aspectFill"></image> -->
+    
+    <!-- 等待状态 -->
+    <view class="fishing-status waiting" wx:if="{{state === 'waiting'}}">
+      <text class="status-text">准备抛竿</text>
+      <view class="cast-btn-container">
+        <button class="cast-btn" bindtap="onCastRod" hover-class="btn-hover">抛竿</button>
+      </view>
+    </view>
+    
+    <!-- 鱼咬钩状态 -->
+    <view class="fishing-status fishon" wx:if="{{state === 'fishon'}}">
+      <text class="status-text">鱼儿上钩了！</text>
+    </view>
+    
+    <!-- QTE状态 -->
+    <view class="fishing-status qte" wx:if="{{state === 'qte'}}">
+      <view class="qte-container">
+        <text class="qte-title">{{qteData.description}}</text>
+        <text class="qte-timer">剩余时间: {{qteTimeLeft}}s</text>
+        <view class="qte-options">
+          <button 
+            wx:for="{{qteOptions}}" 
+            wx:key="index" 
+            class="qte-option-btn" 
+            data-option="{{item.key}}" 
+            bindtap="onQteSelect"
+            hover-class="btn-hover"
+          >
+            {{item.description}}
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 底部信息区 -->
+  <view class="bottom-info">
+    <view class="info-item">
+      <text class="info-label">已钓起</text>
+      <text class="info-value">{{fishCaught || 0}}条</text>
+    </view>
+    <view class="info-item">
+      <text class="info-label">脱钩</text>
+      <text class="info-value">{{fishEscaped || 0}}条</text>
+    </view>
+  </view>
+</view>

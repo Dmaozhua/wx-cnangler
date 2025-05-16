@@ -11,12 +11,58 @@ Page({
     showResult: false,
     resultData: {},
     dimensionScores: {}, // 维度得分
-    isProcessing: false // 添加处理标志位，防止重复处理
+    isProcessing: false ,// 添加处理标志位，防止重复处理
+    
+    highlightedArticles: [] // 用于存储高亮处理后的文章数据
   },
+  
+  // 页面加载时初始化触摸变量
+  touchStartX: 0,
 
   onLoad(options) {
     this.initTest();
   },
+
+  // 触摸开始事件
+  touchStart(e) {
+    // 直接保存触摸开始的X坐标，不使用setData以提高性能
+    this.touchStartX = e.changedTouches[0].clientX;
+    this.touchStartY = e.changedTouches[0].clientY; // 同时记录Y坐标，用于判断是否为水平滑动
+    console.log('触摸开始，X坐标：', this.touchStartX, 'Y坐标：', this.touchStartY);
+  },
+
+  // 触摸结束事件
+  // 触摸移动事件
+  touchMove(e) {
+    // 阻止默认行为，防止页面滚动
+    e.preventDefault && e.preventDefault();
+    return false;
+  },
+
+// 统一后的触摸结束事件
+touchEnd(e) {
+  const touchEndX = e.changedTouches[0].clientX;
+  const touchEndY = e.changedTouches[0].clientY;
+  const diffX = touchEndX - this.touchStartX;
+  const diffY = Math.abs(touchEndY - this.touchStartY);
+  const absDiffX = Math.abs(diffX);
+
+  // 优先判断右滑返回（阈值80px，Y轴偏移小于50px）
+  if (diffX > 80 && diffY < 50) {
+    console.log('右滑返回');
+    this.backToHome();
+    return;
+  }
+
+  // 其次判断题目切换（水平滑动超过50px）
+  if (absDiffX > 50 && diffY < 50) {
+    if (diffX > 0) {
+      this.goPrev();
+    } else if (this.data.selectedIndex !== null) {
+      this.goNext();
+    }
+  }
+},
 
   initTest() {
     const selectedTest = wx.getStorageSync('selectedTest') || testDataModule.Testone;
@@ -32,8 +78,39 @@ Page({
   },
 
   selectOption(e) {
+    // 如果正在处理中，则忽略此次点击
+    if (this.data.isProcessing) return;
+    
+    // 设置处理标志位，防止连点
+    this.setData({ isProcessing: true });
+    
     const index = e.currentTarget.dataset.index;
     this.setData({ selectedIndex: index });
+    
+    // 检查是否是在修改之前的答案
+    const currentQuestionId = this.data.currentQuestion.id;
+    const existingAnswerIndex = this.data.answers.findIndex(a => a.questionId === currentQuestionId);
+    
+    if (existingAnswerIndex !== -1) {
+      // 如果已经有这道题的答案，更新它
+      const updatedAnswers = [...this.data.answers];
+      const currentAnswer = this.data.currentQuestion.options[index];
+      updatedAnswers[existingAnswerIndex] = {
+        questionId: currentQuestionId,
+        selectedOption: index,
+        resultKey: currentAnswer.resultKey
+      };
+      
+      // 更新答案数组
+      this.setData({
+        answers: updatedAnswers
+      });
+    }
+    
+    // 动画完成后重置处理标志位（与CSS动画时长保持一致）
+    setTimeout(() => {
+      this.setData({ isProcessing: false });
+    }, 500);
   },
 
   handleAutoNext(e) {
@@ -43,26 +120,55 @@ Page({
     const index = e.currentTarget.dataset.index;
     this.setData({ selectedIndex: index });
     
+    // 检查是否是在修改之前的答案
+    const currentQuestionId = this.data.currentQuestion.id;
+    const existingAnswerIndex = this.data.answers.findIndex(a => a.questionId === currentQuestionId);
+    
+    if (existingAnswerIndex !== -1) {
+      // 如果已经有这道题的答案，更新它
+      const updatedAnswers = [...this.data.answers];
+      const currentAnswer = this.data.currentQuestion.options[index];
+      updatedAnswers[existingAnswerIndex] = {
+        questionId: currentQuestionId,
+        selectedOption: index,
+        resultKey: currentAnswer.resultKey
+      };
+      
+      // 更新答案数组
+      this.setData({
+        answers: updatedAnswers
+      });
+    }
+    
     // 短暂延迟后自动进入下一题，给用户一个视觉反馈的时间
     setTimeout(() => {
+      // 确保选中状态在进入下一题前已被正确处理
       this.goNext();
-    }, 300);
+    }, 350); // 增加延迟时间，确保视觉反馈完成
   },
 
   goNext() {
     // 如果没有选择或正在处理中，则返回
     if (this.data.selectedIndex === null || this.data.isProcessing) return;
     
-    // 设置处理标志位，防止重复处理
-    this.setData({ isProcessing: true });
-
-    const currentAnswer = this.data.currentQuestion.options[this.data.selectedIndex];
+    // 先保存当前选中的选项索引，因为我们即将重置它
+    const selectedOptionIndex = this.data.selectedIndex;
+    const currentAnswer = this.data.currentQuestion.options[selectedOptionIndex];
+    
+    // 设置处理标志位，防止重复处理，并立即重置选中状态
+    this.setData({ 
+      isProcessing: true,
+      selectedIndex: null // 立即重置选中状态，确保视图更新
+    }, () => {
+      // 在回调中确认选中状态已被清除
+      console.log('选中状态已重置');
+    });
 
     // 记录用户选择的维度信息
     const updatedAnswers = [...this.data.answers];
     updatedAnswers.push({
       questionId: this.data.currentQuestion.id,
-      selectedOption: this.data.selectedIndex,
+      selectedOption: selectedOptionIndex,
       resultKey: currentAnswer.resultKey
     });
 
@@ -88,17 +194,51 @@ Page({
 
     const nextId = this.data.currentQuestion.id + 1;
     if (nextId <= this.data.testData.questions.length) {
+      // 将重置selectedIndex和更新题目合并为一个setData调用
+      // 这样可以确保DOM一次性更新，避免选中状态残留
       this.setData({
+        selectedIndex: null,
         currentQuestion: this.data.testData.questions.find(q => q.id === nextId),
         progress: (nextId / this.data.testData.questions.length) * 100,
-        selectedIndex: null,
         isProcessing: false // 重置处理标志位
+      }, () => {
+        // 在回调中确认选中状态已被清除和题目已更新
+        console.log('已切换到下一题，选中状态已重置');
       });
+    
     } else {
       this.calculateResult();
     }
   },
 
+  // 返回上一题
+  goPrev() {
+    // 如果正在处理中或当前是第一题，则返回
+    if (this.data.isProcessing || this.data.currentQuestion.id <= 1) return;
+    
+    // 设置处理标志位
+    this.setData({ isProcessing: true });
+    
+    const prevId = this.data.currentQuestion.id - 1;
+    const prevQuestion = this.data.testData.questions.find(q => q.id === prevId);
+    
+    // 查找上一题的已选答案
+    const existingAnswerIndex = this.data.answers.findIndex(a => a.questionId === prevId);
+    let selectedIndex = null;
+    
+    if (existingAnswerIndex !== -1) {
+      selectedIndex = this.data.answers[existingAnswerIndex].selectedOption;
+    }
+    
+    // 更新当前问题和进度
+    this.setData({
+      currentQuestion: prevQuestion,
+      progress: (prevId / this.data.testData.questions.length) * 100,
+      selectedIndex: selectedIndex,
+      isProcessing: false
+    });
+  },
+  
   calculateResult() {
     console.log('最终维度得分:', this.data.dimensionScores);
     console.log('所有答案记录:', JSON.stringify(this.data.answers));
@@ -133,27 +273,28 @@ Page({
     let defaultResult = null;
 
     // 第一阶段：尝试匹配所有特定公式
-    this.data.testData.results.forEach(result => {
+    // 先按照结果数组的顺序处理，保证优先匹配前面的结果
+    for (let i = 0; i < this.data.testData.results.length; i++) {
+        const result = this.data.testData.results[i];
         try {
             // 保存formula为"true"的结果作为默认结果
             if (result.formula === "true") {
                 defaultResult = result;
-                return; // 继续检查其他结果
+                continue; // 继续检查其他结果
             }
 
             const isMatch = this.evaluateFormula(result.formula, recalculatedScores);
             console.log(`计算公式: ${result.formula}, 结果: ${isMatch}`);
             if (isMatch) {
-                const totalScore = Object.values(recalculatedScores).reduce((sum, score) => sum + score, 0);
-                if (totalScore > highestScore) {
-                    highestScore = totalScore;
-                    bestMatch = result;
-                }
+                // 找到第一个匹配的结果就直接使用，不再基于总分数选择
+                bestMatch = result;
+                console.log('找到匹配结果:', bestMatch.title);
+                break; // 找到匹配就退出循环
             }
         } catch (e) {
             console.error(`公式计算失败`, e);
         }
-    });
+    }
 
     // 第二阶段：如果没有匹配到特定公式，使用formula为"true"的默认结果
     if (!bestMatch && defaultResult) {
@@ -427,10 +568,22 @@ evaluateFormula(formula, env) {
   },
   
   backToHome() {
+    console.log('执行返回上一级操作');
+    // 添加一个提示，让用户知道手势被触发了
+    wx.showToast({
+      title: '返回上一页',
+      icon: 'none',
+      duration: 500
+    });
+    
+    // 返回上一页，如果失败则返回首页
     wx.navigateBack({
       delta: 1,
       fail: function() {
-        wx.switchTab({ url: '/pages/home/home' });
+        // 如果没有上一页，则返回首页
+        wx.switchTab({ 
+          url: '/pages/home/home' 
+        });
       }
     });
   },
@@ -445,33 +598,27 @@ evaluateFormula(formula, env) {
     const prevAnswer = this.data.answers.find(a => a.questionId === prevId);
     const prevSelectedIndex = prevAnswer ? prevAnswer.selectedOption : null;
     
-    this.setData({
-      currentQuestion: prevQuestion,
-      progress: (prevId / this.data.totalQuestions) * 100,
-      selectedIndex: prevSelectedIndex
+    // 先重置selectedIndex为null，确保清除选中状态
+    this.setData({ 
+      selectedIndex: null,
+      isProcessing: true // 设置处理标志位，防止用户快速点击
+    }, () => {
+      // 在回调中确认选中状态已被清除
+      console.log('选中状态已重置');
     });
-  },
-
-  // 触摸事件处理
-  touchStart(e) {
-    this.startX = e.touches[0].pageX;
-  },
-
-  touchEnd(e) {
-    const endX = e.changedTouches[0].pageX;
-    const diff = endX - this.startX;
     
-    // 判断是左滑还是右滑，阈值为50
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) {
-        // 右滑，返回上一题
-        this.goPrev();
-      } else {
-        // 左滑，如果已选择则进入下一题
-        if (this.data.selectedIndex !== null) {
-          this.goNext();
-        }
-      }
-    }
-  }
+    // 使用setTimeout确保DOM有时间更新，清除选中效果
+    setTimeout(() => {
+      // 然后更新到上一题并设置正确的选中状态
+      this.setData({
+        currentQuestion: prevQuestion,
+        progress: (prevId / this.data.totalQuestions) * 100,
+        selectedIndex: prevSelectedIndex,
+        isProcessing: false // 重置处理标志位
+      });
+    }, 100); // 增加延迟时间，确保DOM有足够时间更新
+  
+  },
+
+
 });

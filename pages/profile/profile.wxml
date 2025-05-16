@@ -1,10 +1,11 @@
 <!--pages/profile/profile.wxml-->
-<page-meta>
+<page-meta page-style="overflow: hidden;">
   <!-- 自定义导航栏 -->
-  <navigation-bar title="我的" background="#1E3A8A" color="#ffffff" back="{{false}}"></navigation-bar>
+  <navigation-bar title="我的" background="#ECF0F1" color="#000000" back="{{false}}" sticky="{{true}}" placeholder="{{true}}" extClass="custom-nav-bar"></navigation-bar>
 </page-meta>
 
-<view class="profile-container">
+<view class="page-container">
+  <scroll-view class="profile-container" scroll-y>
   <!-- 用户信息卡片 -->
   <view class="user-card">
     <view class="card-background"></view>
@@ -107,4 +108,5 @@
   <view class="footer">
     <text class="copyright">© 2025 钓鱼人测试 版权所有</text>
   </view>
+  </scroll-view>
 </view>

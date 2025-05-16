@@ -90,7 +90,8 @@ Page({
     selectedAchievement: null,
     animationData: null,
     achievementScore: 0,
-    scrollIntoViewId: ''
+    scrollIntoViewId: '',
+    pageStyle: "overflow: visible" // 允许页面滚动
   },
 
   onLoad(options) {
@@ -364,17 +365,21 @@ Page({
   
   // 显示成就详情
   showAchievementDetail(e) {
-    // 获取点击的成就数据
-    const achievement = e.currentTarget.dataset.achievement
-    
+    const achievement = e.currentTarget.dataset.achievement;
+  
     if (achievement && achievement.unlocked) {
-      console.log('显示成就详情:', achievement.title)
-      
-      // 显示成就详情弹窗
+      console.log('显示成就详情:', achievement); // 确保获取到正确的成就数据
+  
       this.setData({
-        selectedAchievement: achievement,
-        showDetailPopup: true
-      })
+        selectedAchievement: achievement,  // 更新选中的成就
+        showDetailPopup: true  // 显示弹窗
+      }, () => {
+        // setData 完成后的回调，确保获取最新的 selectedAchievement
+        console.log('弹窗状态 showDetailPopup:', this.data.showDetailPopup);  // 确认弹窗状态
+        console.log('selectedAchievement（更新后）:', this.data.selectedAchievement);  // 打印更新后的 selectedAchievement
+      });
+    } else {
+      this.showLockedTip();  // 如果成就未解锁，显示提示
     }
   },
   
@@ -387,15 +392,19 @@ Page({
     })
   },
   
-  // 关闭成就详情弹窗
-  closeDetailPopup() {
-    this.setData({
-      showDetailPopup: false
-    })
-  },
+
+// 关闭成就详情弹窗
+closeDetailPopup() {
+  console.log('关闭弹窗');
+  this.setData({
+    showDetailPopup: false  // 设置为 false，隐藏弹窗
+  });
+},
   
   // 处理成就弹窗的查看详情按钮点击事件
   handleViewDetails(e) {
+    console.log('handleViewDetails被调用，参数:', JSON.stringify(e));
+    
     // 关闭弹窗
     this.setData({
       showPopup: false
@@ -403,12 +412,14 @@ Page({
     
     // 获取成就信息，优先使用事件传递的数据
     const achievement = e && e.detail && e.detail.achievement ? e.detail.achievement : this.data.newAchievement
+    console.log('获取到的成就信息:', JSON.stringify(achievement));
     
     // 如果当前已经在成就页面，则滚动到对应成就位置
     if (achievement) {
       const achievementId = achievement.id
       // 找到对应成就的索引
       const index = this.data.achievements.findIndex(a => a.id === achievementId)
+      console.log('成就索引:', index);
       
       if (index !== -1) {
         // 切换到对应成就的分类
@@ -431,8 +442,25 @@ Page({
           this.setData({
             scrollIntoViewId: `achievement-${achievementId}`
           })
+          
+          // 显示成就详情弹窗
+          console.log('准备显示成就详情弹窗');
+          this.setData({
+            selectedAchievement: achievement,
+            showDetailPopup: true
+          });
+          console.log('成就详情弹窗已设置为显示');
         }, 300)
+      } else {
+        // 如果找不到对应成就，也显示详情弹窗
+        console.log('未找到对应成就，直接显示详情弹窗');
+        this.setData({
+          selectedAchievement: achievement,
+          showDetailPopup: true
+        });
       }
+    } else {
+      console.error('没有获取到有效的成就信息');
     }
     
     console.log('显示成就详情:', achievement)
