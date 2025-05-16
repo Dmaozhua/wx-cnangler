@@ -6,40 +6,43 @@ export const WaterData = [
       habitats:{
         backwater: '回水湾',
         slowmoving: '缓流',
-        rapids: '急流',
-        shallow: '浅滩',
-        obstacle: '障碍'
+        rapids: '急流'
+        // ,
+        // shallow: '浅滩',
+        // obstacle: '障碍'
       },
       image: '../../images/icons/stream.png',
       backgroundImage: '/images/icons/stream.png',
       fishProbabilities: {
-        backwater: { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
-        slowmoving: { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
-        rapids:    { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
-        shallow:   { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
-        obstacle:  { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 }
-      }
-    },
-    {
-      id: 'WATER_02',
-      name: '湖泊',
-      description: '平静又开阔的的湖泊，适合长时间等待运气。',
-      habitats:{
-        backwater: '回水湾',
-        slowmoving: '缓流',
-        rapids: '急流',
-        shallow: '浅滩',
-        obstacle: '障碍'
-      },
-      image: '../../images/icons/rivers.png',
-      backgroundImage: '/images/icons/rivers.png',
-      fishProbabilities: {
-        backwater: { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
-        slowmoving: { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
-        rapids:    { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
-        shallow:   { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
-        obstacle:  { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 }
+        backwater: { FISH_01: 0.1, FISH_02: 0.35,  FISH_03: 0.35,NONE: 0.2 },
+        slowmoving: { FISH_01: 0.1,NONE: 0.9 },
+        rapids:    { FISH_02: 0.35, FISH_03: 0.25, NONE: 0.3 }
+        // ,
+        // shallow:   { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
+        // obstacle:  { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 }
       }
     }
+    // ,
+    // {
+    //   id: 'WATER_02',
+    //   name: '湖泊',
+    //   description: '平静又开阔的的湖泊，适合长时间等待运气。',
+    //   habitats:{
+    //     backwater: '回水湾',
+    //     slowmoving: '缓流',
+    //     rapids: '急流',
+    //     shallow: '浅滩',
+    //     obstacle: '障碍'
+    //   },
+    //   image: '../../images/icons/rivers.png',
+    //   backgroundImage: '/images/icons/rivers.png',
+    //   fishProbabilities: {
+    //     backwater: { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
+    //     slowmoving: { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
+    //     rapids:    { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
+    //     shallow:   { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },
+    //     obstacle:  { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 }
+    //   }
+    // }
   ];
   

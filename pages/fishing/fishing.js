@@ -468,6 +468,16 @@ Page({
   onQTETimeout() {
     console.log('[钓鱼游戏] QTE超时');
     
+    // 先保存当前状态，确保在处理前状态是QTE
+    const currentState = this.data.state;
+    if (currentState !== 'qte') {
+      console.log('[钓鱼游戏] QTE超时处理被跳过：当前不是QTE状态');
+      return;
+    }
+    
+    // 立即更新状态，防止后续事件处理错误
+    this.setData({ state: 'fishon' });
+    
     // 清除QTE计时器
     if (this.qteCountdown) {
       clearInterval(this.qteCountdown);
@@ -485,9 +495,8 @@ Page({
       // 鱼脱钩
       this.onFishEscaped();
     } else {
-      // 恢复到fishon状态
+      // 更新剩余QTE数据
       this.setData({ 
-        state: 'fishon',
         qteData: {},
         qteOptions: []
       });
@@ -499,9 +508,21 @@ Page({
   
   // 玩家选择QTE选项
   onQteSelect(e) {
+    // 再次检查当前是否为QTE状态，防止在QTE界面消失后仍处理点击事件
     // 如果当前不是QTE状态或者正在处理QTE选项，则忽略点击
     if (this.data.state !== 'qte' || this.isProcessingQte || !this.data.canCastRod) {
       console.log('[钓鱼游戏] QTE操作被屏蔽：状态不匹配或动画进行中');
+      return;
+    }
+    
+    // 获取选项信息，提前进行防御性检查
+    const optionKey = e.currentTarget.dataset.option;
+    const fish = app.globalData.currentFish;
+    const qteData = this.data.qteData;
+    
+    // 增强防御性检查 - 在设置处理锁之前进行
+    if (!fish || !qteData || !qteData.options || !optionKey || !qteData.options[optionKey]) {
+      console.error('[钓鱼游戏] QTE选择处理错误(无效数据)');
       return;
     }
     
@@ -514,21 +535,18 @@ Page({
       this.qteCountdown = null;
     }
     
-    const optionKey = e.currentTarget.dataset.option;
-    const fish = app.globalData.currentFish;
-    const qteData = this.data.qteData;
-    
-    // 增强防御性检查
-    if (!fish || !qteData || !qteData.options || !optionKey || !qteData.options[optionKey]) {
-      console.error('[钓鱼游戏] QTE选择处理错误');
-      this.setData({ state: 'fishon', qteData: {}, qteOptions: [] });
-      this.isProcessingQte = false; // 释放处理锁
-      this.startFishOnTimers();
+    // 再次检查当前状态，防止在处理过程中状态已经改变
+    if (this.data.state !== 'qte') {
+      console.log('[钓鱼游戏] QTE选择处理被中断：状态已改变');
+      this.isProcessingQte = false;
       return;
     }
     
     const option = qteData.options[optionKey];
     console.log('[钓鱼游戏] 玩家选择QTE选项:', option.description);
+    
+    // 立即更新状态为fishon，防止后续事件处理错误
+    this.setData({ state: 'fishon' });
     
     // 计算对鱼的伤害
     const attackMultiplier = option.attack || 1;
@@ -552,9 +570,8 @@ Page({
     } else if (app.globalData.playerHP <= 0) {
       this.onFishEscaped();
     } else {
-      // 恢复到fishon状态
+      // 清空QTE相关数据
       this.setData({ 
-        state: 'fishon',
         qteData: {},
         qteOptions: []
       });
@@ -565,6 +582,32 @@ Page({
     
     // 释放处理锁
     this.isProcessingQte = false;
+  },
+  
+  // 处理QTE触摸结束事件
+  onQteTouchEnd(e) {
+    // 如果当前不是QTE状态，则忽略触摸结束事件
+    // 这是为了防止在QTE界面消失后，用户松开手指时触发错误
+    if (this.data.state !== 'qte') {
+      console.log('[钓鱼游戏] QTE触摸结束被屏蔽：当前不是QTE状态');
+      return;
+    }
+    
+    // 如果已经在处理QTE选项，则忽略触摸结束事件
+    if (this.isProcessingQte) {
+      console.log('[钓鱼游戏] QTE触摸结束被屏蔽：正在处理QTE选项');
+      return;
+    }
+    
+    // 如果触摸结束事件没有关联的选项数据，则忽略
+    const optionKey = e.currentTarget.dataset.option;
+    if (!optionKey) {
+      console.log('[钓鱼游戏] QTE触摸结束被屏蔽：无效的选项数据');
+      return;
+    }
+    
+    // 调用QTE选择处理函数
+    this.onQteSelect(e);
   },
   
   // 鱼被钓起

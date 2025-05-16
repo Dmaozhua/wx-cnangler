@@ -12,7 +12,7 @@ export const RARITY_MULTIPLIER = {
       name: '大口黑鲈',
       rarity: 3,
       description: '路亚圈的真正核心，路亚的重中之重。',
-      habitats: ['shallow','Deep','obstacle'],
+      habitats: ['slowmoving','Deep','obstacle'],
       baitPref: ['BREADone','BREADtwo'],
       QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower'],
       QTEFail: 0.1,

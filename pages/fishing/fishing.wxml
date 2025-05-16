@@ -80,6 +80,7 @@
             class="qte-option-btn" 
             data-option="{{item.key}}" 
             bindtap="onQteSelect"
+            bindtouchend="onQteTouchEnd"
             hover-class="btn-hover"
           >
             {{item.description}}
