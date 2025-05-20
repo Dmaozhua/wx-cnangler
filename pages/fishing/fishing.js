@@ -384,7 +384,7 @@ Page({
             let fish = app.globalData.currentFish;
             if (!fish) return;
 
-            const passiveDamage = 10; // 被动伤害值
+            const passiveDamage = 1000; // 被动伤害值
             fish.hp = Number((fish.hp - passiveDamage).toFixed(2));
 
             app.globalData.currentFish = fish;
@@ -964,6 +964,13 @@ Page({
 
     // 模拟 AFT_FISHON 事件（20% 概率）
     triggerAfterFishOnEvent(callback) {
+        // 第一次抛竿不触发任何事件
+        if (app.globalData.castCount === 1) {
+            console.log('[钓鱼游戏] 第一次抛竿，跳过AFT_FISHON事件触发');
+            callback();
+            return;
+        }
+        
         // 获取所有AFT_FISHON类型的事件
         let events = FishEvents.filter(e => e.type === 'AFT_FISHON');
 
@@ -976,6 +983,7 @@ Page({
             // 如果事件不可重复触发且已经触发过，则排除
             return e.retriggering || !app.globalData.triggeredEvents.includes(e.id);
         });
+
 
         // 如果有可用事件，根据概率触发
         if (availableEvents.length > 0) {
