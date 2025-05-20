@@ -1,4 +1,5 @@
 // components/fish-status/fish-status.js
+import { Equipment } from '../../data/FishData2/Equipment';
 Component({
   properties: {
     // 当前鱼的信息

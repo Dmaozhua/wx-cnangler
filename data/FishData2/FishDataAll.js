@@ -1,9 +1,11 @@
 export const RARITY_MULTIPLIER = {
+    0: 0.6,//鱼以外的杂物
     1: 2.0,  // 普通
     2: 1.5,
     3: 1.0,  // 当前示例的3星
     4: 0.7,
-    5: 0.3   // 传说级  
+    5: 0.3,   // 传说级  
+    6:0 //特殊鱼boss鱼
   };
   
   export const FishData = [    
@@ -52,8 +54,8 @@ export const RARITY_MULTIPLIER = {
       baitPref: ['BREADone','BREADtwo'],
       QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
       QTEFail: 0.1,
-      strength: [0.4, 1.3],
-      BaseHP: 100,
+      strength: [2.5, 8],
+      BaseHP: 400,
       image1: '../../images/icons/fishon.png',
       image2: '../../images/icons/fishon.png',
       weatherAffinity: {
@@ -70,8 +72,8 @@ export const RARITY_MULTIPLIER = {
       baitPref: ['BREADone','BREADtwo'],
       QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
       QTEFail: 0.1,
-      strength: [0.4, 1.3],
-      BaseHP: 100,
+      strength: [3, 12],
+      BaseHP: 1200,
       image1: '../../images/icons/fishon.png',
       image2: '../../images/icons/fishon.png',
       weatherAffinity: {

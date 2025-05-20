@@ -92,7 +92,7 @@
   width: 200%;
   height: 100%;
   background: repeating-linear-gradient(45deg, transparent, transparent 10rpx, rgba(76, 175, 80, 0.2) 10rpx, rgba(76, 175, 80, 0.2) 20rpx);
-  animation: stripe-animation 3s linear infinite;
+  animation: stripe-animation 11s linear infinite;
   z-index: 1;
 }
 
@@ -197,7 +197,7 @@
   box-shadow: 0 0 15rpx rgba(156, 39, 176, 0.5);
 }
 
-.rarity-border-4::before {
+/* .rarity-border-4::before {
   content: "";
   position: absolute;
   top: -4rpx;
@@ -210,8 +210,20 @@
   border-radius: 16rpx;
   z-index: 0;
   animation: gear-rotation 10s linear infinite;
-}
-
+} */
+.rarity-border-4::before {
+    content: "";
+    position: absolute;
+    top: -2rpx;
+    left: -2rpx;
+    right: -2rpx;
+    bottom: -2rpx;
+    border-radius: 14rpx;
+    background: linear-gradient(90deg, #e3e0e4, #a09e9f, #ad74db, #b1aea1);
+    background-size: 400% 400%;
+    animation: lightning-border 6s ease infinite;
+    z-index: 0;
+  }
 .rarity-border-4::after {
   content: "";
   position: absolute;

@@ -6,13 +6,13 @@ export const QTEData = [
       options: {
         xiaya: {
           description: '下压竿稍',
-          attack: 1.8,  // 高风险高回报
+          attack: 1.5,  // 高风险高回报
           linedam: 0
         },
         shouxian: {
           description: '保持不动',
-          attack: 1.0,
-          linedam: 20  // 保线优先
+          attack: 0.1,
+          linedam: 0.2  // 保线优先
         }
       }
     },
@@ -23,13 +23,13 @@ export const QTEData = [
       options: {
         qiangla: {
           description: '反向弓鱼',
-          attack: 2.2,
-          linedam: 20
+          attack: 3,
+          linedam: 0.05
         },
         songxian: {
           description: '持续收线',
           attack: 0.5,
-          linedam: 30
+          linedam: 0.25
         }
       }
     },
@@ -40,13 +40,13 @@ export const QTEData = [
       options: {
         gensu: {
           description: '收线对抗',
-          attack: 1.5,
-          linedam: 15
+          attack: 0.8,
+          linedam: 0.15
         },
         fangxian: {
           description: '握紧鱼竿',
-          attack: 0.8,
-          linedam: 8
+          attack: 3,
+          linedam: 0.08
         }
       }
     },
@@ -57,8 +57,8 @@ export const QTEData = [
       options: {
         default: {
           description: '加速回鱼',
-          attack: 1.2,
-          linedam: 10
+          attack: 2,
+          linedam: 0.1
         }
       }
     }

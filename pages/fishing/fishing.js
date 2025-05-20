@@ -384,7 +384,7 @@ Page({
             let fish = app.globalData.currentFish;
             if (!fish) return;
 
-            const passiveDamage = 1000; // 被动伤害值
+            const passiveDamage = 100; // 被动伤害值
             fish.hp = Number((fish.hp - passiveDamage).toFixed(2));
 
             app.globalData.currentFish = fish;
@@ -581,11 +581,35 @@ Page({
         // 计算对鱼的伤害
         const attackMultiplier = option.attack || 1;
         const damage = app.globalData.equipment.USER_ATT * attackMultiplier;
+        const oldFishHp = fish.hp;
         fish.hp = Number((fish.hp - damage).toFixed(2));
 
-        // 计算对钓线的伤害
-        const lineDamage = option.linedam || 0;
-        app.globalData.playerHP = Math.max(0, app.globalData.playerHP - lineDamage);
+        // 计算对钓线的伤害 - 基于百分比和鱼的强度
+        const lineDamage = option.linedam || 0; // 现在linedam是百分比值
+        const fishStrength = fish.strengthVal || 1; // 获取鱼的强度系数
+        // 计算实际伤害：钓线基础血量 * linedam百分比 * 鱼的强度           
+        //const actualDamage = app.globalData.equipment.USER_LINEHP * lineDamage * fishStrength;
+        // 优化后 计算实际伤害：钓线基础血量 * linedam百分比 * 鱼的强度
+        const actualDamage = 20 * lineDamage * fishStrength;
+
+        const oldPlayerHP = app.globalData.playerHP;
+        app.globalData.playerHP = Math.max(0, app.globalData.playerHP - actualDamage);
+        
+        // 添加日志输出，记录伤害和剩余血量
+        console.log('[钓鱼游戏] QTE效果 - 鱼:', {
+          操作: option.description,
+          伤害倍率: attackMultiplier,
+          造成伤害: damage.toFixed(2),
+          原始血量: oldFishHp.toFixed(2),
+          剩余血量: fish.hp.toFixed(2)
+        });
+        console.log('[钓鱼游戏] QTE效果 - 钓线:', {
+          损伤系数: lineDamage,
+          鱼力度: fishStrength.toFixed(2),
+          造成损伤: actualDamage.toFixed(2),
+          原始耐久: oldPlayerHP.toFixed(2),
+          剩余耐久: app.globalData.playerHP.toFixed(2)
+        });
 
         // 更新数据
         app.globalData.currentFish = fish;
@@ -748,7 +772,7 @@ Page({
 
         // 显示鱼脱钩提示
         wx.showToast({
-            title: `${fish.name}脱钩了！`,
+            title: `??? 脱钩了！`,
             icon: 'none',
             duration: 2000
         });
