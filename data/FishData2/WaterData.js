@@ -14,8 +14,8 @@ export const WaterData = [
       image: '../../images/icons/stream.png',
       backgroundImage: '/images/icons/stream.png',
       fishProbabilities: {
-        backwater: { FISH_01: 0.1, FISH_02: 0.35,  FISH_03: 0.35,NONE: 0.2 },
-        slowmoving: { FISH_01: 0.1,NONE: 0.9 },
+        backwater: { FISH_01: 0.2, FISH_02: 0.2,  FISH_03: 0.2,  FISH_04: 0.2,  FISH_05: 0.2,NONE: 0.2 },
+        slowmoving: { FISH_01: 0.9,NONE: 0.1  },
         rapids:    { FISH_02: 0.35, FISH_03: 0.25, NONE: 0.3 }
         // ,
         // shallow:   { FISH_01: 0.35, FISH_02: 0.25, NONE: 0.3 },

@@ -4,7 +4,13 @@ Component({
     // 当前鱼的信息
     currentFish: {
       type: Object,
-      value: null
+      value: null,
+      observer: function(newVal) {
+        if (newVal) {
+          // 根据鱼的稀有度设置样式类
+          this.setRarityClass(newVal.rarity || 1);
+        }
+      }
     },
     // 钓线状态（玩家血量）
     playerHP: {
@@ -40,7 +46,10 @@ Component({
     animationData: {},
     isAnimating: false,
     isVisible: false,
-    isLocked: false // 添加锁定状态，防止动画过程中的点击操作
+    isLocked: false, // 添加锁定状态，防止动画过程中的点击操作
+    rarityClass: 'rarity-1', // 默认稀有度样式类
+    rarityBgClass: 'rarity-bg-1', // 默认背景样式类
+    rarityBorderClass: 'rarity-border-1' // 默认边框样式类
   },
 
   lifetimes: {
@@ -60,6 +69,18 @@ Component({
   },
 
   methods: {
+    // 设置稀有度样式类
+    setRarityClass: function(rarity) {
+      // 确保rarity在1-5之间
+      rarity = Math.max(1, Math.min(5, rarity || 1));
+      
+      this.setData({
+        rarityClass: `rarity-${rarity}`,
+        rarityBgClass: `rarity-bg-${rarity}`,
+        rarityBorderClass: `rarity-border-${rarity}`
+      });
+    },
+    
     // 滑入动画
     slideIn: function() {
       if (this.data.isAnimating) return;

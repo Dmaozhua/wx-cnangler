@@ -3,7 +3,9 @@
   <view class="status-content">
     <!-- 鱼的信息 -->
     <view class="fish-info" wx:if="{{currentFish}}">
-      <text class="fish-name">{{currentFish.name}}</text>
+      <view class="fish-name-container {{rarityBgClass}} {{rarityBorderClass}}">
+        <text class="fish-name {{rarityClass}}">???</text>
+      </view>
       <view class="progress-container">
         <view class="progress-bar">
           <view class="progress-inner fish-progress-inner" style="width: {{currentFish.hp / (currentFish.BaseHP * currentFish.strengthVal) * 100}}%;"></view>

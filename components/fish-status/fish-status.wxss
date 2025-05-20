@@ -33,12 +33,289 @@
   gap: 10rpx;
 }
 
+.fish-name-container {
+  padding: 15rpx;
+  border-radius: 12rpx;
+  margin-bottom: 10rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
 .fish-name {
   font-size: 36rpx;
   font-weight: bold;
-  color: #333;
   text-align: center;
-  margin-bottom: 10rpx;
+  position: relative;
+  z-index: 2;
+}
+
+/* 稀有度文字颜色 */
+.rarity-1 {
+  color: #888888; /* 灰色 */
+}
+
+.rarity-2 {
+  color: #4CAF50; /* 绿色 */
+}
+
+.rarity-3 {
+  color: #2196F3; /* 蓝色 */
+}
+
+.rarity-4 {
+  color: #9C27B0; /* 紫色 */
+}
+
+.rarity-5 {
+  color: #FFD700; /* 金色 */
+}
+
+/* 稀有度背景样式 */
+.rarity-bg-1 {
+  background-color: #f0f0f0; /* 静态灰色矩形 */
+}
+
+.rarity-bg-2 {
+  background-color: #e8f5e9;
+  position: relative;
+  overflow: hidden;
+}
+
+.rarity-bg-2::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: repeating-linear-gradient(45deg, transparent, transparent 10rpx, rgba(76, 175, 80, 0.2) 10rpx, rgba(76, 175, 80, 0.2) 20rpx);
+  animation: stripe-animation 3s linear infinite;
+  z-index: 1;
+}
+
+.rarity-bg-3 {
+  background-color: #e3f2fd;
+  position: relative;
+  overflow: hidden;
+}
+
+.rarity-bg-3::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 300%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(33, 150, 243, 0.3), transparent);
+  animation: wave-animation 3s ease-in-out infinite;
+  z-index: 1;
+}
+
+.rarity-bg-4 {
+  background-color: #f3e5f5;
+  position: relative;
+  overflow: hidden;
+}
+
+.rarity-bg-4::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: radial-gradient(circle, rgba(156, 39, 176, 0.1) 10%, rgba(156, 39, 176, 0.3) 40%, rgba(156, 39, 176, 0.1) 60%);
+  animation: vortex-animation 6s linear infinite;
+  z-index: 1;
+}
+
+.rarity-bg-4::after {
+  content: "";
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  background: repeating-conic-gradient(from 0deg, rgba(156, 39, 176, 0.1) 0deg 10deg, rgba(156, 39, 176, 0.2) 10deg 15deg, rgba(156, 39, 176, 0.1) 15deg 20deg);
+  animation: particle-swirl 8s linear infinite reverse;
+  z-index: 0;
+}
+
+.rarity-bg-5 {
+  position: relative;
+  overflow: hidden;
+  background-color: #fff8e1;
+}
+
+.rarity-bg-5::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255, 215, 0, 0.2), rgba(255, 105, 180, 0.2), rgba(100, 149, 237, 0.2));
+  animation: gradient-animation 3s linear infinite;
+  z-index: 1;
+}
+
+/* 稀有度边框样式 */
+.rarity-border-1 {
+  border: 1px solid #cccccc; /* 单线框 */
+}
+
+.rarity-border-2 {
+  border: 2px double #4CAF50; /* 双线框 */
+}
+
+.rarity-border-3 {
+  border: 2px solid #2196F3;
+  border-radius: 12rpx;
+  position: relative;
+}
+
+.rarity-border-3::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12rpx;
+  background-image: radial-gradient(circle, rgba(33, 150, 243, 0.3) 2px, transparent 2px);
+  background-size: 12px 12px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.rarity-border-4 {
+  position: relative;
+  border: none;
+  box-shadow: 0 0 15rpx rgba(156, 39, 176, 0.5);
+}
+
+.rarity-border-4::before {
+  content: "";
+  position: absolute;
+  top: -4rpx;
+  left: -4rpx;
+  right: -4rpx;
+  bottom: -4rpx;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><path fill="none" stroke="%239C27B0" stroke-width="2" d="M25,10 L32,17 L40,15 L38,23 L45,30 L37,32 L35,40 L27,38 L20,45 L18,37 L10,35 L12,27 L5,20 L13,18 L15,10 L23,12 L25,10 Z"/></svg>');
+  background-size: 30px 30px;
+  background-repeat: repeat;
+  border-radius: 16rpx;
+  z-index: 0;
+  animation: gear-rotation 10s linear infinite;
+}
+
+.rarity-border-4::after {
+  content: "";
+  position: absolute;
+  top: -2rpx;
+  left: -2rpx;
+  right: -2rpx;
+  bottom: -2rpx;
+  border: 2rpx solid rgba(156, 39, 176, 0.7);
+  border-radius: 14rpx;
+  background: linear-gradient(45deg, transparent 48%, rgba(156, 39, 176, 0.5) 50%, transparent 52%);
+  background-size: 10px 10px;
+  animation: border-light 3s linear infinite;
+  z-index: 0;
+}
+
+.rarity-border-5 {
+  position: relative;
+  border: none;
+}
+
+.rarity-border-5::before {
+  content: "";
+  position: absolute;
+  top: -2rpx;
+  left: -2rpx;
+  right: -2rpx;
+  bottom: -2rpx;
+  border-radius: 14rpx;
+  background: linear-gradient(90deg, #FFD700, #FF69B4, #6495ED, #FFD700);
+  background-size: 400% 400%;
+  animation: lightning-border 3s ease infinite;
+  z-index: 0;
+}
+
+/* 动画定义 */
+@keyframes stripe-animation {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+
+@keyframes wave-animation {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(33.3%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes vortex-animation {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.7;
+  }
+}
+
+@keyframes particle-swirl {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gear-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes border-light {
+  0% {
+    background-position: 0 0;
+    box-shadow: 0 0 5rpx rgba(156, 39, 176, 0.3);
+  }
+  50% {
+    background-position: 10px 10px;
+    box-shadow: 0 0 15rpx rgba(156, 39, 176, 0.7);
+  }
+  100% {
+    background-position: 20px 20px;
+    box-shadow: 0 0 5rpx rgba(156, 39, 176, 0.3);
+  }
+}
+
+@keyframes gradient-animation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes lightning-border {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .progress-container {

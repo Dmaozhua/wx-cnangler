@@ -7,6 +7,7 @@
 // type: 6 - 连续阅读文章解锁成就，value为连续阅读的天数
 // type: 7 - 分享相关，value为分享系类别1测试2文章
 
+//提示，邂逅10次女钓友，抛竿100次..
 const achievements = [
   {
       num: 1,
