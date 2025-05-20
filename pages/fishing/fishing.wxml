@@ -8,6 +8,25 @@
     <image class="scene-bg" src="{{backgroundImage}}" mode="aspectFill"></image>
   </view>
 
+<!-- 钓鱼成功弹窗 -->
+<view class="fish-caught-popup {{showFishCaughtPopup ? 'show' : ''}}">
+  <view class="fish-caught-content">
+    <view class="fish-caught-header">
+      <text class="fish-caught-title">成功钓起</text>
+    </view>
+    <view class="fish-caught-body">
+      <view class="fish-caught-name">{{caughtFish.name}}</view>
+      <view class="fish-caught-info">
+        <text class="fish-caught-label">强度值：</text>
+        <text class="fish-caught-value">{{caughtFish.strengthValue}}</text>
+      </view>
+    </view>
+    <view class="fish-caught-footer">
+      <button class="fish-caught-btn" bindtap="onCloseFishCaughtPopup">确认</button>
+    </view>
+  </view>
+</view>
+
 <!-- 鱼状态组件 -->
 <fish-status 
   currentFish="{{currentFish}}" 
