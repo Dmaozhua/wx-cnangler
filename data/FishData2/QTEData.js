@@ -29,7 +29,7 @@ export const QTEData = [
         songxian: {
           description: '持续收线',
           attack: 0.5,
-          linedam: 15
+          linedam: 30
         }
       }
     },

@@ -10,13 +10,13 @@ export const RARITY_MULTIPLIER = {
     {
       id: 'FISH_01',
       name: '大口黑鲈',
-      rarity: 3,
+      rarity: 3,//稀有度
       description: '路亚圈的真正核心，路亚的重中之重。',
-      habitats: ['slowmoving','Deep','obstacle'],
-      baitPref: ['BREADone','BREADtwo'],
-      QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower'],
-      QTEFail: 0.1,
-      strength: [2, 4],
+      habitats: ['slowmoving','Deep','obstacle'],// 出现水域类型
+      baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
+      QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower'],// 可触发QTE的事件
+      QTEFail: 0.3,//qte失败后，逃跑概率
+      strength: [2, 6],//鱼的强度范围，随机
       BaseHP: 200,
       image1: '../../images/icons/fishon.png',
       image2: '../../images/icons/fishon.png',

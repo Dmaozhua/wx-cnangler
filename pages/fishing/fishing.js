@@ -172,6 +172,11 @@ Page({
       baitEffect: 1 
     };
     
+    // AFT_FISHON事件现在直接在钓鱼结束后触发，不需要标记
+    
+    // 初始化抛竿计数器为0，用于跟踪游戏中抛竿次数
+    app.globalData.castCount = 0;
+    
     // 初始化事件加成显示列表
     this.setData({
       eventBuffs: [],
@@ -240,23 +245,21 @@ Page({
       return;
     }
     
-    // 检查是否需要触发AFT_FISHON事件（在鱼被钓起或脱钩后的第一次抛竿前）
-    if (app.globalData.shouldTriggerAftFishOn) {
-      // 触发AFT_FISHON事件
-      this.triggerAfterFishOnEvent(() => {
-        // 重置标记
-        app.globalData.shouldTriggerAftFishOn = false;
-        // 然后触发BEF_FISHON事件
-        this.triggerBeforeFishOnEvent(() => {
-          this.decideBite();
-        });
-      });
-    } else {
-      // 在等待状态下触发可能BEF_FISHON事件
-      this.triggerBeforeFishOnEvent(() => {
-        this.decideBite();
-      });
+    // 增加抛竿计数
+    app.globalData.castCount = (app.globalData.castCount || 0) + 1;
+    console.log('[钓鱼游戏] 当前抛竿次数:', app.globalData.castCount);
+    
+    // 第一次抛竿不触发任何事件，直接判断鱼是否上钩
+    if (app.globalData.castCount === 1) {
+      console.log('[钓鱼游戏] 第一次抛竿，跳过事件触发');
+      this.decideBite();
+      return;
     }
+    
+    // 在等待状态下触发可能BEF_FISHON事件
+    this.triggerBeforeFishOnEvent(() => {
+      this.decideBite();
+    });
   },
   // 模拟抛竿后判断是否有鱼上钩
   decideBite() {
@@ -354,7 +357,7 @@ Page({
       let fish = app.globalData.currentFish;
       if (!fish) return;
       
-      const passiveDamage = 10; // 被动伤害值
+      const passiveDamage = 1000; // 被动伤害值
       fish.hp = Number((fish.hp - passiveDamage).toFixed(2));
       
       app.globalData.currentFish = fish;
@@ -646,11 +649,12 @@ Page({
     // 扣除钓鱼时间
     this.updateFishingTime(fishtimeData.everyfishon);
     
-    // 设置标记，表示需要在下次抛竿前触发AFT_FISHON事件
-    app.globalData.shouldTriggerAftFishOn = true;
-    
-    // 检查钓鱼时间是否结束
-    this.checkFishingTime();
+    // 直接触发AFT_FISHON事件，而不是等到下次抛竿
+    this.triggerAfterFishOnEvent(() => {
+      // 检查钓鱼时间是否结束
+      this.checkFishingTime();
+    });
+
   },
   
   // 鱼脱钩
@@ -703,16 +707,16 @@ Page({
         icon: 'none',
         duration: 3000
       });
+      
+      // 直接触发AFT_FISHON事件，而不是等到下次抛竿
+      this.triggerAfterFishOnEvent(() => {
+        // 检查钓鱼时间是否结束
+        this.checkFishingTime();
+      });
     }, 2100);
     
     // 扣除钓鱼时间
     this.updateFishingTime(fishtimeData.everyfishon);
-    
-    // 设置标记，表示需要在下次抛竿前触发AFT_FISHON事件
-    app.globalData.shouldTriggerAftFishOn = true;
-    
-    // 检查钓鱼时间是否结束
-    this.checkFishingTime();
   },
   
   // 页面卸载时清除所有计时器
@@ -864,7 +868,17 @@ Page({
           this.updateEventBuffsDisplay(evt);
           
           console.log('[钓鱼游戏] 触发BEF_FISHON事件:', evt.name, app.globalData.eventModifiers);
-          callback();
+          
+          // 优化2：当触发了BEF_FISHON事件后，直接跳过本次抛竿
+          // 不调用callback，而是直接返回，等待玩家下次点击抛竿
+          wx.showToast({
+            title: '请继续钓鱼吧~',
+            icon: 'none',
+            duration: 2000
+          });
+          
+          // 检查钓鱼时间是否结束
+          this.checkFishingTime();
         }
       });
     } else {
