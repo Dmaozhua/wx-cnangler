@@ -18,8 +18,8 @@
     <view class="line-info">
   <view class="progress-container">
     <view class="progress-bar">
-      <!-- 在 {{}} 内部拼接 % 单位 -->
-      <view class="progress-inner line-progress-inner" style="width: {{playerHP + '%'}};"></view>
+      <!-- 计算钓线状态百分比 -->
+      <view class="progress-inner line-progress-inner" style="width: {{(playerHP / 200 * 100) + '%'}};"></view>
     </view>
     <text class="progress-label">钓线状态</text>
   </view>
