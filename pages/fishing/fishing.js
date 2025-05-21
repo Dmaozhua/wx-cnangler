@@ -96,8 +96,11 @@ Page({
         showFishCaughtPopup: false,
         caughtFish: {
             name: '',
-            strengthValue: 0
-        }
+            strengthValue: 0,
+            battleTime: '', // 搏鱼时间
+            strengthRatio: 0 // 强度比
+        },
+        fishBiteTime: 0 // 记录鱼咬钩的时间戳
     },
     // 返回准备页面的方法
     goBack() {
@@ -339,12 +342,20 @@ Page({
     },
     // 进入鱼咬状态
     startFishOn(fish) {
+        // 记录鱼咬钩的时间戳
+        const biteTime = Date.now();
+        this.setData({
+            fishBiteTime: biteTime
+        });
+        
         // 随机计算鱼的 strength 数值（保留两位小数）
         let min = fish.strength[0], max = fish.strength[1];
         let strength = Number((Math.random() * (max - min) + min).toFixed(2));
         // 计算鱼的总血量 = BaseHP * strength（保留两位小数）
         fish.hp = Number((fish.BaseHP * strength).toFixed(2));
         fish.strengthVal = strength;
+        // 计算强度比（当前强度值在范围内的百分比）
+        fish.strengthRatio = Number((((strength - min) / (max - min)) * 100).toFixed(0));
         app.globalData.currentFish = fish;
 
         console.log('[钓鱼游戏] 鱼上钩:', {
@@ -384,7 +395,7 @@ Page({
             let fish = app.globalData.currentFish;
             if (!fish) return;
 
-            const passiveDamage = 100; // 被动伤害值
+            const passiveDamage = 10; // 被动伤害值
             fish.hp = Number((fish.hp - passiveDamage).toFixed(2));
 
             app.globalData.currentFish = fish;
@@ -694,14 +705,29 @@ Page({
         let strengthValue = fish.strength;
         if (Array.isArray(fish.strength)) {
             // 如果是范围，取实际钓到的值或计算平均值
-            strengthValue = fish.actualStrength || ((fish.strength[0] + fish.strength[1]) / 2).toFixed(1);
+            strengthValue = fish.strengthVal || ((fish.strength[0] + fish.strength[1]) / 2).toFixed(1);
+        }
+
+        // 计算搏鱼时间（从鱼咬钩到钓起的时间）
+        const caughtTime = Date.now();
+        const battleDuration = caughtTime - this.data.fishBiteTime; // 毫秒
+        let battleTimeDisplay = '';
+        
+        if (battleDuration < 60000) { // 小于1分钟，用秒显示
+            battleTimeDisplay = Math.floor(battleDuration / 1000) + '秒';
+        } else { // 大于1分钟，显示几分几秒
+            const minutes = Math.floor(battleDuration / 60000);
+            const seconds = Math.floor((battleDuration % 60000) / 1000);
+            battleTimeDisplay = minutes + '分' + seconds + '秒';
         }
 
         // 显示自定义钓鱼成功弹窗
         this.setData({
             caughtFish: {
                 name: fish.name,
-                strengthValue: strengthValue
+                strengthValue: strengthValue,
+                battleTime: battleTimeDisplay,
+                strengthRatio: fish.strengthRatio || 0
             },
             showFishCaughtPopup: true
         });
