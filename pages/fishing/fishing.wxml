@@ -18,12 +18,12 @@
       <view class="fish-caught-name">{{caughtFish.name}}</view>
       <view class="fish-caught-info">
         <text class="fish-caught-label">强度值：</text>
-        <text class="fish-caught-value">{{caughtFish.strengthValue}}</text>
+        <text class="fish-caught-value {{caughtFish.isExtremeStrength ? 'extreme-strength' : ''}}">{{caughtFish.strengthValue}}</text>
       </view>
       <view class="fish-caught-info">
         <text class="fish-caught-label">强度比：</text>
-        <text class="fish-caught-value">{{caughtFish.strengthRatio}}%</text>
-      </view>
+  <text class="fish-caught-value {{caughtFish.isExtremeStrength ? 'extreme-strength' : ''}}">{{caughtFish.strengthRatio}}%</text>
+</view>
       <view class="fish-caught-info">
         <text class="fish-caught-label">搏鱼时间：</text>
         <text class="fish-caught-value">{{caughtFish.battleTime}}</text>

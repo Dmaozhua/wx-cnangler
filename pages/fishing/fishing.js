@@ -744,9 +744,17 @@ Page({
 
         // 获取鱼的强度值（如果是范围则取随机值或平均值）
         let strengthValue = fish.strength;
+        let isExtremeStrength = false; // 标记是否为极值强度
+        
         if (Array.isArray(fish.strength)) {
             // 如果是范围，取实际钓到的值或计算平均值
             strengthValue = fish.strengthVal || ((fish.strength[0] + fish.strength[1]) / 2).toFixed(1);
+            
+            // 判断是否为极值（最大值或最小值）
+            if (fish.strengthVal === fish.strength[0] || fish.strengthVal === fish.strength[1]) {
+                isExtremeStrength = true;
+                console.log('[钓鱼游戏] 极值强度鱼！', fish.strengthVal);
+            }
         }
 
         // 计算搏鱼时间（从鱼咬钩到钓起的时间）
@@ -768,7 +776,8 @@ Page({
                 name: fish.name,
                 strengthValue: strengthValue,
                 battleTime: battleTimeDisplay,
-                strengthRatio: fish.strengthRatio || 0
+                strengthRatio: fish.strengthRatio || 0,
+                isExtremeStrength: isExtremeStrength // 添加极值标志
             },
             showFishCaughtPopup: true
         });

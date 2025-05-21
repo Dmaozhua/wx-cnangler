@@ -97,6 +97,26 @@ page {
   text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
 }
 
+/* 极值强度特殊效果 */
+.extreme-strength {
+  color: #ff5252;
+  font-size: 40rpx;
+  font-weight: bold;
+  text-shadow: 0 0 10rpx rgba(255, 82, 82, 0.7);
+  animation: pulse-glow 1.5s infinite alternate;
+}
+
+@keyframes pulse-glow {
+  0% {
+    text-shadow: 0 0 10rpx rgba(255, 82, 82, 0.7);
+    transform: scale(1);
+  }
+  100% {
+    text-shadow: 0 0 20rpx rgba(255, 82, 82, 0.9), 0 0 30rpx rgba(255, 82, 82, 0.5);
+    transform: scale(1.05);
+  }
+}
+
 .fish-caught-footer {
   padding: 20rpx;
   text-align: center;

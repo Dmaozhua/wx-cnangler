@@ -18,7 +18,7 @@ export const RARITY_MULTIPLIER = {
       baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
       QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower'],// 可触发QTE的事件
       QTEFail: 0.3,//qte失败后，逃跑概率
-      strength: [2, 60],//鱼的强度范围，随机
+      strength: [2, 2.01],//鱼的强度范围，随机
       BaseHP: 200,
       image1: '../../images/icons/fishon.png',
       image2: '../../images/icons/fishon.png',
