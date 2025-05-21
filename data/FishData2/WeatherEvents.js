@@ -1,3 +1,5 @@
+import { RARE, EPIC, MYTHIC } from './FishDataAll';
+
 export const WeatherEvents = [
   {
     id: 'sunny',
@@ -28,7 +30,7 @@ export const WeatherEvents = [
     effects: {
       rareFishBoost: {
         value: 2,
-        targetRarity: [3, 4, 5]
+        targetRarity: [RARE, EPIC, MYTHIC]
       }
     }
   }

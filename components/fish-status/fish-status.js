@@ -72,14 +72,25 @@ Component({
   methods: {
     // 设置稀有度样式类
     setRarityClass: function(rarity) {
-      // 确保rarity在1-5之间
-      rarity = Math.max(1, Math.min(5, rarity || 1));
+      // 将字符串常量稀有度映射到数字
+      let rarityNum = 1; // 默认为1
+      
+      // 根据稀有度常量设置对应的数字
+      if (rarity === 'COMMON') rarityNum = 1;
+      else if (rarity === 'UNCOMMON') rarityNum = 2;
+      else if (rarity === 'RARE') rarityNum = 3;
+      else if (rarity === 'EPIC') rarityNum = 4;
+      else if (rarity === 'MYTHIC') rarityNum = 5;
+      else if (rarity === 'BOSS') rarityNum = 5; // BOSS鱼使用最高稀有度样式
+      else if (rarity === 'WASTE') rarityNum = 1; // 杂物使用最低稀有度样式
+      else if (typeof rarity === 'number') rarityNum = Math.max(1, Math.min(5, rarity)); // 兼容旧版数字稀有度
       
       this.setData({
-        rarityClass: `rarity-${rarity}`,
-        rarityBgClass: `rarity-bg-${rarity}`,
-        rarityBorderClass: `rarity-border-${rarity}`
+        rarityClass: `rarity-${rarityNum}`,
+        rarityBgClass: `rarity-bg-${rarityNum}`,
+        rarityBorderClass: `rarity-border-${rarityNum}`
       });
+    
     },
     
     // 滑入动画

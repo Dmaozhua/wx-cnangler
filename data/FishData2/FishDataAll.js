@@ -1,18 +1,27 @@
+// 定义稀有度常量
+export const COMMON = 'COMMON';
+export const UNCOMMON = 'UNCOMMON';
+export const RARE = 'RARE';
+export const EPIC = 'EPIC';
+export const MYTHIC = 'MYTHIC';
+export const BOSS = 'BOSS';
+export const WASTE = 'WASTE';
+
 export const RARITY_MULTIPLIER = {
-    0: 0.6,//鱼以外的杂物
-    1: 2.0,  // 普通
-    2: 1.5,
-    3: 1.0,  // 当前示例的3星
-    4: 0.7,
-    5: 0.3,   // 传说级  
-    6:0 //特殊鱼boss鱼
-  };
+  [COMMON]: 2.0,  // 普通
+  [UNCOMMON]: 1.5,
+  [RARE]: 1.0,  // 当前示例的3星
+  [EPIC]: 0.7,
+  [MYTHIC]: 0.3,   // 传说级  
+  [BOSS]: 0, //特殊鱼boss鱼
+  [WASTE]: 0.6,//鱼以外的杂物
+};
   
   export const FishData = [    
     {
       id: 'FISH_01',
       name: '大口黑鲈',
-      rarity: 3,//稀有度
+      rarity: RARE,//稀有度
       description: '路亚圈的真正核心，路亚的重中之重。',
       habitats: ['slowmoving','Deep','obstacle'],// 出现水域类型
       baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
@@ -30,7 +39,7 @@ export const RARITY_MULTIPLIER = {
     {
       id: 'FISH_02',
       name: '马口',
-      rarity: 2,
+      rarity: UNCOMMON,
       description: '城市河道的明星，溪流精灵',
       habitats: ['backwater','slowmoving','rapids'],
       baitPref: ['BREADone','BREADtwo'],
@@ -48,7 +57,7 @@ export const RARITY_MULTIPLIER = {
     {
       id: 'FISH_04',
       name: '鳜鱼',
-      rarity: 4,
+      rarity: EPIC,
       description: '这是尊严，要轻拿轻放。',
       habitats: ['backwater','slowmoving','rapids','shallow','obstacle','surface'],
       baitPref: ['BREADone','BREADtwo'],
@@ -66,7 +75,7 @@ export const RARITY_MULTIPLIER = {
     {
       id: 'FISH_05',
       name: '鳡鱼',
-      rarity: 5,
+      rarity: MYTHIC,
       description: '这是尊严，要轻拿轻放。',
       habitats: ['backwater','slowmoving','rapids','shallow','obstacle','surface'],
       baitPref: ['BREADone','BREADtwo'],
@@ -84,7 +93,7 @@ export const RARITY_MULTIPLIER = {
     {
       id: 'FISH_03',
       name: '白条',
-      rarity: 1,
+      rarity: COMMON,
       description: '这是尊严，要轻拿轻放。',
       habitats: ['backwater','slowmoving','rapids','shallow','obstacle','surface'],
       baitPref: ['BREADone','BREADtwo'],
