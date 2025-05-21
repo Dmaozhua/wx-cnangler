@@ -98,9 +98,9 @@
     <!-- QTE状态 -->
     <view class="fishing-status qte" wx:if="{{state === 'qte'}}">
       <view class="qte-container">
-        <text class="qte-title">{{qteData.description}}</text>
-        <text class="qte-timer">剩余时间: {{qteTimeLeft}}s</text>
-        <view class="qte-options">
+          <text class="qte-title">{{qteData.description}}</text>
+          <text class="qte-timer">剩余时间: {{qteTimeLeft}}</text>
+          <view class="qte-options">
           <button 
             wx:for="{{qteOptions}}" 
             wx:key="index" 

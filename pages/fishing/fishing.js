@@ -388,6 +388,9 @@ Page({
     },
 
     startFishOnTimers() {
+        // 记录上次QTE触发时间
+        this.lastQTETime = Date.now();
+        
         // 定时器：每 0.5 秒给鱼扣除被动伤害（10 点）
         this.passiveTimer = setInterval(() => {
             if (this.data.state !== 'fishon') return; // QTE状态暂停被动伤害
@@ -407,18 +410,45 @@ Page({
             }
         }, 500);
 
-        // 定时器：每 2.5 秒触发一次 QTE（实际触发时间在 2.5 秒内随机）
+        // 获取鱼的血量，根据血量调整QTE触发频率
+        const fish = app.globalData.currentFish;
+        if (!fish) return;
+        
+        // 计算基础QTE间隔时间：血量越高，间隔越短（更频繁触发）
+        // 基础间隔为3000ms，最小为2000ms
+        const baseInterval = Math.max(2000, 3000 - (fish.hp / 1000));
+        console.log('[钓鱼游戏] QTE触发频率设置:', {
+            鱼名称: fish.name,
+            鱼血量: fish.hp.toFixed(2),
+            基础间隔: baseInterval.toFixed(2) + 'ms'
+        });
+        
+        // 定时器：根据鱼的血量动态调整QTE触发频率
         this.qteTimer = setInterval(() => {
             if (this.data.state !== 'fishon') return;
 
-            // 随机延迟触发QTE，增加游戏的不确定性
-            const randomDelay = Math.random() * 2500; // 0-2.5秒内随机
+            // 随机延迟触发QTE，增加游戏的不确定性（最大随机延迟为基础间隔的一半）
+            const maxRandomDelay = baseInterval / 2;
+            const randomDelay = Math.random() * maxRandomDelay;
+            
             setTimeout(() => {
                 if (this.data.state !== 'fishon') return; // 再次检查状态，防止在延迟期间状态已改变
+                
+                // 计算并记录QTE触发间隔
+                const now = Date.now();
+                const interval = now - this.lastQTETime;
+                this.lastQTETime = now;
+                
+                console.log('[钓鱼游戏] QTE触发间隔:', {
+                    鱼名称: fish.name,
+                    当前血量: fish.hp.toFixed(2),
+                    间隔时间: interval + 'ms'
+                });
+                
                 // 暂停被动伤害，进入 QTE 状态
                 this.triggerQTE();
             }, randomDelay);
-        }, 2500);
+        }, baseInterval);
     },
 
     // 触发QTE事件
@@ -481,28 +511,39 @@ Page({
         this.startQTETimer(qteData.duration);
     },
 
-    // 启动QTE倒计时
+    // 启动QTE倒计时（精确到毫秒）
     startQTETimer(duration) {
         // 清除之前的计时器
         if (this.qteCountdown) {
             clearInterval(this.qteCountdown);
         }
 
-        let timeLeft = duration;
+        // 将秒转换为毫秒
+        let timeLeftMs = duration * 1000;
+        const startTime = Date.now();
+        const endTime = startTime + timeLeftMs;
 
-        // 每秒更新倒计时
+        // 每100毫秒更新倒计时，提高精度
         this.qteCountdown = setInterval(() => {
-            timeLeft -= 1;
-
+            const now = Date.now();
+            timeLeftMs = Math.max(0, endTime - now);
+            
+            // 计算秒和毫秒部分
+            const seconds = Math.floor(timeLeftMs / 1000);
+            const milliseconds = Math.floor((timeLeftMs % 1000) / 10);
+            
+            // 格式化显示，例如：5.45秒
+            const formattedTime = seconds + '.' + (milliseconds < 10 ? '0' + milliseconds : milliseconds);
+            
             this.setData({
-                qteTimeLeft: timeLeft
+                qteTimeLeft: formattedTime
             });
 
-            if (timeLeft <= 0) {
+            if (timeLeftMs <= 0) {
                 clearInterval(this.qteCountdown);
                 this.onQTETimeout();
             }
-        }, 1000);
+        }, 50); // 更新频率提高到50毫秒一次
     },
 
     // QTE超时处理
