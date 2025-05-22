@@ -1,0 +1,26 @@
+<!-- pages/music/player.wxml -->
+<view class="player-container" hidden="{{!currentMusic}}">
+  <!-- 封面图 -->
+  <image class="cover" src="{{currentMusic.cover}}" />
+
+  <!-- 进度条 -->
+  <slider 
+    value="{{currentTime}}" 
+    max="{{duration}}" 
+    block-size="12" 
+    activeColor="#FF3366" 
+    bindchange="onSliderChange"
+    bindchanging="onSliderChanging"
+  />
+  
+  <!-- 时间显示 -->
+  <view class="time-display">
+    <text>{{formatTime(currentTime)}}</text>
+    <text>{{formatTime(duration)}}</text>
+  </view>
+
+  <!-- 控制按钮 -->
+  <view class="controls">
+    <button bindtap="togglePlay">{{playing ? '暂停' : '播放'}}</button>
+  </view>
+</view>

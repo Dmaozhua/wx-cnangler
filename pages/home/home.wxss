@@ -457,6 +457,9 @@ scroll-view {
 .equipment-btn {
     background: linear-gradient(135deg, #C0B283, #3CB371);
 }
+.music-btn {
+    background: linear-gradient(135deg, #C0B283, #ee1414);
+}
 
 .weather-btn {
     background: linear-gradient(135deg, #3CB371, #C0B283);

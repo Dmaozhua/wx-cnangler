@@ -189,7 +189,10 @@ Page({
     goToEquipment() {
         wx.navigateTo({ url: "/pages/equipment/equipment" });
     },
-
+    // 音乐页面导航
+    goTomusic() {
+        wx.navigateTo({ url: "/pages/music/list" });
+    },
     // 天气功能
     checkWeather() {
         // 检查并解锁首次使用天气功能的成就

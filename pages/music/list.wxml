@@ -1,0 +1,14 @@
+<!-- pages/music/list.wxml -->
+<view class="music-list">
+  <block wx:for="{{musicList}}" wx:key="id">
+    <view class="music-item">
+      <image src="{{item.cover}}" class="cover"/>
+      <view class="info">
+        <text class="title">{{item.title}}</text>
+        <text class="artist">{{item.artist}}</text>
+      </view>
+      <button bindtap="playMusic" data-index="{{index}}">播放</button>
+      <button bindtap="jumpToPlatform" data-platform="netease" data-url="{{item.platforms.netease}}">跳转网易云</button>
+    </view>
+  </block>
+</view>

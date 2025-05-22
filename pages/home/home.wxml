@@ -80,6 +80,7 @@
             <text class="section-subtitle">提升你的钓鱼体验</text>
         </view>
         <view class="features-grid">
+            <button class="feature-btn music-btn" hover-class="btn-hover" bindtap="goTomusic">路亚音乐</button>
             <button class="feature-btn equipment-btn" hover-class="btn-hover" bindtap="goToEquipment">装备图鉴</button>
             <button class="feature-btn weather-btn" hover-class="btn-hover" bindtap="checkWeather">今日天气</button>
             <button class="feature-btn simulator-btn" hover-class="btn-hover" bindtap="goToFishingSimulator">钓鱼模拟器</button>

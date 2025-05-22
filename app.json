@@ -14,7 +14,8 @@
         "pages/preparation/preparation",
         "pages/fishing/fishing",
         "pages/result/result",
-        "pages/fishingHome/fishingHome"
+        "pages/fishingHome/fishingHome",
+        "pages/music/list"
     ],
     "window": {
         "navigationBarTitleText": "钓鱼人测试",
