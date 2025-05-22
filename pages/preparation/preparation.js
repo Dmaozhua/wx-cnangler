@@ -134,10 +134,15 @@ Page({
   },
   
   // 返回主页
-  onBackToHome() {
-    console.log('[钓鱼准备] 返回主页');
-    wx.switchTab({
-      url: '../home/home'
+  goBack() {
+    wx.navigateBack({
+      delta: 1,
+      success: () => {
+        console.log('[钓鱼模拟器] 返回上一页成功');
+      },
+      fail: (err) => {
+        console.error('[钓鱼模拟器] 返回上一页失败:', err);
+      }
     });
   }
 });

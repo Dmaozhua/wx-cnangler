@@ -12,7 +12,7 @@
 <view class="container">
   <!-- 返回主页按钮 -->
   <!-- 返回按钮 -->
-  <view class="back-btn" bindtap=  "onBackToHome">
+  <view class="back-btn" bindtap=  "goBack">
     <text class="back-icon">←</text>
   </view>
   
