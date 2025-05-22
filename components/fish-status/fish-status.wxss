@@ -10,7 +10,7 @@
   box-shadow: 2rpx 2rpx 10rpx rgba(0, 0, 0, 0.2);
   padding: 20rpx;
   z-index: 100;
-  transition: all 0.6s ease;
+
 }
 
 .visible {

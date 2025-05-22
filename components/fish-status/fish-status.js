@@ -94,43 +94,46 @@ Component({
     },
     
 // 滑入动画
+// 修改后的 slideIn 方法
 slideIn: function() {
-    console.log('slideIn method called');
     if (this.data.isAnimating) return;
-    // 设置锁定状态，防止动画过程中的点击操作
-    this.setData({
-        isAnimating: true,
-        isVisible: true,
-        isLocked: true
-    });
-      
-    // 触发锁定事件，通知父组件屏蔽点击
-    this.triggerEvent('lockInteraction', { locked: true });
   
-      // 重置动画队列
-  this.animation = wx.createAnimation({
-    duration: this.properties.animationDuration,
-    timingFunction: 'ease',
-    delay: 0
-  });
-    // 重置缩放比例
-    this.animation.scale(1).translateX('0').translateY('-50%').opacity(1).step({ duration: this.properties.animationDuration });
-    
-
-      
-    
+    // 先确保组件可见
     this.setData({
-        animationData: this.animation.export()
-    });
-    setTimeout(() => {
-        this.setData({
-            isAnimating: false,
-            isLocked: false
+      isVisible: true,
+      isLocked: true
+    }, () => {
+      // 在回调中执行动画，确保渲染完成
+      this.animation = wx.createAnimation({
+        duration: this.properties.animationDuration,
+        timingFunction: 'ease'
+      });
+  
+      // 重置动画参数
+      this.animation
+        .translateX('0')
+        .translateY('-50%')
+        .opacity(1)
+        .step();
+  
+      this.setData({
+        animationData: this.animation.export(),
+        isAnimating: true
+      });
+  
+      // 动画结束后解除锁定
+      setTimeout(() => {
+        this.setData({ 
+          isAnimating: false, 
+          isLocked: false 
         });
-        // 解除锁定，通知父组件可以接受点击
         this.triggerEvent('lockInteraction', { locked: false });
-    }, this.properties.animationDuration);
-},
+      }, this.properties.animationDuration);
+    });
+  
+    // 立即触发锁定
+    this.triggerEvent('lockInteraction', { locked: true });
+  },
 
     // 滑出动画
     slideOut: function() {
