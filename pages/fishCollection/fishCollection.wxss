@@ -1,0 +1,248 @@
+/* pages/fishCollection/fishCollection.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(to bottom, #1a4d2e, #2d6a4f);
+  color: #e0f2e9;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 水波纹背景效果 */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,50 Q25,40 50,50 T100,50 T150,50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/></svg>');
+  background-size: 100px 100px;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+/* 顶部标题栏 */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background: linear-gradient(to right, #1e5631, #3a7734);
+  position: relative;
+  height: 100rpx;
+  color: white;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.back-btn {
+  position: absolute;
+  left: 30rpx;
+  top: 10%;
+  transform: translateY(-50%);
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.back-btn:active {
+  transform: translateY(-50%) scale(0.9);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.back-icon {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: white;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: bold;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+  margin-left: 60rpx; /* 为左侧返回按钮留出空间 */
+}
+
+.collection-info {
+  position: absolute;
+  right: 30rpx;
+  top: 60rpx;
+  font-size: 24rpx;
+  color: #a0e4bc;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 6rpx 12rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
+}
+
+/* 鱼类列表 */
+.fish-list {
+  flex: 1;
+  padding: 20rpx;
+  position: relative;
+  z-index: 1;
+  height: calc(100vh - 250rpx);
+  overflow-y: auto;
+}
+
+.fish-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.fish-item {
+  width: 48%;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.fish-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10rpx);
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+  position: relative;
+  height: 240rpx;
+  transition: all 0.3s ease;
+  border: 1rpx solid rgba(255, 255, 255, 0.1);
+}
+
+.fish-item.unlocked .fish-card:active {
+  transform: scale(0.95);
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.3);
+}
+
+.fish-image {
+  width: 140rpx;
+  height: 140rpx;
+  margin-bottom: 10rpx;
+  transition: all 0.3s ease;
+}
+
+.unlocked .fish-image {
+  filter: drop-shadow(0 4rpx 8rpx rgba(0, 0, 0, 0.3));
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5rpx); }
+}
+
+.locked .fish-image {
+  filter: grayscale(1) opacity(0.5);
+}
+
+.fish-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 5rpx;
+  text-align: center;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+}
+
+.fish-rarity {
+  font-size: 24rpx;
+  color: #a0e4bc;
+  text-align: center;
+}
+
+/* 稀有度颜色 */
+.rarity-common {
+  color: #b0b0b0;
+}
+
+.rarity-uncommon {
+  color: #4caf50;
+}
+
+.rarity-rare {
+  color: #2196f3;
+}
+
+.rarity-epic {
+  color: #9c27b0;
+}
+
+.rarity-mythic {
+  color: #ff9800;
+  text-shadow: 0 0 5rpx rgba(255, 152, 0, 0.5);
+}
+
+.rarity-boss {
+  color: #f44336;
+  text-shadow: 0 0 5rpx rgba(244, 67, 54, 0.5);
+}
+
+.rarity-waste {
+  color: #795548;
+}
+
+.lock-icon {
+  position: absolute;
+  top: 10rpx;
+  right: 10rpx;
+  font-size: 32rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* 标签分类过滤 */
+.filter-tabs {
+  padding: 10rpx 20rpx;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 5;
+  border-bottom: 1rpx solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.tabs-scroll {
+  white-space: nowrap;
+  width: 100%;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+}
+
+.filter-tab {
+  display: inline-block;
+  padding: 10rpx 20rpx;
+  margin-right: 15rpx;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 30rpx;
+  transition: all 0.3s ease;
+}
+
+.filter-tab.active {
+  background-color: #3a7734;
+  color: white;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+}
+
+/* 底部提示 */
+.footer-tip {
+  padding: 20rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(0, 0, 0, 0.2);
+  border-top: 1rpx solid rgba(255, 255, 255, 0.1);
+  z-index: 1;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+}

@@ -1,0 +1,41 @@
+<!-- pages/fishDetail/fishDetail.wxml -->
+<view class="container" bindtouchstart="touchStart" bindtouchend="touchEnd">
+  <!-- 顶部标题栏 -->
+  <view class="back-btn" bindtap="goBack">
+      <text class="back-icon">←</text>
+    </view>
+  <view class="header">
+
+    <view class="title">鱼类详情</view>
+  </view>
+
+  <!-- 鱼类详情内容 -->
+  <view class="fish-detail">
+    <!-- 鱼类图片 -->
+    <image class="fish-image" src="/images/fishicons/fishon.webp" mode="aspectFit"></image>
+    
+    <!-- 基本信息 -->
+    <view class="info-section">
+      <view class="fish-name">{{fishInfo.name}}</view>
+      <view class="fish-rarity">稀有度: {{rarityNames[fishInfo.rarity]}}</view>
+      <view class="fish-description">{{fishInfo.description}}</view>
+    </view>
+    
+    <!-- 收集统计 -->
+    <view class="stats-section">
+      <view class="stats-title">收集统计</view>
+      <view class="stats-item">
+        <text class="stats-label">捕获次数:</text>
+        <text class="stats-value">{{collectionInfo.count || 0}}次</text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-label">最小体型比例:</text>
+        <text class="stats-value">{{collectionInfo.minStrength || 0}}</text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-label">最大体型比例:</text>
+        <text class="stats-value">{{collectionInfo.maxStrength || 0}}</text>
+      </view>
+    </view>
+  </view>
+</view>

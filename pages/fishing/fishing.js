@@ -6,6 +6,7 @@ import { QTEData } from '../../data/FishData2/QTEData';
 import { fishtimeData } from '../../data/FishData2/fishtimeData';
 import { WeatherEvents } from '../../data/FishData2/WeatherEvents';
 import { Equipment } from '../../data/FishData2/Equipment';
+import { updateFishCollection } from '../../data/FishData2/FishCollection';
 
 
 // 计算中鱼概率的函数
@@ -784,6 +785,10 @@ Page({
 
         // 扣除钓鱼时间
         this.updateFishingTime(fishtimeData.everyfishon);
+
+        // 更新鱼类图鉴收集数据
+        updateFishCollection(fish.id, fish.strengthVal);
+        console.log('[钓鱼游戏] 更新图鉴:', fish.id, fish.strengthVal);
 
         // AFT_FISHON事件将在弹窗关闭后触发
         // 检查钓鱼时间是否结束

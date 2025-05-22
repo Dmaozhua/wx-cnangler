@@ -9,12 +9,12 @@ export const WASTE = 'WASTE';
 
 export const RARITY_MULTIPLIER = {
   [COMMON]: 2.0,  // 普通
-  [UNCOMMON]: 1.5,
-  [RARE]: 1.0,  // 当前示例的3星
-  [EPIC]: 0.7,
+  [UNCOMMON]: 1.5, // 少见
+  [RARE]: 1.0,     // 稀有
+  [EPIC]: 0.7,     // 史诗级
   [MYTHIC]: 0.3,   // 传说级  
-  [BOSS]: 0, //特殊鱼boss鱼
-  [WASTE]: 0.6,//鱼以外的杂物
+  [BOSS]: 0,       // Boss级
+  [WASTE]: 0.6,    // 杂物
 };
   
   export const FishData = [    
@@ -47,6 +47,23 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.15,
       strength: [0.5, 1.5],
       BaseHP: 120,
+      image1: '../../images/icons/fishon.png',
+      image2: '../../images/icons/fishon.png',
+      weatherAffinity: {
+        "sunny": 1.8,
+        "rainy": 0.3
+      }
+    },{
+      id: 'FISH_03',
+      name: '白条',
+      rarity: COMMON,
+      description: '这是尊严，要轻拿轻放。',
+      habitats: ['backwater','slowmoving','rapids','shallow','obstacle','surface'],
+      baitPref: ['BREADone','BREADtwo'],
+      QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
+      QTEFail: 0.1,
+      strength: [0.4, 1.3],
+      BaseHP: 100,
       image1: '../../images/icons/fishon.png',
       image2: '../../images/icons/fishon.png',
       weatherAffinity: {
@@ -91,7 +108,115 @@ export const RARITY_MULTIPLIER = {
       }
     },
     {
-      id: 'FISH_03',
+      id: 'FISH_06',
+      name: '白条',
+      rarity: COMMON,
+      description: '这是尊严，要轻拿轻放。',
+      habitats: ['backwater','slowmoving','rapids','shallow','obstacle','surface'],
+      baitPref: ['BREADone','BREADtwo'],
+      QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
+      QTEFail: 0.1,
+      strength: [0.4, 1.3],
+      BaseHP: 100,
+      image1: '../../images/icons/fishon.png',
+      image2: '../../images/icons/fishon.png',
+      weatherAffinity: {
+        "sunny": 1.8,
+        "rainy": 0.3
+      }
+    },
+    {
+      id: 'FISH_07',
+      name: '白条',
+      rarity: COMMON,
+      description: '这是尊严，要轻拿轻放。',
+      habitats: ['backwater','slowmoving','rapids','shallow','obstacle','surface'],
+      baitPref: ['BREADone','BREADtwo'],
+      QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
+      QTEFail: 0.1,
+      strength: [0.4, 1.3],
+      BaseHP: 100,
+      image1: '../../images/icons/fishon.png',
+      image2: '../../images/icons/fishon.png',
+      weatherAffinity: {
+        "sunny": 1.8,
+        "rainy": 0.3
+      }
+    },
+    {
+      id: 'FISH_08',
+      name: '白条',
+      rarity: COMMON,
+      description: '这是尊严，要轻拿轻放。',
+      habitats: ['backwater','slowmoving','rapids','shallow','obstacle','surface'],
+      baitPref: ['BREADone','BREADtwo'],
+      QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
+      QTEFail: 0.1,
+      strength: [0.4, 1.3],
+      BaseHP: 100,
+      image1: '../../images/icons/fishon.png',
+      image2: '../../images/icons/fishon.png',
+      weatherAffinity: {
+        "sunny": 1.8,
+        "rainy": 0.3
+      }
+    },
+    {
+      id: 'FISH_09',
+      name: '白条',
+      rarity: COMMON,
+      description: '这是尊严，要轻拿轻放。',
+      habitats: ['backwater','slowmoving','rapids','shallow','obstacle','surface'],
+      baitPref: ['BREADone','BREADtwo'],
+      QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
+      QTEFail: 0.1,
+      strength: [0.4, 1.3],
+      BaseHP: 100,
+      image1: '../../images/icons/fishon.png',
+      image2: '../../images/icons/fishon.png',
+      weatherAffinity: {
+        "sunny": 1.8,
+        "rainy": 0.3
+      }
+    },
+    {
+      id: 'FISH_10',
+      name: '白条',
+      rarity: COMMON,
+      description: '这是尊严，要轻拿轻放。',
+      habitats: ['backwater','slowmoving','rapids','shallow','obstacle','surface'],
+      baitPref: ['BREADone','BREADtwo'],
+      QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
+      QTEFail: 0.1,
+      strength: [0.4, 1.3],
+      BaseHP: 100,
+      image1: '../../images/icons/fishon.png',
+      image2: '../../images/icons/fishon.png',
+      weatherAffinity: {
+        "sunny": 1.8,
+        "rainy": 0.3
+      }
+    },
+    {
+      id: 'FISH_11',
+      name: '白条',
+      rarity: COMMON,
+      description: '这是尊严，要轻拿轻放。',
+      habitats: ['backwater','slowmoving','rapids','shallow','obstacle','surface'],
+      baitPref: ['BREADone','BREADtwo'],
+      QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
+      QTEFail: 0.1,
+      strength: [0.4, 1.3],
+      BaseHP: 100,
+      image1: '../../images/icons/fishon.png',
+      image2: '../../images/icons/fishon.png',
+      weatherAffinity: {
+        "sunny": 1.8,
+        "rainy": 0.3
+      }
+    },
+    {
+      id: 'FISH_12',
       name: '白条',
       rarity: COMMON,
       description: '这是尊严，要轻拿轻放。',

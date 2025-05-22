@@ -51,5 +51,21 @@ Page({
                 console.error('[钓鱼模拟器] 跳转到钓鱼欢迎页面失败:', err);
             }
         });
+    },
+
+    /**
+     * 打开鱼类图鉴
+     */
+    openFishCollection() {
+        console.log('[钓鱼模拟器] 用户点击了图鉴按钮');
+        wx.navigateTo({
+            url: '/pages/fishCollection/fishCollection',
+            success: (res) => {
+                console.log('[钓鱼模拟器] 成功跳转到鱼类图鉴页面', res);
+            },
+            fail: (err) => {
+                console.error('[钓鱼模拟器] 跳转到鱼类图鉴页面失败:', err);
+            }
+        });
     }
 })

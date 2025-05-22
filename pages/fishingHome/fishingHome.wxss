@@ -137,15 +137,26 @@
 }
 
 .start-btn {
-    background-color: rgba(0, 150, 136, 0.8);
+    background-color: #3a7734;
     color: white;
     font-size: 36rpx;
     font-weight: bold;
-    padding: 30rpx 0;
+    padding: 20rpx 60rpx;
     border-radius: 50rpx;
-    box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6rpx 10rpx rgba(0, 0, 0, 0.2);
     letter-spacing: 2rpx;
-    animation: pulse 2s infinite;
+    margin-bottom: 30rpx;
+}
+
+.collection-btn {
+  background-color: #4a90e2;
+  color: white;
+  font-size: 32rpx;
+  font-weight: bold;
+  padding: 15rpx 50rpx;
+  border-radius: 50rpx;
+  box-shadow: 0 6rpx 10rpx rgba(0, 0, 0, 0.2);
+  letter-spacing: 2rpx;
 }
 
 @keyframes pulse {

@@ -1,0 +1,103 @@
+<!-- pages/fishCollection/fishCollection.wxml -->
+<view class="container" bindtouchstart="touchStart" bindtouchend="touchEnd">
+  <!-- 顶部标题栏 -->
+  <view class="back-btn" bindtap="goBack">
+      <text class="back-icon">←</text>
+    </view>
+  <view class="header">
+
+    <view class="title">鱼类图鉴</view>
+    <view class="collection-info">已收集: {{collectionCount}}/{{totalCount}}</view>
+  </view>
+
+  <!-- 标签分类过滤 -->
+  <view class="filter-tabs">
+    <scroll-view scroll-x="true" class="tabs-scroll" enhanced="true" show-scrollbar="false" enable-flex="true">
+      <view 
+        class="filter-tab {{currentFilter === 'all' ? 'active' : ''}}" 
+        bindtap="changeFilter" 
+        data-filter="all"
+      >全部</view>
+      <view 
+        class="filter-tab {{currentFilter === 'unlocked' ? 'active' : ''}}" 
+        bindtap="changeFilter" 
+        data-filter="unlocked"
+      >已解锁</view>
+      <view 
+        class="filter-tab {{currentFilter === 'locked' ? 'active' : ''}}" 
+        bindtap="changeFilter" 
+        data-filter="locked"
+      >未解锁</view>
+      <view 
+        class="filter-tab {{currentFilter === 'COMMON' ? 'active' : ''}}" 
+        bindtap="changeFilter" 
+        data-filter="COMMON"
+      >普通</view>
+      <view 
+        class="filter-tab {{currentFilter === 'UNCOMMON' ? 'active' : ''}}" 
+        bindtap="changeFilter" 
+        data-filter="UNCOMMON"
+      >少见</view>
+      <view 
+        class="filter-tab {{currentFilter === 'RARE' ? 'active' : ''}}" 
+        bindtap="changeFilter" 
+        data-filter="RARE"
+      >稀有</view>
+      <view 
+        class="filter-tab {{currentFilter === 'EPIC' ? 'active' : ''}}" 
+        bindtap="changeFilter" 
+        data-filter="EPIC"
+      >史诗级</view>
+      <view 
+        class="filter-tab {{currentFilter === 'MYTHIC' ? 'active' : ''}}" 
+        bindtap="changeFilter" 
+        data-filter="MYTHIC"
+      >传说级</view>
+      <view 
+        class="filter-tab {{currentFilter === 'BOSS' ? 'active' : ''}}" 
+        bindtap="changeFilter" 
+        data-filter="BOSS"
+      >Boss级</view>
+      <view 
+        class="filter-tab {{currentFilter === 'WASTE' ? 'active' : ''}}" 
+        bindtap="changeFilter" 
+        data-filter="WASTE"
+      >杂物</view>
+    </scroll-view>
+  </view>
+
+  <!-- 鱼类列表 -->
+  <scroll-view class="fish-list" scroll-y="true" enable-flex="true" enhanced="true" bounces="true" show-scrollbar="true">
+    <view class="fish-grid">
+      <view 
+        class="fish-item {{item.unlocked ? 'unlocked' : 'locked'}}" 
+        wx:for="{{filteredFishList}}" 
+        wx:key="id"
+        bindtap="viewFishDetail"
+        data-id="{{item.id}}"
+        data-unlocked="{{item.unlocked}}"
+      >
+        <view class="fish-card">
+          <image 
+            class="fish-image" 
+            src="{{item.unlocked ? '/images/fishicons/fishon.webp' : '/images/fishicons/fish.png'}}"
+            mode="aspectFit"
+          ></image>
+          <view class="fish-name">{{item.displayName}}</view>
+          <view class="fish-rarity {{item.unlocked ? 'rarity-' + item.rarity.toLowerCase() : ''}}">
+            {{item.unlocked ? rarityNames[item.rarity] : '???'}}
+          </view>
+          <view class="lock-icon" wx:if="{{!item.unlocked}}">
+            <text class="iconfont icon-lock">🔒</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部提示 -->
+  <view class="footer-tip">
+    <text>钓到新鱼后将自动解锁图鉴</text>
+    <view style="height: env(safe-area-inset-bottom)"></view>
+  </view>
+</view>

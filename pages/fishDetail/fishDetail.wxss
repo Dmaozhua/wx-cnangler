@@ -1,0 +1,183 @@
+/* pages/fishDetail/fishDetail.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: linear-gradient(to bottom, #1a4d2e, #2d6a4f);
+  color: #e0f2e9;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 水波纹背景效果 */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,50 Q25,40 50,50 T100,50 T150,50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/></svg>');
+  background-size: 100px 100px;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+/* 顶部标题栏 */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background: linear-gradient(to right, #1e5631, #3a7734);
+  position: relative;
+  height: 80rpx;
+  color: white;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.back-btn {
+  position: absolute;
+  left: 30rpx;
+  top: 10%;
+  transform: translateY(-50%);
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.back-btn:active {
+  transform: translateY(-50%) scale(0.9);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.back-icon {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: white;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: bold;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+  margin-left: 60rpx; /* 为左侧返回按钮留出空间 */
+}
+
+/* 鱼类详情内容 */
+.fish-detail {
+  flex: 1;
+  padding: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.fish-image {
+  width: 300rpx;
+  height: 300rpx;
+  margin-bottom: 30rpx;
+  filter: drop-shadow(0 8rpx 16rpx rgba(0, 0, 0, 0.4));
+  transition: transform 0.3s ease;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10rpx); }
+}
+
+/* 基本信息区域 */
+.info-section {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10rpx);
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.2);
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.info-section:active {
+  transform: scale(0.98);
+}
+
+.fish-name {
+  font-size: 42rpx;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 15rpx;
+  text-align: center;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+}
+
+.fish-rarity {
+  font-size: 30rpx;
+  color: #a0e4bc;
+  margin-bottom: 15rpx;
+  text-align: center;
+  font-weight: bold;
+}
+
+.fish-description {
+  font-size: 28rpx;
+  color: #e0f2e9;
+  line-height: 1.6;
+  margin-top: 20rpx;
+  text-align: center;
+}
+
+/* 统计信息区域 */
+.stats-section {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10rpx);
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.2);
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
+}
+
+.stats-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 20rpx;
+  text-align: center;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+}
+
+.stats-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15rpx 0;
+  border-bottom: 1rpx solid rgba(255, 255, 255, 0.1);
+}
+
+.stats-item:last-child {
+  border-bottom: none;
+}
+
+.stats-label {
+  font-size: 28rpx;
+  color: #a0e4bc;
+}
+
+.stats-value {
+  font-size: 28rpx;
+  color: #ffffff;
+  font-weight: bold;
+}

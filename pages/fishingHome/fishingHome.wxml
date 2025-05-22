@@ -21,6 +21,7 @@
   <!-- 开始按钮 -->
   <view class="start-btn-container">
     <button class="start-btn" hover-class="btn-hover" bindtap="startFishing">Let's go lure fishing</button>
+    <button class="collection-btn" hover-class="btn-hover" bindtap="openFishCollection">图鉴</button>
   </view>
   
   <!-- 帮助提示弹窗 -->
