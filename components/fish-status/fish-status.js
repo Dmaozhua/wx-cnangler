@@ -93,36 +93,44 @@ Component({
     
     },
     
-    // 滑入动画
-    slideIn: function() {
-      if (this.data.isAnimating) return;
-      
-      // 设置锁定状态，防止动画过程中的点击操作
-      this.setData({
+// 滑入动画
+slideIn: function() {
+    console.log('slideIn method called');
+    if (this.data.isAnimating) return;
+    // 设置锁定状态，防止动画过程中的点击操作
+    this.setData({
         isAnimating: true,
         isVisible: true,
         isLocked: true
-      });
+    });
       
-      // 触发锁定事件，通知父组件屏蔽点击
-      this.triggerEvent('lockInteraction', { locked: true });
+    // 触发锁定事件，通知父组件屏蔽点击
+    this.triggerEvent('lockInteraction', { locked: true });
   
-      // 从-100%位置滑入到0位置
-      this.animation.translateX('0').translateY('-50%').step();
-      
-      this.setData({
-        animationData: this.animation.export()
-      });
+      // 重置动画队列
+  this.animation = wx.createAnimation({
+    duration: this.properties.animationDuration,
+    timingFunction: 'ease',
+    delay: 0
+  });
+    // 重置缩放比例
+    this.animation.scale(1).translateX('0').translateY('-50%').opacity(1).step({ duration: this.properties.animationDuration });
+    
 
-      setTimeout(() => {
+      
+    
+    this.setData({
+        animationData: this.animation.export()
+    });
+    setTimeout(() => {
         this.setData({
-          isAnimating: false,
-          isLocked: false
+            isAnimating: false,
+            isLocked: false
         });
         // 解除锁定，通知父组件可以接受点击
         this.triggerEvent('lockInteraction', { locked: false });
-      }, this.properties.animationDuration);
-    },
+    }, this.properties.animationDuration);
+},
 
     // 滑出动画
     slideOut: function() {
@@ -138,7 +146,8 @@ Component({
       this.triggerEvent('lockInteraction', { locked: true });
 
       // 确保从当前位置滑出到-100%位置
-      this.animation.translateX('-100%').translateY('-50%').step();
+      // 添加缩放和透明度变化
+      this.animation.scale(1.1).opacity(0).step({ duration: this.properties.animationDuration });
       
       this.setData({
         animationData: this.animation.export()
@@ -160,6 +169,19 @@ Component({
     updateQteResult: function(result) {
       // 可以在这里添加QTE结果的动画或显示效果
       console.log('QTE结果:', result);
+      // 添加QTE状态变化动画
+      const qteAnimation = wx.createAnimation({
+        duration: 300,
+        timingFunction: 'ease'
+      });
+      
+      qteAnimation.scale(1.2).opacity(0).step();
+      qteAnimation.scale(1).opacity(1).step();
+      
+      this.setData({
+        qteState: result,
+        qteAnimationData: qteAnimation.export()
+      });
     }
   }
 })

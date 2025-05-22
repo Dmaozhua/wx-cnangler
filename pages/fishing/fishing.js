@@ -76,6 +76,7 @@ function calculateFishProbability(waterArea, habitat, weather, bait, eventModifi
 Page({
     // 在data对象中添加事件加成列表数据结构
     data: {
+        
         fishingTime: app.globalData.fishingTime,
         fishingTimePercent: 100, // 钓鱼时间百分比
         playerHP: app.globalData.playerHP,
@@ -399,7 +400,7 @@ Page({
             let fish = app.globalData.currentFish;
             if (!fish) return;
 
-            const passiveDamage = 1000; // 被动伤害值
+            const passiveDamage = 10; // 被动伤害值
             fish.hp = Number((fish.hp - passiveDamage).toFixed(2));
 
             app.globalData.currentFish = fish;

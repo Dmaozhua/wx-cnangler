@@ -28,12 +28,26 @@
   <view class="tips-modal" wx:if="{{showTips}}">
     <view class="tips-content">
       <view class="tips-header">
-        <text class="tips-title">钓鱼帮助</text>
+        <text class="tips-title">{{fishingHelp.title}}</text>
         <text class="close-btn" bindtap="toggleTips">×</text>
       </view>
-      <view class="tips-body">
-        {{tipsContent}}
-      </view>
+      <scroll-view scroll-y="true" class="tips-body-scroll">
+        <view class="tips-body">
+  <view class="help-section" wx:for="{{fishingHelp.sections}}" wx:key="title">
+    <view class="help-title">{{item.title}}</view>
+    <view class="help-content">
+      <block wx:if="{{isString(item.content)}}">
+        <text>{{item.content}}</text>
+      </block>
+      <block wx:else>
+        <view wx:for="{{item.content}}" wx:for-item="contentItem" wx:key="*this" class="content-item">
+          <text>{{contentItem}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>
+      </scroll-view>
     </view>
   </view>
 </view>

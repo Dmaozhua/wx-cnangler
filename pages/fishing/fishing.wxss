@@ -1,248 +1,280 @@
 /* pages/fishing/fishing.wxss */
 page {
     position: relative;
-     width: 100vw;
-     height: 100vh;
-     overflow: hidden; /* 防止页面滚动 */
-   }
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* 防止页面滚动 */
+    background: linear-gradient(to bottom, #87CEEB, #E0FFFF); /* 背景渐变，模拟天空和水的效果 */
+}
 
 /* 钓鱼成功弹窗样式 */
 .fish-caught-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s, visibility 0.3s;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
 }
 
 .fish-caught-popup.show {
-  opacity: 1;
-  visibility: visible;
+    opacity: 1;
+    visibility: visible;
 }
 
 .fish-caught-content {
-  width: 80%;
-  max-width: 600rpx;
-  background: linear-gradient(135deg, #3498db, #1e6091);
-  border-radius: 20rpx;
-  overflow: hidden;
-  box-shadow: 0 4rpx 30rpx rgba(0, 0, 0, 0.3);
-  transform: scale(0.9);
-  transition: transform 0.3s;
-  animation: popup-appear 0.5s forwards;
+    width: 80%;
+    max-width: 600rpx;
+    background: linear-gradient(135deg, #3498db, #1e6091);
+    border-radius: 20rpx;
+    overflow: hidden;
+    box-shadow: 0 4rpx 30rpx rgba(0, 0, 0, 0.3);
+    transform: scale(0.9);
+    transition: transform 0.3s;
+    animation: popup-appear 0.5s forwards;
 }
 
 @keyframes popup-appear {
-  0% {
-    transform: scale(0.8);
-  }
-  70% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
+    0% {
+        transform: scale(0.8);
+    }
+    70% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .fish-caught-header {
-  padding: 30rpx 20rpx;
-  text-align: center;
-  border-bottom: 2rpx solid rgba(255, 255, 255, 0.2);
+    padding: 30rpx 20rpx;
+    text-align: center;
+    border-bottom: 2rpx solid rgba(255, 255, 255, 0.2);
 }
 
 .fish-caught-title {
-  font-size: 40rpx;
-  color: #ffffff;
-  font-weight: bold;
-  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+    font-size: 40rpx;
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
 }
 
 .fish-caught-body {
-  padding: 40rpx 30rpx;
-  text-align: center;
+    padding: 40rpx 30rpx;
+    text-align: center;
 }
 
 .fish-caught-name {
-  font-size: 48rpx;
-  color: #ffffff;
-  font-weight: bold;
-  margin-bottom: 30rpx;
-  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+    font-size: 48rpx;
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 30rpx;
+    text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
 }
 
 .fish-caught-info {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20rpx;
 }
 
 .fish-caught-label {
-  font-size: 32rpx;
-  color: rgba(255, 255, 255, 0.9);
+    font-size: 32rpx;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .fish-caught-value {
-  font-size: 36rpx;
-  color: #ffeb3b;
-  font-weight: bold;
-  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+    font-size: 36rpx;
+    color: #ffeb3b;
+    font-weight: bold;
+    text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
 }
 
 /* 极值强度特殊效果 */
 .extreme-strength {
-  color: #ff5252;
-  font-size: 40rpx;
-  font-weight: bold;
-  text-shadow: 0 0 10rpx rgba(255, 82, 82, 0.7);
-  animation: pulse-glow 1.5s infinite alternate;
+    color: #ff5252;
+    font-size: 40rpx;
+    font-weight: bold;
+    text-shadow: 0 0 10rpx rgba(255, 82, 82, 0.7);
+    animation: pulse-glow 1.5s infinite alternate;
 }
 
 @keyframes pulse-glow {
-  0% {
-    text-shadow: 0 0 10rpx rgba(255, 82, 82, 0.7);
-    transform: scale(1);
-  }
-  100% {
-    text-shadow: 0 0 20rpx rgba(255, 82, 82, 0.9), 0 0 30rpx rgba(255, 82, 82, 0.5);
-    transform: scale(1.05);
-  }
+    0% {
+        text-shadow: 0 0 10rpx rgba(255, 82, 82, 0.7);
+        transform: scale(1);
+    }
+    100% {
+        text-shadow: 0 0 20rpx rgba(255, 82, 82, 0.9), 0 0 30rpx rgba(255, 82, 82, 0.5);
+        transform: scale(1.05);
+    }
 }
 
 .fish-caught-footer {
-  padding: 20rpx;
-  text-align: center;
+    padding: 20rpx;
+    text-align: center;
 }
 
 .fish-caught-btn {
-  background-color: #ffffff;
-  color: #2980b9;
-  font-size: 32rpx;
-  font-weight: bold;
-  padding: 16rpx 40rpx;
-  border-radius: 50rpx;
-  border: none;
-  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.2);
-  transition: all 0.3s;
+    background-color: #ffffff;
+    color: #2980b9;
+    font-size: 32rpx;
+    font-weight: bold;
+    padding: 16rpx 40rpx;
+    border-radius: 50rpx;
+    border: none;
+    box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
 }
 
 .fish-caught-btn:active {
-  transform: scale(0.95);
-  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);
+    box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.2);
 }
 
 /* 返回按钮样式 */
 .back-btn {
-  position: absolute;
-  top: 100rpx;
-  left: 40rpx;
-  width: 80rpx;
-  height: 80rpx;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
+    position: absolute;
+    top: 100rpx;
+    left: 30rpx;
+    width: 60rpx;
+    height: 60rpx;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .back-icon {
-  font-size: 40rpx;
-  color: white;
-  font-weight: bold;
+    font-size: 30rpx;
+    color: white;
+    font-weight: bold;
 }
 
 .back-text {
-  font-size: 28rpx;
-}
-.container {
-  /* display: flex;
-  flex-direction: column;
-  height: 100vh;
-   width: 100%; 新增 */
-   position: relative;
-   min-height: 100vh;
-   background-color: transparent; /* 移除灰色背景 */
-   padding-top: 120rpx;
-   box-sizing: border-box;
-   z-index: 1; /* 创建新的层叠上下文 */
+    font-size: 28rpx;
 }
 
+.container {
+    position: relative;
+    min-height: 100vh;
+    background-color: transparent;
+    padding-top: 100rpx;
+    box-sizing: border-box;
+    z-index: 1;
+    display: flex; /* 明确声明 Flex 容器 */
+    flex-direction: column;
+    align-items: flex-start; /* 关键代码 */
+}
 .status-bar {
-  display: flex;
-  justify-content: space-between;
-  padding: 20rpx;
-  background-color: white;
-  border-radius: 12rpx;
-  margin: 0 20rpx 20rpx;
-  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    padding: 20rpx;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(209, 233, 255, 0.85));
+    border-radius: 12rpx;
+    /* margin: 20rpx 20rpx; 上下边距20rpx，左右边距20rpx */
+    margin: 0; /* 移除原有的外边距 */
+    margin-left: 120rpx; /* 单独将左边边距调整为40rpx */
+    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+    width: 200rpx;
+}
+.bottom-info {
+    flex: 1; /* 上 1 和上 2 各占一半宽度 */
+    display: flex;
+    justify-content: space-around;
+    padding: 20rpx;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(209, 233, 255, 0.85));
+    /* margin: 0rpx 20rpx 20rpx 40rpx;  */
+    margin: 0; /* 移除原有的外边距 */
+    border-radius: 12rpx;
+    margin-right: 120rpx; /* 单独将左边边距调整为40rpx */
+    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+    width: 200rpx;
+}
+/* 事件加成显示区域样式 */
+.event-buffs-container {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(209, 233, 255, 0.85));
+    border-radius: 12rpx;
+    /* margin: 0 20rpx 20rpx; */
+    margin: 0; /* 移除原有的外边距 */
+    padding: 16rpx;
+    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+    margin-right: 120rpx; /* 单独将左边边距调整为40rpx */
+    margin-left: 120rpx; /* 单独将左边边距调整为40rpx */
+    box-sizing: border-box; /* 确保内边距和边框包含在高度内 */
 }
 
 .status-item {
-  display: flex;
-  flex-direction: column;
+    flex: 1; /* 等价于 flex-grow: 1; flex-shrink: 1; flex-basis: 0; */
+    flex-direction: column;
 }
 
 .status-label {
-  font-size: 24rpx;
-  color: #666;
-  margin-bottom: 8rpx;
+    font-size: 24rpx;
+    color: #666;
+    margin-bottom: 8rpx;
 }
 
 .status-value {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #1E3A8A;
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #1E3A8A;
 }
 
 .line-progress {
-  width: 200rpx;
-  margin-top: 10rpx;
+    width: 200rpx;
+    margin-top: 10rpx;
 }
 
 .progress-bar {
-  width: 100%;
-  height: 12rpx;
-  background-color: #444444;
-  border-radius: 6rpx;
-  overflow: hidden;
-  margin-top: 10rpx;
+    width: 100%;
+    height: 12rpx;
+    background-color: #444444;
+    border-radius: 6rpx;
+    overflow: hidden;
+    margin-top: 10rpx;
 }
 
 .progress-inner {
-  height: 100%;
-  border-radius: 6rpx;
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡效果 */
+    height: 100%;
+    border-radius: 6rpx;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡效果 */
 }
 
 .time-progress-inner {
-  background-color: #4CAF50;
+    background-color: #4CAF50;
 }
 
 .fishing-scene {
-    position: relative;
-    margin: 0 20rpx;
-    border-radius: 12rpx;
-    min-height: 60vh; /* 保证最小高度 */
-    z-index: 1; /* 确保在背景之上 */
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.2);
-  /* flex: 1;
-  position: relative;
-  margin: 0 20rpx;
-  border-radius: 12rpx;
-  overflow: hidden;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.2);
-
-  width: 100%; 新增 */
+    position: fixed; /* 使用fixed定位脱离文档流 */
+    top: 0;
+    left: 0;
+    width: 100%; /* 宽度占满屏幕 */
+    height: 100vh; /* 高度占满屏幕 */
+    z-index: 999; /* 设置较高的z-index确保显示在最上层 */
+    margin: 0; /* 移除左右边距 */
+    border-radius: 0; /* 移除圆角 */
+    box-shadow: none; /* 移除阴影 */
 }
+
 /* 背景图专用容器 */
 .scene-bg-container {
     position: fixed;
@@ -250,282 +282,273 @@ page {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: -1; /* 调整为0以适配容器结构 */
+    z-index: -1;
     background-color: rgba(0, 0, 0, 0.3);
-  
-  }
+}
+
 .scene-bg {
-    /* width: 100%;
+    width: 100%;
     height: 100%;
-    object-fit: cover;
-    display: block; 修复图片不显示问题 */
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    opacity: 0.8; /* 调整背景图透明度 */
 }
 
 .fishing-status {
-    position: fixed; /* 改为固定定位 */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 155vh;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 999; /* 确保在最顶层 */
-
-    pointer-events: auto;
-  /* position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0.3);
-  pointer-events: auto; */
+    z-index: 999;
+    background-color: rgba(255, 255, 255, 0.199); /* 半透明背景 */
+    border-radius: 12rpx;
+    padding: 30rpx;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.2);
 }
 
 .status-text {
-  color: rgb(8, 6, 6);
-  font-size: 36rpx;
-  font-weight: bold;
-  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.5);
-  margin-bottom: 30rpx;
+    color: #1E3A8A;
+    font-size: 36rpx;
+    font-weight: bold;
+    text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
+    margin-bottom: 30rpx;
 }
 
 .cast-btn-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20rpx;
-  position: relative;
-  z-index: 20;
-  animation: container-pulse 2s infinite alternate;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20rpx;
+    position: relative;
+    z-index: 20;
+    animation: container-pulse 2s infinite alternate;
 }
 
 @keyframes container-pulse {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.02);
-  }
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.02);
+    }
 }
 
 .cast-btn {
-  background-color: #1E3A8A;
-  color: rgb(151, 143, 143);
-  font-size: 32rpx;
-  padding: 20rpx 60rpx;
-  border-radius: 50rpx;
-  font-weight: bold;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
-  position: relative;
-  z-index: 20;
-  min-width: 200rpx;
-  overflow: hidden;
-  animation: pulse 1.5s infinite alternate;
+    background-color: #1E3A8A;
+    color: white;
+    font-size: 32rpx;
+    padding: 20rpx 60rpx;
+    border-radius: 50rpx;
+    font-weight: bold;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 20;
+    min-width: 200rpx;
+    overflow: hidden;
+    animation: pulse 1.5s infinite alternate;
+    transition: background-color 0.3s;
+}
+
+.cast-btn:hover {
+    background-color: #2c5282;
 }
 
 .btn-hover {
-  opacity: 0.8;
-  transform: scale(0.98);
+    opacity: 0.8;
+    transform: scale(0.98);
 }
 
 /* 按钮动效 - 呼吸效果 */
 @keyframes pulse {
-  0% {
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
-    transform: scale(1);
-  }
-  100% {
-    box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.7);
-    transform: scale(1.03);
-  }
+    0% {
+        box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
+        transform: scale(1);
+    }
+    100% {
+        box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.7);
+        transform: scale(1.03);
+    }
 }
 
 /* 按钮扫光效果 */
 .cast-btn::after {
-  content: '';
-  position: absolute;
-  top: -180%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
-  transform: rotate(30deg);
-  animation: sweep 3s infinite linear;
-  pointer-events: none;
+    content: '';
+    position: absolute;
+    top: -180%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+    transform: rotate(30deg);
+    animation: sweep 3s infinite linear;
+    pointer-events: none;
 }
 
 @keyframes sweep {
-  0% {
-    transform: rotate(30deg) translateX(-100%);
-  }
-  100% {
-    transform: rotate(30deg) translateX(100%);
-  }
+    0% {
+        transform: rotate(30deg) translateX(-100%);
+    }
+    100% {
+        transform: rotate(30deg) translateX(100%);
+    }
 }
 
 .fish-info {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 20rpx;
-  border-radius: 10rpx;
-  margin-bottom: 30rpx;
-  width: 80%;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20rpx;
+    border-radius: 10rpx;
+    margin-bottom: 30rpx;
+    width: 80%;
 }
 
 .fish-name {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10rpx;
-  display: block;
-  text-align: center;
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10rpx;
+    display: block;
+    text-align: center;
 }
 
 .fish-progress {
-  width: 100%;
+    width: 100%;
 }
 
 .qte-container {
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 30rpx;
-  border-radius: 12rpx;
-  width: 80%;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30rpx;
+    border-radius: 12rpx;
+    width: 80%;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
 }
 
 .qte-title {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #1E3A8A;
-  margin-bottom: 20rpx;
-  display: block;
-  text-align: center;
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #1E3A8A;
+    margin-bottom: 20rpx;
+    display: block;
+    text-align: center;
 }
 
 .qte-timer {
-  font-size: 30rpx;
-  color: #ff4d4f;
-  margin-bottom: 30rpx;
-  display: block;
-  text-align: center;
+    font-size: 30rpx;
+    color: #ff4d4f;
+    margin-bottom: 30rpx;
+    display: block;
+    text-align: center;
 }
 
 .qte-options {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20rpx;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20rpx;
 }
 
 .qte-option-btn {
-  background: linear-gradient(135deg,rgb(98, 108, 117) 0%,rgb(142, 175, 178) 100%);
-  color: white;
-  font-size: 30rpx;
-  padding: 20rpx 0;
-  border-radius: 40rpx;
-  border: none;
-  margin: 0 10rpx;
-  min-width: 200rpx;
-  text-align: center;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
+    background: linear-gradient(135deg, #3d9fe8 0%, #8ac5c7 100%);
+    color: white;
+    font-size: 30rpx;
+    padding: 20rpx 0;
+    border-radius: 40rpx;
+    border: none;
+    margin: 0 10rpx;
+    min-width: 200rpx;
+    text-align: center;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .qte-option-btn.active {
-  transform: scale(0.95);
-  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.3);
+    transform: scale(0.95);
+    box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.3);
 }
 
 .qte-option-btn:active {
-  transform: scale(0.95);
-  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.3);
-  background: linear-gradient(135deg, #3d9fe8 0%, #00dbe4 100%);
+    transform: scale(0.95);
+    box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #2980b9 0%, #00a3a3 100%);
 }
 
-.bottom-info {
-  display: flex;
-  justify-content: space-around;
-  padding: 20rpx;
-  background-color: white;
-  margin: 20rpx;
-  border-radius: 12rpx;
-  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
-}
 
 .info-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .info-label {
-  font-size: 24rpx;
-  color: #666;
+    font-size: 24rpx;
+    color: #666;
 }
 
 .info-value {
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #1E3A8A;
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #1E3A8A;
+}
+/* 新增组合容器样式 */
+.combined-container {
+    position: absolute;
+    top: 10%; /* 调整到屏幕中上位置 */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20rpx; /* 上下之间的间距 */
+    width: 90%; /* 组合容器的宽度 */
+    max-width: 1000rpx; /* 最大宽度 */
 }
 
-/* 事件加成显示区域样式 */
-.event-buffs-container {
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  border-radius: 12rpx;
-  margin: 0 20rpx 20rpx;
-  padding: 16rpx;
-  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+.top-container {
+    display: flex;
+    gap: 20rpx; /* 左右之间的间距 */
 }
+
+
 
 .event-buffs-title {
-  font-size: 28rpx;
-  font-weight: bold;
-  color: #1E3A8A;
-  margin-bottom: 10rpx;
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #1E3A8A;
+    margin-bottom: 10rpx;
 }
 
 .event-buffs-list {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .event-buff-item {
-  display: flex;
-  align-items: center;
-  padding: 8rpx 0;
+    display: flex;
+    align-items: center;
+    padding: 8rpx 0;
 }
 
 .event-buff-text {
-  font-size: 26rpx;
-  color: #333;
+    font-size: 26rpx;
+    color: #333;
 }
 
 .event-buffs-empty {
-  display: flex;
-  justify-content: center;
-  padding: 10rpx 0;
+    display: flex;
+    justify-content: center;
+    padding: 10rpx 0;
 }
 
 .event-buffs-empty text {
-  font-size: 26rpx;
-  color: #999;
+    font-size: 26rpx;
+    color: #999;
 }

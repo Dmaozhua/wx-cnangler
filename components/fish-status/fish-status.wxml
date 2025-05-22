@@ -26,8 +26,8 @@
 </view>
     
     <!-- QTE状态提示 -->
-    <view class="qte-status" wx:if="{{qteState}}">
-      <text class="qte-text">{{qteState}}</text>
-    </view>
+    <view class="qte-status" wx:if="{{qteState}}" animation="{{qteAnimationData}}">
+    <text class="qte-text">{{qteState}}</text>
   </view>
+</view>
 </view>

@@ -1,8 +1,21 @@
 // pages/fishingHome/fishingHome.js
+import { gameGuide } from '../../data/FishData2/fishingHelp';
+
 Page({
     data: {
         showTips: false,
-        tipsContent: "这里是钓鱼帮助内容，待补充"
+        fishingHelp: {
+            title: "钓鱼指南",
+            sections: []
+        },
+        tipsContent: ""
+    },
+
+    /**
+     * 判断是否为字符串类型
+     */
+    isString(value) {
+        return typeof value === 'string';
     },
 
     /**
@@ -10,6 +23,11 @@ Page({
      */
     onLoad(options) {
         console.log('[钓鱼模拟器] 首页加载');
+        // 初始化提示内容，使用gameGuide中的数据
+        this.setData({
+            'fishingHelp.title': '钓鱼指南',
+            'fishingHelp.sections': gameGuide.sections
+        });
     },
 
     /**

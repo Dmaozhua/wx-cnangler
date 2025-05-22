@@ -1,7 +1,7 @@
 <view class="qte-container {{qteType}} {{bossModeActive ? 'boss-mode' : ''}}">
   <!-- 时间进度条 -->
   <view class="time-bar-container">
-    <view class="time-bar" style="width: {{timeRemaining}}%"></view>
+    <view class="time-bar" style="width: {{timeRemaining + '%'}}"></view>
   </view>
 
   <!-- 手势提示区 -->
@@ -10,7 +10,7 @@
       <view class="gesture-item {{index === currentStep ? 'active' : ''}} {{index < currentStep ? 'completed' : ''}} {{item.highlight ? 'highlight' : ''}}">
         <image src="{{item.icon}}" class="gesture-icon" />
         <view class="gesture-progress" wx:if="{{index === currentStep && holdProgress > 0}}">
-          <view class="progress-fill" style="width: {{holdProgress}}%"></view>
+            <view class="progress-fill" style="width: {{holdProgress + '%'}}"></view>
         </view>
       </view>
     </block>

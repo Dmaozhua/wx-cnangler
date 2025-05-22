@@ -201,6 +201,9 @@
     border-radius: 20rpx;
     overflow: hidden;
     box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.5);
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .tips-header {
@@ -222,9 +225,71 @@
     font-weight: bold;
 }
 
+.tips-body-scroll {
+    max-height: 60vh;
+    padding: 0 20rpx;
+}
+
 .tips-body {
-    padding: 40rpx;
-    font-size: 32rpx;
-    line-height: 1.6;
+    padding: 20rpx 30rpx 40rpx 30rpx;
+    font-size: 28rpx;
     color: #333;
+    line-height: 1.5;
+}
+
+.help-section {
+    margin-bottom: 30rpx;
+}
+
+.help-title {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #0066cc;
+    margin-bottom: 15rpx;
+}
+
+.help-content {
+    font-size: 28rpx;
+    color: #333;
+    line-height: 1.6;
+    text-align: left;
+    word-wrap: break-word;
+    word-break: normal;
+    white-space: normal;
+}
+
+.content-item {
+    margin-bottom: 10rpx;
+    display: block;
+    text-align: left;
+    word-wrap: break-word;
+    word-break: normal;
+    white-space: normal;
+    width: 100%;
+}
+
+.help-content {
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* 添加段落标题样式 */
+.help-content text {
+    display: inline-block;
+    margin-top: 10rpx;
+    margin-bottom: 10rpx;
+    font-weight: bold;
+    color: #009688;
+    word-wrap: break-word;
+    word-break: normal;
+    white-space: normal;
+    width: 100%;
+}
+
+/* 添加上下安全区域 */
+.tips-body::before,
+.tips-body::after {
+    content: '';
+    display: block;
+    height: 20rpx;
 }
