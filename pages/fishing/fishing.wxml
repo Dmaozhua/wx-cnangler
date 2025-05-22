@@ -13,21 +13,29 @@
     <view class="fish-caught-content">
         <view class="fish-caught-header">
             <text class="fish-caught-title">成功钓起</text>
+            <view class="fish-shadow"></view>
         </view>
         <view class="fish-caught-body">
+            <view class="fish-illustration" style="background-image: url('{{caughtFish.img}}')"></view>
             <view class="fish-caught-name">{{caughtFish.name}}</view>
-            <view class="fish-caught-info">
-                <text class="fish-caught-label">强度值：</text>
-                <text class="fish-caught-value {{caughtFish.isExtremeStrength ? 'extreme-strength' : ''}}">{{caughtFish.strengthValue}}</text>
+            <view class="info-group">
+                <div class="info-item">
+                    <text class="fish-caught-label">强度值：</text>
+                    <text class="fish-caught-value {{caughtFish.isExtremeStrength ? 'extreme-strength' : ''}}">
+                        {{caughtFish.strengthValue}}
+                    </text>
+                </div>
+                <div class="info-item">
+                    <text class="fish-caught-label">强度比：</text>
+                    <text class="fish-caught-value {{caughtFish.isExtremeStrength ? 'extreme-strength' : ''}}">
+                        {{caughtFish.strengthRatio}}%
+                    </text>
+                </div>
             </view>
-            <view class="fish-caught-info">
-                <text class="fish-caught-label">强度比：</text>
-                <text class="fish-caught-value {{caughtFish.isExtremeStrength ? 'extreme-strength' : ''}}">{{caughtFish.strengthRatio}}%</text>
-            </view>
-            <view class="fish-caught-info">
+            <div class="info-item">
                 <text class="fish-caught-label">搏鱼时间：</text>
                 <text class="fish-caught-value">{{caughtFish.battleTime}}</text>
-            </view>
+            </div>
         </view>
         <view class="fish-caught-footer">
             <button class="fish-caught-btn" bindtap="onCloseFishCaughtPopup">确认</button>
