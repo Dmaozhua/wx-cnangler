@@ -21,7 +21,7 @@
     </view>
     <view class="stats-row">
       <view class="stat-item">
-        <text class="stat-value">12</text>
+        <text class="stat-value">{{fishingSessionCount}}</text>
         <text class="stat-label">钓鱼次数</text>
       </view>
       <view class="stat-item">

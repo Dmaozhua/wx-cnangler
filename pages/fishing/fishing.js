@@ -398,7 +398,7 @@ Page({
             let fish = app.globalData.currentFish;
             if (!fish) return;
 
-            const passiveDamage = 10; // 被动伤害值
+            const passiveDamage = 1000; // 被动伤害值
             fish.hp = Number((fish.hp - passiveDamage).toFixed(2));
 
             app.globalData.currentFish = fish;
@@ -886,6 +886,12 @@ Page({
 
         // 清空事件加成显示
         this.clearEventBuffsDisplay();
+        
+        // 增加钓鱼会话计数
+        app.globalData.fishingSessionCount += 1;
+        // 保存到本地存储
+        wx.setStorageSync('fishingSessionCount', app.globalData.fishingSessionCount);
+        console.log('[钓鱼游戏] 钓鱼会话计数:', app.globalData.fishingSessionCount);
 
         // 重置钓鱼相关状态
         app.globalData.fishingTime = fishtimeData.Basetime;
@@ -948,6 +954,12 @@ Page({
 
             // 清空事件加成显示
             this.clearEventBuffsDisplay();
+            
+            // 增加钓鱼会话计数
+            app.globalData.fishingSessionCount += 1;
+            // 保存到本地存储
+            wx.setStorageSync('fishingSessionCount', app.globalData.fishingSessionCount);
+            console.log('[钓鱼游戏] 钓鱼会话计数:', app.globalData.fishingSessionCount);
 
             // 跳转到结果页面
             wx.redirectTo({
@@ -1359,6 +1371,12 @@ Page({
 
             // 清空事件加成显示
             this.clearEventBuffsDisplay();
+            
+            // 增加钓鱼会话计数
+            app.globalData.fishingSessionCount += 1;
+            // 保存到本地存储
+            wx.setStorageSync('fishingSessionCount', app.globalData.fishingSessionCount);
+            console.log('[钓鱼游戏] 钓鱼会话计数:', app.globalData.fishingSessionCount);
 
             // 跳转到结果页面
             wx.redirectTo({

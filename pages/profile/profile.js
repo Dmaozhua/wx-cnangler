@@ -32,6 +32,7 @@ Page({
         // 获取全局数据
         const app = getApp()
         const achievementScore = app.globalData.achievementScore || 0
+        const fishingSessionCount = app.globalData.fishingSessionCount || 0
         
         // 计算已解锁的成就数量（与achievements页面保持一致）
         let unlockedCount = 0
@@ -61,7 +62,8 @@ Page({
         // 更新页面数据
         this.setData({
             achievementScore: achievementScore,
-            unlockedAchievements: unlockedCount
+            unlockedAchievements: unlockedCount,
+            fishingSessionCount: fishingSessionCount
         })
     },
 

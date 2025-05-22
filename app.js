@@ -5,7 +5,8 @@ App({
     viewedAchievements: {},
     achievementScore: 0,
     pendingAchievements: [],
-    completedTests: [] // 添加已完成测试记录
+    completedTests: [], // 添加已完成测试记录
+    fishingSessionCount: 0 // 添加钓鱼会话次数计数器
   },
   
   onLaunch() {
@@ -40,6 +41,7 @@ App({
     this.globalData.achievementScore = wx.getStorageSync('achievementScore') || 0
     this.globalData.pendingAchievements = wx.getStorageSync('pendingAchievements') || []
     this.globalData.completedTests = wx.getStorageSync('completedTests') || []
+    this.globalData.fishingSessionCount = wx.getStorageSync('fishingSessionCount') || 0
     
     // 输出成就初始化日志
     console.log('===== 成就系统初始化 =====')
