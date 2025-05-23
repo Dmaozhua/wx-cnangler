@@ -5,7 +5,8 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: linear-gradient(135deg, #2C3E50, #4CA1AF);
+  /* 使用更具现代感的渐变色 */
+  background: linear-gradient(135deg, #0a0a0a 0%, #2d2d2d 100%);
   color: white;
   padding: 0 30rpx 60rpx;
   box-sizing: border-box;
@@ -18,6 +19,12 @@
   height: 120rpx;
   position: relative;
   margin-bottom: 20rpx;
+  background-color: rgba(0, 0, 0, 0.3); /* 添加半透明背景 */
+  backdrop-filter: blur(10px); /* 毛玻璃效果 */
+
+    backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.1);
+  border-radius: 0 0 20rpx 20rpx;
 }
 
 .back-btn {
@@ -44,8 +51,14 @@
   text-align: center;
   font-size: 34rpx;
   font-weight: bold;
+    font-size: 38rpx;
+  margin-top: 10rpx;
 }
-
+.nav-artist {
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.8);
+  margin-top: 8rpx;
+}
 /* 主要内容区域 */
 .main-content {
   flex: 1;
@@ -63,23 +76,33 @@
   display: flex;
   justify-content: center;
   align-items: center;
+    perspective: 1000px;
 }
 
 .cover-image {
-  width: 500rpx;
-  height: 500rpx;
+  width: 650rpx;
+  height: 650rpx;
   border-radius: 50%;
-  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.5); /* 增强阴影效果 */
   transition: transform 0.5s ease;
-  border: 10rpx solid rgba(255, 255, 255, 0.2);
+  border: 10rpx solid rgba(255, 255, 255, 0.1);
+    background: 
+    linear-gradient(45deg, #fff3 0%, #fff1 100%) padding-box,
+    linear-gradient(135deg, #ff6b6b30 0%, #4ecdc430 100%) border-box;
 }
-
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(var(--cover-rotate)); }
+  50% { transform: translateY(-20rpx) rotate(var(--cover-rotate)); }
+}
 /* 歌词区域 */
 .lyrics-container {
   width: 100%;
   height: 600rpx;
   padding: 30rpx;
   box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.3); /* 添加半透明背景 */
+  backdrop-filter: blur(10px); /* 毛玻璃效果 */
+  border-radius: 20rpx;
 }
 
 .lyrics-content {
@@ -102,6 +125,9 @@
   font-size: 36rpx;
   color: white;
   font-weight: bold;
+    opacity: 1;
+  transform: scale(1);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* 添加文字阴影 */
 }
 
 /* 歌曲信息 */
@@ -137,13 +163,15 @@
 .progress-slider {
   flex: 1;
   margin: 0 20rpx;
+    height: 4rpx !important;
+  padding: 20rpx 0 !important;
 }
-
 .time-text {
   font-size: 24rpx;
   color: rgba(255, 255, 255, 0.8);
   width: 80rpx;
   text-align: center;
+  
 }
 
 /* 播放模式 */
@@ -153,11 +181,17 @@
   margin: 20rpx 0;
 }
 
+
 .play-mode-btn {
   padding: 10rpx 30rpx;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1); /* 半透明背景 */
   border-radius: 30rpx;
   font-size: 24rpx;
+  transition: background-color 0.3s ease;
+}
+
+.play-mode-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* 悬停效果 */
 }
 
 /* 控制按钮 */
@@ -167,12 +201,16 @@
   align-items: center;
   margin: 40rpx 0;
 }
-
 .control-btn {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 30rpx;
+  transition: transform 0.3s ease;
+}
+
+.control-btn:hover {
+  transform: scale(1.1); /* 悬停放大效果 */
 }
 
 .prev-btn, .next-btn {
@@ -204,7 +242,6 @@
   border-width: 0 12rpx 0 12rpx;
   border-color: transparent white transparent white;
 }
-
 /* 上一首/下一首图标 */
 .prev-icon {
   width: 0;
@@ -229,16 +266,22 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #2C3E50, #4CA1AF);
+  background: linear-gradient(135deg, #121212, #2a2a2a);
   color: white;
 }
 
 .empty-container .back-btn {
   margin-top: 40rpx;
   padding: 20rpx 60rpx;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 40rpx;
+  transition: background-color 0.3s ease;
 }
+
+.empty-container .back-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
 
 /* 旋转动画 */
 @keyframes rotate {

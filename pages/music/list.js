@@ -44,30 +44,30 @@ Page({
           id: 1,
           title: '打龟又怎样',
           artist: 'Angler钓鱼佬',
-          cover: '/images/tab/钓鱼 (1).png',
+          cover: 'https://anglertest.xyz/music/musicBG.png',
           url: 'https://anglertest.xyz/music/打龟又怎样.mp3',
           platforms: {
-            netease: 'orpheus://song/1234567'
+            netease: 'orpheus://song/2706943514'
           }
         },
         {
           id: 2,
           title: '钓鱼许可证',
           artist: 'Angler钓鱼佬',
-          cover: '/images/tab/钓鱼 (1).png',
+          cover: 'https://anglertest.xyz/music/musicBG.png',
           url: 'https://anglertest.xyz/music/钓鱼许可证.mp3',
           platforms: {
-            netease: 'orpheus://song/7654321'
+            netease: 'orpheus://song/2706945391'
           }
         },
         {
           id: 3,
           title: '087',
           artist: 'Angler钓鱼佬',
-          cover: '/images/tab/钓鱼 (1).png',
+          cover: 'https://anglertest.xyz/music/musicBG.png',
           url: 'https://anglertest.xyz/music/087.mp3',
           platforms: {
-            netease: 'orpheus://song/9876543'
+            netease: 'orpheus://song/2706946198'
           }
         }
       ];
