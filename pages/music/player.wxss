@@ -1,19 +1,278 @@
 /* pages/music/player.wxss */
+
+/* 页面容器 */
 .player-container {
-    padding: 20rpx;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2C3E50, #4CA1AF);
+  color: white;
+  padding: 0 30rpx 60rpx;
+  box-sizing: border-box;
+}
+
+/* 顶部导航栏 */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  height: 120rpx;
+  position: relative;
+  margin-bottom: 20rpx;
+}
+
+.back-btn {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.back-arrow {
+  width: 30rpx;
+  height: 30rpx;
+  border-top: 4rpx solid white;
+  border-left: 4rpx solid white;
+  transform: rotate(-45deg);
+}
+
+.nav-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: bold;
+}
+
+/* 主要内容区域 */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20rpx 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 封面区域 */
+.cover-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cover-image {
+  width: 500rpx;
+  height: 500rpx;
+  border-radius: 50%;
+  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.3);
+  transition: transform 0.5s ease;
+  border: 10rpx solid rgba(255, 255, 255, 0.2);
+}
+
+/* 歌词区域 */
+.lyrics-container {
+  width: 100%;
+  height: 600rpx;
+  padding: 30rpx;
+  box-sizing: border-box;
+}
+
+.lyrics-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx 0;
+}
+
+.lyric-item {
+  font-size: 30rpx;
+  line-height: 2;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  transition: all 0.3s ease;
+  padding: 10rpx 0;
+}
+
+.lyric-item.active {
+  font-size: 36rpx;
+  color: white;
+  font-weight: bold;
+}
+
+/* 歌曲信息 */
+.song-info {
+  text-align: center;
+  margin: 30rpx 0;
+}
+
+.song-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-artist {
+  font-size: 30rpx;
+  color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 进度条 */
+.progress-container {
+  display: flex;
+  align-items: center;
+  margin: 30rpx 0;
+}
+
+.progress-slider {
+  flex: 1;
+  margin: 0 20rpx;
+}
+
+.time-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+  width: 80rpx;
+  text-align: center;
+}
+
+/* 播放模式 */
+.play-mode-container {
+  display: flex;
+  justify-content: center;
+  margin: 20rpx 0;
+}
+
+.play-mode-btn {
+  padding: 10rpx 30rpx;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 30rpx;
+  font-size: 24rpx;
+}
+
+/* 控制按钮 */
+.controls-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40rpx 0;
+}
+
+.control-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 30rpx;
+}
+
+.prev-btn, .next-btn {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.play-btn {
+  width: 120rpx;
+  height: 120rpx;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+/* 播放/暂停图标 */
+.play-icon {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 25rpx 0 25rpx 40rpx;
+  border-color: transparent transparent transparent white;
+  margin-left: 10rpx;
+}
+
+.pause-icon {
+  width: 40rpx;
+  height: 50rpx;
+  border-style: solid;
+  border-width: 0 12rpx 0 12rpx;
+  border-color: transparent white transparent white;
+}
+
+/* 上一首/下一首图标 */
+.prev-icon {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 20rpx 30rpx 20rpx 0;
+  border-color: transparent white transparent transparent;
+}
+
+.next-icon {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 20rpx 0 20rpx 30rpx;
+  border-color: transparent transparent transparent white;
+}
+
+/* 空容器 */
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #2C3E50, #4CA1AF);
+  color: white;
+}
+
+.empty-container .back-btn {
+  margin-top: 40rpx;
+  padding: 20rpx 60rpx;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 40rpx;
+}
+
+/* 旋转动画 */
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.rotating {
+  animation: rotate 20s linear infinite;
+}
+
+/* 适配不同屏幕尺寸 */
+@media screen and (max-height: 700px) {
+  .cover-image {
+    width: 400rpx;
+    height: 400rpx;
   }
   
-  .cover {
-    width: 300rpx;
-    height: 300rpx;
-    border-radius: 16rpx;
-    margin: 20rpx auto;
+  .lyrics-container {
+    height: 500rpx;
   }
   
-  .time-display {
-    display: flex;
-    justify-content: space-between;
-    margin: 10rpx 30rpx;
-    color: #666;
+  .controls-container {
+    margin: 20rpx 0;
   }
+}
+
+@media screen and (min-height: 800px) {
+  .cover-image {
+    width: 600rpx;
+    height: 600rpx;
+  }
+  
+  .lyrics-container {
+    height: 700rpx;
+  }
+}

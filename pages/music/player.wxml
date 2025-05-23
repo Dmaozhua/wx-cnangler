@@ -1,26 +1,94 @@
 <!-- pages/music/player.wxml -->
-<view class="player-container" hidden="{{!currentMusic}}">
-  <!-- 封面图 -->
-  <image class="cover" src="{{currentMusic.cover}}" />
+<view class="player-container" wx:if="{{musicInfo}}">
+  <!-- 顶部导航栏 -->
+  <view class="nav-bar">
+    <view class="back-btn" bindtap="goBack">
+      <view class="back-arrow"></view>
+    </view>
+    <view class="nav-title">正在播放</view>
+  </view>
+
+  <!-- 主要内容区域 -->
+  <view class="main-content {{showLyrics ? 'show-lyrics' : ''}}">
+    <!-- 封面区域 -->
+    <view class="cover-container" bindtap="toggleLyricsView" hidden="{{showLyrics}}">
+      <image 
+        class="cover-image {{playing ? 'rotating' : ''}}" 
+        src="{{musicInfo.cover}}" 
+        mode="aspectFill"
+        style="transform: rotate({{coverRotate}}deg)"
+      />
+    </view>
+
+    <!-- 歌词区域 -->
+    <scroll-view 
+      class="lyrics-container" 
+      scroll-y="true" 
+      bindtap="toggleLyricsView"
+      hidden="{{!showLyrics}}"
+    >
+      <view class="lyrics-content">
+        <block wx:for="{{lyrics}}" wx:key="time">
+          <view class="lyric-item {{currentLyricIndex === index ? 'active' : ''}}">
+            {{item.text}}
+          </view>
+        </block>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 歌曲信息 -->
+  <view class="song-info">
+    <view class="song-title">{{musicInfo.title}}</view>
+    <view class="song-artist">{{musicInfo.artist}}</view>
+  </view>
 
   <!-- 进度条 -->
-  <slider 
-    value="{{currentTime}}" 
-    max="{{duration}}" 
-    block-size="12" 
-    activeColor="#FF3366" 
-    bindchange="onSliderChange"
-    bindchanging="onSliderChanging"
-  />
-  
-  <!-- 时间显示 -->
-  <view class="time-display">
-    <text>{{formatTime(currentTime)}}</text>
-    <text>{{formatTime(duration)}}</text>
+  <view class="progress-container">
+    <text class="time-text">{{formatTime(currentTime)}}</text>
+    <slider 
+      class="progress-slider"
+      value="{{sliderValue}}" 
+      min="0"
+      max="100" 
+      block-size="12" 
+      activeColor="#4CA1AF" 
+      backgroundColor="#e0e0e0"
+      bindchange="onSliderChange"
+      bindchanging="onSliderChanging"
+    />
+    <text class="time-text">{{formatTime(duration)}}</text>
+  </view>
+
+  <!-- 播放模式 -->
+  <view class="play-mode-container">
+    <view class="play-mode-btn" bindtap="togglePlayMode">
+      <view class="mode-icon {{playMode}}">
+        <text wx:if="{{playMode === 'list'}}">列表循环</text>
+        <text wx:elif="{{playMode === 'single'}}">单曲循环</text>
+        <text wx:elif="{{playMode === 'random'}}">随机播放</text>
+      </view>
+    </view>
   </view>
 
   <!-- 控制按钮 -->
-  <view class="controls">
-    <button bindtap="togglePlay">{{playing ? '暂停' : '播放'}}</button>
+  <view class="controls-container">
+    <view class="control-btn prev-btn" bindtap="playPrev">
+      <view class="prev-icon"></view>
+    </view>
+    
+    <view class="control-btn play-btn" bindtap="togglePlay">
+      <view class="{{playing ? 'pause-icon' : 'play-icon'}}"></view>
+    </view>
+    
+    <view class="control-btn next-btn" bindtap="playNext">
+      <view class="next-icon"></view>
+    </view>
   </view>
+</view>
+
+<!-- 无音乐信息时显示 -->
+<view class="empty-container" wx:else>
+  <text>暂无播放内容</text>
+  <view class="back-btn" bindtap="goBack">返回列表</view>
 </view>

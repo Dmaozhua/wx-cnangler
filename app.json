@@ -1,5 +1,6 @@
 {
     "lazyCodeLoading": "requiredComponents",
+    "requiredBackgroundModes": ["audio"],
     "pages": [
         "pages/home/home",
         "pages/equipment/equipment",
@@ -17,7 +18,8 @@
         "pages/fishingHome/fishingHome",
         "pages/fishCollection/fishCollection",
         "pages/fishDetail/fishDetail",
-        "pages/music/list"
+        "pages/music/list",
+        "pages/music/player"
     ],
     "window": {
         "navigationBarTitleText": "钓鱼人测试",

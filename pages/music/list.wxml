@@ -1,14 +1,72 @@
 <!-- pages/music/list.wxml -->
-<view class="music-list">
-  <block wx:for="{{musicList}}" wx:key="id">
-    <view class="music-item">
-      <image src="{{item.cover}}" class="cover"/>
-      <view class="info">
-        <text class="title">{{item.title}}</text>
-        <text class="artist">{{item.artist}}</text>
-      </view>
-      <button bindtap="playMusic" data-index="{{index}}">播放</button>
-      <button bindtap="jumpToPlatform" data-platform="netease" data-url="{{item.platforms.netease}}">跳转网易云</button>
+<view class="page-container">
+  <!-- 导航栏 -->
+  <view class="nav-bar">
+    <view class="back-btn" bindtap="goToHome">
+      <view class="back-arrow"></view>
     </view>
-  </block>
+    <view class="nav-title">钓鱼音乐</view>
+  </view>
+  
+  <!-- 页面标题 -->
+  <view class="header">
+    <view class="title-container">
+      <text class="page-title">钓鱼音乐</text>
+      <text class="subtitle">让音乐陪伴你的钓鱼时光</text>
+    </view>
+  </view>
+  
+  <!-- 音乐列表 -->
+  <view class="music-list">
+    <block wx:if="{{musicList.length > 0}}">
+      <block wx:for="{{musicList}}" wx:key="id">
+        <view class="music-item {{currentSongIndex === index ? 'playing' : ''}}">
+          <image src="{{item.cover}}" class="cover" mode="aspectFill" bindtap="goToPlayer" data-index="{{index}}"/>
+          <view class="info" bindtap="goToPlayer" data-index="{{index}}">
+            <text class="title">{{item.title}}</text>
+            <text class="artist">{{item.artist}}</text>
+          </view>
+          <view class="controls">
+            <!-- 播放/暂停按钮 -->
+            <view class="control-btn" bindtap="playMusic" data-index="{{index}}">
+              <view class="{{currentSongIndex === index && playing ? 'pause-icon' : 'play-icon'}}"></view>
+            </view>
+            
+            <!-- 跳转网易云音乐按钮 -->
+            <view class="netease-btn" bindtap="jumpToPlatform" data-url="{{item.platforms.netease}}">
+              <text>网易云</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </block>
+    
+    <!-- 无音乐数据时显示 -->
+    <view wx:if="{{musicList.length === 0}}" class="empty-list">
+      <text>暂无音乐数据</text>
+    </view>
+  </view>
+  
+  <!-- 当前播放信息 -->
+  <view class="now-playing" wx:if="{{currentSongIndex >= 0}}">
+    <view class="now-playing-info" bindtap="goToPlayer">
+      <image src="{{musicList[currentSongIndex].cover}}" class="mini-cover" mode="aspectFill"/>
+      <view class="now-playing-text">
+        <text class="now-title">{{musicList[currentSongIndex].title}}</text>
+        <text class="now-artist">{{musicList[currentSongIndex].artist}}</text>
+      </view>
+    </view>
+    
+    <view class="now-playing-controls">
+      <!-- 暂停/继续按钮 -->
+      <view class="control-btn" bindtap="{{playing ? 'pauseMusic' : 'resumeMusic'}}">
+        <view class="{{playing ? 'pause-icon' : 'play-icon'}}"></view>
+      </view>
+      
+      <!-- 下一首按钮 -->
+      <view class="control-btn" bindtap="playNextSong">
+        <view class="next-icon"></view>
+      </view>
+    </view>
+  </view>
 </view>
