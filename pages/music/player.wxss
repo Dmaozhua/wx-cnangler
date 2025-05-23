@@ -12,20 +12,21 @@
   box-sizing: border-box;
 }
 
-/* 顶部导航栏 */
+/* 顶部导航栏 - iOS刘海适配 */
 .nav-bar {
-  display: flex;
-  align-items: center;
-  height: 120rpx;
-  position: relative;
-  margin-bottom: 20rpx;
-  background-color: rgba(0, 0, 0, 0.3); /* 添加半透明背景 */
-  backdrop-filter: blur(10px); /* 毛玻璃效果 */
-
+    display: flex;
+    align-items: center;
+    height: calc(10rpx + constant(safe-area-inset-top));
+    height: calc(10rpx + env(safe-area-inset-top));
+    position: relative;
+    margin-bottom: 20rpx;
+    background-color: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(20px);
-  background: rgba(255,255,255,0.1);
-  border-radius: 0 0 20rpx 20rpx;
-}
+    background: rgba(255,255,255,0.1);
+    border-radius: 0 0 20rpx 20rpx;
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
+  }
 
 .back-btn {
   width: 80rpx;
