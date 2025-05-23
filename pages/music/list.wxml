@@ -1,13 +1,13 @@
 <!-- pages/music/list.wxml -->
 <view class="page-container">
   <!-- 导航栏 -->
-  <view class="nav-bar">
+  <!-- <view class="nav-bar">
     <view class="back-btn" bindtap="goToHome">
       <view class="back-arrow"></view>
     </view>
     <view class="nav-title">钓鱼音乐</view>
   </view>
-  
+   -->
   <!-- 页面标题 -->
   <view class="header">
     <view class="title-container">
@@ -69,4 +69,8 @@
       </view>
     </view>
   </view>
+</view>
+<!-- 浮动主页按钮 -->
+<view class="float-home-btn" hover-class="float-btn-hover" bindtap="navigateToHome">
+    <text class="home-btn-text">主页</text>
 </view>

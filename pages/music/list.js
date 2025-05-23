@@ -219,5 +219,11 @@ Page({
       onUnload() {
         // 注意：不要在这里销毁audioContext，因为我们需要在播放器页面继续使用它
         // 只有在应用退出时才需要销毁
-      }
+      },
+   // 导航到主页
+   navigateToHome: function() {
+    wx.switchTab({
+      url: '/pages/home/home'
+    });
+  }     
   })
