@@ -413,12 +413,116 @@ Page({
 
     // 加载歌词
     loadLyrics() {
-        // 这里应该从服务器加载歌词，但由于没有实际的歌词数据，我们创建一些示例歌词
         const { musicInfo } = this.data;
         if (!musicInfo) return;
-
-        // 示例歌词数据（时间:歌词文本）
-        const sampleLyrics = [
+        
+        // 显示加载中提示
+        wx.showLoading({
+            title: '加载歌词中',
+            mask: false
+        });
+        
+        // 从歌曲标题中提取歌曲名
+        const songName = musicInfo.title;
+        // 构建歌词文件URL
+        const lyricsUrl = `https://anglertest.xyz/music/${encodeURIComponent(songName)}.lrc`;
+        
+        console.log('尝试加载歌词:', lyricsUrl);
+        
+        // 请求歌词文件
+        wx.request({
+            url: lyricsUrl,
+            success: (res) => {
+                // 隐藏加载提示
+                wx.hideLoading();
+                
+                if (res.statusCode === 200 && res.data) {
+                    // 解析歌词
+                    const lyrics = this.parseLyrics(res.data);
+                    this.setData({ lyrics });
+                    console.log('歌词加载成功');
+                } else {
+                    console.error('歌词文件加载失败:', res);
+                    this.showLyricsError();
+                }
+            },
+            fail: (err) => {
+                // 隐藏加载提示
+                wx.hideLoading();
+                console.error('歌词请求失败:', err);
+                this.showLyricsError();
+            }
+        });
+    },
+    
+    // 解析LRC格式歌词
+    parseLyrics(lrcContent) {
+        if (!lrcContent) {
+            return this.getDefaultLyrics();
+        }
+        
+        try {
+            // 按行分割歌词内容
+            const lines = lrcContent.split('\n');
+            const lyrics = [];
+            
+            // LRC时间标签正则表达式 [mm:ss.xx]
+            const timeRegex = /\[(\d{2}):(\d{2})\.(\d{2})\]/;
+            
+            for (let line of lines) {
+                // 跳过空行
+                if (!line.trim()) continue;
+                
+                // 匹配时间标签
+                const match = timeRegex.exec(line);
+                if (match) {
+                    // 提取分钟、秒和毫秒
+                    const minutes = parseInt(match[1]);
+                    const seconds = parseInt(match[2]);
+                    const milliseconds = parseInt(match[3]);
+                    
+                    // 计算总时间（秒）
+                    const time = minutes * 60 + seconds + milliseconds / 100;
+                    
+                    // 提取歌词文本（去除时间标签）
+                    const text = line.replace(timeRegex, '').trim();
+                    
+                    // 添加到歌词数组
+                    if (text) {
+                        lyrics.push({ time, text });
+                    }
+                }
+            }
+            
+            // 按时间排序
+            lyrics.sort((a, b) => a.time - b.time);
+            
+            return lyrics.length > 0 ? lyrics : this.getDefaultLyrics();
+        } catch (error) {
+            console.error('解析歌词出错:', error);
+            return this.getDefaultLyrics();
+        }
+    },
+    
+    // 显示歌词加载错误
+    showLyricsError() {
+        wx.showToast({
+            title: '歌词加载失败',
+            icon: 'none',
+            duration: 2000
+        });
+        
+        // 使用默认歌词
+        this.setData({ lyrics: this.getDefaultLyrics() });
+    },
+    
+    // 获取默认歌词
+    getDefaultLyrics() {
+        const { musicInfo } = this.data;
+        if (!musicInfo) return [];
+        
+        // 默认歌词数据
+        return [
             { time: 0, text: musicInfo.title },
             { time: 3, text: '演唱：' + musicInfo.artist },
             { time: 6, text: '钓鱼人测试应用' },
@@ -432,8 +536,6 @@ Page({
             { time: 30, text: '愿你钓鱼愉快' },
             { time: 33, text: '满载而归' }
         ];
-
-        this.setData({ lyrics: sampleLyrics });
     },
 
     // 更新歌词显示
