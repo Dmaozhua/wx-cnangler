@@ -79,6 +79,8 @@ Page({
         const index = e.currentTarget.dataset.index;
         const music = this.data.musicList[index];
         
+        console.log('播放音乐:', { index, title: music.title });
+        
         if (!audioContext) {
           // 创建音频上下文
           audioContext = wx.createInnerAudioContext();
@@ -86,6 +88,7 @@ Page({
           // 设置音频事件监听
           audioContext.onPlay(() => {
             wx.showToast({ title: '开始播放' });
+            console.log('音频开始播放');
           });
           
           audioContext.onError((err) => {
@@ -98,6 +101,7 @@ Page({
           
           audioContext.onEnded(() => {
             // 播放结束后，自动播放下一首
+            console.log('音频播放结束，播放下一首');
             this.playNextSong();
           });
         }
@@ -120,6 +124,8 @@ Page({
         
         // 将音乐列表保存到缓存，以便在player页面可以访问
         wx.setStorageSync('musicList', this.data.musicList);
+        // 保存当前播放索引到缓存
+        wx.setStorageSync('currentSongIndex', index);
       },
       
       // 播放下一首歌曲
@@ -127,6 +133,8 @@ Page({
         const { currentSongIndex, musicList } = this.data;
         // 计算下一首歌曲的索引，如果是最后一首则循环到第一首
         const nextIndex = (currentSongIndex + 1) % musicList.length;
+        
+        console.log('播放下一首:', { currentIndex: currentSongIndex, nextIndex });
         
         // 播放下一首
         this.playMusic({
@@ -136,6 +144,9 @@ Page({
             }
           }
         });
+        
+        // 更新缓存中的当前歌曲索引
+        wx.setStorageSync('currentSongIndex', nextIndex);
       },
       
       // 停止播放
@@ -191,14 +202,15 @@ Page({
         // 如果传入了事件对象，则使用事件中的索引
         let index = this.data.currentSongIndex;
         if (e && e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.index !== undefined) {
-          index = e.currentTarget.dataset.index;
-          // 更新当前播放的歌曲索引
-          this.setData({ currentSongIndex: index });
+          const newIndex = e.currentTarget.dataset.index;
           
           // 如果点击的不是当前播放的歌曲，则播放该歌曲
-          if (index !== this.data.currentSongIndex) {
+          if (newIndex !== this.data.currentSongIndex) {
             this.playMusic(e);
           }
+          
+          // 更新当前播放的歌曲索引
+          index = newIndex;
         }
         
         if (index >= 0) {
@@ -219,6 +231,53 @@ Page({
       onUnload() {
         // 注意：不要在这里销毁audioContext，因为我们需要在播放器页面继续使用它
         // 只有在应用退出时才需要销毁
+      },
+      
+      // 页面显示时处理
+      onShow() {
+        console.log('list页面显示');
+        
+        // 从缓存获取当前播放索引
+        const cachedSongIndex = wx.getStorageSync('currentSongIndex');
+        if (cachedSongIndex !== undefined && cachedSongIndex !== null) {
+          this.setData({ currentSongIndex: cachedSongIndex });
+          console.log('从缓存恢复当前歌曲索引:', cachedSongIndex);
+        }
+        
+        // 如果有缓存的音乐列表，恢复它
+        const cachedMusicList = wx.getStorageSync('musicList');
+        if (cachedMusicList && cachedMusicList.length > 0) {
+          this.setData({ musicList: cachedMusicList });
+        }
+        
+        // 检查全局audioContext状态，更新播放状态
+        if (audioContext) {
+          // 获取当前播放的URL
+          const currentUrl = audioContext.src;
+          
+          // 根据当前播放的URL找到对应的歌曲索引
+          if (currentUrl) {
+            const index = this.data.musicList.findIndex(item => item.url === currentUrl);
+            if (index !== -1 && index !== this.data.currentSongIndex) {
+              // 更新当前歌曲索引
+              this.setData({ currentSongIndex: index });
+              // 更新缓存
+              wx.setStorageSync('currentSongIndex', index);
+              console.log('根据URL更新当前歌曲索引:', index);
+            }
+          }
+          
+          // 更新播放状态
+          this.setData({
+            playing: !audioContext.paused
+          });
+          
+          console.log('onShow更新状态:', {
+            playing: !audioContext.paused,
+            currentSongIndex: this.data.currentSongIndex,
+            currentUrl: audioContext.src
+          });
+        }
       },
    // 导航到主页
    navigateToHome: function() {
