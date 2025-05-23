@@ -10,6 +10,11 @@ App({
   },
   
   onLaunch() {
+
+    wx.setInnerAudioOption({
+        obeyMuteSwitch: false, // 静音模式下仍播放声音
+        mixWithOther: true     // 允许与其他音频混播
+      });
     // 全局错误捕获
     wx.onError((error) => {
       console.error('Global Error:', error);

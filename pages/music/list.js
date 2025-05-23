@@ -85,6 +85,10 @@ Page({
           // 创建音频上下文
           audioContext = wx.createInnerAudioContext();
           
+          // iOS设备音频播放优化配置
+          audioContext.obeyMuteSwitch = false; // 忽略静音开关
+          audioContext.sessionCategory = 'playback'; // 设置音频会话类别
+          
           // 设置音频事件监听
           audioContext.onPlay(() => {
             wx.showToast({ title: '开始播放' });

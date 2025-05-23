@@ -26,10 +26,12 @@
       scroll-y="true" 
       bindtap="toggleLyricsView"
       hidden="{{!showLyrics}}"
+      scroll-into-view="{{currentLyricIndex >= 0 ? 'lyric-' + currentLyricIndex : ''}}"
+      scroll-with-animation="true"
     >
       <view class="lyrics-content">
         <block wx:for="{{lyrics}}" wx:key="time">
-          <view class="lyric-item {{currentLyricIndex === index ? 'active' : ''}}">
+          <view id="lyric-{{index}}" class="lyric-item {{currentLyricIndex === index ? 'active' : ''}}">
             {{item.text}}
           </view>
         </block>

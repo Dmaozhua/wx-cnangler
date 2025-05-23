@@ -82,6 +82,10 @@ Page({
         } else if (!audioContext) {
             // 如果不存在，创建新的音频上下文
             audioContext = wx.createInnerAudioContext();
+            
+            // iOS设备音频播放优化配置
+            audioContext.obeyMuteSwitch = false; // 忽略静音开关
+            audioContext.sessionCategory = 'playback'; // 设置音频会话类别
 
             // 如果有音乐信息，设置音频源
             if (this.data.musicInfo) {

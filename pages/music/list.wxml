@@ -28,7 +28,7 @@
           </view>
           <view class="controls">
             <!-- 播放/暂停按钮 -->
-            <view class="control-btn" bindtap="playMusic" data-index="{{index}}">
+            <view class="control-btn" bindtap="{{currentSongIndex === index && playing ? 'pauseMusic' : 'playMusic'}}" data-index="{{index}}">
               <view class="{{currentSongIndex === index && playing ? 'pause-icon' : 'play-icon'}}"></view>
             </view>
             
