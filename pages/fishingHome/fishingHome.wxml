@@ -37,11 +37,13 @@
     <view class="help-title">{{item.title}}</view>
     <view class="help-content">
       <block wx:if="{{isString(item.content)}}">
-        <text>{{item.content}}</text>
+                      <!-- 将 text 标签替换为 view 标签 -->
+                      <view>{{index == 0 ? item : item}}</view>
       </block>
       <block wx:else>
         <view wx:for="{{item.content}}" wx:for-item="contentItem" wx:key="*this" class="content-item">
-          <text>{{contentItem}}</text>
+                  <!-- 将 text 标签替换为 view 标签 -->
+                  <view>{{contentItem}}</view> 
         </view>
       </block>
     </view>

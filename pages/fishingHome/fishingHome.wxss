@@ -127,6 +127,7 @@
 }
 
 /* 开始按钮样式 */
+/* 开始按钮容器样式优化 */
 .start-btn-container {
     position: absolute;
     bottom: 20%;
@@ -134,6 +135,9 @@
     transform: translateX(-50%);
     width: 80%;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .start-btn {
@@ -146,35 +150,65 @@
     box-shadow: 0 6rpx 10rpx rgba(0, 0, 0, 0.2);
     letter-spacing: 2rpx;
     margin-bottom: 30rpx;
+    /* 应用脉冲动画 */
+    animation: pulse 2s infinite; 
 }
-
+.start-btn:hover {
+    transform: scale(1.05); /* 鼠标悬停时放大 */
+    box-shadow: 0 10rpx 15rpx rgba(0, 0, 0, 0.3), 0 0 30rpx rgba(58, 119, 52, 0.7); /* 悬停时增强阴影和发光效果 */
+}
 .collection-btn {
-  background-color: #4a90e2;
-  color: white;
-  font-size: 32rpx;
-  font-weight: bold;
-  padding: 15rpx 50rpx;
-  border-radius: 50rpx;
-  box-shadow: 0 6rpx 10rpx rgba(0, 0, 0, 0.2);
-  letter-spacing: 2rpx;
+    background: linear-gradient(45deg, #4a90e2, #63a6f5); /* 添加渐变背景 */
+    color: white;
+    font-size: 32rpx;
+    font-weight: bold;
+    padding: 15rpx 50rpx;
+    border-radius: 50rpx;
+    box-shadow: 0 6rpx 10rpx rgba(0, 0, 0, 0.2), 0 0 20rpx rgba(74, 144, 226, 0.5); /* 添加阴影和发光效果 */
+    letter-spacing: 2rpx;
+    transition: all 0.3s ease; /* 添加过渡效果 */
 }
-
+.collection-btn:hover {
+    transform: scale(1.05); /* 鼠标悬停时放大 */
+    box-shadow: 0 10rpx 15rpx rgba(0, 0, 0, 0.3), 0 0 30rpx rgba(74, 144, 226, 0.7); /* 悬停时增强阴影和发光效果 */
+}
+/* 帮助提示弹窗内容样式优化 */
+.tips-content {
+    width: 80%;
+    background: linear-gradient(135deg, #f9f9f9, #e0e0e0); /* 添加渐变背景 */
+    border-radius: 20rpx;
+    overflow: hidden;
+    box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.5), 0 0 40rpx rgba(255, 255, 255, 0.3); /* 添加阴影和发光效果 */
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.5s ease; /* 添加淡入动画 */
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
 @keyframes pulse {
     0% {
         transform: scale(1);
         box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.3);
     }
-
     50% {
         transform: scale(1.05);
         box-shadow: 0 15rpx 25rpx rgba(0, 0, 0, 0.4);
     }
-
     100% {
         transform: scale(1);
         box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.3);
     }
 }
+
 
 .btn-hover {
     background-color: rgba(0, 121, 107, 0.9);
@@ -211,8 +245,10 @@
     justify-content: space-between;
     align-items: center;
     padding: 30rpx;
-    background-color: #009688;
+    background: linear-gradient(45deg, #009688, #00bfa5); /* 添加渐变背景 */
     color: white;
+    border-top-left-radius: 20rpx;
+    border-top-right-radius: 20rpx;
 }
 
 .tips-title {
@@ -220,9 +256,15 @@
     font-weight: bold;
 }
 
+
 .close-btn {
     font-size: 40rpx;
     font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.close-btn:hover {
+    color: #ff5252; /* 鼠标悬停时改变颜色 */
 }
 
 .tips-body-scroll {
@@ -235,7 +277,10 @@
     font-size: 28rpx;
     color: #333;
     line-height: 1.5;
+    white-space: normal; /* 设置文本正常换行 */
+    word-break: break-word; /* 允许在单词内换行 */
 }
+
 
 .help-section {
     margin-bottom: 30rpx;
@@ -253,9 +298,8 @@
     color: #333;
     line-height: 1.6;
     text-align: left;
-    word-wrap: break-word;
-    word-break: normal;
-    white-space: normal;
+    white-space: normal; /* 设置文本正常换行 */
+    word-break: break-word; /* 允许在单词内换行 */
 }
 
 .content-item {
@@ -274,15 +318,15 @@
 }
 
 /* 添加段落标题样式 */
+
 .help-content text {
-    display: inline-block;
+    display: inline; /* 修改为内联元素，避免换行 */
     margin-top: 10rpx;
     margin-bottom: 10rpx;
     font-weight: bold;
     color: #009688;
     word-wrap: break-word;
     word-break: normal;
-    white-space: normal;
     width: 100%;
 }
 
