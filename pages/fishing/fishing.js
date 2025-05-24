@@ -221,12 +221,12 @@ Page({
             sceneBgFadeIn: true // 开始淡入动画
         });
         
-        // 等待淡入动画完成后重置状态
-        setTimeout(() => {
-            this.setData({
-                sceneBgFadeIn: false // 重置淡入状态
-            });
-        }, 500); // 淡入动画时长
+        // 不再重置sceneBgFadeIn，保持背景图片可见
+        // setTimeout(() => {
+        //     this.setData({
+        //         sceneBgFadeIn: false // 重置淡入状态
+        //     });
+        // }, 500); // 淡入动画时长
 
         console.log('[钓鱼游戏] 页面加载完成', {
             state: this.data.state,

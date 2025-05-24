@@ -297,7 +297,7 @@ page {
 
 /* 背景淡入动画 */
 .scene-bg-fade-in {
-    opacity: 0.8; /* 最终透明度与原来保持一致 */
+    opacity: 1; /* 修改为完全不透明，解决背景模糊问题 */
 }
 
 .fishing-status {
