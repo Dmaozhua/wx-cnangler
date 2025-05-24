@@ -589,6 +589,9 @@ Page({
           return;
         }
       
+        // 先设置一个临时状态，表示正在进行颜色分析
+        this.isAnalyzingColor = true;
+        
         getDominantColor(imagePath, (rgbColor) => {
           // 添加回调结果检查
           if (!rgbColor || typeof rgbColor !== 'string') {
@@ -598,10 +601,14 @@ Page({
           
           try {
             const mainColorHex = rgbToHex(rgbColor);
+            // 分析完成后，一次性更新所有样式
             this.updateStyles(mainColorHex);
+            // 重置分析状态
+            this.isAnalyzingColor = false;
           } catch (error) {
             console.error('Color conversion failed:', error);
             this.updateStyles('#ffffff'); // 降级处理
+            this.isAnalyzingColor = false;
           }
         });
       },
@@ -614,14 +621,26 @@ Page({
     // 计算文字颜色
     const textColor = this.calculateTextColor(mainColor)
     
-    this.setData({
-      containerStyle: gradientStyle,
-      welcomeCardStyle: welcomeCardStyle,
-      welcomeTextColor: textColor
+    // 获取导航栏组件
+    const navigationBar = this.selectComponent('#navigation-bar')
+    
+    // 使用wx.nextTick确保在同一个渲染周期内完成所有更新
+    wx.nextTick(() => {
+      // 更新页面样式
+      this.setData({
+        containerStyle: gradientStyle,
+        welcomeCardStyle: welcomeCardStyle,
+        welcomeTextColor: textColor
+      })
+      
+      // 直接在这里更新导航栏，确保与背景同步变化
+      if (navigationBar) {
+        navigationBar.setData({
+          background: mainColor,
+          color: this.calculateTextColor(mainColor)
+        })
+      }
     })
-
-    // 更新导航栏
-    this.updateNavigationBar(mainColor)
   },
 
   // 生成渐变背景
@@ -721,78 +740,5 @@ Page({
     const brightness = (r * 299 + g * 587 + b * 114) / 1000
     return brightness > 128 ? 'black' : 'white'
   },
-
-  // 更新导航栏颜色
-  updateNavigationBar(color) {
-    const navigationBar = this.selectComponent('#navigation-bar')
-    if (navigationBar) {
-      navigationBar.setData({
-        background: color,
-        color: this.calculateTextColor(color)
-      })
-    }
-        // // 预设的颜色方案，避免Canvas API兼容性问题
-        // const colorSchemes = [
-        //     { dark: '#1E3A8A', light: '#4169E1' }, // 第一张图的颜色方案
-        //     { dark: '#8B4513', light: '#D2691E' }, // 第二张图的颜色方案
-        //     { dark: '#006400', light: '#32CD32' }, // 第三张图的颜色方案
-        //     { dark: '#191970', light: '#4682B4' }  // 第四张图的颜色方案
-        // ];
-        
-        // // 使用预设的颜色方案
-        // const scheme = colorSchemes[index] || colorSchemes[0]; // 如果找不到对应的颜色方案，使用默认方案
-        
-        // // 生成渐变样式
-        // const gradientStyle = `linear-gradient(to bottom, ${scheme.dark} 0%, ${scheme.light} 20%, #ffffff 40%)`;
-        
-        // // 生成欢迎卡片渐变样式
-        // const welcomeCardStyle = `linear-gradient(135deg, ${scheme.dark}, ${scheme.light})`;
-        
-        // // 判断颜色亮度，决定文字颜色
-        // // 简单的亮度计算公式：(R*299 + G*587 + B*114) / 1000
-        // const getColorBrightness = (hex) => {
-        //     // 移除#号并转换为RGB
-        //     const r = parseInt(hex.slice(1, 3), 16);
-        //     const g = parseInt(hex.slice(3, 5), 16);
-        //     const b = parseInt(hex.slice(5, 7), 16);
-        //     return (r * 299 + g * 587 + b * 114) / 1000;
-        // };
-        
-        // // 计算主色调亮度
-        // const brightness = getColorBrightness(scheme.light);
-        // // 亮度阈值，低于此值使用白色文字，高于此值使用黑色文字
-        // const textColor = brightness < 128 ? 'white' : 'black';
-        
-        // // 设置各部分标题颜色
-        // const sectionTitleStyle = {
-        //     testTitle: scheme.dark,
-        //     gearTitle: scheme.dark,
-        //     featuresTitle: scheme.dark
-        // };
-        
-        // // 设置页面背景样式和标题样式
-        // this.setData({
-        //     containerStyle: gradientStyle,
-        //     welcomeCardStyle: welcomeCardStyle,
-        //     welcomeTextColor: textColor,
-        //     sectionTitleStyle: sectionTitleStyle
-        // });
-        
-        // // 获取导航栏组件实例并更新其背景色和文字颜色
-        // const navigationBar = this.selectComponent('#navigation-bar');
-        // if (navigationBar) {
-        //     // 计算导航栏背景色的亮度，决定文字颜色
-        //     const navBgBrightness = getColorBrightness(scheme.dark);
-        //     const navTextColor = navBgBrightness < 128 ? 'white' : 'black';
-            
-        //     // 使用banner的主色调作为导航栏背景色，并根据亮度设置文字颜色
-        //     navigationBar.setData({
-        //         background: scheme.dark,
-        //         color: navTextColor
-        //     });
-        // }
-    }
-    
-
 
 });

@@ -1,6 +1,6 @@
- <!-- 自定义导航栏 -->
+<!-- 自定义导航栏 -->
 <page-meta>
-  <navigation-bar id="navigation-bar" title="钓鱼人测试" background="#BDC3C7" color="#000000" back="{{false}}"></navigation-bar>
+  <navigation-bar id="navigation-bar" title="钓鱼人测试" background="#BDC3C7" color="#000000" back="{{false}}" style="transition: background 0.3s ease, color 0.3s ease;"></navigation-bar>
 </page-meta>
 
 <view class="page-container" style="background: {{containerStyle}};">
