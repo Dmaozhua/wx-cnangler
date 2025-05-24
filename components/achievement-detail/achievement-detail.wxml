@@ -1,5 +1,5 @@
 <!-- 在 components/achievement-detail/achievement-detail.wxml 中 -->
-<view class="achievement-detail-mask" wx:if="{{visible}}" catchtouchmove="preventTouchMove">
+<view class="achievement-detail-mask {{visible ? 'wx-show' : ''}}" catchtouchmove="preventTouchMove">
   <view class="achievement-detail-content" animation="{{animationData}}">
     <view class="achievement-header">
       <text class="achievement-title">成就详情</text>
