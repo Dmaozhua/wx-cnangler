@@ -29,8 +29,9 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.3,//qte失败后，逃跑概率
       strength: [2, 2.01],//鱼的强度范围，随机
       BaseHP: 200,
-      image1: '../../images/icons/fishon.png',
-      image2: '../../images/icons/fishon.png',
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
       weatherAffinity: {
         "sunny": 0.6,
         "rainy": 1.7
@@ -47,8 +48,9 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.15,
       strength: [0.5, 1.5],
       BaseHP: 120,
-      image1: '../../images/icons/fishon.png',
-      image2: '../../images/icons/fishon.png',
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
       weatherAffinity: {
         "sunny": 1.8,
         "rainy": 0.3
@@ -64,8 +66,9 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.1,
       strength: [0.4, 1.3],
       BaseHP: 100,
-      image1: '../../images/icons/fishon.png',
-      image2: '../../images/icons/fishon.png',
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
       weatherAffinity: {
         "sunny": 1.8,
         "rainy": 0.3
@@ -82,8 +85,9 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.1,
       strength: [2.5, 8],
       BaseHP: 400,
-      image1: '../../images/icons/fishon.png',
-      image2: '../../images/icons/fishon.png',
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
       weatherAffinity: {
         "sunny": 1.8,
         "rainy": 0.3
@@ -100,8 +104,9 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.1,
       strength: [3, 12],
       BaseHP: 1200,
-      image1: '../../images/icons/fishon.png',
-      image2: '../../images/icons/fishon.png',
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
       weatherAffinity: {
         "sunny": 1.8,
         "rainy": 0.3
@@ -118,8 +123,9 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.1,
       strength: [0.4, 1.3],
       BaseHP: 100,
-      image1: '../../images/icons/fishon.png',
-      image2: '../../images/icons/fishon.png',
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
       weatherAffinity: {
         "sunny": 1.8,
         "rainy": 0.3
@@ -136,8 +142,9 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.1,
       strength: [0.4, 1.3],
       BaseHP: 100,
-      image1: '../../images/icons/fishon.png',
-      image2: '../../images/icons/fishon.png',
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
       weatherAffinity: {
         "sunny": 1.8,
         "rainy": 0.3
@@ -154,8 +161,9 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.1,
       strength: [0.4, 1.3],
       BaseHP: 100,
-      image1: '../../images/icons/fishon.png',
-      image2: '../../images/icons/fishon.png',
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
       weatherAffinity: {
         "sunny": 1.8,
         "rainy": 0.3
@@ -172,8 +180,9 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.1,
       strength: [0.4, 1.3],
       BaseHP: 100,
-      image1: '../../images/icons/fishon.png',
-      image2: '../../images/icons/fishon.png',
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
       weatherAffinity: {
         "sunny": 1.8,
         "rainy": 0.3
@@ -190,8 +199,9 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.1,
       strength: [0.4, 1.3],
       BaseHP: 100,
-      image1: '../../images/icons/fishon.png',
-      image2: '../../images/icons/fishon.png',
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
       weatherAffinity: {
         "sunny": 1.8,
         "rainy": 0.3
@@ -208,8 +218,9 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.1,
       strength: [0.4, 1.3],
       BaseHP: 100,
-      image1: '../../images/icons/fishon.png',
-      image2: '../../images/icons/fishon.png',
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
       weatherAffinity: {
         "sunny": 1.8,
         "rainy": 0.3
@@ -226,8 +237,9 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.1,
       strength: [0.4, 1.3],
       BaseHP: 100,
-      image1: '../../images/icons/fishon.png',
-      image2: '../../images/icons/fishon.png',
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
       weatherAffinity: {
         "sunny": 1.8,
         "rainy": 0.3
