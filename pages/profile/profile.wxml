@@ -69,6 +69,17 @@
       </view>
     </view>
     <view class="log-list {{isUpdateLogOpen ? 'open' : 'closed'}}">
+        <view class="log-item">
+        <view class="log-header">
+          <text class="log-version">v1.3.0</text>
+          <text class="log-date">2025-05</text>
+        </view>
+        <view class="log-content">
+          <view class="log-entry"><text class="log-bullet">•</text><text>新增钓鱼图鉴功能</text></view>
+          <view class="log-entry"><text class="log-bullet">•</text><text>新增音乐播放功能</text></view>
+          <view class="log-entry"><text class="log-bullet">•</text><text>UI持续优化</text></view>
+        </view>
+      </view>
       <view class="log-item">
         <view class="log-header">
           <text class="log-version">v1.2.0</text>
@@ -88,7 +99,6 @@
         <view class="log-content">
           <view class="log-entry"><text class="log-bullet">•</text><text>新增测试功能数据</text></view>
           <view class="log-entry"><text class="log-bullet">•</text><text>修复已知问题</text></view>
-          <view class="log-entry"><text class="log-bullet">•</text><text>性能优化</text></view>
         </view>
       </view>
       <view class="log-item">
