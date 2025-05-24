@@ -17,6 +17,8 @@ page {
   position: relative;
   overflow: hidden;
   transition: background 0.3s ease;
+    /* 添加顶部内边距，适配安全区域 */
+    padding-top: calc(20rpx + env(safe-area-inset-top)); 
 }
 
 .container {
@@ -105,9 +107,9 @@ scroll-view {
 }
 
 .banner-swiper {
-  height: 200px;
-  margin: 15px 3px;
-  border-radius: 12px;
+  height: 180px;
+  margin: 1px 1px;
+  border-radius: 8px;
   overflow: hidden;
 }
 

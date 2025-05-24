@@ -1,5 +1,5 @@
+ <!-- 自定义导航栏 -->
 <page-meta>
-  <!-- 自定义导航栏 -->
   <navigation-bar id="navigation-bar" title="钓鱼人测试" background="#BDC3C7" color="#000000" back="{{false}}"></navigation-bar>
 </page-meta>
 

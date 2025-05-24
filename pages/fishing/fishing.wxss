@@ -291,7 +291,13 @@ page {
     top: 0;
     left: 0;
     z-index: 0;
-    opacity: 0.8; /* 调整背景图透明度 */
+    opacity: 0; /* 初始透明度为0，用于淡入效果 */
+    transition: opacity 0.5s ease; /* 添加过渡效果 */
+}
+
+/* 背景淡入动画 */
+.scene-bg-fade-in {
+    opacity: 0.8; /* 最终透明度与原来保持一致 */
 }
 
 .fishing-status {

@@ -2,7 +2,7 @@
 <page-meta page-style="{{ pageStyle }}">
   <navigation-bar 
     title="成就" 
-    background="#FFFFFF" 
+    background="#ECF0F1" 
     color="black" 
     back="{{false}}" 
     sticky="{{true}}" 

@@ -209,7 +209,7 @@ Page({
         // 将相对路径转换为小程序可用的绝对路径格式
         backgroundImage = backgroundImage.replace('../../', '/');
 
-        // 更新显示数据
+        // 更新显示数据，初始设置背景透明度为0，实现淡入效果
         this.setData({
             fishingTime: app.globalData.fishingTime,
             fishingTimePercent: timePercent,
@@ -217,8 +217,16 @@ Page({
             state: 'waiting',
             fishCaught: app.globalData.fishCaught || 0,
             backgroundImage: backgroundImage,
-            fishEscaped: app.globalData.fishEscaped || 0
+            fishEscaped: app.globalData.fishEscaped || 0,
+            sceneBgFadeIn: true // 开始淡入动画
         });
+        
+        // 等待淡入动画完成后重置状态
+        setTimeout(() => {
+            this.setData({
+                sceneBgFadeIn: false // 重置淡入状态
+            });
+        }, 500); // 淡入动画时长
 
         console.log('[钓鱼游戏] 页面加载完成', {
             state: this.data.state,

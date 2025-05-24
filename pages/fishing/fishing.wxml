@@ -5,7 +5,7 @@
 </page-meta>
 <!-- 新增背景图容器 -->
 <view class="scene-bg-container">
-    <image class="scene-bg" src="{{backgroundImage}}" mode="aspectFill"></image>
+    <image class="scene-bg {{sceneBgFadeIn ? 'scene-bg-fade-in' : ''}}" src="{{backgroundImage}}" mode="aspectFill"></image>
 </view>
 
 <!-- 钓鱼成功弹窗 -->

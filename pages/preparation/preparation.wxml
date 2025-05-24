@@ -6,7 +6,7 @@
 
 <!-- 背景图容器 -->
 <view class="scene-bg-container">
-  <image class="scene-bg" src="{{water.image}}" mode="aspectFill"></image>
+  <image class="scene-bg {{sceneBgFadeOut ? 'scene-bg-fade-out' : ''}} {{sceneBgFadeIn ? 'scene-bg-fade-in' : ''}}" src="{{water.image}}" mode="aspectFill"></image>
 </view>
 
 <view class="container">
@@ -56,7 +56,7 @@
   
   <!-- 开始钓鱼按钮 -->
   <view class="button-group">
-    <button class="random-btn" bindtap="onRandomAgain" hover-class="btn-hover">再次随机</button>
+    <button class="random-btn" bindtap="onRandomAgain" hover-class="btn-hover" disabled="{{isRandomButtonDisabled}}">再次随机</button>
     <button class="start-btn" bindtap="onStart" hover-class="btn-hover">出发钓鱼</button>
   </view>
 </view>

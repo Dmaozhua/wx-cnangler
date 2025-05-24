@@ -11,7 +11,11 @@ Page({
     weather: {},
     water: {},
     habitatsList: [],
-    selectedHabitat: ''
+    selectedHabitat: '',
+    isRandomButtonDisabled: false, // 随机按钮是否禁用
+    isTransitioning: false, // 是否正在过渡中
+    sceneBgFadeOut: false, // 背景淡出状态
+    sceneBgFadeIn: false // 背景淡入状态
   },
   onLoad() {
     // 初始化全局装备数据
@@ -78,7 +82,19 @@ Page({
     console.log('[钓鱼准备] 选择钓点:', e.detail.value);
   },
   onRandomAgain() {
+    // 如果按钮已禁用，则不执行随机操作
+    if (this.data.isRandomButtonDisabled) {
+      console.log('[钓鱼准备] 随机按钮已禁用，等待动画完成');
+      return;
+    }
+
     console.log('[钓鱼准备] 再次随机');
+    
+    // 禁用随机按钮，防止动画过程中重复点击
+    this.setData({
+      isRandomButtonDisabled: true,
+      isTransitioning: true // 标记正在过渡中
+    });
     
     // 随机选择基础天气（type 为 BASE）
     const baseWeathers = WeatherEvents.filter(item => item.type === 'BASE');
@@ -111,20 +127,40 @@ Page({
     app.globalData.water = water;
     app.globalData.habitat = selectedHabitat;
     
-    // 更新页面数据
+    // 先淡出当前背景
     this.setData({
-      weather,
-      water,
-      habitatsList: habitatsListWithNames,
-      selectedHabitat
+      sceneBgFadeOut: true
     });
     
-    // 显示提示
-    wx.showToast({
-      title: '已重新随机',
-      icon: 'success',
-      duration: 1500
-    });
+    // 等待淡出动画完成后更新背景并淡入
+    setTimeout(() => {
+      // 更新页面数据
+      this.setData({
+        weather,
+        water,
+        habitatsList: habitatsListWithNames,
+        selectedHabitat,
+        sceneBgFadeOut: false, // 取消淡出状态，准备淡入
+        sceneBgFadeIn: true // 开始淡入动画
+      });
+      
+      // 等待淡入动画完成后重置状态
+      setTimeout(() => {
+        this.setData({
+          sceneBgFadeIn: false, // 重置淡入状态
+          isTransitioning: false, // 标记过渡结束
+          isRandomButtonDisabled: false // 重新启用随机按钮
+        });
+      }, 500); // 淡入动画时长
+      
+      // 显示提示
+      wx.showToast({
+        title: '已重新随机',
+        icon: 'success',
+        duration: 1500
+      });
+    }, 500); // 淡出动画时长
+  
   },
   onStart() {
     console.log('[钓鱼准备] 开始钓鱼');

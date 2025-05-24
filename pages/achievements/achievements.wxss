@@ -3,7 +3,7 @@
 /* 自定义导航栏样式 */
 .custom-nav-bar .weui-navigation-bar__inner {
     z-index: 1000;
-    --height: 60px; /* 增加导航栏高度 */
+    --height: 50px; /* 增加导航栏高度 */
     background: linear-gradient(to right, #2c3e50, #34495e); /* 渐变背景 */
     color: white; /* 文字颜色 */
 }

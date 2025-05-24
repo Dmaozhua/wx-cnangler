@@ -25,6 +25,17 @@ page {
   left: 0;
   z-index: 0;
   object-fit: cover; /* 确保图片覆盖整个容器且不变形 */
+  transition: opacity 0.5s ease; /* 添加过渡效果 */
+}
+
+/* 背景淡出动画 */
+.scene-bg-fade-out {
+  opacity: 0;
+}
+
+/* 背景淡入动画 */
+.scene-bg-fade-in {
+  opacity: 1;
 }
 
 .container {
@@ -256,6 +267,15 @@ page {
   width: 48%;
   font-weight: bold;
   box-shadow: 0 4rpx 12rpx rgba(75, 85, 99, 0.3);
+  transition: all 0.3s ease; /* 添加过渡效果 */
+}
+
+/* 随机按钮禁用状态 */
+.random-btn[disabled] {
+  background-color: #9CA3AF;
+  opacity: 0.7;
+  box-shadow: none;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .start-btn {
