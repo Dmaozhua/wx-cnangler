@@ -58,7 +58,12 @@
   mask-size: cover;
   background-color: var(--weui-FG-0);
 }
-
+.nav-icon {
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    margin-right: 8px;
+  }
 .weui-navigation-bar__center {
   font-size: 18px;
   text-align: left;

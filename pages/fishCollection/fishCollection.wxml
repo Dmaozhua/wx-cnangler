@@ -80,8 +80,10 @@
         <view class="fish-card">
           <image 
             class="fish-image" 
-            src="{{item.unlocked ? '/images/fishicons/fishon.webp' : '/images/fishicons/fish.png'}}"
+            src="{{item.imageUrl}}"
             mode="aspectFit"
+            binderror="handleImageError"
+            data-index="{{index}}"
           ></image>
           <view class="fish-name">{{item.displayName}}</view>
           <view class="fish-rarity {{item.unlocked ? 'rarity-' + item.rarity.toLowerCase() : ''}}">

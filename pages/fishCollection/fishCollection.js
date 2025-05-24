@@ -52,7 +52,9 @@ Page({
       return {
         ...fish,
         unlocked: collected.unlocked,
-        displayName: collected.unlocked ? fish.name : '???'
+        displayName: collected.unlocked ? fish.name : '???',
+        // 根据解锁状态设置图片URL
+        imageUrl: collected.unlocked ? fish.Image : fish.backgroundImage
       };
     });
 
@@ -69,6 +71,44 @@ Page({
     });
 
     console.log('[鱼类图鉴] 数据加载完成', fishList.length, '已收集', collectionCount);
+  },
+
+  /**
+   * 处理图片加载错误
+   */
+  handleImageError(e) {
+    const index = e.currentTarget.dataset.index;
+    const fish = this.data.filteredFishList[index];
+    
+    if (!fish) return;
+    
+    // 构建新的鱼类列表，替换出错的图片URL为默认图片
+    const newFilteredFishList = [...this.data.filteredFishList];
+    newFilteredFishList[index] = {
+      ...fish,
+      imageUrl: fish.defImage
+    };
+    
+    // 同时更新完整的鱼类列表
+    const fishIndex = this.data.fishList.findIndex(item => item.id === fish.id);
+    if (fishIndex !== -1) {
+      const newFishList = [...this.data.fishList];
+      newFishList[fishIndex] = {
+        ...this.data.fishList[fishIndex],
+        imageUrl: fish.defImage
+      };
+      
+      this.setData({
+        fishList: newFishList,
+        filteredFishList: newFilteredFishList
+      });
+    } else {
+      this.setData({
+        filteredFishList: newFilteredFishList
+      });
+    }
+    
+    console.log('[鱼类图鉴] 图片加载失败，使用默认图片', fish.id);
   },
 
   /**

@@ -43,6 +43,10 @@ Component({
       delta: {
         type: Number,
         value: 1
+      },
+      titleFontStyle: {
+        type: String,
+        value: ''
       }
     },
     data: {

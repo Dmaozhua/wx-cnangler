@@ -7,6 +7,8 @@ Page({
     fishId: '',
     fishInfo: null,
     collectionInfo: null,
+    fishImageUrl: '', // 鱼图片URL
+    isUsingDefaultImage: false, // 是否使用默认图片
     rarityNames: {
       'COMMON': '普通',
       'UNCOMMON': '少见',
@@ -60,12 +62,35 @@ Page({
     // 获取收集信息
     const collectionInfo = getFishCollectionById(fishId);
     
+    // 设置鱼图片URL，使用服务器图片
+    const fishImageUrl = fishInfo.Image || fishInfo.defImage;
+    
     this.setData({
       fishInfo,
-      collectionInfo
+      collectionInfo,
+      fishImageUrl,
+      isUsingDefaultImage: false
     });
 
     console.log('[鱼类详情] 加载鱼类信息', fishInfo.name);
+  },
+
+  /**
+   * 处理图片加载错误
+   */
+  handleImageError() {
+    // 如果已经在使用默认图片，不再处理
+    if (this.data.isUsingDefaultImage) return;
+    
+    // 图片加载失败，使用本地默认图片
+    const { fishInfo } = this.data;
+    if (fishInfo && fishInfo.defImage) {
+      console.log('[鱼类详情] 图片加载失败，使用默认图片');
+      this.setData({
+        fishImageUrl: fishInfo.defImage,
+        isUsingDefaultImage: true
+      });
+    }
   },
 
   /**

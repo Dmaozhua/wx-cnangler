@@ -12,7 +12,7 @@
   <!-- 鱼类详情内容 -->
   <view class="fish-detail">
     <!-- 鱼类图片 -->
-    <image class="fish-image" src="/images/fishicons/fishon.webp" mode="aspectFit"></image>
+    <image class="fish-image" src="{{fishImageUrl}}" mode="aspectFit" binderror="handleImageError"></image>
     
     <!-- 基本信息 -->
     <view class="info-section">
