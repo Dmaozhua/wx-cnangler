@@ -1,5 +1,5 @@
 <!-- pages/fishingHome/fishingHome.wxml -->
-<view class="container" style="background-image: url('/images/icons/BG.webp');">
+<view class="container" style="background-image: url('https://anglertest.xyz/game/BG/tittle/14.webp');">
   <!-- 返回按钮 -->
   <view class="back-btn" bindtap="goBack">
     <text class="back-icon">←</text>
