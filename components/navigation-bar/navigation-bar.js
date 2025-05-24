@@ -72,7 +72,7 @@ Component({
             : ''
   
           const backgroundStyle = [
-            'transition: background 0.3s ease;',
+            // 'transition: background 0.3s ease;',
             innerPaddingRight,
             safeAreaTop
           ].join(' ')
