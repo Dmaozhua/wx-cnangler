@@ -19,7 +19,9 @@
         "pages/fishCollection/fishCollection",
         "pages/fishDetail/fishDetail",
         "pages/music/list",
-        "pages/music/player"
+        "pages/music/player",
+        "pages/AnglerSay/AnglerSay",
+        "pages/AnglerSay/AnglerSayDetail"
     ],
     "window": {
         "navigationBarTitleText": "钓鱼人测试",
