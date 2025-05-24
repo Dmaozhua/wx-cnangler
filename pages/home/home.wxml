@@ -35,15 +35,15 @@
     <!-- 天气弹窗组件 -->
     <weather-modal wx:if="{{weatherModalVisible}}" visible="{{weatherModalVisible}}" cityName="{{weatherCityName}}" weatherData="{{weatherData}}" pressure="{{weatherPressure}}" sunsetTime="{{weatherSunsetTime}}" bindclose="closeWeatherModal" />
     
-    <view class="welcome-card" style="background: {{welcomeCardStyle}}; transition: background 0.3s ease-in-out;">
+    <!-- <view class="welcome-card" style="background: {{welcomeCardStyle}}; transition: background 0.3s ease-in-out;">
         <view class="welcome" style="color: {{welcomeTextColor}}; transition: color 0.3s ease-in-out;">🎣 欢迎来到 钓鱼人测试！🎣</view>
         <view class="welcome-subtitle" style="color: {{welcomeTextColor}}; opacity: 0.9; transition: color 0.3s ease-in-out;">这里是专业的路亚钓鱼频道</view>
-    </view>
+    </view> -->
     
     <swiper class="banner-swiper" indicator-dots="true" autoplay="true" interval="3000" bindchange="onSwiperChange" circular="true">
         <swiper-item wx:for="{{bannerList}}" wx:key="index">
             <view catch:tap="onBannerTap" data-index="{{index}}" style="width:100%;height:100%;">
-                <image src="{{item.webpUrl || item.imageUrl}}" mode="aspectFill" class="banner-image"/> 
+                <image src="{{item.webpUrl || item.imageUrl}}" mode="aspectFill" class="banner-image" binderror="onImageError" data-index="{{index}}"/> 
             </view>
         </swiper-item>
     </swiper>

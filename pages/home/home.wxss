@@ -16,6 +16,7 @@ page {
   background: linear-gradient(to bottom, #2C3E50 0%, #BDC3C7 70%, #ECF0F1 100%);
   position: relative;
   overflow: hidden;
+  transition: background 0.3s ease;
 }
 
 .container {
@@ -104,8 +105,8 @@ scroll-view {
 }
 
 .banner-swiper {
-  height: 180px;
-  margin: 15px 20px;
+  height: 200px;
+  margin: 15px 3px;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -155,11 +156,22 @@ scroll-view {
     border-radius: 20rpx;
     box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.08);
     padding: 25rpx;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.596);
     margin-bottom: 25rpx;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+      /* 原有样式保留，新增以下属性 */
+  background-color: rgba(255, 255, 255, 0.432); /* 半透明背景（白色为例，可调整透明度） */
+  backdrop-filter: blur(12rpx); /* 毛玻璃模糊值，根据需求调整 */
+  -webkit-backdrop-filter: blur(12rpx); /* 兼容 WebKit 内核 */
+  /* 可选：添加线性渐变增强质感 */
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.7) 75%);
 }
-
+/* 可选：优化 hover 状态的毛玻璃效果 */
+.bordered:hover {
+    transform: translateY(-4rpx);
+    box-shadow: 0 12rpx 24rpx rgba(0,0,0,0.12);
+    backdrop-filter: blur(15rpx);
+  }
 .bordered:active {
     transform: translateY(2rpx);
     box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.06);

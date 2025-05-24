@@ -15,7 +15,7 @@ Page({
         achievementPopupVisible: false,
         currentAchievement: null,
         // 背景渐变样式
-        containerStyle: "linear-gradient(to bottom, #BDC3C7 0%, #BDC3C7 30%, #ffffff 95%)",
+        containerStyle: "linear-gradient(to bottom, #BDC3C7 0%, #BDC3C7 75%, #ffffff 95%); transition: background 0.3s ease;",
         // 标题样式
         welcomeCardStyle: "linear-gradient(135deg,rgb(43, 75, 107), #F5F0E7)", // 蓝紫色渐变
         welcomeTextColor: "black", // 白色字体
@@ -23,19 +23,21 @@ Page({
         // 添加bannerList初始化，支持webp格式
         bannerList: [
             { 
-                imageUrl: "/images/banner/1.jpg",
-                webpUrl: "/images/banner/1.webp"
+                imageUrl: "https://anglertest.xyz/Banner/2.jpg",
+                webpUrl: "https://anglertest.xyz/Banner/2.webp",
+                defaultUrl: "/images/banner/default.jpg" // 默认图片地址
             },
             { 
-                imageUrl: "/images/banner/2.jpg",
-                webpUrl: "/images/banner/2.webp"
+                imageUrl: "https://anglertest.xyz/Banner/3.jpg",
+                webpUrl: "https://anglertest.xyz/Banner/3.webp",
+                defaultUrl: "/images/banner/default.jpg"
             },
             { 
-                imageUrl: "/images/banner/3.jpg",
-                webpUrl: "/images/banner/3.webp"
+                imageUrl: "https://anglertest.xyz/Banner/4.jpg",
+                webpUrl: "https://anglertest.xyz/Banner/4.webp",
+                defaultUrl: "/images/banner/default.jpg"
             }
         ]
-        
     },
     onLoad() {
         // 检查是否首次访问
@@ -302,7 +304,14 @@ Page({
             }
         });
     },
-
+    onImageError(e) {
+        const index = e.currentTarget.dataset.index;
+        const bannerList = this.data.bannerList;
+        bannerList[index].imageUrl = bannerList[index].defaultUrl;
+        this.setData({
+            bannerList
+        });
+    },
     // 获取日出日落数据
     fetchSunData(cityId, cityName, weatherData) {
         const key = '12ac567f073843fc9e1ea417883ce8e5';
@@ -617,13 +626,13 @@ Page({
 
   // 生成渐变背景
   generateGradient(baseColor) {
-    return `linear-gradient(to bottom, ${baseColor} 0%, ${this.mixWithWhite(baseColor, 0.5)} 30%, #ffffff 95%)`
+    return `linear-gradient(to bottom, ${baseColor} 0%, ${this.mixWithWhite(baseColor, 0.5)} 75%, #ffffff 95%); transition: background 0.3s ease;`
   },
 
   // 生成欢迎卡渐变
   generateWelcomeCardGradient(baseColor) {
     const darkenColor = this.shadeColor(baseColor, -20)
-    return `linear-gradient(135deg, ${darkenColor}, ${baseColor})`
+    return `linear-gradient(135deg, ${darkenColor}, ${baseColor}); transition: background 0.3s ease;`
   },
 
   // 颜色混合工具

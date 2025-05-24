@@ -271,6 +271,7 @@ touchEnd(e) {
     let bestMatch = null;
     let highestScore = -Infinity;
     let defaultResult = null;
+    let resultIndex = -1; // 记录匹配结果的索引
 
     // 第一阶段：尝试匹配所有特定公式
     // 先按照结果数组的顺序处理，保证优先匹配前面的结果
@@ -288,7 +289,8 @@ touchEnd(e) {
             if (isMatch) {
                 // 找到第一个匹配的结果就直接使用，不再基于总分数选择
                 bestMatch = result;
-                console.log('找到匹配结果:', bestMatch.title);
+                resultIndex = i; // 记录匹配结果的索引
+                console.log('找到匹配结果:', bestMatch.title, '索引:', resultIndex);
                 break; // 找到匹配就退出循环
             }
         } catch (e) {
@@ -300,11 +302,35 @@ touchEnd(e) {
     if (!bestMatch && defaultResult) {
         console.log('使用默认结果:', defaultResult.title);
         bestMatch = defaultResult;
+        // 查找默认结果的索引
+        resultIndex = this.data.testData.results.findIndex(r => r.formula === "true");
+        console.log('默认结果索引:', resultIndex);
     }
 
     console.log('最佳匹配结果:', bestMatch ? bestMatch.title : '无匹配结果');
+    
     // 如果没有任何匹配（包括默认结果），则使用第一个结果
-    this.showResult(bestMatch || this.data.testData.results[0]);
+    if (!bestMatch) {
+        bestMatch = this.data.testData.results[0];
+        resultIndex = 0;
+    }
+    
+    // 计算结果占比，但对于保底结果（formula为"true"的结果）不显示占比
+    const totalResults = this.data.testData.results.length;
+    let resultPercentage = null;
+    
+    // 只有非保底结果才显示占比
+    if (bestMatch.formula !== "true") {
+      resultPercentage = totalResults > 0 ? ((resultIndex + 1) / totalResults * 100).toFixed(2) : "0.00";
+      console.log('结果占比:', resultPercentage + '%', '总结果数:', totalResults);
+    } else {
+      console.log('当前为保底结果，不显示占比');
+    }
+    
+    // 将占比添加到结果数据中
+    bestMatch.resultPercentage = resultPercentage;
+    
+    this.showResult(bestMatch);
 }
 
 ,
