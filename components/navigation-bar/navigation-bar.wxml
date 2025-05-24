@@ -46,7 +46,7 @@
       </view>
       <block wx:if="{{title}}">
         <!-- 添加 icon -->
-        <view class="nav-icon" style="background-image: url('your-icon-url')"></view>
+        <view class="nav-icon" style="background-image: url('https://anglertest.xyz/icon/icon.png')"></view>
         <text class="nav-title" style="{{titleFontStyle}}">{{title}}</text>
       </block>
       <block wx:else>

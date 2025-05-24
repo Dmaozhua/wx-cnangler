@@ -59,10 +59,10 @@
   background-color: var(--weui-FG-0);
 }
 .nav-icon {
-    width: 20px;
-    height: 20px;
+    width: 45px;
+    height: 45px;
     background-size: cover;
-    margin-right: 8px;
+    margin-right: 10px;
   }
 .weui-navigation-bar__center {
   font-size: 18px;
