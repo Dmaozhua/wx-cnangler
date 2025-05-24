@@ -1,5 +1,5 @@
 <!-- pages/test/test-list.wxml -->
-<page-meta page-style="">
+<page-meta page-style="{{ pageStyle }}">
   <navigation-bar 
     title="测试列表" 
     background="#ECF0F1" 

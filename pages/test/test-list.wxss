@@ -1,16 +1,11 @@
 
 .custom-nav-bar .weui-navigation-bar__inner {
-  height: 50px; /* 直接设置高度 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background-color: #ECF0F1;
+    z-index: 1000;
+    --height: 50px; /* 增加导航栏高度 */
+    background: linear-gradient(to right, #2c3e50, #34495e); /* 渐变背景 */
+    color: white; /* 文字颜色 */
 }
+
 
 .main-scroll-view {
     height: 100vh;
@@ -19,7 +14,7 @@
 }
 .container {
     padding: 20rpx;
-    padding-top: calc(50px + 100rpx); /* 导航栏高度 + 原来的padding */
+
     padding-bottom: 80rpx; /* 添加底部边距，确保内容不紧贴屏幕底部 */
     background-color: #F0F8FF;
     height: auto; /* 关键修改点 */
