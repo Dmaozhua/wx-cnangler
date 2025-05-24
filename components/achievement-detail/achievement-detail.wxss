@@ -8,7 +8,7 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.6);
-    z-index: 10000; /* 确保弹窗层级足够高 */
+    z-index: 10001; /* 确保弹窗层级足够高 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,6 +31,7 @@
     transform: scale(0.8); /* 初始缩放 */
     opacity: 0; /* 初始透明度 */
     transition: transform 0.3s ease, opacity 0.3s ease; /* 过渡效果 */
+    margin-top: 60rpx; /* 根据导航栏实际高度调整 */
   }
   
   .achievement-detail-mask.wx-show .achievement-detail-content {

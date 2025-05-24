@@ -58,26 +58,29 @@
 
           <!-- 成就详情 -->
           <view class="detail-box">
-            <text class="achievement-title">{{item.unlocked ? item.title : '???'}}</text>
-            <text class="achievement-desc">{{item.unlocked ? item.description : '完成特定条件解锁此成就'}}</text>
-            
-            <!-- 进度条 -->
-            <view class="progress-bar">
-              <view 
-                class="progress-fill" 
-                style="width: {{(item.currentProgress / item.targetProgress) * 100 + '%'}}"
-              ></view>
-              <text class="progress-text">
-                {{item.currentProgress}}/{{item.targetProgress}}
-              </text>
-            </view>
-
-            <!-- 奖励标识 -->
-            <view wx:if="{{item.unlocked}}" class="reward-badge">
-              <image src="/images/icon/group-selection.png" class="gift-icon"/>
-              <text class="reward-text">已获得{{item.reward}}</text>
-            </view>
-          </view>
+  <!-- 标题和奖励标识的容器 -->
+  <view class="title-row">
+    <text class="achievement-title">{{item.unlocked ? item.title : '???'}}</text>
+    <!-- 奖励标识移至标题右侧 -->
+    <view wx:if="{{item.unlocked}}" class="reward-badge">
+      <image src="/images/icon/group-selection.png" class="gift-icon"/>
+      <text class="reward-text">已获得{{item.reward}}</text>
+    </view>
+  </view>
+  
+  <text class="achievement-desc">{{item.unlocked ? item.description : '完成特定条件解锁此成就'}}</text>
+  
+  <!-- 进度条 -->
+  <view class="progress-bar">
+    <view 
+      class="progress-fill" 
+      style="width: {{(item.currentProgress / item.targetProgress) * 100 + '%'}}"
+    ></view>
+    <text class="progress-text">
+      {{item.currentProgress}}/{{item.targetProgress}}
+    </text>
+  </view>
+</view>
         </view>
       </block>
     </view>

@@ -278,13 +278,22 @@
   display: block;
   line-height: 1.5;
 }
-
+/* 标题行容器 */
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8rpx; /* 根据需要调整间距 */
+  }
 /* 奖励标识 */
 .reward-badge {
-  display: flex;
-  align-items: center;
-  margin-top: 10rpx;
-}
+    display: flex;
+    align-items: center;
+    background: rgba(72, 201, 176, 0.1);
+    padding: 8rpx 16rpx;
+    border-radius: 30rpx;
+    /* 移除 align-self，使用父容器的对齐方式 */
+  }
 
 .gift-icon {
   width: 32rpx;
