@@ -18,7 +18,7 @@ page {
   overflow: hidden;
   transition: background 0.3s ease;
     /* 添加顶部内边距，适配安全区域 */
-    padding-top: calc(20rpx + env(safe-area-inset-top)); 
+    /* padding-top: calc(10rpx + env(safe-area-inset-top));  */
 }
 
 .container {
@@ -33,6 +33,7 @@ page {
     -webkit-overflow-scrolling: touch; /* 保持滚动流畅 */
     overflow: scroll;
     scrollbar-width: none; /* Firefox 隐藏 */
+    margin-top: 10rpx; /* 根据实际情况调整这个值 */
 }
 .scroll-area::-webkit-scrollbar { display: none; 
 height: 100%;
@@ -107,8 +108,8 @@ scroll-view {
 }
 
 .banner-swiper {
-  height: 180px;
-  margin: 1px 1px;
+  height: 200px;
+  margin: 2px 2px;
   border-radius: 8px;
   overflow: hidden;
 }
