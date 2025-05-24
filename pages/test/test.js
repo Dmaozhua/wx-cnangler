@@ -319,19 +319,74 @@ evaluateFormula(formula, env) {
           }
       });
 
-      // 替换变量
-      const processedFormula = formula.replace(/\b([a-zA-Z_][a-zA-Z0-9_]*)\b/g, match => {
-          if (["true", "false"].includes(match)) return match; // 避免 true/false 误替换
-          return `safeEnv["${match}"]`;
-      });
-
-      console.log(`解析后的公式: return (${processedFormula});`);
+      console.log(`原始公式: ${formula}`);
       console.log(`当前维度得分:`, safeEnv);
-
-      // 直接使用 eval 计算（微信小程序支持）
-      let result = eval(`(function(safeEnv){ return (${processedFormula}); })`)(safeEnv);
-
-      console.log(`计算公式: ${formula}, 结果: ${result}`);
+      
+      // 如果公式是"true"，直接返回true
+      if (formula === "true") {
+          return true;
+      }
+      
+      // 处理包含乘法的公式，如"Record*1.1 >= 31"
+      let processedFormula = formula;
+      
+      // 先处理乘法部分
+      if (processedFormula.includes('*')) {
+          // 找出所有可能的乘法表达式
+          const multiplyRegex = /([a-zA-Z_][a-zA-Z0-9_]*)\s*\*\s*([0-9.]+)/g;
+          let match;
+          
+          // 替换所有乘法表达式
+          while ((match = multiplyRegex.exec(processedFormula)) !== null) {
+              const varName = match[1];
+              const multiplier = parseFloat(match[2]);
+              
+              if (safeEnv[varName] !== undefined) {
+                  const result = safeEnv[varName] * multiplier;
+                  // 替换整个乘法表达式为计算结果
+                  processedFormula = processedFormula.replace(
+                      `${varName}*${multiplier}`, 
+                      result.toString()
+                  );
+              }
+          }
+      }
+      
+      // 替换剩余的变量为实际值
+      Object.keys(safeEnv).forEach(key => {
+          // 使用正则表达式确保只替换完整的变量名
+          const regex = new RegExp(`\\b${key}\\b`, 'g');
+          processedFormula = processedFormula.replace(regex, safeEnv[key]);
+      });
+      
+      console.log(`处理后的公式: ${processedFormula}`);
+      
+      // 使用简单的逻辑运算符替代eval
+      // 支持基本的比较运算符和逻辑运算符
+      let result = false;
+      
+      // 处理简单的比较表达式
+      if (processedFormula.includes('>=')) {
+          const parts = processedFormula.split('>=');
+          result = Number(parts[0].trim()) >= Number(parts[1].trim());
+      } else if (processedFormula.includes('<=')) {
+          const parts = processedFormula.split('<=');
+          result = Number(parts[0].trim()) <= Number(parts[1].trim());
+      } else if (processedFormula.includes('>')) {
+          const parts = processedFormula.split('>');
+          result = Number(parts[0].trim()) > Number(parts[1].trim());
+      } else if (processedFormula.includes('<')) {
+          const parts = processedFormula.split('<');
+          result = Number(parts[0].trim()) < Number(parts[1].trim());
+      } else if (processedFormula.includes('==')) {
+          const parts = processedFormula.split('==');
+          result = Number(parts[0].trim()) == Number(parts[1].trim());
+      } else if (processedFormula.includes('!=')) {
+          const parts = processedFormula.split('!=');
+          result = Number(parts[0].trim()) != Number(parts[1].trim());
+      }
+      
+      console.log(`计算公式: ${formula}, 处理后: ${processedFormula}, 结果: ${result}`);
       return Boolean(result);
   } catch (e) {
       console.error('公式执行失败:', formula, e);
