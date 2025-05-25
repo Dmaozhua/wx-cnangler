@@ -1,3 +1,10 @@
-{
-    "usingComponents": {}
-}
+
+  {
+    "usingComponents": {
+      "navigation-bar": "/components/navigation-bar/navigation-bar"
+    },
+    "navigationBarTitleText": "钓友说",
+    "navigationBarBackgroundColor": "#BDC3C7",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f8f8f8"
+  }

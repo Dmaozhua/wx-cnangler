@@ -1,1 +1,455 @@
 /* pages/AnglerSay/AnglerSayDetail.wxss */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #f1f1f1, #d6d6d6); /* 背景渐变 */
+    min-height: 100vh;
+    padding-bottom: 100rpx; /* 为底部操作栏留出空间 */
+    padding: 0; /* 去除内边距 */
+    margin: 0; /* 去除外边距 */
+  }
+  
+  /* 顶部导航栏 */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx 30rpx;
+    background-color: rgba(248, 249, 250, 0.95); /* 半透明背景 */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px); /* 毛玻璃效果 */
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05); /* 添加阴影 */
+  }
+  
+  .back-btn, .share-btn {
+    width: 70rpx; /* 增大按钮尺寸 */
+    height: 70rpx;
+    background-color: rgba(0, 0, 0, 0.6); /* 更深的背景色 */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.2); /* 添加阴影 */
+    transition: all 0.3s;
+  }
+  
+  .back-btn:active, .share-btn:active {
+    transform: scale(0.9); /* 点击时的缩放效果 */
+    background-color: rgba(0, 0, 0, 0.7); /* 点击时的背景色 */
+  }
+  
+  .back-icon, .share-icon {
+    font-size: 40rpx; /* 增大图标尺寸 */
+  }
+  
+  /* 产品信息 */
+  .product-info {
+    background-color: white;
+    border-radius: 20rpx;
+    margin: 20rpx; /* 增加外边距 */
+    overflow: hidden;
+    box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1); /* 增强阴影效果 */
+    transition: all 0.3s;
+  }
+  
+  .product-info:hover {
+    transform: translateY(-5rpx); /* 悬停时上移 */
+    box-shadow: 0 6rpx 25rpx rgba(0, 0, 0, 0.2); /* 增强阴影 */
+  }
+  
+  .product-header {
+    padding: 24rpx 30rpx; /* 增加内边距 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1rpx solid #f0f0f0;
+    background: linear-gradient(to right, #939496, #d2d3d3); /* 渐变背景 */
+  }
+  
+  .product-title {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.05); /* 添加文字阴影 */
+  }
+  
+  .product-price {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #f7997d;
+
+    padding: 8rpx 20rpx;
+    border-radius: 10rpx;
+  }
+  
+  /* 产品图片轮播 */
+  .product-swiper {
+    width: 100%;
+    height: 550rpx; /* 增加高度 */
+    box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1); /* 添加阴影 */
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+    transition: all 0.3s;
+  }
+  
+  .product-image:hover {
+    transform: scale(1.02); /* 悬停时放大 */
+  }
+  
+  /* 用户信息 */
+  .user-info {
+    display: flex;
+    align-items: center;
+    padding: 24rpx 30rpx; /* 增加内边距 */
+    border-bottom: 1rpx solid #f0f0f0;
+    background-color: #fff;
+  }
+  
+  .user-avatar {
+    width: 90rpx; /* 增大头像尺寸 */
+    height: 90rpx;
+    border-radius: 50%;
+    margin-right: 20rpx;
+    background-color: #f0f0f0;
+    border: 3rpx solid #fff; /* 添加边框 */
+    box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1); /* 添加阴影 */
+  }
+  
+  .user-detail {
+    flex: 1;
+  }
+  
+  .user-name {
+    font-size: 30rpx; /* 增大字体 */
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .user-tag {
+    font-size: 24rpx;
+    color: #999;
+    background-color: #f5f7fa; /* 添加背景色 */
+    padding: 6rpx 16rpx;
+    border-radius: 30rpx; /* 增大圆角 */
+    display: inline-block;
+    margin-top: 8rpx;
+  }
+  
+  .follow-btn {
+    padding: 12rpx 32rpx; /* 增加内边距 */
+    background: linear-gradient(to right, #007BFF, #00BFFF); /* 渐变背景 */
+    color: white;
+    border-radius: 30rpx;
+    font-size: 26rpx; /* 增大字体 */
+    box-shadow: 0 4rpx 10rpx rgba(0, 123, 255, 0.2); /* 添加阴影 */
+    transition: all 0.3s;
+  }
+  
+  .follow-btn:active {
+    transform: scale(0.95); /* 点击时的缩放效果 */
+    box-shadow: 0 2rpx 5rpx rgba(0, 123, 255, 0.1); /* 减弱阴影 */
+  }
+  
+  /* 使用年限 */
+  .usage-info {
+    padding: 24rpx 30rpx; /* 增加内边距 */
+    border-bottom: 1rpx solid #f0f0f0;
+    background-color: #fff;
+  }
+  
+  .usage-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .usage-label {
+    font-size: 28rpx;
+    color: #666;
+    margin-right: 20rpx;
+  }
+  
+  .usage-value {
+    font-size: 28rpx;
+    color: #333;
+    font-weight: bold;
+    background-color: #f5f7fa; /* 添加背景色 */
+    padding: 6rpx 16rpx;
+    border-radius: 8rpx;
+  }
+  
+  /* 评分详情 */
+  .rating-details {
+    padding: 24rpx 30rpx; /* 增加内边距 */
+    border-bottom: 1rpx solid #f0f0f0;
+    background-color: #fff;
+  }
+  
+  .rating-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24rpx; /* 增加间距 */
+  }
+  
+  .rating-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .rating-label {
+    width: 140rpx;
+    font-size: 28rpx;
+    color: #666;
+  }
+  
+  .rating-bar-container {
+    flex: 1;
+    height: 16rpx;
+    background-color: #f0f0f0;
+    border-radius: 8rpx;
+    margin: 0 20rpx;
+    overflow: hidden;
+    box-shadow: inset 0 1rpx 3rpx rgba(0, 0, 0, 0.1); /* 内阴影效果 */
+  }
+  
+  .rating-bar {
+    height: 100%;
+    background: linear-gradient(to right, #007BFF, #00BFFF); /* 渐变背景 */
+    border-radius: 8rpx;
+    transition: width 0.5s ease-in-out; /* 添加过渡效果 */
+  }
+  
+  .rating-value {
+    font-size: 30rpx; /* 增大字体 */
+    color: #333;
+    font-weight: bold;
+    width: 60rpx;
+    text-align: right;
+  }
+  
+  /* 使用体验 */
+  .experience-section,
+  .recommendation-section,
+  .usage-scene-section {
+    padding: 30rpx;
+    border-bottom: 1rpx solid #f0f0f0;
+    background-color: #fff;
+  }
+  
+  .section-title {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20rpx;
+    position: relative;
+    padding-left: 20rpx; /* 为左侧装饰留出空间 */
+  }
+  
+  .section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8rpx;
+    height: 32rpx;
+    background: linear-gradient(to bottom, #007BFF, #00BFFF); /* 渐变背景 */
+    border-radius: 4rpx;
+  }
+  
+  .experience-content {
+    font-size: 28rpx;
+    color: #666;
+    line-height: 1.8; /* 增加行高 */
+    text-align: justify; /* 两端对齐 */
+  }
+  
+  /* 推荐理由 */
+  .recommendation-list {
+    margin-top: 20rpx;
+  }
+  
+  .recommendation-item {
+    display: flex;
+    margin-bottom: 20rpx; /* 增加间距 */
+    padding: 16rpx; /* 添加内边距 */
+    background-color: #f8f9fa; /* 添加背景色 */
+    border-radius: 12rpx;
+    transition: all 0.3s;
+  }
+  
+  .recommendation-item:active {
+    transform: translateX(5rpx); /* 点击时的位移效果 */
+    background-color: #f0f0f0; /* 点击时的背景色 */
+  }
+  
+  .recommendation-number {
+    font-size: 28rpx;
+    color: #fff;
+    font-weight: bold;
+    margin-right: 16rpx;
+    background-color: #007BFF; /* 添加背景色 */
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  
+  .recommendation-text {
+    font-size: 28rpx;
+    color: #666;
+    line-height: 1.6;
+    flex: 1;
+  }
+  
+  /* 实际使用场景 */
+  .usage-scene-images {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10rpx 20rpx;
+  }
+  
+  .usage-scene-image {
+    width: calc(50% - 20rpx);
+    height: 320rpx; /* 增加高度 */
+    margin: 10rpx;
+    border-radius: 16rpx; /* 增大圆角 */
+    background-color: #f0f0f0;
+    box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1); /* 添加阴影 */
+    transition: all 0.3s;
+  }
+  
+  .usage-scene-image:active {
+    transform: scale(0.98); /* 点击时的缩放效果 */
+  }
+  
+  .usage-scene-description {
+    font-size: 28rpx;
+    color: #666;
+    line-height: 1.8; /* 增加行高 */
+    text-align: justify; /* 两端对齐 */
+    padding: 16rpx; /* 添加内边距 */
+    background-color: #f8f9fa; /* 添加背景色 */
+    border-radius: 12rpx;
+  }
+  
+  /* 底部评论区 */
+  .comments-section {
+    background-color: white;
+    border-radius: 20rpx;
+    margin: 20rpx;
+    padding: 30rpx;
+    box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08); /* 增强阴影效果 */
+    border: 1rpx solid rgba(0, 0, 0, 0.03); /* 添加微妙边框 */
+  }
+  
+  .comments-list {
+    margin-top: 20rpx;
+  }
+  
+  .comment-item {
+    display: flex;
+    padding: 20rpx 0;
+    border-bottom: 1rpx solid #f0f0f0;
+    transition: all 0.3s;
+  }
+  
+  .comment-item:active {
+    background-color: #f8f9fa; /* 点击时的背景色 */
+  }
+  
+  .comment-item:last-child {
+    border-bottom: none;
+  }
+  
+  .comment-avatar {
+    width: 70rpx; /* 增大头像尺寸 */
+    height: 70rpx;
+    border-radius: 50%;
+    margin-right: 20rpx;
+    background-color: #f0f0f0;
+    border: 2rpx solid #fff; /* 添加边框 */
+    box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.1); /* 添加阴影 */
+  }
+  
+  .comment-content {
+    flex: 1;
+  }
+  
+  .comment-user {
+    font-size: 28rpx; /* 增大字体 */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8rpx;
+  }
+  
+  .comment-text {
+    font-size: 26rpx;
+    color: #666;
+    line-height: 1.6; /* 增加行高 */
+    margin-bottom: 8rpx;
+    text-align: justify; /* 两端对齐 */
+  }
+  
+  .comment-time {
+    font-size: 22rpx;
+    color: #999;
+  }
+  
+  /* 底部操作栏 */
+  .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 110rpx; /* 增加高度 */
+    background-color: rgba(255, 255, 255, 0.95); /* 半透明背景 */
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-top: 1rpx solid #f0f0f0;
+    box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05); /* 添加阴影 */
+    backdrop-filter: blur(10px); /* 毛玻璃效果 */
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .bottom-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    height: 100%;
+    transition: all 0.3s;
+  }
+  
+  .bottom-btn:active {
+    background-color: #f5f7fa; /* 点击时的背景色 */
+  }
+  
+  .bottom-btn-icon {
+    font-size: 44rpx; /* 增大图标尺寸 */
+    color: #666;
+    margin-bottom: 4rpx;
+  }
+  
+  .bottom-btn-text {
+    font-size: 24rpx; /* 增大字体 */
+    color: #999;
+  }
+  
+  .like-btn.active .bottom-btn-icon,
+  .like-btn.active .bottom-btn-text {
+    color: #FF5722;
+    text-shadow: 0 2rpx 4rpx rgba(255, 87, 34, 0.3); /* 添加文字阴影 */
+  }

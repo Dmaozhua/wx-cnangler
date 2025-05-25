@@ -1,2 +1,140 @@
-<!--pages/AnglerSay/AnglerSayDetail.wxml-->
-<text>pages/AnglerSay/AnglerSayDetail.wxml</text>
+<!-- pages/AnglerSay/AnglerSayDetail.wxml -->
+<view class="container">
+  <!-- 顶部导航栏 -->
+  <view class="header">
+    <view class="back-btn" bindtap="goBack">
+      <text class="back-icon">←</text>
+    </view>
+    <view class="share-btn">
+      <text class="share-icon">⋯</text>
+    </view>
+  </view>
+
+  <!-- 产品信息 -->
+  <view class="product-info">
+    <view class="product-header">
+      <view class="product-title">{{productDetail.name}}</view>
+      <view class="product-price">¥{{productDetail.price}}</view>
+    </view>
+
+    <!-- 产品图片轮播 -->
+    <swiper class="product-swiper" indicator-dots="{{true}}" autoplay="{{true}}" interval="{{3000}}" duration="{{500}}">
+      <swiper-item wx:for="{{productDetail.images}}" wx:key="index">
+        <image src="{{item}}" class="product-image" mode="aspectFill"></image>
+      </swiper-item>
+    </swiper>
+
+    <!-- 用户信息 -->
+    <view class="user-info">
+      <image class="user-avatar" src="{{productDetail.userAvatar}}" mode="aspectFill"></image>
+      <view class="user-detail">
+        <view class="user-name">{{productDetail.userName}}</view>
+        <view class="user-tag">{{productDetail.userTag}}</view>
+      </view>
+      <view class="follow-btn">关注</view>
+    </view>
+
+    <!-- 使用年限 -->
+    <view class="usage-info">
+      <view class="usage-item">
+        <text class="usage-label">使用年限</text>
+        <text class="usage-value">{{productDetail.usageYears}}年</text>
+      </view>
+    </view>
+
+    <!-- 评分详情 -->
+    <view class="rating-details">
+      <view class="rating-item">
+        <text class="rating-label">抛投性能</text>
+        <view class="rating-bar-container">
+
+          <view class="rating-bar" style="{{'width:'+ (productDetail.castingRating * 10)+'%;'}}"></view>
+        </view>
+        <text class="rating-value">{{productDetail.castingRating}}</text>
+      </view>
+      <view class="rating-item">
+        <text class="rating-label">制动性能</text>
+        <view class="rating-bar-container">
+          <view class="rating-bar" style="{{'width:'+ (productDetail.brakingRating * 10)+'%;'}}"></view>
+        </view>
+        <text class="rating-value">{{productDetail.brakingRating}}</text>
+      </view>
+      <view class="rating-item">
+        <text class="rating-label">耐用程度</text>
+        <view class="rating-bar-container">
+        <view class="rating-bar" style="{{'width:'+ (productDetail.durabilityRating * 10)+'%;'}}"></view>        
+        </view>
+        <text class="rating-value">{{productDetail.durabilityRating}}</text>
+      </view>
+      <view class="rating-item">
+        <text class="rating-label">性价比</text>
+        <view class="rating-bar-container">
+
+          <view class="rating-bar" style="{{'width:'+ (productDetail.valueRating * 10)+'%;'}}"></view>            
+        </view>
+        <text class="rating-value">{{productDetail.valueRating}}</text>
+      </view>
+    </view>
+
+    <!-- 使用体验 -->
+    <view class="experience-section">
+      <view class="section-title">使用体验</view>
+      <view class="experience-content">
+        <text>{{productDetail.experience}}</text>
+      </view>
+    </view>
+
+    <!-- 推荐理由 -->
+    <view class="recommendation-section">
+      <view class="section-title">推荐理由</view>
+      <view class="recommendation-list">
+        <view class="recommendation-item" wx:for="{{productDetail.recommendations}}" wx:key="index">
+          <text class="recommendation-number">{{index + 1}}.</text>
+          <text class="recommendation-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 实际使用场景 -->
+    <view class="usage-scene-section">
+      <view class="section-title">实际使用场景</view>
+      <view class="usage-scene-images">
+        <image wx:for="{{productDetail.usageScenes}}" wx:key="index" src="{{item}}" class="usage-scene-image" mode="aspectFill"></image>
+      </view>
+      <view class="usage-scene-description">
+        <text>{{productDetail.usageSceneDescription}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部评论区 -->
+  <view class="comments-section">
+    <view class="section-title">热门评论</view>
+    <view class="comments-list">
+      <view class="comment-item" wx:for="{{productDetail.comments}}" wx:key="index">
+        <image class="comment-avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+        <view class="comment-content">
+          <view class="comment-user">{{item.userName}}</view>
+          <view class="comment-text">{{item.content}}</view>
+          <view class="comment-time">{{item.time}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <view class="bottom-btn like-btn">
+      <text class="bottom-btn-icon">♥</text>
+      <text class="bottom-btn-text">{{productDetail.likes}}</text>
+    </view>
+    <view class="bottom-btn comment-btn">
+      <text class="bottom-btn-icon">✉</text>
+      <text class="bottom-btn-text">{{productDetail.commentCount}}</text>
+    </view>
+    <view class="bottom-btn share-btn">
+      <text class="bottom-btn-icon">↗</text>
+      <text class="bottom-btn-text">分享</text>
+    </view>
+  </view>
+</view>

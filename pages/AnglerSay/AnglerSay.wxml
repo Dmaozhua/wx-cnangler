@@ -1,2 +1,94 @@
-<!--pages/AnglerSay/AnglerSay.wxml-->
-<text>pages/AnglerSay/AnglerSay.wxml</text>
+
+  <!-- 自定义导航栏 -->
+<page-meta page-style="{{ pageStyle }}">
+  <navigation-bar 
+    title="钓友说" 
+    background="#ECF0F1" 
+    color="black" 
+    back="{{false}}" 
+    sticky="{{true}}" 
+    placeholder="{{true}}" 
+    extClass="custom-nav-bar">
+  </navigation-bar>
+</page-meta>
+<view class="container">
+  <!-- 顶部筛选选项 -->
+ <view class="filter-tabs">
+    <scroll-view scroll-x="true" class="tabs-scroll" enhanced="true" show-scrollbar="false" enable-flex="true">
+      <view class="filter-tab {{currentFilter === 'all' ? 'active' : ''}}" bindtap="changeFilter" data-filter="all">全部</view>
+      <view class="filter-tab {{currentFilter === 'route' ? 'active' : ''}}" bindtap="changeFilter" data-filter="route">路亚轮</view>
+      <view class="filter-tab {{currentFilter === 'reel' ? 'active' : ''}}" bindtap="changeFilter" data-filter="reel">路亚竿</view>
+    </scroll-view>
+  </view>
+
+
+  <!-- <view class="sub-filter-tabs">
+    <view class="sub-filter-tab {{subFilter === 'comprehensive' ? 'active' : ''}}" bindtap="changeSubFilter" data-filter="comprehensive">综合排序</view>
+    <view class="sub-filter-tab {{subFilter === 'price' ? 'active' : ''}}" bindtap="changeSubFilter" data-filter="price">价格区间</view>
+    <view class="sub-filter-tab {{subFilter === 'brand' ? 'active' : ''}}" bindtap="changeSubFilter" data-filter="brand">品牌精选</view>
+    <view class="sub-filter-tab {{subFilter === 'list' ? 'active' : ''}}" bindtap="changeSubFilter" data-filter="list">列表</view>
+  </view>  -->
+
+  <!-- 钓友说列表 -->
+  <scroll-view class="angler-list" scroll-y="true" enable-flex="true" enhanced="true" bounces="true" show-scrollbar="true">
+    <!-- 钓友说卡片 -->
+    <view class="angler-item" wx:for="{{anglerList}}" wx:key="id" bindtap="viewAnglerDetail" data-id="{{item.id}}">
+      <view class="angler-card">
+        <!-- 用户信息 -->
+        <view class="user-info">
+          <image class="user-avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+          <view class="user-detail">
+            <!-- 将 user-name 和 user-tag 放在同一行 -->
+            <view style="display: flex; align-items: center;">
+              <view class="user-name">{{item.userName}}</view>
+              <view class="user-tag">{{item.userTag}}</view>
+             
+            </view>
+            <text class="clock-icon">🕒</text>
+            <view class="user-year">{{item.userYear}}</view>
+          </view>
+          <!-- <view class="follow-btn">关注</view> -->
+        </view>
+
+        <!-- 产品信息 -->
+        <view class="product-info">
+          <view class="product-name">{{item.productName}}</view>
+          <view class="product-price">¥{{item.price}}</view>
+        </view>
+
+        <!-- 产品图片 -->
+        <view class="product-images">
+          <image class="product-image" wx:for="{{item.images}}" wx:for-item="image" wx:key="index" src="{{image}}" mode="aspectFill"></image>
+        </view>
+
+        <!-- 产品描述 -->
+        <view class="product-desc">{{item.description}}</view>
+
+        <!-- 评分信息 -->
+        <view class="rating-info">
+          <view class="rating-stars">
+            <text class="star" wx:for="{{5}}" wx:key="index">★</text>
+            <text class="rating-value">{{item.rating}}</text>
+            <text class="rating-count">服务 {{item.serviceRating}}</text>
+            <text class="rating-count">性价比 {{item.valueRating}}</text>
+          </view>
+        </view>
+
+        <!-- 互动按钮 -->
+        <view class="interaction-btns">
+          <view class="interaction-btn">
+            <text class="interaction-icon">♥</text>
+            <text class="interaction-count">{{item.likes}}</text>
+          </view>
+          <view class="interaction-btn">
+            <text class="interaction-icon">✉</text>
+            <text class="interaction-count">{{item.comments}}</text>
+          </view>
+          <view class="interaction-btn">
+            <text class="interaction-icon">⋯</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

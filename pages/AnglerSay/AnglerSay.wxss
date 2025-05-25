@@ -1,1 +1,271 @@
 /* pages/AnglerSay/AnglerSay.wxss */
+
+/* 自定义导航栏样式 */
+.custom-nav-bar .weui-navigation-bar__inner {
+    z-index: 1000;
+    --height: 50px; /* 增加导航栏高度 */
+    background: linear-gradient(to right, #2c3e50, #34495e); /* 渐变背景 */
+    color: white; /* 文字颜色 */
+}
+
+/* 页面容器 */
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(to bottom, #f1f1f1, #d6d6d6); /* 背景渐变 */
+  padding: 0; /* 去除内边距 */
+  margin: 0; /* 去除外边距 */
+}
+
+/* 顶部筛选选项 */
+.filter-tabs {
+  padding: 20rpx 0;
+  background-color: #fff;
+  border-bottom: 1rpx solid #eee;
+  background-color: rgba(255, 255, 255, 0.8); /* 半透明背景 */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tabs-scroll {
+  white-space: nowrap;
+  padding: 0 20rpx;
+}
+
+.filter-tab {
+  display: inline-block;
+  padding: 10rpx 30rpx;
+  margin-right: 20rpx;
+  font-size: 28rpx;
+  color: #666;
+  background-color: #f5f5f5;
+  border-radius: 30rpx;
+  transition: all 0.3s;
+  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.1); /* 添加阴影 */
+}
+
+.filter-tab.active {
+  color: #fff;
+  background-color: #3a87f0;
+  font-weight: bold;
+  transform: scale(1.05); /* 激活时放大 */
+}
+
+/* 二级筛选选项 */
+.sub-filter-tabs {
+  display: flex;
+  justify-content: space-around;
+  padding: 20rpx 0;
+  background-color: #fff;
+  border-bottom: 1rpx solid #eee;
+  background-color: rgba(255, 255, 255, 0.8); /* 半透明背景 */
+}
+
+.sub-filter-tab {
+  font-size: 26rpx;
+  color: #666;
+  padding: 6rpx 10rpx;
+  position: relative;
+}
+
+.sub-filter-tab.active {
+  color: #3a87f0;
+  font-weight: bold;
+}
+
+.sub-filter-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -10rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 4rpx;
+  background-color: #3a87f0;
+  border-radius: 2rpx;
+}
+
+/* 钓友说列表 */
+.angler-list {
+  flex: 1;
+  padding: 20rpx;
+  overflow-y: auto;
+}
+
+.angler-item {
+  margin-bottom: 30rpx;
+}
+
+.angler-card {
+    background-color: #fff;
+    border-radius: 16rpx;
+    padding: 20rpx;
+    box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1); /* 增强阴影 */
+    transition: all 0.3s;
+  }
+  
+  .angler-card:hover {
+    transform: translateY(-5rpx); /* 悬停时上移 */
+    box-shadow: 0 6rpx 15rpx rgba(0, 0, 0, 0.2); /* 增强阴影 */
+  }
+/* 用户信息 */
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.user-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  border: 2rpx solid #fff; /* 添加边框 */
+  box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.1); /* 添加阴影 */
+}
+
+.user-detail {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 35rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.user-tag {
+    font-size: 20rpx;
+    color: #999;
+    background-color: #f8cd94; /* 添加背景色 */
+    padding: 5rpx 15rpx;
+    display: inline-block;
+    margin-left: 10rpx; /* 增加与 user-name 之间的间隔 */
+}
+.user-year {
+    font-size: 20rpx;
+    color: #666; /* 设置字体颜色 */
+    background-color: #f5f7fa; /* 添加背景色 */
+    padding: 4rpx 12rpx; /* 添加内边距 */
+    border-radius: 16rpx; /* 增加圆角 */
+    display: inline-block; /* 使其可以设置宽度和高度 */
+    margin-top: 8rpx; /* 与上方元素保持一定距离 */
+}
+.clock-icon {
+    font-size: 22rpx; /* 调整时钟图标大小 */
+    color: #999; /* 调整时钟图标颜色 */
+    margin-right: 0rpx; /* 添加与文字的间距 */
+  }
+.follow-btn {
+  padding: 10rpx 20rpx;
+  font-size: 24rpx;
+  color: #3a87f0;
+  border: 1rpx solid #3a87f0;
+  border-radius: 30rpx;
+}
+
+/* 产品信息 */
+.product-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.product-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.product-price {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #f7997d;
+}
+
+/* 产品图片 */
+.product-image {
+    width: 200rpx;
+    height: 200rpx;
+    margin-right: 10rpx;
+    border-radius: 10rpx; /* 增加圆角 */
+    box-shadow: 0 2rpx 5rpx rgba(0, 0, 0, 0.1); /* 添加阴影 */
+    transition: all 0.3s;
+  }
+
+.product-image {
+  width: 200rpx;
+  height: 200rpx;
+  margin-right: 10rpx;
+  border-radius: 8rpx;
+  flex-shrink: 0;
+}
+
+/* 产品描述 */
+.product-desc {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 20rpx;
+}
+
+/* 评分信息 */
+.rating-info {
+  margin-bottom: 20rpx;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+}
+
+.star {
+  color: #ffc107;
+  font-size: 28rpx;
+  margin-right: 4rpx;
+}
+
+.rating-value {
+  font-size: 28rpx;
+  color: #333;
+  margin-right: 20rpx;
+  margin-left: 10rpx;
+}
+
+.rating-count {
+  font-size: 24rpx;
+  color: #999;
+  margin-right: 20rpx;
+}
+
+/* 互动按钮 */
+.interaction-btns {
+  display: flex;
+  border-top: 1rpx solid #eee;
+  padding-top: 20rpx;
+}
+
+.interaction-btn {
+  display: flex;
+  align-items: center;
+  margin-right: 40rpx;
+}
+
+.interaction-icon {
+  font-size: 32rpx;
+  color: #999;
+  margin-right: 10rpx;
+}
+
+.interaction-count {
+  font-size: 24rpx;
+  color: #999;
+}

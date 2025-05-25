@@ -55,6 +55,12 @@
                 "selectedIconPath": "/images/tab/路亚配件 (1).png"
             },
             {
+                "pagePath": "pages/AnglerSay/AnglerSay",
+                "text": "钓友说",
+                "iconPath": "/images/tab/Sport-Fishing.png",
+                "selectedIconPath": "/images/tab/Sport-Fishing (1).png"
+            },
+            {
                 "pagePath": "pages/achievements/achievements",
                 "text": "成就",
                 "iconPath": "/images/tab/钓鱼.png",

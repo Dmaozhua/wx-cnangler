@@ -14,7 +14,6 @@
 }
 .container {
     padding: 20rpx;
-
     padding-bottom: 80rpx; /* 添加底部边距，确保内容不紧贴屏幕底部 */
     background-color: #F0F8FF;
     height: auto; /* 关键修改点 */
