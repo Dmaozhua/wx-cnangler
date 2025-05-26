@@ -54,11 +54,12 @@
             <text class="section-subtitle">了解你的钓鱼风格</text>
         </view>
         <view class="test-grid test-grid-2x2">
-            <button class="test-btn" hover-class="btn-hover" bindtap="goToTest1">钓鱼人性格测试</button>
-            <button class="test-btn" hover-class="btn-hover" bindtap="goToTest2">钓鱼应急能力测试</button>
-            <button class="test-btn random-test-btn" hover-class="btn-hover" bindtap="goToRandomTest"><text class="random-icon">🎲</text>随机测试</button>
-            <button class="test-btn test-more-btn" hover-class="btn-hover" bindtap="goToAllTests">查看全部测试<text class="arrow-icon">></text></button>
-        </view>
+    <view class="top-row">
+        <button class="test-btn" hover-class="btn-hover" bindtap="goToTest1">钓鱼人性格测试</button>
+        <button class="test-btn random-test-btn" hover-class="btn-hover" bindtap="goToRandomTest"><text class="random-icon">🎲</text>随机测试</button>
+    </view>
+    <button class="test-btn test-more-btn" hover-class="btn-hover" bindtap="goToAllTests">查看全部测试<text class="arrow-icon">></text></button>
+</view>
     </view>
 
     <view class="gear-section bordered">
