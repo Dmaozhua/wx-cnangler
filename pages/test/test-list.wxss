@@ -1,5 +1,9 @@
 
 .custom-nav-bar .weui-navigation-bar__inner {
+    position: fixed; /* 固定导航栏 */
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
     --height: 50px; /* 增加导航栏高度 */
     background: linear-gradient(to right, #2c3e50, #34495e); /* 渐变背景 */
@@ -14,6 +18,7 @@
 }
 .container {
     padding: 20rpx;
+    padding-top: 70rpx; /* 增加顶部内边距，避免内容被导航栏遮挡 */
     padding-bottom: 80rpx; /* 添加底部边距，确保内容不紧贴屏幕底部 */
     background-color: #F0F8FF;
     height: auto; /* 关键修改点 */
