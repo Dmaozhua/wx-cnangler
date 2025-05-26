@@ -259,7 +259,12 @@ scroll-view {
 .test-grid.test-grid-2x2 .top-row .test-btn {
     width: calc(50% - 12rpx); /* 减去一些间距 */
 }
-
+.title-icon {
+    width: 20px; /* 设定图标宽度 */
+    height: 20px; /* 设定图标高度 */
+    vertical-align: middle; /* 使图标和文字垂直居中 */
+    margin-right: 5px; /* 调整图标和文字之间的间距 */
+  }
 /* 设置查看全部测试按钮的样式 */
 .test-grid.test-grid-2x2 .test-btn.test-more-btn {
     width: 100%;
