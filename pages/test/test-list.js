@@ -80,7 +80,7 @@ Page({
         });
         
         // 默认不折叠
-        categoryCollapsed[type] = false;
+        categoryCollapsed[type] = true;
       }
     }
     

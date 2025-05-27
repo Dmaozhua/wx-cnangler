@@ -1,22 +1,28 @@
 <!-- pages/eventDetail/eventDetail.wxml -->
 <view class="container" bindtouchstart="touchStart" bindtouchend="touchEnd">
+  <!-- 水波纹背景 -->
+  <view class="water-ripple"></view>
+  
   <!-- 顶部标题栏 -->
-  <view class="back-btn" bindtap="goBack">
+  <view class="header">
+    <view class="back-btn" bindtap="goBack">
       <text class="back-icon">←</text>
     </view>
-  <view class="header">
-
     <view class="title">事件详情</view>
   </view>
 
   <!-- 事件详情内容 -->
   <view class="event-detail">
     <!-- 事件图片 -->
-    <image class="event-image" src="{{eventImageUrl}}" mode="aspectFit" binderror="handleImageError"></image>
+    <view class="image-container">
+      <image class="event-image" src="{{eventImageUrl}}" mode="aspectFit" binderror="handleImageError"></image>
+      <view class="image-glow"></view>
+    </view>
     
     <!-- 基本信息 -->
     <view class="info-section">
       <view class="event-name">{{eventInfo.name}}</view>
+      <view class="event-type-badge">{{eventInfo.type || '特殊事件'}}</view>
       <view class="event-description">{{eventInfo.description}}</view>
     </view>
     
@@ -26,26 +32,30 @@
       <view class="effects-content">
         <block wx:if="{{eventInfo.effects.rareFishBoost}}">
           <view class="effect-item">
+            <view class="effect-icon rare-fish-icon"></view>
             <text class="effect-label">稀有鱼概率:</text>
-            <text class="effect-value">{{eventInfo.effects.rareFishBoost.value > 1 ? '+' : '-'}}{{Math.abs((eventInfo.effects.rareFishBoost.value - 1) * 100).toFixed(0)}}%</text>
+            <text class="effect-value {{eventInfo.effects.rareFishBoost.value < 1 ? 'negative' : ''}}">{{eventInfo.effects.rareFishBoost.value > 1 ? '+' : '-'}}{{Math.abs((eventInfo.effects.rareFishBoost.value - 1) * 100).toFixed(0)}}%</text>
           </view>
         </block>
         <block wx:if="{{eventInfo.effects.baseMultiplier}}">
           <view class="effect-item">
+            <view class="effect-icon base-prob-icon"></view>
             <text class="effect-label">基础概率:</text>
-            <text class="effect-value">{{eventInfo.effects.baseMultiplier > 1 ? '+' : '-'}}{{Math.abs((eventInfo.effects.baseMultiplier - 1) * 100).toFixed(0)}}%</text>
+            <text class="effect-value {{eventInfo.effects.baseMultiplier < 1 ? 'negative' : ''}}">{{eventInfo.effects.baseMultiplier > 1 ? '+' : '-'}}{{Math.abs((eventInfo.effects.baseMultiplier - 1) * 100).toFixed(0)}}%</text>
           </view>
         </block>
         <block wx:if="{{eventInfo.effects.timeModifier}}">
           <view class="effect-item">
+            <view class="effect-icon time-icon"></view>
             <text class="effect-label">钓鱼时间:</text>
-            <text class="effect-value">{{eventInfo.effects.timeModifier > 0 ? '+' : '-'}}{{Math.abs(eventInfo.effects.timeModifier * 100).toFixed(0)}}%</text>
+            <text class="effect-value {{eventInfo.effects.timeModifier < 0 ? 'negative' : ''}}">{{eventInfo.effects.timeModifier > 0 ? '+' : '-'}}{{Math.abs(eventInfo.effects.timeModifier * 100).toFixed(0)}}%</text>
           </view>
         </block>
         <block wx:if="{{eventInfo.effects.baitEffect}}">
           <view class="effect-item">
+            <view class="effect-icon bait-icon"></view>
             <text class="effect-label">鱼饵效果:</text>
-            <text class="effect-value">{{eventInfo.effects.baitEffect > 1 ? '+' : '-'}}{{Math.abs((eventInfo.effects.baitEffect - 1) * 100).toFixed(0)}}%</text>
+            <text class="effect-value {{eventInfo.effects.baitEffect < 1 ? 'negative' : ''}}">{{eventInfo.effects.baitEffect > 1 ? '+' : '-'}}{{Math.abs((eventInfo.effects.baitEffect - 1) * 100).toFixed(0)}}%</text>
           </view>
         </block>
       </view>
@@ -55,6 +65,7 @@
     <view class="stats-section">
       <view class="stats-title">收集统计</view>
       <view class="stats-item">
+        <view class="stats-icon count-icon"></view>
         <text class="stats-label">触发次数:</text>
         <text class="stats-value">{{collectionInfo.count || 0}}次</text>
       </view>
