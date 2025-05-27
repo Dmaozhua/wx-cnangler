@@ -7,6 +7,7 @@ import { fishtimeData } from '../../data/FishData2/fishtimeData';
 import { WeatherEvents } from '../../data/FishData2/WeatherEvents';
 import { Equipment } from '../../data/FishData2/Equipment';
 import { updateFishCollection } from '../../data/FishData2/FishCollection';
+import { updateEventCollection } from '../../data/FishData2/EventCollection';
 
 
 // 计算中鱼概率的函数
@@ -407,8 +408,7 @@ Page({
 
             let fish = app.globalData.currentFish;
             if (!fish) return;
-
-            const passiveDamage = 10; // 被动伤害值
+            const passiveDamage = Equipment.USER_PassiveDamage; // 被动伤害值
             fish.hp = Number((fish.hp - passiveDamage).toFixed(2));
 
             app.globalData.currentFish = fish;
@@ -1065,6 +1065,9 @@ Page({
 
                         console.log('[钓鱼游戏] 触发BEF_FISHON事件:', evt.name, app.globalData.eventModifiers);
 
+                        // 更新事件图鉴收集状态
+                        updateEventCollection(evt.id);
+
                         // 如果事件不可重复触发，记录已触发
                         if (!evt.retriggering) {
                             app.globalData.triggeredEvents.push(evt.id);
@@ -1155,6 +1158,9 @@ Page({
 
                         console.log('[钓鱼游戏] 触发AFT_FISHON事件:', evt.name, app.globalData.eventModifiers);
 
+                        // 更新事件图鉴收集状态
+                        updateEventCollection(evt.id);
+
                         // 如果事件不可重复触发，记录已触发
                         if (!evt.retriggering) {
                             app.globalData.triggeredEvents.push(evt.id);
@@ -1205,6 +1211,9 @@ Page({
 
                     // 更新事件加成显示
                     this.updateEventBuffsDisplay(evt);
+
+                    // 更新事件图鉴收集状态
+                    updateEventCollection(evt.id);
 
                     console.log('[钓鱼游戏] 触发EXTRA天气事件:', evt.name, app.globalData.eventModifiers);
                     callback();

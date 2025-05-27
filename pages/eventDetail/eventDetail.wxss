@@ -1,0 +1,131 @@
+/* pages/eventDetail/eventDetail.wxss */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx;
+  box-sizing: border-box;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.back-btn {
+  position: absolute;
+  top: 30rpx;
+  left: 30rpx;
+  z-index: 10;
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.back-icon {
+  font-size: 40rpx;
+  color: #333;
+}
+
+.header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30rpx;
+  padding-top: 60rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.event-detail {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+  margin-bottom: 30rpx;
+}
+
+.event-image {
+  width: 300rpx;
+  height: 300rpx;
+  margin: 0 auto 30rpx;
+  display: block;
+  border-radius: 10rpx;
+  background-color: #f0f0f0;
+}
+
+.info-section {
+  margin-bottom: 40rpx;
+}
+
+.event-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.event-description {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  text-align: center;
+}
+
+.effects-section,
+.stats-section {
+  margin-bottom: 40rpx;
+  border-top: 1px solid #eee;
+  padding-top: 30rpx;
+}
+
+.effects-title,
+.stats-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.effects-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15rpx;
+}
+
+.effect-item,
+.stats-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 28rpx;
+  padding: 10rpx 0;
+}
+
+.effect-label,
+.stats-label {
+  color: #666;
+}
+
+.effect-value,
+.stats-value {
+  color: #333;
+  font-weight: 500;
+}
+
+/* 正负值的颜色 */
+.effect-value {
+  color: #4CAF50; /* 默认为正面效果的绿色 */
+}
+
+.effect-value.negative {
+  color: #F44336; /* 负面效果的红色 */
+}

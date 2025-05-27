@@ -21,7 +21,8 @@
         "pages/music/list",
         "pages/music/player",
         "pages/AnglerSay/AnglerSay",
-        "pages/AnglerSay/AnglerSayDetail"
+        "pages/AnglerSay/AnglerSayDetail",
+        "pages/eventDetail/eventDetail"
     ],
     "window": {
         "navigationBarTitleText": "钓鱼人测试",
