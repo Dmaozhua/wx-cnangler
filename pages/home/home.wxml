@@ -22,10 +22,10 @@
         <!-- 天气弹窗组件 -->
         <weather-modal wx:if="{{weatherModalVisible}}" visible="{{weatherModalVisible}}" cityName="{{weatherCityName}}" weatherData="{{weatherData}}" pressure="{{weatherPressure}}" sunsetTime="{{weatherSunsetTime}}" bindclose="closeWeatherModal" />
 
-        <!-- <view class="welcome-card" style="background: {{welcomeCardStyle}}; transition: background 0.3s ease-in-out;">
+        <view class="welcome-card" style="background: {{welcomeCardStyle}}; transition: background 0.3s ease-in-out;">
         <view class="welcome" style="color: {{welcomeTextColor}}; transition: color 0.3s ease-in-out;">🎣 欢迎来到 钓鱼人测试！🎣</view>
         <view class="welcome-subtitle" style="color: {{welcomeTextColor}}; opacity: 0.9; transition: color 0.3s ease-in-out;">这里是专业的路亚钓鱼频道</view>
-    </view> -->
+    </view>
 
         <swiper class="banner-swiper" indicator-dots="true" autoplay="true" interval="3000" bindchange="onSwiperChange" circular="true">
             <swiper-item wx:for="{{bannerList}}" wx:key="index">
@@ -48,7 +48,7 @@
                     <button class="test-btn" hover-class="btn-hover" bindtap="goToTest1">钓鱼人性格测试</button>
                     <button class="test-btn random-test-btn" hover-class="btn-hover" bindtap="goToRandomTest"><text class="random-icon">🎲</text>随机测试</button>
                 </view>
-                <button class="test-btn test-more-btn" hover-class="btn-hover" bindtap="goToAllTests">查看全部测试<text class="arrow-icon">></text></button>
+                <button class="test-btn test-more-btn" hover-class="btn-hover" bindtap="goToAllTests">查看全部测试 ({{testCount}})<text class="arrow-icon">></text></button>
             </view>
         </view>
 
@@ -71,16 +71,21 @@
             <view class="section-title" style="color: {{sectionTitleStyle.testTitle}}; transition: color 0.3s ease-in-out; display: flex; align-items: center;">
                 <image src="../../images/icons/homeicon5.png" class="title-icon" />
                 <text>实用功能</text> <!-- 拆分文字为独立标签，避免文本流影响 -->
-                <!-- <text class="section-title features-title" style="color: {{sectionTitleStyle.featuresTitle}}; transition: color 0.3s ease-in-out;">🔍 实用功能</text> -->
             </view>
 
 
             <text class="section-subtitle">提升你的钓鱼体验</text>
             <view class="features-grid">
-                <button class="feature-btn music-btn" hover-class="btn-hover" bindtap="goTomusic">路亚音乐</button>
+                <button class="feature-btn music-btn" hover-class="btn-hover" bindtap="goTomusic">
+                    <image class="feature-icon music-icon" src="../../images/icons/homeicon4.png"></image>
+                路亚音乐</button>
                 <!-- <button class="feature-btn equipment-btn" hover-class="btn-hover" bindtap="goToEquipment">装备图鉴</button> -->
-                <button class="feature-btn weather-btn" hover-class="btn-hover" bindtap="checkWeather">今日天气</button>
-                <button class="feature-btn simulator-btn" hover-class="btn-hover" bindtap="goToFishingSimulator">钓鱼模拟器</button>
+                <button class="feature-btn weather-btn" hover-class="btn-hover" bindtap="checkWeather">
+                    <image class="feature-icon music-icon" src="../../images/icons/homeicon8.png"></image>
+                今日天气</button>
+                <button class="feature-btn simulator-btn" hover-class="btn-hover" bindtap="goToFishingSimulator">
+                    <image class="feature-icon music-icon" src="../../images/icons/homeicon15.png"></image>
+                钓鱼模拟器</button>
             </view>
         </view>
     </scroll-view>

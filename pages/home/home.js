@@ -20,6 +20,8 @@ Page({
         welcomeCardStyle: "linear-gradient(135deg,rgb(43, 75, 107), #F5F0E7)", // 蓝紫色渐变
         welcomeTextColor: "black", // 白色字体
         sectionTitleStyle: {},
+        // 添加测试题目数量
+        testCount: 0,
         // 添加bannerList初始化，支持webp格式
         bannerList: [
             { 
@@ -50,6 +52,9 @@ Page({
             this.closePrompt()
           }, 3000)
         }
+        
+        // 获取测试题目数量
+        this.getTestCount();
       },
     closePrompt() {
         clearTimeout(this.autoCloseTimer)
@@ -740,5 +745,16 @@ Page({
     const brightness = (r * 299 + g * 587 + b * 114) / 1000
     return brightness > 128 ? 'black' : 'white'
   },
+
+  // 获取测试题目数量
+  getTestCount() {
+      // 从testDataNew.js中获取测试题目数量
+      const testData = require('../../data/testDataNew');
+      // 计算对象中的成员数量
+      const count = Object.keys(testData).length;
+      this.setData({
+          testCount: count
+      });
+  }
 
 });

@@ -459,12 +459,18 @@ scroll-view {
 .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15rpx;
+    gap: rpx;
     padding: 10rpx;
 }
-
+.feature-icon {
+    width: 30rpx; /* 图标宽度 */
+    height: 30rpx; /* 图标高度 */
+    margin-right: 8rpx; /* 图标与文字间距 */
+    vertical-align: middle; /* 解决基线对齐问题 */
+  }
+  
 .feature-btn {
-    padding: 25rpx 15rpx;
+    padding: 18rpx 15rpx;
     border-radius: 15rpx;
     font-size: 28rpx;
     font-weight: bold;
@@ -474,6 +480,7 @@ scroll-view {
     border: none;
     position: relative;
     overflow: hidden;
+    white-space: nowrap; /* 防止文字换行 */
 }
 
 /* 移除从左到右的方块移动动效 */
