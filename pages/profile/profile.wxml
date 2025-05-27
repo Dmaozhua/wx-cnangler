@@ -20,10 +20,11 @@
       </view>
     </view>
     <view class="stats-row">
-      <view class="stat-item">
-        <text class="stat-value">{{fishingSessionCount}}</text>
+        <view class="stat-item" hover-class="stat-hover" hover-stay-time="100">
+  <text class="stat-value">{{fishingSessionCount}}</text>
         <text class="stat-label">钓鱼次数</text>
       </view>
+      
       <view class="stat-item">
         <text class="stat-value">{{achievementScore}}</text>
         <text class="stat-label">成就分数</text>
