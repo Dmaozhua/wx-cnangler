@@ -38,7 +38,7 @@
             </div>
         </view>
         <view class="fish-caught-footer">
-            <button class="fish-caught-btn" bindtap="onCloseFishCaughtPopup">确认</button>
+            <button class="fish-caught-btn" bindtap="onCloseFishCaughtPopup">放流</button>
         </view>
     </view>
 </view>
@@ -73,7 +73,6 @@
                     </view>
                 </view>
             </view>
-            <!-- 底部信息区 -->
             <view class="bottom-info">
                 <view class="info-item">
                     <text class="info-label">已钓起</text>

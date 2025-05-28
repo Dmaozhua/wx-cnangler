@@ -4,12 +4,18 @@
   <view class="back-btn" bindtap="goBack">
       <text class="back-icon">←</text>
     </view>
-  <view class="header">
-    <view class="title">图鉴</view>
-    <view class="collection-info" wx:if="{{showFishCollection}}">已收集: {{collectionCount}}/{{totalCount}}</view>
-    <view class="collection-info" wx:if="{{showEventCollection}}">已收集: {{eventCollectionCount}}/{{eventTotalCount}}</view>
+<view class="header">
+  <view class="title">图鉴</view>
+  <!-- 使用容器包裹收集信息，方便统一布局 -->
+  <view class="collection-container">
+    <view class="collection-info" wx:if="{{showFishCollection}}">
+      已收集: {{collectionCount}}/{{totalCount}}
+    </view>
+    <view class="collection-info" wx:if="{{showEventCollection}}">
+      已收集: {{eventCollectionCount}}/{{eventTotalCount}}
+    </view>
   </view>
-
+</view>
   <!-- 图鉴类型切换 -->
   <view class="gallery-type-tabs">
     <view 
@@ -147,6 +153,6 @@
   <view class="footer-tip">
     <text wx:if="{{showFishCollection}}">钓到新鱼后将自动解锁图鉴</text>
     <text wx:if="{{showEventCollection}}">触发新事件后将自动解锁图鉴</text>
-    <view style="height: env(safe-area-inset-bottom)"></view>
+
   </view>
 </view>

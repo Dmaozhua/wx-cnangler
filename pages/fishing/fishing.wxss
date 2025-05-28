@@ -489,13 +489,16 @@ page {
 
 .info-item {
     text-align: left;
+    display: flex;        /* 开启Flex布局 */
+    flex-direction: column; /* 垂直排列子元素 */
+    gap: 8rpx;            /* 子元素间距（可根据需求调整） */
+    padding: 16rpx 0;      /* 增加容器内边距提升视觉效果 */
 }
 
 .info-label {
     font-size: 24rpx;
     color: #666;
 }
-
 .info-value {
     font-size: 32rpx;
     font-weight: bold;

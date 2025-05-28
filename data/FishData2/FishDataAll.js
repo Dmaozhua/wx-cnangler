@@ -244,5 +244,24 @@ export const RARITY_MULTIPLIER = {
         "sunny": 1.8,
         "rainy": 0.3
       }
+    },
+    {
+      id: 'FISH_13',
+      name: '白条爷爷',
+      rarity: BOSS,
+      description: '这是尊严，要轻拿轻放。',
+      habitats: ['backwater','slowmoving','rapids','shallow','obstacle','surface'],
+      baitPref: ['BREADone','BREADtwo'],
+      QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
+      QTEFail: 0.1,
+      strength: [0.4, 1.3],
+      BaseHP: 100,
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
+      weatherAffinity: {
+        "sunny": 1.8,
+        "rainy": 0.3
+      }
     }
   ];

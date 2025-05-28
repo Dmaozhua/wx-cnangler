@@ -10,6 +10,12 @@
     <view class="progress-bar">
       <view class="progress-inner fish-progress-inner" style="width: {{ (currentFish.hp / (currentFish.BaseHP * currentFish.strengthVal) * 100) + '%' }};"></view>
     </view>
+    <!-- 血量减少动画 -->
+    <view class="damage-animations-container">
+      <view wx:for="{{damageAnimations}}" wx:key="id" class="damage-animation" animation="{{item.animationData}}">
+        <text class="damage-text">{{item.damage}}</text>
+      </view>
+    </view>
     <text class="progress-label">鱼儿血量</text>
   </view>
 </view>

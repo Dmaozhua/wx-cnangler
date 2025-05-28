@@ -391,3 +391,24 @@
   color:rgb(234, 130, 18);
   font-weight: bold;
 }
+
+/* 血量减少动画样式 */
+.damage-animations-container {
+  position: relative;
+  height: 40rpx;
+  margin-top: 5rpx;
+}
+
+.damage-animation {
+  position: absolute;
+  right: 10rpx;
+  top: 0;
+  opacity: 1;
+}
+
+.damage-text {
+  color: #ff4d4f;
+  font-size: 28rpx;
+  font-weight: bold;
+  text-shadow: 0 0 3rpx rgba(0, 0, 0, 0.3);
+}

@@ -1,7 +1,7 @@
 // pages/fishing/fishing.js
 const app = getApp();
 import { FishData, RARITY_MULTIPLIER } from '../../data/FishData2/FishDataAll';
-import { FishEvents } from '../../data/FishData2/FishEvents';
+import { FishEvents, FishEventsProbability } from '../../data/FishData2/FishEvents';
 import { QTEData } from '../../data/FishData2/QTEData';
 import { fishtimeData } from '../../data/FishData2/fishtimeData';
 import { WeatherEvents } from '../../data/FishData2/WeatherEvents';
@@ -146,6 +146,10 @@ Page({
     },
 
     onLoad() {
+        // 初始化事件屏蔽标记
+        app.globalData.blockAFTEvent = false;
+        app.globalData.blockBEFEvent = false;
+        
         // 添加调试日志，确认全局变量
         console.log('[DEBUG] 全局变量:', {
             weather: app.globalData.weather,
@@ -183,6 +187,13 @@ Page({
             timeModifier: 0,
             baitEffect: 1
         };
+        
+        // 初始化新增的效果变量
+        app.globalData.nextFishRarity = null;       // 下一条鱼的稀有度
+        app.globalData.nextFishStrength = null;     // 下一条鱼的体型变化系数
+        app.globalData.passiveDamageBoost = null;   // 被动伤害提升系数
+        app.globalData.qteDurationChange = null;    // QTE判定时间变化系数
+        app.globalData.qteDamageChange = null;      // QTE伤害变化系数
 
         // 重置已触发事件记录，用于新的钓鱼会话
         app.globalData.triggeredEvents = [];
@@ -296,6 +307,14 @@ Page({
             this.decideBite();
             return;
         }
+        
+        // 检查是否需要屏蔽BEF_FISHON事件
+        if (app.globalData.blockBEFEvent) {
+            console.log('[钓鱼游戏] 屏蔽BEF_FISHON事件，直接判断鱼是否上钩');
+            app.globalData.blockBEFEvent = false; // 重置屏蔽标记
+            this.decideBite();
+            return;
+        }
 
         // 在等待状态下触发可能BEF_FISHON事件
         this.triggerBeforeFishOnEvent(() => {
@@ -310,7 +329,42 @@ Page({
         const bait = app.globalData.currentBait || { id: 'BREADone', effect: 1.0 };
         const eventModifiers = app.globalData.eventModifiers || { rareFishBoost: 1, baseMultiplier: 1, timeModifier: 0, baitEffect: 1 };
 
-        // 计算各种鱼的概率
+        // 检查是否有指定稀有度的鱼效果
+        if (app.globalData.nextFishRarity) {
+            console.log('[钓鱼游戏] 触发指定稀有度鱼效果:', app.globalData.nextFishRarity);
+            
+            // 获取指定稀有度的所有鱼
+            const targetRarityFishes = FishData.filter(fish => 
+                fish.rarity === app.globalData.nextFishRarity && 
+                fish.habitats.includes(app.globalData.habitat) &&
+                fish.baitPref.includes((app.globalData.currentBait || { id: 'BREADone' }).id)
+            );
+            
+            if (targetRarityFishes.length > 0) {
+                // 随机选择一条指定稀有度的鱼
+                const randomIndex = Math.floor(Math.random() * targetRarityFishes.length);
+                const selectedFish = targetRarityFishes[randomIndex];
+                
+                // 清除效果，只对一次抛竿生效
+                app.globalData.nextFishRarity = null;
+                
+                // 优化1：从事件加成显示中移除该一次性效果
+                this.removeEventBuffDisplay('nextFishRarity');
+                
+                console.log('[钓鱼游戏] 选中指定稀有度鱼:', selectedFish.name);
+                this.startFishOn(selectedFish);
+                return;
+            } else {
+                console.log('[钓鱼游戏] 没有找到符合条件的指定稀有度鱼，使用正常概率');
+                // 清除效果
+                app.globalData.nextFishRarity = null;
+                
+                // 优化1：从事件加成显示中移除该一次性效果
+                this.removeEventBuffDisplay('nextFishRarity');
+            }
+        }
+
+        // 正常流程：计算各种鱼的概率
         const probabilities = calculateFishProbability(water, habitat, weather, bait, eventModifiers);
 
         // 随机判断是否有鱼咬钩
@@ -361,7 +415,29 @@ Page({
         
         // 随机计算鱼的 strength 数值（保留两位小数）
         let min = fish.strength[0], max = fish.strength[1];
-        let strength = Number((Math.random() * (max - min) + min).toFixed(2));
+        let strength;
+        
+        // 检查是否有下一条鱼的strength变化效果
+        if (app.globalData.nextFishStrength) {
+            // 先正常随机一个strength值
+            let baseStrength = Number((Math.random() * (max - min) + min).toFixed(2));
+            // 应用变化系数，但确保不超出原有设定的strength区间
+            strength = Number((baseStrength * app.globalData.nextFishStrength).toFixed(2));
+            // 确保不超出范围
+            strength = Math.max(min, Math.min(max, strength));
+            // 清除效果，只对一条鱼生效
+            app.globalData.nextFishStrength = null;
+            // 优化1：从事件加成显示中移除该一次性效果
+            this.removeEventBuffDisplay('nextFishStrength');
+            console.log('[钓鱼游戏] 应用鱼体型变化效果:', {
+                原始体型: baseStrength,
+                变化后体型: strength
+            });
+        } else {
+            // 正常随机
+            strength = Number((Math.random() * (max - min) + min).toFixed(2));
+        }
+        
         // 计算鱼的总血量 = BaseHP * strength（保留两位小数）
         fish.hp = Number((fish.BaseHP * strength).toFixed(2));
         fish.strengthVal = strength;
@@ -408,7 +484,18 @@ Page({
 
             let fish = app.globalData.currentFish;
             if (!fish) return;
-            const passiveDamage = Equipment.USER_PassiveDamage; // 被动伤害值
+            
+            // 应用被动伤害提升效果
+            let passiveDamage = Equipment.USER_PassiveDamage; // 基础被动伤害值
+            if (app.globalData.passiveDamageBoost) {
+                passiveDamage = Number((passiveDamage * app.globalData.passiveDamageBoost).toFixed(2));
+                console.log('[钓鱼游戏] 应用被动伤害提升效果:', {
+                    基础被动伤害: Equipment.USER_PassiveDamage,
+                    提升系数: app.globalData.passiveDamageBoost,
+                    实际被动伤害: passiveDamage
+                });
+            }
+            
             fish.hp = Number((fish.hp - passiveDamage).toFixed(2));
 
             app.globalData.currentFish = fish;
@@ -487,15 +574,40 @@ Page({
 
         console.log('[钓鱼游戏] 触发QTE:', qteData.description);
 
-        // 准备QTE选项
+        // 应用QTE判定时间变化效果
+        let qteDuration = qteData.duration;
+        if (app.globalData.qteDurationChange) {
+            qteDuration = Number((qteDuration * app.globalData.qteDurationChange).toFixed(2));
+            console.log('[钓鱼游戏] 应用QTE判定时间变化效果:', {
+                原始判定时间: qteData.duration,
+                变化系数: app.globalData.qteDurationChange,
+                实际判定时间: qteDuration
+            });
+        }
+
+        // 准备QTE选项，并应用QTE伤害变化效果
         const qteOptions = [];
         for (const [key, option] of Object.entries(qteData.options)) {
-            qteOptions.push({
+            // 深拷贝选项，避免修改原始数据
+            let newOption = {
                 key: key,
                 description: option.description,
                 attack: option.attack,
                 linedam: option.linedam
-            });
+            };
+            
+            // 应用QTE伤害变化效果
+            if (app.globalData.qteDamageChange) {
+                newOption.attack = Number((option.attack * app.globalData.qteDamageChange).toFixed(2));
+                console.log('[钓鱼游戏] 应用QTE伤害变化效果:', {
+                    选项: option.description,
+                    原始伤害倍率: option.attack,
+                    变化系数: app.globalData.qteDamageChange,
+                    实际伤害倍率: newOption.attack
+                });
+            }
+            
+            qteOptions.push(newOption);
         }
 
         // 如果选项数量大于1，使用Fisher-Yates洗牌算法随机排序选项
@@ -511,14 +623,14 @@ Page({
         // 更新状态为QTE
         this.setData({
             state: 'qte',
-            qteData: qteData,
+            qteData: {...qteData, duration: qteDuration}, // 使用修改后的持续时间
             qteOptions: qteOptions,
-            qteTimeLeft: qteData.duration,
+            qteTimeLeft: qteDuration,
             qteStatusText: qteData.description // 更新鱼状态组件的QTE文本
         });
 
         // 启动QTE倒计时
-        this.startQTETimer(qteData.duration);
+        this.startQTETimer(qteDuration);
     },
 
     // 启动QTE倒计时（精确到毫秒）
@@ -744,13 +856,22 @@ Page({
             qteStatusText: '成功钓起！',
             canCastRod: false // 禁用抛竿按钮，等待动画完成
         });
+        
+        // 检查是否钓起第五条鱼，如果是则触发EXTRA天气事件
+        if (app.globalData.fishCaught === 5) {
+            console.log('[钓鱼游戏] 已钓起第五条鱼，将触发EXTRA天气事件');
+            // 设置标记，屏蔽AFT_FISHON事件触发
+            app.globalData.blockAFTEvent = true;
+            // 设置标记，屏蔽下一次抛竿的BEF_FISHON事件触发
+            app.globalData.blockBEFEvent = true;
+        }
 
-        // 延迟隐藏鱼状态组件，等待被动掉血和QTE判定动画结束
+        // 优化3：延长等待时间，确保血条动画完成后再隐藏鱼状态组件
         setTimeout(() => {
             this.setData({
                 showFishStatus: false
             });
-        }, 1000);
+        }, 1500); // 从1000ms增加到1500ms
 
         // 获取鱼的强度值（如果是范围则取随机值或平均值）
         let strengthValue = fish.strength;
@@ -816,11 +937,23 @@ Page({
                 canCastRod: true
             });
 
-            // 在弹窗关闭后触发AFT_FISHON事件
-            this.triggerAfterFishOnEvent(() => {
-                // 检查钓鱼时间是否结束
-                this.checkFishingTime();
-            });
+            // 检查是否需要屏蔽AFT_FISHON事件并触发EXTRA天气事件
+            if (app.globalData.blockAFTEvent) {
+                console.log('[钓鱼游戏] 屏蔽AFT_FISHON事件，直接触发EXTRA天气事件');
+                // 重置屏蔽标记
+                app.globalData.blockAFTEvent = false;
+                // 直接触发EXTRA天气事件
+                this.triggerExtraWeatherEvent(() => {
+                    // 检查钓鱼时间是否结束
+                    this.checkFishingTime();
+                });
+            } else {
+                // 正常流程：在弹窗关闭后触发AFT_FISHON事件
+                this.triggerAfterFishOnEvent(() => {
+                    // 检查钓鱼时间是否结束
+                    this.checkFishingTime();
+                });
+            }
         }, 300);
     },
 
@@ -843,12 +976,12 @@ Page({
             canCastRod: false // 禁用抛竿按钮，等待动画完成
         });
 
-        // 延迟隐藏鱼状态组件，等待被动掉血和QTE判定动画结束
+        // 优化3：延长等待时间，确保血条动画完成后再隐藏鱼状态组件
         setTimeout(() => {
             this.setData({
                 showFishStatus: false
             });
-        }, 1000);
+        }, 1500); // 从1000ms增加到1500ms
 
         // 确定逃脱原因并显示相应提示
         let escapeReason = '';
@@ -875,11 +1008,23 @@ Page({
                 duration: 3000
             });
 
-            // 直接触发AFT_FISHON事件，而不是等到下次抛竿
-            this.triggerAfterFishOnEvent(() => {
-                // 检查钓鱼时间是否结束
-                this.checkFishingTime();
-            });
+            // 检查是否需要屏蔽AFT_FISHON事件并触发EXTRA天气事件
+            if (app.globalData.blockAFTEvent) {
+                console.log('[钓鱼游戏] 鱼脱钩后屏蔽AFT_FISHON事件，直接触发EXTRA天气事件');
+                // 重置屏蔽标记
+                app.globalData.blockAFTEvent = false;
+                // 直接触发EXTRA天气事件
+                this.triggerExtraWeatherEvent(() => {
+                    // 检查钓鱼时间是否结束
+                    this.checkFishingTime();
+                });
+            } else {
+                // 直接触发AFT_FISHON事件，而不是等到下次抛竿
+                this.triggerAfterFishOnEvent(() => {
+                    // 检查钓鱼时间是否结束
+                    this.checkFishingTime();
+                });
+            }
         }, 2100);
 
         // 扣除钓鱼时间
@@ -983,17 +1128,27 @@ Page({
     },
     // 退出鱼咬状态，触发 AFT_FISHON 或 EXTRA 事件，并回到等待状态
     exitFishOn() {
-        // 先触发 AFT_FISHON 事件（20% 概率）
-        this.triggerAfterFishOnEvent(() => {
-            // 如果未触发 AFT_FISHON，判断是否触发 EXTRA 天气事件（15%，且本局只触发一次）
-            if (!app.globalData.extraWeatherTriggered) {
-                this.triggerExtraWeatherEvent(() => {
-                    this.backToWaiting();
-                });
-            } else {
+        // 检查是否需要屏蔽AFT_FISHON事件
+        if (app.globalData.blockAFTEvent) {
+            console.log('[钓鱼游戏] 屏蔽AFT_FISHON事件，直接触发EXTRA天气事件');
+            // 注意：不在这里重置blockAFTEvent标记，而是在onCloseFishCaughtPopup中重置
+            // 直接触发EXTRA天气事件
+            this.triggerExtraWeatherEvent(() => {
                 this.backToWaiting();
-            }
-        });
+            });
+        } else {
+            // 正常流程：先触发 AFT_FISHON 事件
+            this.triggerAfterFishOnEvent(() => {
+                // 如果未触发 AFT_FISHON，判断是否触发 EXTRA 天气事件
+                if (!app.globalData.extraWeatherTriggered) {
+                    this.triggerExtraWeatherEvent(() => {
+                        this.backToWaiting();
+                    });
+                } else {
+                    this.backToWaiting();
+                }
+            });
+        }
     },
 
     backToWaiting() {
@@ -1003,7 +1158,7 @@ Page({
         // 检查总时间是否结束
         this.checkFishingTime();
     },
-    // 模拟 BEF_FISHON 事件（20% 概率）
+    // 模拟 BEF_FISHON 事件
     triggerBeforeFishOnEvent(callback) {
         // 获取所有BEF_FISHON类型的事件
         let events = FishEvents.filter(e => e.type === 'BEF_FISHON');
@@ -1013,6 +1168,22 @@ Page({
             app.globalData.triggeredEvents = [];
         }
 
+        // 优化1：检查是否在连续抛竿中触发事件
+        if (!app.globalData.lastEventTriggerInfo) {
+            app.globalData.lastEventTriggerInfo = {
+                castCount: 0,
+                lastBEFEventCastCount: 0,
+                lastAFTEventCastCount: 0
+            };
+        }
+
+        // 如果上一次BEF_FISHON事件是在上一次抛竿中触发的，则跳过本次触发
+        if (app.globalData.lastEventTriggerInfo.lastBEFEventCastCount === app.globalData.castCount - 1) {
+            console.log('[钓鱼游戏] 跳过BEF_FISHON事件触发：连续抛竿检测');
+            callback();
+            return;
+        }
+
         let availableEvents = events.filter(e => {
             // 如果事件不可重复触发且已经触发过，则排除
             return e.retriggering || !app.globalData.triggeredEvents.includes(e.id);
@@ -1020,18 +1191,39 @@ Page({
 
         // 如果有可用事件，根据概率触发
         if (availableEvents.length > 0) {
-            // 随机选择一个事件
-            let evt = availableEvents[Math.floor(Math.random() * availableEvents.length)];
+            // 计算总权重
+            const totalWeight = availableEvents.reduce((sum, event) => sum + (event.weight || 1), 0);
+            
+            // 根据权重随机选择一个事件
+            const randomValue = Math.random() * totalWeight;
+            let cumulativeWeight = 0;
+            let evt = null;
+            
+            for (const event of availableEvents) {
+                cumulativeWeight += (event.weight || 1);
+                if (randomValue <= cumulativeWeight) {
+                    evt = event;
+                    break;
+                }
+            }
+            
+            // 如果没有选中事件（理论上不应该发生），选择第一个
+            if (!evt && availableEvents.length > 0) {
+                evt = availableEvents[0];
+            }
 
+            // 优化2：使用FishEventsProbability中的配置概率
+            const triggerProbability = FishEventsProbability.BEF_Probability || 0.15;
+            
             // 根据事件的触发概率决定是否触发
-            if (Math.random() < evt.triggerprobability) {
+            if (Math.random() < triggerProbability) {
                 wx.showModal({
-                    title: evt.name,
-                    content: evt.description,
+              title: evt.name,
+              content: evt.description,
                     showCancel: false,
                     success: () => {
-                        // 初始化事件修正器（如果不存在）
-                        if (!app.globalData.eventModifiers) {
+                  // 初始化事件修正器（如果不存在）
+                  if (!app.globalData.eventModifiers) {
                             app.globalData.eventModifiers = {
                                 rareFishBoost: 1,
                                 baseMultiplier: 1,
@@ -1063,6 +1255,9 @@ Page({
                         // 更新事件加成显示
                         this.updateEventBuffsDisplay(evt);
 
+                        // 记录本次事件触发的抛竿次数
+                        app.globalData.lastEventTriggerInfo.lastBEFEventCastCount = app.globalData.castCount;
+
                         console.log('[钓鱼游戏] 触发BEF_FISHON事件:', evt.name, app.globalData.eventModifiers);
 
                         // 更新事件图鉴收集状态
@@ -1073,7 +1268,7 @@ Page({
                             app.globalData.triggeredEvents.push(evt.id);
                         }
 
-                        // 优化2：当触发了BEF_FISHON事件后，直接跳过本次抛竿
+                        // 当触发了BEF_FISHON事件后，直接跳过本次抛竿
                         // 不调用callback，而是直接返回，等待玩家下次点击抛竿
                         wx.showToast({
                             title: '请继续钓鱼吧~',
@@ -1088,11 +1283,21 @@ Page({
             } else {
                 callback();
             }
+        } else {
+            callback();
         }
     },
 
-    // 模拟 AFT_FISHON 事件（20% 概率）
+    // 模拟 AFT_FISHON 事件
     triggerAfterFishOnEvent(callback) {
+        // 检查是否需要屏蔽AFT_FISHON事件
+        if (app.globalData.blockAFTEvent) {
+            console.log('[钓鱼游戏] 屏蔽AFT_FISHON事件');
+            app.globalData.blockAFTEvent = false; // 重置屏蔽标记
+            callback();
+            return;
+        }
+        
         // 第一次抛竿不触发任何事件
         if (app.globalData.castCount === 1) {
             console.log('[钓鱼游戏] 第一次抛竿，跳过AFT_FISHON事件触发');
@@ -1108,26 +1313,62 @@ Page({
             app.globalData.triggeredEvents = [];
         }
 
+        // 优化1：检查是否在连续抛竿中触发事件
+        if (!app.globalData.lastEventTriggerInfo) {
+            app.globalData.lastEventTriggerInfo = {
+                castCount: 0,
+                lastBEFEventCastCount: 0,
+                lastAFTEventCastCount: 0
+            };
+        }
+
+        // 如果上一次AFT_FISHON事件是在上一次抛竿中触发的，则跳过本次触发
+        if (app.globalData.lastEventTriggerInfo.lastAFTEventCastCount === app.globalData.castCount - 1) {
+            console.log('[钓鱼游戏] 跳过AFT_FISHON事件触发：连续抛竿检测');
+            callback();
+            return;
+        }
+
         let availableEvents = events.filter(e => {
             // 如果事件不可重复触发且已经触发过，则排除
             return e.retriggering || !app.globalData.triggeredEvents.includes(e.id);
         });
 
-
         // 如果有可用事件，根据概率触发
         if (availableEvents.length > 0) {
-            // 随机选择一个事件
-            let evt = availableEvents[Math.floor(Math.random() * availableEvents.length)];
+            // 计算总权重
+            const totalWeight = availableEvents.reduce((sum, event) => sum + (event.weight || 1), 0);
+            
+            // 根据权重随机选择一个事件
+            const randomValue = Math.random() * totalWeight;
+            let cumulativeWeight = 0;
+            let evt = null;
+            
+            for (const event of availableEvents) {
+                cumulativeWeight += (event.weight || 1);
+                if (randomValue <= cumulativeWeight) {
+                    evt = event;
+                    break;
+                }
+            }
+            
+            // 如果没有选中事件（理论上不应该发生），选择第一个
+            if (!evt && availableEvents.length > 0) {
+                evt = availableEvents[0];
+            }
 
+            // 优化2：使用FishEventsProbability中的配置概率
+            const triggerProbability = FishEventsProbability.AFT_Probability || 0.15;
+            
             // 根据事件的触发概率决定是否触发
-            if (Math.random() < evt.triggerprobability) {
+            if (Math.random() < triggerProbability) {
                 wx.showModal({
-                    title: evt.name,
-                    content: evt.description,
+              title: evt.name,
+              content: evt.description,
                     showCancel: false,
                     success: () => {
-                        // 初始化事件修正器（如果不存在）
-                        if (!app.globalData.eventModifiers) {
+                  // 初始化事件修正器（如果不存在）
+                  if (!app.globalData.eventModifiers) {
                             app.globalData.eventModifiers = {
                                 rareFishBoost: 1,
                                 baseMultiplier: 1,
@@ -1156,6 +1397,9 @@ Page({
                         // 更新事件加成显示
                         this.updateEventBuffsDisplay(evt);
 
+                        // 记录本次事件触发的抛竿次数
+                        app.globalData.lastEventTriggerInfo.lastAFTEventCastCount = app.globalData.castCount;
+
                         console.log('[钓鱼游戏] 触发AFT_FISHON事件:', evt.name, app.globalData.eventModifiers);
 
                         // 更新事件图鉴收集状态
@@ -1172,56 +1416,105 @@ Page({
             } else {
                 callback();
             }
+        } else {
+            callback();
         }
     },
 
-    // 模拟附加天气事件（EXTRA，50% 概率，且本局只触发一次）
+    // 模拟附加天气事件（根据权重选择，且本局只触发一次）
     triggerExtraWeatherEvent(callback) {
-        // 检查是否已经触发过附加天气事件
-        if (app.globalData.extraWeatherTriggered) {
+        // 检查是否已经触发过附加天气事件或钓鱼时间已结束
+        if (app.globalData.extraWeatherTriggered || app.globalData.fishingTime <= 0) {
+            console.log('[钓鱼游戏] 不触发EXTRA天气事件：', {
+                已触发过: app.globalData.extraWeatherTriggered,
+                钓鱼时间已结束: app.globalData.fishingTime <= 0
+            });
             callback();
             return;
         }
 
         const extraWeathers = WeatherEvents.filter(e => e.type === 'EXTRA');
-        // 增加触发概率从15%到50%，使玩家更容易遇到附加天气事件
-        if (Math.random() < 1 && extraWeathers.length > 0) {
-            let evt = extraWeathers[Math.floor(Math.random() * extraWeathers.length)];
-            wx.showModal({
-                title: evt.name,
-                content: evt.description,
-                showCancel: false,
-                success: () => {
-                    // 初始化事件修正器（如果不存在）
-                    if (!app.globalData.eventModifiers) {
-                        app.globalData.eventModifiers = {
-                            rareFishBoost: 1,
-                            baseMultiplier: 1,
-                            timeModifier: 0,
-                            baitEffect: 1
-                        };
-                    }
-
-                    // 调整 rareFishBoost
-                    if (evt.effects.rareFishBoost) {
-                        app.globalData.eventModifiers.rareFishBoost = evt.effects.rareFishBoost;
-                    }
-
-                    app.globalData.extraWeatherTriggered = true;
-
-                    // 更新事件加成显示
-                    this.updateEventBuffsDisplay(evt);
-
-                    // 更新事件图鉴收集状态
-                    updateEventCollection(evt.id);
-
-                    console.log('[钓鱼游戏] 触发EXTRA天气事件:', evt.name, app.globalData.eventModifiers);
-                    callback();
-                }
-            });
-        } else {
+        
+        // 检查是否是第五条鱼触发的EXTRA事件
+        const isFifthFishTrigger = app.globalData.fishCaught === 5;
+        
+        // 检查是否有可用的EXTRA事件
+        if (extraWeathers.length === 0) {
+            console.log('[钓鱼游戏] 没有可用的EXTRA天气事件');
             callback();
+            return;
         }
+        
+        // 如果是第五条鱼触发，则必定显示EXTRA事件；否则按概率触发
+        if (isFifthFishTrigger) {
+            console.log('[钓鱼游戏] 第五条鱼触发EXTRA天气事件');
+        } else if (Math.random() < 0.15) {
+            console.log('[钓鱼游戏] 随机触发EXTRA天气事件');
+        } else {
+            console.log('[钓鱼游戏] 未满足EXTRA天气事件触发条件');
+            callback();
+            return;
+        }
+        
+        console.log('[钓鱼游戏] 触发EXTRA天气事件:', {
+             是第五条鱼触发: isFifthFishTrigger,
+             可用事件数量: extraWeathers.length
+         });
+         
+         // 根据权重选择事件
+         // 计算总权重
+         const totalWeight = extraWeathers.reduce((sum, event) => sum + (event.weight || 1), 0);
+         
+         // 根据权重随机选择一个事件
+         const randomValue = Math.random() * totalWeight;
+         let cumulativeWeight = 0;
+         let evt = null;
+         
+         for (const event of extraWeathers) {
+             cumulativeWeight += (event.weight || 1);
+             if (randomValue <= cumulativeWeight) {
+                 evt = event;
+                 break;
+             }
+         }
+         
+         // 如果没有选中事件（理论上不应该发生），选择第一个
+         if (!evt && extraWeathers.length > 0) {
+             evt = extraWeathers[0];
+         }
+         wx.showModal({
+             title: evt.name,
+             content: evt.description,
+             showCancel: false,
+             success: () => {
+                 // 初始化事件修正器（如果不存在）
+                 if (!app.globalData.eventModifiers) {
+                     app.globalData.eventModifiers = {
+                         rareFishBoost: 1,
+                         baseMultiplier: 1,
+                         timeModifier: 0,
+                         baitEffect: 1
+                     };
+                 }
+
+                 // 调整 rareFishBoost
+                 if (evt.effects.rareFishBoost) {
+                     app.globalData.eventModifiers.rareFishBoost = evt.effects.rareFishBoost;
+                 }
+
+                 app.globalData.extraWeatherTriggered = true;
+
+                 // 更新事件加成显示
+                 this.updateEventBuffsDisplay(evt);
+
+                 // 更新事件图鉴收集状态
+                 updateEventCollection(evt.id);
+
+                 console.log('[钓鱼游戏] 触发EXTRA天气事件:', evt.name, app.globalData.eventModifiers);
+                 callback();
+             }
+         });
+
     },
 
     // 更新事件加成显示
@@ -1239,17 +1532,58 @@ Page({
                 // 计算百分比变化，如果大于1则是增加，小于1则是减少
                 const percentChange = (rarityBuff.value - 1) * 100;
                 const sign = percentChange >= 0 ? '+' : '';
-                rarityBuff.description = `稀有鱼出现概率 ${sign}${percentChange.toFixed(0)}%`;
+                
+                // 优化显示，显示具体哪些稀有度概率进行了变化
+                let rarityNames = '';
+                if (event.effects.rareFishBoost.targetRarity) {
+                    const rarityMap = {
+                        'COMMON': '普通',
+                        'UNCOMMON': '不常见',
+                        'RARE': '稀有',
+                        'EPIC': '史诗',
+                        'MYTHIC': '神话',
+                        'BOSS': 'BOSS',
+                        'WASTE': '废弃物'
+                    };
+                    
+                    const rarityTexts = event.effects.rareFishBoost.targetRarity.map(r => rarityMap[r] || r);
+                    rarityNames = rarityTexts.join('、');
+                }
+                
+                rarityBuff.description = rarityNames ? 
+                    `${rarityNames}鱼出现概率 ${sign}${percentChange.toFixed(0)}%` : 
+                    `稀有鱼出现概率 ${sign}${percentChange.toFixed(0)}%`;
+                    
                 hasUpdate = true;
             } else {
                 // 添加新的加成
                 // 计算百分比变化
                 const percentChange = (event.effects.rareFishBoost.value - 1) * 100;
                 const sign = percentChange >= 0 ? '+' : '';
+                
+                // 优化显示，显示具体哪些稀有度概率进行了变化
+                let rarityNames = '';
+                if (event.effects.rareFishBoost.targetRarity) {
+                    const rarityMap = {
+                        'COMMON': '普通',
+                        'UNCOMMON': '不常见',
+                        'RARE': '稀有',
+                        'EPIC': '史诗',
+                        'MYTHIC': '神话',
+                        'BOSS': 'BOSS',
+                        'WASTE': '废弃物'
+                    };
+                    
+                    const rarityTexts = event.effects.rareFishBoost.targetRarity.map(r => rarityMap[r] || r);
+                    rarityNames = rarityTexts.join('、');
+                }
+                
                 eventBuffs.push({
                     type: 'rareFishBoost',
                     value: event.effects.rareFishBoost.value,
-                    description: `稀有鱼出现概率 ${sign}${percentChange.toFixed(0)}%`
+                    description: rarityNames ? 
+                        `${rarityNames}鱼出现概率 ${sign}${percentChange.toFixed(0)}%` : 
+                        `稀有鱼出现概率 ${sign}${percentChange.toFixed(0)}%`
                 });
                 hasUpdate = true;
             }
@@ -1264,7 +1598,7 @@ Page({
                 // 计算百分比变化
                 const percentChange = (baseBuff.value - 1) * 100;
                 const sign = percentChange >= 0 ? '+' : '';
-                baseBuff.description = `鱼儿基础概率 ${sign}${percentChange.toFixed(0)}%`;
+                baseBuff.description = `鱼饵基础概率 ${sign}${percentChange.toFixed(0)}%`;
                 hasUpdate = true;
             } else {
                 // 添加新的加成
@@ -1274,7 +1608,7 @@ Page({
                 eventBuffs.push({
                     type: 'baseMultiplier',
                     value: event.effects.baseMultiplier,
-                    description: `鱼儿基础概率 ${sign}${percentChange.toFixed(0)}%`
+                    description: `鱼饵基础概率 ${sign}${percentChange.toFixed(0)}%`
                 });
                 hasUpdate = true;
             }
@@ -1326,6 +1660,97 @@ Page({
             }
         }
 
+        // 处理下一条鱼是指定稀有度
+        if (event.effects.nextFishRarity) {
+            const rarityMap = {
+                'COMMON': '普通',
+                'UNCOMMON': '不常见',
+                'RARE': '稀有',
+                'EPIC': '史诗',
+                'MYTHIC': '神话',
+                'BOSS': 'BOSS',
+                'WASTE': '废弃物'
+            };
+            
+            const rarityName = rarityMap[event.effects.nextFishRarity.rarity] || event.effects.nextFishRarity.rarity;
+            
+            eventBuffs.push({
+                type: 'nextFishRarity',
+                value: event.effects.nextFishRarity,
+                description: `下一条鱼必定是${rarityName}鱼`
+            });
+            hasUpdate = true;
+            
+            // 设置全局变量，用于下次抛竿时使用
+            app.globalData.nextFishRarity = event.effects.nextFishRarity.rarity;
+            app.globalData.blockBEFEvent = event.effects.nextFishRarity.blockEvents || false;
+            app.globalData.blockAFTEvent = event.effects.nextFishRarity.blockEvents || false;
+        }
+        
+        // 处理下一条鱼的strength变化
+        if (event.effects.nextFishStrength) {
+            const percentChange = (event.effects.nextFishStrength - 1) * 100;
+            const sign = percentChange >= 0 ? '+' : '';
+            
+            eventBuffs.push({
+                type: 'nextFishStrength',
+                value: event.effects.nextFishStrength,
+                description: `下一条鱼体型 ${sign}${percentChange.toFixed(0)}%`
+            });
+            hasUpdate = true;
+            
+            // 设置全局变量，用于下次抛竿时使用
+            app.globalData.nextFishStrength = event.effects.nextFishStrength;
+        }
+        
+        // 处理被动伤害提升
+        if (event.effects.passiveDamageBoost) {
+            const percentChange = (event.effects.passiveDamageBoost - 1) * 100;
+            const sign = percentChange >= 0 ? '+' : '';
+            
+            eventBuffs.push({
+                type: 'passiveDamageBoost',
+                value: event.effects.passiveDamageBoost,
+                description: `被动伤害 ${sign}${percentChange.toFixed(0)}%`
+            });
+            hasUpdate = true;
+            
+            // 临时修改被动伤害值
+            app.globalData.passiveDamageBoost = event.effects.passiveDamageBoost;
+        }
+        
+        // 处理QTE判定时间变化
+        if (event.effects.qteDurationChange) {
+            const percentChange = (event.effects.qteDurationChange - 1) * 100;
+            const sign = percentChange >= 0 ? '+' : '';
+            
+            eventBuffs.push({
+                type: 'qteDurationChange',
+                value: event.effects.qteDurationChange,
+                description: `QTE判定时间 ${sign}${percentChange.toFixed(0)}%`
+            });
+            hasUpdate = true;
+            
+            // 临时修改QTE判定时间
+            app.globalData.qteDurationChange = event.effects.qteDurationChange;
+        }
+        
+        // 处理QTE造成伤害整体变化
+        if (event.effects.qteDamageChange) {
+            const percentChange = (event.effects.qteDamageChange - 1) * 100;
+            const sign = percentChange >= 0 ? '+' : '';
+            
+            eventBuffs.push({
+                type: 'qteDamageChange',
+                value: event.effects.qteDamageChange,
+                description: `QTE伤害 ${sign}${percentChange.toFixed(0)}%`
+            });
+            hasUpdate = true;
+            
+            // 临时修改QTE伤害
+            app.globalData.qteDamageChange = event.effects.qteDamageChange;
+        }
+        
         // 更新数据
         if (hasUpdate) {
             this.setData({
@@ -1341,6 +1766,40 @@ Page({
             eventBuffs: [],
             hasEventBuffs: false
         });
+        
+        // 重置事件修正
+        app.globalData.eventModifiers = {
+            rareFishBoost: 1,
+            baseMultiplier: 1,
+            timeModifier: 0,
+            baitEffect: 1
+        };
+        
+        // 重置新增的效果变量
+        app.globalData.nextFishRarity = null;       // 下一条鱼的稀有度
+        app.globalData.nextFishStrength = null;     // 下一条鱼的体型变化系数
+        app.globalData.passiveDamageBoost = null;   // 被动伤害提升系数
+        app.globalData.qteDurationChange = null;    // QTE判定时间变化系数
+        app.globalData.qteDamageChange = null;      // QTE伤害变化系数
+    },
+    
+    // 优化1：从事件加成显示中移除指定类型的效果
+    removeEventBuffDisplay(buffType) {
+        if (!buffType) return;
+        
+        // 获取当前事件加成列表
+        let eventBuffs = this.data.eventBuffs;
+        
+        // 过滤掉指定类型的效果
+        eventBuffs = eventBuffs.filter(buff => buff.type !== buffType);
+        
+        // 更新数据
+        this.setData({
+            eventBuffs: eventBuffs,
+            hasEventBuffs: eventBuffs.length > 0
+        });
+        
+        console.log(`[钓鱼游戏] 移除事件加成显示: ${buffType}`);
     },
 
     // 在页面卸载时清空事件加成
@@ -1409,17 +1868,27 @@ Page({
     },
     // 退出鱼咬状态，触发 AFT_FISHON 或 EXTRA 事件，并回到等待状态
     exitFishOn() {
-        // 先触发 AFT_FISHON 事件（20% 概率）
-        this.triggerAfterFishOnEvent(() => {
-            // 如果未触发 AFT_FISHON，判断是否触发 EXTRA 天气事件（15%，且本局只触发一次）
-            if (!app.globalData.extraWeatherTriggered) {
-                this.triggerExtraWeatherEvent(() => {
-                    this.backToWaiting();
-                });
-            } else {
+        // 检查是否需要屏蔽AFT_FISHON事件
+        if (app.globalData.blockAFTEvent) {
+            console.log('[钓鱼游戏] 屏蔽AFT_FISHON事件，直接触发EXTRA天气事件');
+            // 注意：不在这里重置blockAFTEvent标记，而是在onCloseFishCaughtPopup中重置
+            // 直接触发EXTRA天气事件
+            this.triggerExtraWeatherEvent(() => {
                 this.backToWaiting();
-            }
-        });
+            });
+        } else {
+            // 正常流程：先触发 AFT_FISHON 事件
+            this.triggerAfterFishOnEvent(() => {
+                // 如果未触发 AFT_FISHON，判断是否触发 EXTRA 天气事件
+                if (!app.globalData.extraWeatherTriggered) {
+                    this.triggerExtraWeatherEvent(() => {
+                        this.backToWaiting();
+                    });
+                } else {
+                    this.backToWaiting();
+                }
+            });
+        }
     },
 
     backToWaiting() {

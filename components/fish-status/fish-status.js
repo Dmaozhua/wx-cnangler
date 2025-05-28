@@ -6,10 +6,17 @@ Component({
     currentFish: {
       type: Object,
       value: null,
-      observer: function(newVal) {
+      observer: function(newVal, oldVal) {
         if (newVal) {
           // 根据鱼的稀有度设置样式类
           this.setRarityClass(newVal.rarity || 1);
+          
+          // 检查是否需要显示血量减少动画
+          if (oldVal && oldVal.hp > newVal.hp) {
+            // 优化：血量减少动画显示整数而不是小数
+            const damage = Number((oldVal.hp - newVal.hp).toFixed(0));
+            this.showDamageAnimation(damage);
+          }
         }
       }
     },
@@ -50,7 +57,9 @@ Component({
     isLocked: false, // 添加锁定状态，防止动画过程中的点击操作
     rarityClass: 'rarity-1', // 默认稀有度样式类
     rarityBgClass: 'rarity-bg-1', // 默认背景样式类
-    rarityBorderClass: 'rarity-border-1' // 默认边框样式类
+    rarityBorderClass: 'rarity-border-1', // 默认边框样式类
+    damageAnimations: [], // 存储血量减少动画的数组
+    damageAnimationId: 0 // 用于生成唯一的动画ID
   },
 
   lifetimes: {
@@ -90,7 +99,68 @@ Component({
         rarityBgClass: `rarity-bg-${rarityNum}`,
         rarityBorderClass: `rarity-border-${rarityNum}`
       });
+    },
     
+    // 显示血量减少的动画
+    showDamageAnimation: function(damage) {
+      // 优化：确保即使在鱼血量为0或小于0的情况下也能正常显示动画
+      if (!damage) return;
+      
+      // 确保damage为正数，用于显示
+      const displayDamage = Math.abs(damage);
+      
+      // 生成唯一的动画ID
+      const animId = this.data.damageAnimationId + 1;
+      
+      // 创建新的动画对象
+      const newAnimation = {
+        id: animId,
+        damage: `-${displayDamage}`,
+        animationData: {}
+      };
+      
+      // 将新动画添加到数组中
+      const animations = [...this.data.damageAnimations, newAnimation];
+      
+      this.setData({
+        damageAnimations: animations,
+        damageAnimationId: animId
+      }, () => {
+        // 在下一帧创建并执行动画
+        setTimeout(() => {
+          // 创建动画实例
+          const animation = wx.createAnimation({
+            duration: 500,
+            timingFunction: 'ease-out'
+          });
+          
+          // 设置动画：向上移动并淡出
+          animation.translateY('-30rpx').opacity(0).step();
+          
+          // 更新特定动画的数据
+          const updatedAnimations = this.data.damageAnimations.map(anim => {
+            if (anim.id === animId) {
+              return {
+                ...anim,
+                animationData: animation.export()
+              };
+            }
+            return anim;
+          });
+          
+          this.setData({
+            damageAnimations: updatedAnimations
+          });
+          
+          // 动画结束后移除该动画
+          setTimeout(() => {
+            const filteredAnimations = this.data.damageAnimations.filter(anim => anim.id !== animId);
+            this.setData({
+              damageAnimations: filteredAnimations
+            });
+          }, 500);
+        }, 0);
+      });
     },
     
 // 滑入动画
