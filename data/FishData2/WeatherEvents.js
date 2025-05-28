@@ -1,4 +1,4 @@
-import { RARE, EPIC, MYTHIC } from './FishDataAll';
+import { COMMON,UNCOMMON,RARE, EPIC, MYTHIC, BOSS ,WASTE} from './FishDataAll';
 
 export const WeatherEvents = [
   {
@@ -36,7 +36,7 @@ export const WeatherEvents = [
         targetRarity: [RARE, EPIC, MYTHIC]
       }
     },
-    weight:1
+    weight:0.1
   },
   {
     id: 'EX002',
@@ -76,18 +76,14 @@ export const WeatherEvents = [
   //     }
   //   },
   //   weight:0.1
-  // },
-  // {
-  //   id: 'EX005',
-  //   type: 'EXTRA',
-  //   name: '雷暴天气',
-  //   description: '作为理智和有责任心的钓鱼人，此刻你决定暂时撤离等待雷暴结束。\n钓鱼时间减少60%',
-  //   effects: {
-  //     rareFishBoost: {
-  //       value: 2,
-  //       targetRarity: [RARE, EPIC, MYTHIC]
-  //     }
-  //   },
-  //   weight:0.1
   // }
+,
+  {
+    id: 'EX005',
+    type: 'EXTRA',
+    name: '雷暴天气',
+    description: '作为理智和有责任心的钓鱼人，此刻你决定暂时撤离等待雷暴结束。\n钓鱼时间减少99%，但下一竿总存在着惊喜。',
+    effects: { timeModifier: -0.999 ,nextFishRarity: { rarity: MYTHIC, blockEvents: true }},
+    weight:0.9
+  }
 ];

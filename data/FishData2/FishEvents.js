@@ -3,7 +3,7 @@ import { COMMON,UNCOMMON,RARE, EPIC, MYTHIC, BOSS ,WASTE} from './FishDataAll';
 
 export const FishEventsProbability = {
   AFT_Probability: 0.1,  
-  BEF_Probability: 0.99        
+  BEF_Probability: 0.1       
 };
 
 // 新增效果类型
