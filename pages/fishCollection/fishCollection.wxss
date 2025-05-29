@@ -9,6 +9,61 @@
   overflow: hidden;
 }
 
+/* 动态海浪效果 */
+.waves {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background-repeat: repeat-x;
+  background-position: bottom;
+  transform-origin: center bottom;
+}
+
+.wave-1 {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%2300a896"/></svg>');
+  animation: wave 15s linear infinite;
+  opacity: 0.8;
+  z-index: 3;
+}
+
+.wave-2 {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".35" fill="%2300a896"/></svg>');
+  animation: wave 12s linear -2s infinite;
+  opacity: 0.6;
+  z-index: 2;
+}
+
+.wave-3 {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%2300a896" opacity="0.4"/></svg>');
+  animation: wave 18s linear -5s infinite;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(0) translateZ(0) scaleY(1);
+  }
+  50% {
+    transform: translateX(-25%) translateZ(0) scaleY(0.95);
+  }
+  100% {
+    transform: translateX(-50%) translateZ(0) scaleY(1);
+  }
+}
+
 /* 图鉴类型切换标签 */
 .gallery-type-tabs {
   display: flex;
@@ -18,7 +73,8 @@
   border-radius: 10rpx;
   overflow: hidden;
   box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
-  width: calc(100% - 60rpx); /* 适配屏幕宽度 */
+  width: calc(100% - 60rpx);
+  z-index: 10;
 }
 
 .gallery-type-tab {
@@ -47,35 +103,21 @@
   border-radius: 3rpx;
 }
 
-/* 水波纹背景效果 */
-.container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0,50 Q25,40 50,50 T100,50 T150,50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/></svg>');
-  background-size: 100px 100px;
-  opacity: 0.3;
-  z-index: 0;
-}
-
 .header {
-    display: flex;
-    align-items: center; /* 垂直居中 */
-    justify-content: space-between; /* 两端对齐 */
-    padding: 20rpx 30rpx;
-    background: rgba(30, 86, 49, 0.85); /* 半透明背景 */
-    height: 100rpx;
-    color: rgb(255, 255, 255);
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
-    z-index: 10;
-    margin: 20rpx 30rpx; /* 留出边距显示圆角 */
-    border-radius: 24rpx; /* 圆角 */
-    box-sizing: border-box; /* 确保内边距不影响宽度 */
-    width: calc(100% - 60rpx); /* 适配屏幕宽度 */
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 30rpx;
+  background: rgba(30, 86, 49, 0.85);
+  height: 100rpx;
+  color: rgb(255, 255, 255);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  margin: 20rpx 30rpx;
+  border-radius: 24rpx;
+  box-sizing: border-box;
+  width: calc(100% - 60rpx);
+}
 
 .back-btn {
   position: absolute;
@@ -106,24 +148,24 @@
 
 .title {
   flex: 1;
-  text-align: left; /* 左对齐文本 */
+  text-align: left;
   font-size: 36rpx;
   font-weight: bold;
   text-shadow: 0 2rpx 4rpx rgba(2, 2, 2, 0.3);
-  margin-left: 0rpx; /* 为左侧返回按钮留出空间 */
+  margin-left: 0rpx;
 }
 .collection-container {
-    display: flex; /* 允许内部信息横向排列 */
-    align-items: center; /* 内部垂直居中 */
-  }
+  display: flex;
+  align-items: center;
+}
 .collection-info {
-    font-size: 24rpx;
-    color: #a0e4bc;
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 6rpx 12rpx;
-    border-radius: 20rpx;
-    border: 1rpx solid rgba(255, 255, 255, 0.2);
-    margin-left: 12rpx; /* 多个信息之间的间距 */
+  font-size: 24rpx;
+  color: #a0e4bc;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 6rpx 12rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.2);
+  margin-left: 12rpx;
 }
 
 /* 鱼类列表 */
@@ -148,6 +190,7 @@
 .event-item {
   width: calc(33.33% - 20rpx);
   margin-bottom: 30rpx;
+  z-index: 5;
 }
 
 .fish-card,
@@ -161,6 +204,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .fish-image,
@@ -245,6 +289,7 @@
   z-index: 5;
   border-bottom: 1rpx solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
+  position: relative;
 }
 
 .tabs-scroll {
@@ -276,14 +321,15 @@
   padding: 20rpx;
   text-align: center;
   font-size: 24rpx;
-  border-radius: 20rpx; /* 圆角 */
-  padding: 14rpx 24rpx; /* 增加内边距 */
+  border-radius: 20rpx;
+  padding: 14rpx 24rpx;
   color: rgba(255, 255, 255, 0.6);
   background-color: rgba(0, 0, 0, 0.2);
   border-top: 1rpx solid rgba(255, 255, 255, 0.1);
   z-index: 1;
   padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
-  word-wrap: break-word; /* 允许长单词换行 */
-  box-sizing: border-box; /* 确保内边距不影响宽度 */
-  width: calc(100% - 60rpx); /* 适配屏幕宽度 */
+  word-wrap: break-word;
+  box-sizing: border-box;
+  width: calc(100% - 60rpx);
+  position: relative;
 }

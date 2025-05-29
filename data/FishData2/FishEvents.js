@@ -2,7 +2,7 @@
 import { COMMON,UNCOMMON,RARE, EPIC, MYTHIC, BOSS ,WASTE} from './FishDataAll';
 
 export const FishEventsProbability = {
-  AFT_Probability: 0.1,  
+  AFT_Probability: 0.9,  
   BEF_Probability: 0.1       
 };
 
@@ -67,16 +67,16 @@ export const FishEvents = [
     //   weight:0.1
     // }
     // ,
-    // {
-    //   id: 'EVENT14',
-    //   type: 'AFT_FISHON',
-    //   name: '水位上升',
-    //   description: '水流突然变得湍急，水位也在上涨。理智的你决定先换个安全钓点。\n钓鱼时间减少30%\n鱼饵基础概率上升200%',
-    //   // triggerprobability:0.1,
-    //   retriggering:true,
-    //   effects: { timeModifier: -0.3,baitEffect:2 },
-    //   weight:0.1
-    // }
+    {
+      id: 'EVENT14',
+      type: 'AFT_FISHON',
+      name: '水位上升',
+      description: '水流突然变得湍急，水位也在上涨。理智的你决定先换个安全钓点。\n钓鱼时间减少30%\n鱼饵基础概率上升200%',
+      // triggerprobability:0.1,
+      retriggering:true,
+      effects: { timeModifier: -0.3, baitEffect: 2 },
+      weight:0.9
+    },
     // {
     //   id: 'EVENT17',
     //   type: 'AFT_FISHON',
@@ -102,7 +102,7 @@ export const FishEvents = [
     //   id: 'EVENT19',
     //   type: 'AFT_FISHON',
     //   name: '技巧领悟',
-    //   description: '灵光一现，突然感受到了钓组的魅力，脑海回响着灵动的泳姿，信心倍增。\n被动伤害提升100%',
+    //   description: '灵光一现，突然感受了钓组的魅力，脑海回响着灵动的泳姿，信心倍增。\n被动伤害提升100%',
     //   // triggerprobability:0.1,
     //   retriggering:false,
     //   effects: { passiveDamageBoost: 2.0 }, // 被动伤害提升100%
