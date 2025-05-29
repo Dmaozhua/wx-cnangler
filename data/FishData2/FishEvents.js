@@ -3,7 +3,14 @@ import { COMMON,UNCOMMON,RARE, EPIC, MYTHIC, BOSS ,WASTE} from './FishDataAll';
 
 export const FishEventsProbability = {
   AFT_Probability: 0.9,  
-  BEF_Probability: 0.1       
+  BEF_Probability: 0.1,
+  // EXTRA_Probability: 0   EXTRA天气事件触发概率 第五次必然触发 先配置为0
+  // EXTRA事件只在指定条数的鱼时必然触发，无需概率配置
+};
+
+// EXTRA事件触发配置
+export const ExtraEventConfig = {
+  triggerFishCount: 5  // 第几条鱼触发EXTRA事件
 };
 
 // 新增效果类型
@@ -13,7 +20,6 @@ export const EffectTypes = {
   BASE_MULTIPLIER: 'baseMultiplier',    // 基础概率修正
   TIME_MODIFIER: 'timeModifier',        // 时间修正
   BAIT_EFFECT: 'baitEffect',            // 鱼饵效果修正
-  
   // 新增效果
   NEXT_FISH_RARITY: 'nextFishRarity',   // 下一条鱼是指定稀有度
   NEXT_FISH_STRENGTH: 'nextFishStrength', // 下一条鱼的strength变化

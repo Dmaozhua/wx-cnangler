@@ -1,7 +1,7 @@
 // pages/fishing/fishing.js
 const app = getApp();
 import { FishData, RARITY_MULTIPLIER } from '../../data/FishData2/FishDataAll';
-import { FishEvents, FishEventsProbability } from '../../data/FishData2/FishEvents';
+import { FishEvents, FishEventsProbability, ExtraEventConfig } from '../../data/FishData2/FishEvents';
 import { QTEData } from '../../data/FishData2/QTEData';
 import { fishtimeData } from '../../data/FishData2/fishtimeData';
 import { WeatherEvents } from '../../data/FishData2/WeatherEvents';
@@ -857,9 +857,9 @@ Page({
             canCastRod: false // 禁用抛竿按钮，等待动画完成
         });
         
-        // 检查是否钓起第五条鱼，如果是则触发EXTRA天气事件
-        if (app.globalData.fishCaught === 5) {
-            console.log('[钓鱼游戏] 已钓起第五条鱼，将触发EXTRA天气事件');
+        // 检查是否钓起指定条数的鱼，如果是则触发EXTRA天气事件
+        if (app.globalData.fishCaught === ExtraEventConfig.triggerFishCount) {
+            console.log(`[钓鱼游戏] 已钓起第${ExtraEventConfig.triggerFishCount}条鱼，将触发EXTRA天气事件`);
             // 设置标记，屏蔽AFT_FISHON事件触发
             app.globalData.blockAFTEvent = true;
             // 设置标记，屏蔽下一次抛竿的BEF_FISHON事件触发
@@ -1380,6 +1380,9 @@ Page({
                         // 应用时间修正
                         if (evt.effects.timeModifier) {
                             app.globalData.eventModifiers.timeModifier += evt.effects.timeModifier;
+                            // 直接应用到钓鱼时间
+                            const timeChange = app.globalData.fishingTime * evt.effects.timeModifier;
+                            this.updateFishingTime(timeChange);
                         }
 
                         // 应用稀有度修正
@@ -1435,8 +1438,8 @@ Page({
 
         const extraWeathers = WeatherEvents.filter(e => e.type === 'EXTRA');
         
-        // 检查是否是第五条鱼触发的EXTRA事件
-        const isFifthFishTrigger = app.globalData.fishCaught === 5;
+        // 检查是否是指定条数鱼触发的EXTRA事件
+        const isTargetFishTrigger = app.globalData.fishCaught === ExtraEventConfig.triggerFishCount;
         
         // 检查是否有可用的EXTRA事件
         if (extraWeathers.length === 0) {
@@ -1445,19 +1448,18 @@ Page({
             return;
         }
         
-        // 如果是第五条鱼触发，则必定显示EXTRA事件；否则按概率触发
-        if (isFifthFishTrigger) {
-            console.log('[钓鱼游戏] 第五条鱼触发EXTRA天气事件');
-        } else if (Math.random() < 0.15) {
-            console.log('[钓鱼游戏] 随机触发EXTRA天气事件');
+        // EXTRA事件只在指定条数的鱼时必然触发
+        if (isTargetFishTrigger) {
+            console.log(`[钓鱼游戏] 第${ExtraEventConfig.triggerFishCount}条鱼触发EXTRA天气事件`);
         } else {
-            console.log('[钓鱼游戏] 未满足EXTRA天气事件触发条件');
+            console.log(`[钓鱼游戏] 非第${ExtraEventConfig.triggerFishCount}条鱼，不触发EXTRA天气事件`);
             callback();
             return;
         }
         
         console.log('[钓鱼游戏] 触发EXTRA天气事件:', {
-             是第五条鱼触发: isFifthFishTrigger,
+             是目标条数鱼触发: isTargetFishTrigger,
+             触发条数: ExtraEventConfig.triggerFishCount,
              可用事件数量: extraWeathers.length
          });
          
