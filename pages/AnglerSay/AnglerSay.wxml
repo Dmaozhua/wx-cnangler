@@ -53,7 +53,7 @@
         <!-- 产品信息 -->
         <view class="product-info">
           <view class="product-name">{{item.productName}}</view>
-          <view class="product-price">¥{{item.price}}</view>
+          <!-- <view class="product-price">¥{{item.price}}</view> -->
         </view>
 
         <!-- 产品图片 -->

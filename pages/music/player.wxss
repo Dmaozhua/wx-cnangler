@@ -172,11 +172,13 @@
   padding: 20rpx 0 !important;
 }
 .time-text {
-  font-size: 24rpx;
-  color: rgba(255, 255, 255, 0.8);
-  width: 80rpx;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.95);
+  width: 100rpx;
   text-align: center;
-  
+  font-weight: 500;
+  min-width: 100rpx;
+  flex-shrink: 0;
 }
 
 /* 播放模式 */

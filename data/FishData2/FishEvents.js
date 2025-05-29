@@ -29,16 +29,16 @@ export const EffectTypes = {
 };
 
 export const FishEvents = [
-    // {
-    //   id: 'EVENT1',
-    //   type: 'AFT_FISHON',
-    //   name: '发现奇怪的东西',
-    //   description: '你突然发现了一个奇怪的东西，决定去看看，之后运气爆棚。\n稀有鱼出现概率增加20%',
-    //   // triggerprobability:1,
-    //   retriggering:false,//是否可以重复触发
-    //   effects: { rareFishBoost: { value: 1.2, targetRarity: [RARE, EPIC, MYTHIC] } },
-    //   weight:0.1
-    // },
+    {
+      id: 'EVENT1',
+      type: 'AFT_FISHON',
+      name: '发现奇怪的东西',
+      description: '你突然发现了一个奇怪的东西，决定去看看，之后运气爆棚。\n稀有鱼出现概率增加20%',
+      // triggerprobability:1,
+      retriggering:false,//是否可以重复触发
+      effects: { rareFishBoost: { value: 1.2, targetRarity: [RARE, EPIC, MYTHIC] } },
+      weight:0.1
+    },
     // {
     //   id: 'EVENT11',
     //   type: 'AFT_FISHON',

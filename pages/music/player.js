@@ -9,6 +9,8 @@ Page({
         musicList: [],         // 音乐列表
         currentTime: 0,        // 当前播放时间（秒）
         duration: 0,           // 总时长（秒）
+        currentTimeText: '00:00', // 格式化的当前时间文本
+        durationText: '00:00',    // 格式化的总时长文本
         playing: false,        // 是否正在播放
         currentLyricIndex: -1, // 当前歌词索引
         lyrics: [],            // 歌词数据
@@ -115,6 +117,7 @@ Page({
         audioContext.offStop();
         audioContext.offEnded();
         audioContext.offTimeUpdate();
+        audioContext.offCanplay();
         audioContext.offError();
 
         // 播放事件
@@ -136,7 +139,11 @@ Page({
             this.setData({
                 playing: false,
                 currentTime: 0,
-                sliderValue: 0
+                sliderValue: 0,
+                currentTimeText: '00:00',
+                durationText: '00:00',
+                currentLyricIndex: -1,
+                lyrics: [] // 确保歌词数组被重置
             });
             this.stopUpdateProgress();
             this.stopCoverRotation();
@@ -146,6 +153,19 @@ Page({
         audioContext.onEnded(() => {
             // 根据播放模式决定下一步操作
             this.handlePlayEnd();
+        });
+
+        // 音频可以播放事件（元数据加载完成）
+        audioContext.onCanplay(() => {
+            console.log('音频可以播放，duration:', audioContext.duration);
+            // 确保duration正确获取
+            if (audioContext.duration && audioContext.duration > 0) {
+                const duration = audioContext.duration;
+                this.setData({
+                    duration: duration,
+                    durationText: this.formatTime(duration)
+                });
+            }
         });
 
         // 时间更新事件
@@ -161,7 +181,9 @@ Page({
             this.setData({
                 currentTime,
                 duration,
-                sliderValue
+                sliderValue,
+                currentTimeText: this.formatTime(currentTime),
+                durationText: this.formatTime(duration)
             });
 
             // 更新歌词显示
@@ -212,10 +234,12 @@ Page({
             const sliderValue = duration > 0 ? (currentTime / duration) * 100 : 0;
 
             this.setData({
-                currentTime,
-                duration,
-                sliderValue
-            });
+                    currentTime,
+                    duration,
+                    sliderValue,
+                    currentTimeText: this.formatTime(currentTime),
+                    durationText: this.formatTime(duration)
+                });
 
             // 更新歌词显示
             this.updateLyric(currentTime);
@@ -331,6 +355,8 @@ Page({
             musicInfo,
             currentTime: 0,
             sliderValue: 0,
+            currentTimeText: '00:00',
+            durationText: '00:00',
             currentLyricIndex: -1
         });
 
@@ -545,11 +571,20 @@ Page({
     // 更新歌词显示
     updateLyric(currentTime) {
         const { lyrics } = this.data;
-        if (!lyrics.length) return;
+        if (!lyrics || !lyrics.length) {
+            // 如果没有歌词，重置索引
+            if (this.data.currentLyricIndex !== -1) {
+                this.setData({ currentLyricIndex: -1 });
+            }
+            return;
+        }
 
         // 查找当前时间对应的歌词
         let index = lyrics.findIndex(lyric => lyric.time > currentTime) - 1;
         if (index < 0) index = 0;
+        
+        // 确保索引在有效范围内
+        if (index >= lyrics.length) index = lyrics.length - 1;
 
         // 如果歌词索引变化，更新状态
         if (index !== this.data.currentLyricIndex) {
@@ -589,12 +624,20 @@ Page({
 
     // 格式化时间（秒 -> MM:SS）
     formatTime(seconds) {
-        if (isNaN(seconds)) return '00:00';
+        // 添加调试信息
+        // console.log('formatTime called with:', seconds, 'type:', typeof seconds);
+        
+        if (isNaN(seconds) || seconds === null || seconds === undefined) {
+            console.log('formatTime returning 00:00 due to invalid input');
+            return '00:00';
+        }
 
         const min = Math.floor(seconds / 60);
         const sec = Math.floor(seconds % 60);
-
-        return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        
+        const result = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        console.log('formatTime result:', result);
+        return result;
     },
 
     // 返回列表页
