@@ -274,7 +274,7 @@ touchEnd(e) {
     let resultIndex = -1; // 记录匹配结果的索引
 
     // 第一阶段：尝试匹配所有特定公式
-    // 先按照结果数组的顺序处理，保证优先匹配前面的结果
+    // 通过总维度分数比较来确定最终结果
     for (let i = 0; i < this.data.testData.results.length; i++) {
         const result = this.data.testData.results[i];
         try {
@@ -287,11 +287,14 @@ touchEnd(e) {
             const isMatch = this.evaluateFormula(result.formula, recalculatedScores);
             console.log(`计算公式: ${result.formula}, 结果: ${isMatch}`);
             if (isMatch) {
-                // 找到第一个匹配的结果就直接使用，不再基于总分数选择
-                bestMatch = result;
-                resultIndex = i; // 记录匹配结果的索引
-                console.log('找到匹配结果:', bestMatch.title, '索引:', resultIndex);
-                break; // 找到匹配就退出循环
+                const totalScore = Object.values(recalculatedScores).reduce((sum, score) => sum + score, 0);
+                console.log(`匹配结果: ${result.title}, 总分: ${totalScore}`);
+                if (totalScore > highestScore) {
+                    highestScore = totalScore;
+                    bestMatch = result;
+                    resultIndex = i; // 记录匹配结果的索引
+                    console.log('更新最佳匹配结果:', bestMatch.title, '总分:', highestScore, '索引:', resultIndex);
+                }
             }
         } catch (e) {
             console.error(`公式计算失败`, e);
@@ -315,17 +318,8 @@ touchEnd(e) {
         resultIndex = 0;
     }
     
-    // 计算结果占比，但对于保底结果（formula为"true"的结果）不显示占比
-    const totalResults = this.data.testData.results.length;
-    let resultPercentage = null;
-    
-    // 只有非保底结果才显示占比
-    if (bestMatch.formula !== "true") {
-      resultPercentage = totalResults > 0 ? ((resultIndex + 1) / totalResults * 100).toFixed(2) : "0.00";
-      console.log('结果占比:', resultPercentage + '%', '总结果数:', totalResults);
-    } else {
-      console.log('当前为保底结果，不显示占比');
-    }
+    // 计算真实的结果概率分布
+    const resultPercentage = this.calculateRealResultProbability(bestMatch);
     
     // 将占比添加到结果数据中
     bestMatch.resultPercentage = resultPercentage;
@@ -426,6 +420,91 @@ evaluateFormula(formula, env) {
 
 
 ,
+
+  // 计算真实的结果概率分布
+  calculateRealResultProbability(targetResult) {
+    const testData = this.data.testData;
+    const totalCombinations = Math.pow(3, testData.questions.length); // 3^5 = 243
+    let targetResultCount = 0;
+    
+    console.log('开始计算真实概率分布，总组合数:', totalCombinations);
+    
+    // 遍历所有可能的答题组合
+    for (let combination = 0; combination < totalCombinations; combination++) {
+      // 将数字转换为3进制，表示每题的选择（0,1,2）
+      const choices = [];
+      let temp = combination;
+      for (let i = 0; i < testData.questions.length; i++) {
+        choices.push(temp % 3);
+        temp = Math.floor(temp / 3);
+      }
+      
+      // 计算这个组合的维度得分
+      const dimensionScores = {};
+      
+      choices.forEach((choiceIndex, questionIndex) => {
+        const question = testData.questions[questionIndex];
+        const selectedOption = question.options[choiceIndex];
+        
+        selectedOption.resultKey.forEach(([dimension, baseWeight]) => {
+          const cleanDim = dimension.trim().charAt(0).toUpperCase() + dimension.trim().slice(1).toLowerCase();
+          const dimensionWeight = testData.dimensionWeights[cleanDim] || 1;
+          const finalWeight = baseWeight * dimensionWeight;
+          
+          dimensionScores[cleanDim] = (dimensionScores[cleanDim] || 0) + finalWeight;
+        });
+      });
+      
+      // 判断这个组合会得到哪个结果（使用与calculateResult相同的逻辑）
+      let bestMatch = null;
+      let highestScore = -Infinity;
+      let defaultResult = null;
+      
+      // 第一阶段：尝试匹配所有特定公式，通过总维度分数比较确定最终结果
+      for (let i = 0; i < testData.results.length; i++) {
+        const result = testData.results[i];
+        
+        if (result.formula === "true") {
+          defaultResult = result;
+          continue; // 跳过保底结果，最后处理
+        }
+        
+        try {
+          const isMatch = this.evaluateFormula(result.formula, dimensionScores);
+          if (isMatch) {
+            const totalScore = Object.values(dimensionScores).reduce((sum, score) => sum + score, 0);
+            if (totalScore > highestScore) {
+              highestScore = totalScore;
+              bestMatch = result;
+            }
+          }
+        } catch (e) {
+          // 公式计算失败，继续下一个
+        }
+      }
+      
+      // 第二阶段：如果没有匹配到特定结果，使用保底结果
+      if (!bestMatch && defaultResult) {
+        bestMatch = defaultResult;
+      }
+      
+      // 如果没有任何匹配，使用第一个结果
+      if (!bestMatch) {
+        bestMatch = testData.results[0];
+      }
+      
+      // 如果匹配的结果是目标结果，计数加1
+      if (bestMatch && bestMatch.title === targetResult.title) {
+        targetResultCount++;
+      }
+    }
+    
+    // 计算概率百分比
+    const probability = (targetResultCount / totalCombinations * 100).toFixed(2);
+    console.log(`结果"${targetResult.title}"的真实概率: ${probability}% (${targetResultCount}/${totalCombinations})`);
+    
+    return probability;
+  },
 
   showResult(data) {
     this.setData({
