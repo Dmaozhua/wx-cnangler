@@ -53,7 +53,7 @@
 
     <!-- 鱼类列表 -->
     <scroll-view class="list-container" scroll-y="true" enable-flex="true" enhanced="true" bounces="true" show-scrollbar="true" wx:if="{{showFishCollection}}">
-        <view class="fish-grid">
+        <view class="grid">
             <view class="fish-item {{item.unlocked ? 'unlocked' : 'locked'}}" wx:for="{{filteredFishList}}" wx:key="id" bindtap="viewFishDetail" data-id="{{item.id}}" data-unlocked="{{item.unlocked}}">
                 <view class="card">
                     <image class="fish-image" src="{{item.imageUrl}}" mode="aspectFit" binderror="handleImageError" data-index="{{index}}"></image>
@@ -71,7 +71,7 @@
 
     <!-- 事件列表 -->
     <scroll-view class="list-container" scroll-y="true" enable-flex="true" enhanced="true" bounces="true" show-scrollbar="true" wx:if="{{showEventCollection}}">
-        <view class="event-grid">
+        <view class="grid">
             <view class="event-item {{item.unlocked ? 'unlocked' : 'locked'}}" wx:for="{{filteredEventList}}" wx:key="id" bindtap="viewEventDetail" data-id="{{item.id}}" data-unlocked="{{item.unlocked}}">
                 <view class="card">
                     <image class="event-image" src="{{item.imageUrl}}" mode="aspectFit" binderror="handleEventImageError" data-index="{{index}}"></image>
