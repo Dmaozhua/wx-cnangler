@@ -273,15 +273,19 @@ touchEnd(e) {
     let defaultResult = null;
     let resultIndex = -1; // 记录匹配结果的索引
 
-    // 第一阶段：尝试匹配所有特定公式
-    // 通过总维度分数比较来确定最终结果
-    for (let i = 0; i < this.data.testData.results.length; i++) {
-        const result = this.data.testData.results[i];
+    // 查找formula为"true"的默认结果
+    this.data.testData.results.forEach(result => {
+        if (result.formula === "true") {
+            defaultResult = result;
+        }
+    });
+
+    // 尝试匹配所有特定公式
+    this.data.testData.results.forEach((result, i) => {
         try {
-            // 保存formula为"true"的结果作为默认结果
+            // 跳过默认结果
             if (result.formula === "true") {
-                defaultResult = result;
-                continue; // 继续检查其他结果
+                return;
             }
 
             const isMatch = this.evaluateFormula(result.formula, recalculatedScores);
@@ -299,9 +303,9 @@ touchEnd(e) {
         } catch (e) {
             console.error(`公式计算失败`, e);
         }
-    }
+    });
 
-    // 第二阶段：如果没有匹配到特定公式，使用formula为"true"的默认结果
+    // 如果没有匹配到特定公式，使用默认结果
     if (!bestMatch && defaultResult) {
         console.log('使用默认结果:', defaultResult.title);
         bestMatch = defaultResult;
@@ -447,50 +451,55 @@ evaluateFormula(formula, env) {
         const selectedOption = question.options[choiceIndex];
         
         selectedOption.resultKey.forEach(([dimension, baseWeight]) => {
-          const cleanDim = dimension.trim().charAt(0).toUpperCase() + dimension.trim().slice(1).toLowerCase();
-          const dimensionWeight = testData.dimensionWeights[cleanDim] || 1;
-          const finalWeight = baseWeight * dimensionWeight;
-          
-          dimensionScores[cleanDim] = (dimensionScores[cleanDim] || 0) + finalWeight;
+          if (!dimensionScores[dimension]) {
+            dimensionScores[dimension] = 0;
+          }
+          dimensionScores[dimension] += baseWeight;
         });
       });
       
-      // 判断这个组合会得到哪个结果（使用与calculateResult相同的逻辑）
-      let bestMatch = null;
-      let highestScore = -Infinity;
-      let defaultResult = null;
-      
-      // 第一阶段：尝试匹配所有特定公式，通过总维度分数比较确定最终结果
-      for (let i = 0; i < testData.results.length; i++) {
-        const result = testData.results[i];
-        
-        if (result.formula === "true") {
-          defaultResult = result;
-          continue; // 跳过保底结果，最后处理
+      // 应用权重
+      Object.keys(dimensionScores).forEach(dimension => {
+        if (testData.dimensionWeights[dimension]) {
+          dimensionScores[dimension] *= testData.dimensionWeights[dimension];
         }
-        
-        try {
-          const isMatch = this.evaluateFormula(result.formula, dimensionScores);
-          if (isMatch) {
-            const totalScore = Object.values(dimensionScores).reduce((sum, score) => sum + score, 0);
-            if (totalScore > highestScore) {
-              highestScore = totalScore;
-              bestMatch = result;
+      });
+      
+      // 计算总维度分数
+      const totalScore = Object.values(dimensionScores).reduce((sum, score) => sum + score, 0);
+      
+      // 匹配结果 - 使用与calculateResult相同的逻辑
+      let matchedResults = [];
+      
+      // 第一阶段：匹配特定公式
+      for (const result of testData.results) {
+        if (result.formula !== 'true') {
+          try {
+            const isMatch = this.evaluateFormula(result.formula, dimensionScores);
+            if (isMatch) {
+              matchedResults.push({ result, totalScore });
             }
+          } catch (e) {
+            // 公式评估错误，继续下一个
           }
-        } catch (e) {
-          // 公式计算失败，继续下一个
         }
       }
       
-      // 第二阶段：如果没有匹配到特定结果，使用保底结果
-      if (!bestMatch && defaultResult) {
-        bestMatch = defaultResult;
-      }
+      let bestMatch = null;
       
-      // 如果没有任何匹配，使用第一个结果
-      if (!bestMatch) {
-        bestMatch = testData.results[0];
+      // 如果有匹配的特定公式，选择总分最高的
+      if (matchedResults.length > 0) {
+        matchedResults.sort((a, b) => b.totalScore - a.totalScore);
+        bestMatch = matchedResults[0].result;
+      } else {
+        // 第二阶段：使用保底结果
+        const fallbackResult = testData.results.find(result => result.formula === 'true');
+        if (fallbackResult) {
+          bestMatch = fallbackResult;
+        } else {
+          // 最后保底：返回第一个结果
+          bestMatch = testData.results[0];
+        }
       }
       
       // 如果匹配的结果是目标结果，计数加1
