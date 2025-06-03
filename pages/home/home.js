@@ -79,19 +79,47 @@ Page({
 
     // 测试页面导航
     goToTest1() {
+        // 防止连续点击
+        if (this.isTest1Clicking) {
+            return;
+        }
+        this.isTest1Clicking = true;
+        
         // 跳转到第一个测试（钓鱼人格精密分析）
         const testData = require('../../data/testDataNew');
         // 确保使用id为1的测试数据
         wx.setStorageSync('selectedTest', testData.personalityTest);
-        wx.navigateTo({ url: "/pages/test/test?id=1" });
+        wx.navigateTo({ 
+            url: "/pages/test/test?id=1",
+            complete: () => {
+                // 导航完成后重置标志
+                setTimeout(() => {
+                    this.isTest1Clicking = false;
+                }, 500);
+            }
+        });
     },
 
     goToTest2() {
+        // 防止连续点击
+        if (this.isTest2Clicking) {
+            return;
+        }
+        this.isTest2Clicking = true;
+        
         // 跳转到第二个测试（钓鱼应急能力测试）
         const testData = require('../../data/testDataNew');
         // 确保使用id为2的测试数据
         wx.setStorageSync('selectedTest', testData.emergencyTest);
-        wx.navigateTo({ url: "/pages/test/test?id=2" });
+        wx.navigateTo({ 
+            url: "/pages/test/test?id=2",
+            complete: () => {
+                // 导航完成后重置标志
+                setTimeout(() => {
+                    this.isTest2Clicking = false;
+                }, 500);
+            }
+        });
     },
     
     goToRandomTest() {
@@ -104,13 +132,6 @@ Page({
         // 随机选择一个测试
         const testData = require('../../data/testDataNew');
         const testKeys = [];
-        
-        // 添加随机效果动画
-        const randomBtn = this.selectComponent('.random-test-btn');
-        if (randomBtn) {
-            // 如果能直接获取到组件，添加动画效果
-            // 微信小程序中这种方式可能不适用，所以添加备选方案
-        }
         
         // 显示随机中的提示
         this.setData({
@@ -128,19 +149,27 @@ Page({
         // 随机选择一个测试，添加延迟增强随机感
         if (testKeys.length > 0) {
             setTimeout(() => {
-                // 隐藏提示
-                this.setData({ showTips: false });
-                // 重置标志，允许再次点击
-                this.isRandomSelecting = false;
-                
                 const randomIndex = Math.floor(Math.random() * testKeys.length);
                 const randomKey = testKeys[randomIndex];
                 const randomTest = testData[randomKey];
                 
                 console.log(`随机选择了测试: ${randomTest.title} (ID: ${randomTest.id})`);
                 wx.setStorageSync('selectedTest', randomTest);
-                wx.navigateTo({ url: `/pages/test/test?id=${randomTest.id}` });
+                wx.navigateTo({ 
+                    url: `/pages/test/test?id=${randomTest.id}`,
+                    complete: () => {
+                        // 隐藏提示并重置标志
+                        this.setData({ showTips: false });
+                        setTimeout(() => {
+                            this.isRandomSelecting = false;
+                        }, 500);
+                    }
+                });
             }, 800); // 延迟800毫秒，增强随机感
+        } else {
+            // 如果没有找到测试数据，重置状态
+            this.setData({ showTips: false });
+            this.isRandomSelecting = false;
         }
     },
     
