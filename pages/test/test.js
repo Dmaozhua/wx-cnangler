@@ -20,7 +20,7 @@ Page({
   touchStartX: 0,
 
   onLoad(options) {
-    console.log('页面加载参数:', options);
+    // console.log('页面加载参数:', options);
     
     // 清除概率缓存，确保使用最新的测试数据
     this.probabilityCache = null;
@@ -33,7 +33,7 @@ Page({
     // 直接保存触摸开始的X坐标，不使用setData以提高性能
     this.touchStartX = e.changedTouches[0].clientX;
     this.touchStartY = e.changedTouches[0].clientY; // 同时记录Y坐标，用于判断是否为水平滑动
-    console.log('触摸开始，X坐标：', this.touchStartX, 'Y坐标：', this.touchStartY);
+    // console.log('触摸开始，X坐标：', this.touchStartX, 'Y坐标：', this.touchStartY);
   },
 
   // 触摸结束事件
@@ -54,7 +54,7 @@ touchEnd(e) {
 
   // 优先判断右滑返回（阈值80px，Y轴偏移小于50px）
   if (diffX > 80 && diffY < 50) {
-    console.log('右滑返回');
+    // console.log('右滑返回');
     this.backToHome();
     return;
   }
@@ -377,8 +377,8 @@ evaluateFormula(formula, env) {
           processedFormula = processedFormula.replace(regex, safeEnv[key]);
       });
       
-      console.log(`[公式评估] 原始公式: ${formula}, 处理后: ${processedFormula}`);
-      console.log(`[公式评估] 维度得分:`, safeEnv);
+      // console.log(`[公式评估] 原始公式: ${formula}, 处理后: ${processedFormula}`);
+      // console.log(`[公式评估] 维度得分:`, safeEnv);
       
       // 使用安全的公式评估，支持逻辑运算符
       // 处理包含 && 和 || 的复合表达式
@@ -436,7 +436,7 @@ evaluateFormula(formula, env) {
           }
       }
       
-      console.log(`[公式评估] 结果: ${result}`);
+      // console.log(`[公式评估] 结果: ${result}`);
       return Boolean(result);
   } catch (e) {
       console.error('公式执行失败:', formula, e);
@@ -448,20 +448,20 @@ evaluateFormula(formula, env) {
 
   // 计算真实的结果概率分布（优化版本）
   calculateRealResultProbability(targetResult) {
-    console.log(`[概率计算开始] 目标结果: ${targetResult.title}`);
+    // console.log(`[概率计算开始] 目标结果: ${targetResult.title}`);
     
     // 检查是否已经缓存了概率分布
     if (!this.probabilityCache) {
-      console.log('[概率缓存] 缓存不存在，开始计算所有结果概率');
+      // console.log('[概率缓存] 缓存不存在，开始计算所有结果概率');
       this.probabilityCache = this.calculateAllResultProbabilities();
-      console.log('[概率缓存] 概率计算完成，已缓存');
+      // console.log('[概率缓存] 概率计算完成，已缓存');
     } else {
-      console.log('[概率缓存] 使用已缓存的概率数据');
+      // console.log('[概率缓存] 使用已缓存的概率数据');
     }
     
     // 从缓存中获取目标结果的概率
     const probability = this.probabilityCache[targetResult.title] || '0.00';
-    console.log(`[概率获取] ${targetResult.title} 的概率: ${probability}%`);
+    // console.log(`[概率获取] ${targetResult.title} 的概率: ${probability}%`);
     
     return probability;
   },
@@ -472,13 +472,13 @@ evaluateFormula(formula, env) {
     const totalCombinations = Math.pow(3, testData.questions.length);
     const resultCounts = {};
     
-    console.log(`[概率分布计算] 开始计算，总组合数: ${totalCombinations}`);
+    // console.log(`[概率分布计算] 开始计算，总组合数: ${totalCombinations}`);
     
     // 初始化结果计数
     testData.results.forEach(result => {
       resultCounts[result.title] = 0;
     });
-    console.log(`[概率分布计算] 初始化 ${testData.results.length} 个结果的计数器`);
+    // console.log(`[概率分布计算] 初始化 ${testData.results.length} 个结果的计数器`);
     
     // 遍历所有可能的答题组合
     let progressInterval = Math.floor(totalCombinations / 10); // 每10%显示一次进度
@@ -486,10 +486,10 @@ evaluateFormula(formula, env) {
     
     for (let combination = 0; combination < totalCombinations; combination++) {
       // 显示计算进度
-      if (combination % progressInterval === 0) {
-        const progress = ((combination / totalCombinations) * 100).toFixed(1);
-        console.log(`[概率计算进度] ${progress}% (${combination}/${totalCombinations})`);
-      }
+      // if (combination % progressInterval === 0) {
+      //   const progress = ((combination / totalCombinations) * 100).toFixed(1);
+      //   console.log(`[概率计算进度] ${progress}% (${combination}/${totalCombinations})`);
+      // }
       
       // 将数字转换为3进制，表示每题的选择（0,1,2）
       const choices = [];
@@ -508,12 +508,12 @@ evaluateFormula(formula, env) {
       }
     }
     
-    console.log('[概率计算完成] 开始统计结果分布:');
-    Object.keys(resultCounts).forEach(title => {
-      const count = resultCounts[title];
-      const percentage = (count / totalCombinations * 100).toFixed(2);
-      console.log(`  ${title}: ${count}次 (${percentage}%)`);
-    });
+    // console.log('[概率计算完成] 开始统计结果分布:');
+    // Object.keys(resultCounts).forEach(title => {
+    //   const count = resultCounts[title];
+    //   const percentage = (count / totalCombinations * 100).toFixed(2);
+    //   console.log(`  ${title}: ${count}次 (${percentage}%)`);
+    // });
     
     // 转换为概率百分比
     const probabilities = {};
@@ -521,7 +521,7 @@ evaluateFormula(formula, env) {
       probabilities[title] = (resultCounts[title] / totalCombinations * 100).toFixed(2);
     });
     
-    console.log('[概率分布计算] 所有概率计算完成');
+    // console.log('[概率分布计算] 所有概率计算完成');
     return probabilities;
   },
 
@@ -590,7 +590,7 @@ evaluateFormula(formula, env) {
   },
 
   showResult(data) {
-    console.log(`[传递给组件] resultPercentage: ${data.resultPercentage}%, 结果标题: ${data.title}`);
+    // console.log(`[传递给组件] resultPercentage: ${data.resultPercentage}%, 结果标题: ${data.title}`);
     this.setData({
       showResult: true,
       resultData: data,
