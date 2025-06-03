@@ -466,128 +466,29 @@ evaluateFormula(formula, env) {
     return probability;
   },
 
-  // 计算所有结果的概率分布（只在需要时计算一次）
+  // 获取所有结果的概率分布（直接从预计算数据读取）
   calculateAllResultProbabilities() {
     const testData = this.data.testData;
-    const totalCombinations = Math.pow(3, testData.questions.length);
-    const resultCounts = {};
     
-    // console.log(`[概率分布计算] 开始计算，总组合数: ${totalCombinations}`);
-    
-    // 初始化结果计数
-    testData.results.forEach(result => {
-      resultCounts[result.title] = 0;
-    });
-    // console.log(`[概率分布计算] 初始化 ${testData.results.length} 个结果的计数器`);
-    
-    // 遍历所有可能的答题组合
-    let progressInterval = Math.floor(totalCombinations / 10); // 每10%显示一次进度
-    if (progressInterval === 0) progressInterval = 1;
-    
-    for (let combination = 0; combination < totalCombinations; combination++) {
-      // 显示计算进度
-      // if (combination % progressInterval === 0) {
-      //   const progress = ((combination / totalCombinations) * 100).toFixed(1);
-      //   console.log(`[概率计算进度] ${progress}% (${combination}/${totalCombinations})`);
-      // }
-      
-      // 将数字转换为3进制，表示每题的选择（0,1,2）
-      const choices = [];
-      let temp = combination;
-      for (let i = 0; i < testData.questions.length; i++) {
-        choices.push(temp % 3);
-        temp = Math.floor(temp / 3);
-      }
-      
-      // 使用优化的结果计算函数
-      const bestMatch = this.calculateResultForChoices(choices);
-      
-      // 增加对应结果的计数
-      if (bestMatch && resultCounts.hasOwnProperty(bestMatch.title)) {
-        resultCounts[bestMatch.title]++;
-      }
+    // 直接从testData中读取预计算的概率数据
+    if (testData.resultProbabilities) {
+      console.log('[概率获取] 使用预计算的概率数据');
+      return testData.resultProbabilities;
     }
     
-    // console.log('[概率计算完成] 开始统计结果分布:');
-    // Object.keys(resultCounts).forEach(title => {
-    //   const count = resultCounts[title];
-    //   const percentage = (count / totalCombinations * 100).toFixed(2);
-    //   console.log(`  ${title}: ${count}次 (${percentage}%)`);
-    // });
+    // 如果没有预计算数据，返回默认概率（平均分布）
+    console.warn('[概率获取] 未找到预计算数据，使用默认平均分布');
+    const defaultProbabilities = {};
+    const averageProbability = (100 / testData.results.length).toFixed(2);
     
-    // 转换为概率百分比
-    const probabilities = {};
-    Object.keys(resultCounts).forEach(title => {
-      probabilities[title] = (resultCounts[title] / totalCombinations * 100).toFixed(2);
+    testData.results.forEach(result => {
+      defaultProbabilities[result.title] = averageProbability;
     });
     
-    // console.log('[概率分布计算] 所有概率计算完成');
-    return probabilities;
+    return defaultProbabilities;
   },
 
-  // 为给定的选择组合计算结果（复用calculateResult的核心逻辑）
-  calculateResultForChoices(choices) {
-    const testData = this.data.testData;
-    const dimensionScores = {};
-    
-    // 计算维度得分
-    choices.forEach((choiceIndex, questionIndex) => {
-      const question = testData.questions[questionIndex];
-      const selectedOption = question.options[choiceIndex];
-      
-      selectedOption.resultKey.forEach(([dimension, baseWeight]) => {
-        const cleanDim = dimension.trim().charAt(0).toUpperCase() + dimension.trim().slice(1).toLowerCase();
-        const dimensionWeight = testData.dimensionWeights[cleanDim] || 1;
-        const finalWeight = baseWeight * dimensionWeight;
-        
-        dimensionScores[cleanDim] = (dimensionScores[cleanDim] || 0) + finalWeight;
-      });
-    });
-    
-    // 匹配结果逻辑（与calculateResult保持一致）
-    let bestMatch = null;
-    let highestScore = -Infinity;
-    let defaultResult = null;
-    
-    // 查找默认结果
-    testData.results.forEach(result => {
-      if (result.formula === "true") {
-        defaultResult = result;
-      }
-    });
-    
-    // 尝试匹配特定公式
-    testData.results.forEach(result => {
-      try {
-        if (result.formula === "true") {
-          return;
-        }
-        
-        const isMatch = this.evaluateFormula(result.formula, dimensionScores);
-        if (isMatch) {
-          const totalScore = Object.values(dimensionScores).reduce((sum, score) => sum + score, 0);
-          if (totalScore > highestScore) {
-            highestScore = totalScore;
-            bestMatch = result;
-          }
-        }
-      } catch (e) {
-        // 公式计算失败，继续下一个
-      }
-    });
-    
-    // 如果没有匹配到特定公式，使用默认结果
-    if (!bestMatch && defaultResult) {
-      bestMatch = defaultResult;
-    }
-    
-    // 如果仍然没有匹配，使用第一个结果
-    if (!bestMatch) {
-      bestMatch = testData.results[0];
-    }
-    
-    return bestMatch;
-  },
+
 
   showResult(data) {
     // console.log(`[传递给组件] resultPercentage: ${data.resultPercentage}%, 结果标题: ${data.title}`);

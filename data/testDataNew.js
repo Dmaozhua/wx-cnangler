@@ -242,10 +242,24 @@ dimensionWeights: {
         suggestion: "不断挑战更高难度的钓鱼场景和目标鱼种，进一步提升自己的综合能力。可以参加一些高水平的钓鱼比赛，与其他高手切磋。",
         equip: "根据不同的钓鱼场景和鱼种，配备一套完整的高端钓具。包括不同长度和调性的钓竿、各种类型的渔轮和丰富多样的拟饵。"
     }
-]
+],
+// 复合结果概率统计
+resultProbabilities: {
+    "技术暴君（Tech）": "8.64",
+    "数据先知（Data）": "10.70",
+    "自然之子（Nature）": "6.17",
+    "鹰眼观测者（Observe）": "10.70",
+    "抛投永动机（Action）": "3.29",
+    "实验狂魔（Experiment）": "5.76",
+    "佛系天尊（Casual）": "7.82",
+    "实验室战神（Tech/Data）": "4.53",
+    "荒野先知（Nature+Observe）": "7.41",
+    "人形AI探测器（Data+Experiment）": "8.64",
+    "六边形战士（Six-Dimension）": "26.34"
+  }
 };    
 const emergencyTest = {
-  id: 5,
+  id: 2,
   title: "路亚佬应急能力测考验",
   titleshort: "路亚佬应急能力测考验",
   type: 1,
@@ -475,6 +489,19 @@ const emergencyTest = {
           equip: "配备一套顶级的路亚装备，包括高端的钓竿、渔轮、拟饵等，让你在任何情况下都能发挥出最佳水平。再带上一个专业的户外摄影设备，记录下自己精彩的路亚瞬间。"
       }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "路亚勇者(Bold+Aggressive)": "7.00",
+    "耐心大师(Patient+Adaptable)": "14.81",
+    "实用达人(Practical+Efficient)": "11.11",
+    "执着钓者(Patient+Aggressive)": "11.11",
+    "机智探险家(Aggressive+Prudent)": "4.94",
+    "安全卫士(Prudent+Adaptable)": "5.76",
+    "自力更生者(Bold+Patient)": "6.17",
+    "冷静观察者(Practical+Prudent)": "11.52",
+    "全能路亚侠": "27.57"
+  }
 };   
 const natureAbilityTest = {
 id: 3,
@@ -691,201 +718,230 @@ results: [
         equip: "随便捡片落叶都是神饵"
     }
 ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "风暴指挥官（Storm+Current）": "7.82",
+    "水文博士（Data+Ecology）": "10.70",
+    "装备魔术师（Gear+Improv）": "15.23",
+    "生态黑客（Ecology+Data）": "10.29",
+    "追流者（Current+Storm）": "3.70",
+    "科学狂人（Data+Gear）": "1.23",
+    "佛系钓圣（Zen+Improv）": "8.64",
+    "即兴诗人（Improv+Zen）": "10.70",
+    "全境猎手（Storm+Ecology）": "1.23",
+    "量子钓者（Current+Data）": "2.47",
+    "自然共生体（保底结果）": "27.98"
+  }
 };
 const juece = {
-  "id": 4,
-  "title": "作钓决策风格测试",
+  id: 4,
+  title: "作钓决策风格测试",
   titleshort: "作钓决策风格测试",
   type: 2,
-  "questions": [
+  questions: [
       {
-          "id": 1,
-          "text": "面对不熟悉的钓点，你的第一步是？",
-          "options": [
+          id: 1,
+          text: "面对不熟悉的钓点，你的第一步是？",
+          options: [
               {
-                  "text": "立即开抛，不中鱼就换点！",
-                  "resultKey": [["Aggressive", 8], ["Adaptive", 2]],
-                  "icon": "🎯"
+                  text: "立即开抛，不中鱼就换点！",
+                  resultKey: [["Aggressive", 8], ["Adaptive", 2]],
+                  icon: "🎯"
               },
               {
-                  "text": "先观察水流、温度，再决定策略",
-                  "resultKey": [["Analytical", 7], ["Patient", 3]],
-                  "icon": "🔍"
+                  text: "先观察水流、温度，再决定策略",
+                  resultKey: [["Analytical", 7], ["Patient", 3]],
+                  icon: "🔍"
               },
               {
-                  "text": "翻开潮汐表、气象数据，制定作钓计划",
-                  "resultKey": [["Strategic", 6], ["Data", 4]],
-                  "icon": "📊"
+                  text: "翻开潮汐表、气象数据，制定作钓计划",
+                  resultKey: [["Strategic", 6], ["Data", 4]],
+                  icon: "📊"
               }
           ]
       },
       {
-          "id": 2,
-          "text": "目标鱼种突然不咬，你的应对方式是？",
-          "options": [
+          id: 2,
+          text: "目标鱼种突然不咬，你的应对方式是？",
+          options: [
               {
-                  "text": "换饵换钓法，狂轰滥炸试到底！",
-                  "resultKey": [["Aggressive", 6], ["Experimental", 4]],
-                  "icon": "🎣"
+                  text: "换饵换钓法，狂轰滥炸试到底！",
+                  resultKey: [["Aggressive", 6], ["Experimental", 4]],
+                  icon: "🎣"
               },
               {
-                  "text": "耐心等待窗口期，相信自己的判断",
-                  "resultKey": [["Patient", 5.5], ["Analytical", 4.5]],
-                  "icon": "🕰"
+                  text: "耐心等待窗口期，相信自己的判断",
+                  resultKey: [["Patient", 5.5], ["Analytical", 4.5]],
+                  icon: "🕰"
               },
               {
-                  "text": "回看天气、气压、历史数据，调整策略",
-                  "resultKey": [["Data", 7], ["Strategic", 3]],
-                  "icon": "📈"
+                  text: "回看天气、气压、历史数据，调整策略",
+                  resultKey: [["Data", 7], ["Strategic", 3]],
+                  icon: "📈"
               }
           ]
       },
       {
-          "id": 3,
-          "text": "你如何决定今天用什么饵？",
-          "options": [
+          id: 3,
+          text: "你如何决定今天用什么饵？",
+          options: [
               {
-                  "text": "翻开作钓日记，看往年同样天气的数据",
-                  "resultKey": [["Data", 8], ["Strategic", 2]],
-                  "icon": "📓"
+                  text: "翻开作钓日记，看往年同样天气的数据",
+                  resultKey: [["Data", 8], ["Strategic", 2]],
+                  icon: "📓"
               },
               {
-                  "text": "先试几款最有信心的饵，再视情况调整",
-                  "resultKey": [["Adaptive", 7], ["Experimental", 3]],
-                  "icon": "🔄"
+                  text: "先试几款最有信心的饵，再视情况调整",
+                  resultKey: [["Adaptive", 7], ["Experimental", 3]],
+                  icon: "🔄"
               },
               {
-                  "text": "随缘挑一款，反正钓鱼主要是放松",
-                  "resultKey": [["Casual", 6.5], ["Patient", 3.5]],
-                  "icon": "🌿"
+                  text: "随缘挑一款，反正钓鱼主要是放松",
+                  resultKey: [["Casual", 6.5], ["Patient", 3.5]],
+                  icon: "🌿"
               }
           ]
       },
       {
-          "id": 4,
-          "text": "作钓时间分配策略？",
-          "options": [
+          id: 4,
+          text: "作钓时间分配策略？",
+          options: [
               {
-                  "text": "按潮汐、天气精准计算作钓时段",
-                  "resultKey": [["Strategic", 7], ["Data", 3]],
-                  "icon": "⏰"
+                  text: "按潮汐、天气精准计算作钓时段",
+                  resultKey: [["Strategic", 7], ["Data", 3]],
+                  icon: "⏰"
               },
               {
-                  "text": "先观察现场环境，灵活调整计划",
-                  "resultKey": [["Analytical", 6], ["Adaptive", 4]],
-                  "icon": "👀"
+                  text: "先观察现场环境，灵活调整计划",
+                  resultKey: [["Analytical", 6], ["Adaptive", 4]],
+                  icon: "👀"
               },
               {
-                  "text": "看心情决定，随缘而行",
-                  "resultKey": [["Casual", 8], ["Patient", 2]],
-                  "icon": "😌"
+                  text: "看心情决定，随缘而行",
+                  resultKey: [["Casual", 8], ["Patient", 2]],
+                  icon: "😌"
               }
           ]
       },
       {
-          "id": 5,
-          "text": "如何看待钓获分享？",
-          "options": [
+          id: 5,
+          text: "如何看待钓获分享？",
+          options: [
               {
-                  "text": "精心编辑，详细分析每一次收获",
-                  "resultKey": [["Data", 6], ["Analytical", 4]],
-                  "icon": "📝"
+                  text: "精心编辑，详细分析每一次收获",
+                  resultKey: [["Data", 6], ["Analytical", 4]],
+                  icon: "📝"
               },
               {
-                  "text": "晒图为主，偶尔配上幽默点评",
-                  "resultKey": [["Casual", 7], ["Adaptive", 3]],
-                  "icon": "📸"
+                  text: "晒图为主，偶尔配上幽默点评",
+                  resultKey: [["Casual", 7], ["Adaptive", 3]],
+                  icon: "📸"
               },
               {
-                  "text": "口头分享，现场体验最真实",
-                  "resultKey": [["Experimental", 5], ["Patient", 5]],
-                  "icon": "💬"
+                  text: "口头分享，现场体验最真实",
+                  resultKey: [["Experimental", 5], ["Patient", 5]],
+                  icon: "💬"
               }
           ]
       }
   ],
-  "dimensionWeights": {
-      "Aggressive": 1.4,
-      "Strategic": 1.5,
-      "Data": 1.1,
-      "Analytical": 1.3,
-      "Adaptive": 1.3,
-      "Patient": 1.5,
-      "Experimental": 1.8,
-      "Casual": 1,
+  dimensionWeights: {
+      Aggressive: 1.4,
+      Strategic: 1.5,
+      Data: 1.1,
+      Analytical: 1.3,
+      Adaptive: 1.3,
+      Patient: 1.5,
+      Experimental: 1.8,
+      Casual: 1,
   },
-  "results": [
+  results: [
       {
-          "title": "战术狂徒（Aggressive）",
-          "description": "你的作钓风格就是‘猛冲猛打’，不断尝试，直到找到鱼的弱点。你的钓箱里永远装满了各种饵，你的座右铭是‘换饵就是换思路’！",
-          "formula": "Aggressive >= 17",
-          "suggestion": "尝试将攻击性作钓与精细化调整结合，优化中鱼率！",
-          "equip": "选择响应迅速的钓竿和高速比渔轮，确保频繁调整的效率。"
+          title: "战术狂徒（Aggressive）",
+          description: "你的作钓风格就是‘猛冲猛打’，不断尝试，直到找到鱼的弱点。你的钓箱里永远装满了各种饵，你的座右铭是‘换饵就是换思路’！",
+          formula: "Aggressive >= 17",
+          suggestion: "尝试将攻击性作钓与精细化调整结合，优化中鱼率！",
+          equip: "选择响应迅速的钓竿和高速比渔轮，确保频繁调整的效率。"
       },
       {
-          "title": "数据军师（Data）",
-          "description": "你的作钓风格建立在数据的海洋上，潮汐、气温、气压……你是钓鱼界的Excel达人！",
-          "formula": "Data >= 20",
-          "suggestion": "继续优化你的数据系统，并结合现场观察，提高综合判断力！",
-          "equip": "智能渔轮、气象仪、记录仪，让数据成为你的第二双眼睛。"
+          title: "数据军师（Data）",
+          description: "你的作钓风格建立在数据的海洋上，潮汐、气温、气压……你是钓鱼界的Excel达人！",
+          formula: "Data >= 20",
+          suggestion: "继续优化你的数据系统，并结合现场观察，提高综合判断力！",
+          equip: "智能渔轮、气象仪、记录仪，让数据成为你的第二双眼睛。"
       },
       {
-          "title": "随机钓士（Casual）",
-          "description": "你享受钓鱼的过程，不拘泥于结果。天气合适就钓，心情好就甩几竿，讲究一个‘佛系’。",
-          "formula": "Casual >= 17",
-          "suggestion": "享受钓鱼的同时，也可以尝试一些新的钓法，增加乐趣！",
-          "equip": "一套简单易用的钓组，重点是舒适！"
+          title: "随机钓士（Casual）",
+          description: "你享受钓鱼的过程，不拘泥于结果。天气合适就钓，心情好就甩几竿，讲究一个‘佛系’。",
+          formula: "Casual >= 17",
+          suggestion: "享受钓鱼的同时，也可以尝试一些新的钓法，增加乐趣！",
+          equip: "一套简单易用的钓组，重点是舒适！"
       },
       {
-          "title": "策略大师（Strategic + Data）",
-          "description": "你像一位将军，擅长布局。每一次抛竿都是精心计算后的结果，鱼群在你面前无处可逃。",
-          "formula": "Strategic >= 14 && Data >= 14",
-          "suggestion": "结合实践经验和数据，让你的策略更具适应性！",
-          "equip": "高端探测设备，帮助你精准锁定目标鱼。"
+          title: "策略大师（Strategic + Data）",
+          description: "你像一位将军，擅长布局。每一次抛竿都是精心计算后的结果，鱼群在你面前无处可逃。",
+          formula: "Strategic >= 14 && Data >= 14",
+          suggestion: "结合实践经验和数据，让你的策略更具适应性！",
+          equip: "高端探测设备，帮助你精准锁定目标鱼。"
       },
       {
-          "title": "观察大师（Analytical）",
-          "description": "你以敏锐的观察力捕捉每一个微妙信号，是钓场上的福尔摩斯。你总能发现别人忽略的细节，让每次作钓都成为一场智慧的较量。",
-          "formula": "Analytical >= 17",
-          "suggestion": "试着记录下每次观察到的细节，找出潜在的钓鱼规律，提升作钓决策的精确性。",
-          "equip": "一款高倍望远镜和详细的环境记录本，让你的观察更上一层楼。"
+          title: "观察大师（Analytical）",
+          description: "你以敏锐的观察力捕捉每一个微妙信号，是钓场上的福尔摩斯。你总能发现别人忽略的细节，让每次作钓都成为一场智慧的较量。",
+          formula: "Analytical >= 17",
+          suggestion: "试着记录下每次观察到的细节，找出潜在的钓鱼规律，提升作钓决策的精确性。",
+          equip: "一款高倍望远镜和详细的环境记录本，让你的观察更上一层楼。"
       },
       {
-          "title": "柔性变通者（Adaptive）",
-          "description": "你灵活变通，善于根据现场情况迅速调整策略。无论遇到何种突发状况，你总能从容应对，转危为机。",
-          "formula": "Adaptive >= 15",
-          "suggestion": "保持这种灵活性，同时尝试结合一些数据分析，或许能让你的决策更具说服力。",
-          "equip": "选择操作便捷、易于调节的钓具，助你快速适应不同作钓场景。"
+          title: "柔性变通者（Adaptive）",
+          description: "你灵活变通，善于根据现场情况迅速调整策略。无论遇到何种突发状况，你总能从容应对，转危为机。",
+          formula: "Adaptive >= 15",
+          suggestion: "保持这种灵活性，同时尝试结合一些数据分析，或许能让你的决策更具说服力。",
+          equip: "选择操作便捷、易于调节的钓具，助你快速适应不同作钓场景。"
       },
       {
-          "title": "耐心老钓（Patient）",
-          "description": "你拥有罕见的耐心，总能在漫长的等待中找到属于你的那份平静。你的作钓风格更像是一种艺术，时间在你这里仿佛都静止了。",
-          "formula": "Patient >= 17",
-          "suggestion": "耐心是一种美德，但适时的决策调整也同样重要。保持平和心态的同时，不妨偶尔尝试些大胆策略。",
-          "equip": "一套舒适、稳重的钓具，配合长时间作钓的坐椅，帮你在等待中保持最佳状态。"
+          title: "耐心老钓（Patient）",
+          description: "你拥有罕见的耐心，总能在漫长的等待中找到属于你的那份平静。你的作钓风格更像是一种艺术，时间在你这里仿佛都静止了。",
+          formula: "Patient >= 17",
+          suggestion: "耐心是一种美德，但适时的决策调整也同样重要。保持平和心态的同时，不妨偶尔尝试些大胆策略。",
+          equip: "一套舒适、稳重的钓具，配合长时间作钓的坐椅，帮你在等待中保持最佳状态。"
       },
       {
-          "title": "实验先行者（Experimental）",
-          "description": "你对钓鱼充满好奇，每次作钓都是一场实验。你勇于打破常规，用新的方式探索未知，总能带来意想不到的惊喜。",
-          "formula": "Experimental >= 16",
-          "suggestion": "鼓励你继续进行各种实验，但别忘了记录数据，以便总结出属于自己的独家作钓秘籍。",
-          "equip": "一套多功能实验装备，包括各式新奇拟饵和可调试的钓具，为你的实验提供保障。"
+          title: "实验先行者（Experimental）",
+          description: "你对钓鱼充满好奇，每次作钓都是一场实验。你勇于打破常规，用新的方式探索未知，总能带来意想不到的惊喜。",
+          formula: "Experimental >= 16",
+          suggestion: "鼓励你继续进行各种实验，但别忘了记录数据，以便总结出属于自己的独家作钓秘籍。",
+          equip: "一套多功能实验装备，包括各式新奇拟饵和可调试的钓具，为你的实验提供保障。"
       },
       {
-          "title": "数据狂热者（Data & Experimental）",
-          "description": "你将数据与实验完美融合，通过对数据的深入分析和不断的实验优化，每一次作钓都充满科学的魅力。",
-          "formula": "(Data >= 10 && Experimental >= 7)",
-          "suggestion": "试着构建一个系统的数据记录与反馈机制，不断验证和改进你的作钓策略。",
-          "equip": "智能钓具和数据记录仪器将成为你的得力助手，助你在实验中不断突破。"
+          title: "数据狂热者（Data & Experimental）",
+          description: "你将数据与实验完美融合，通过对数据的深入分析和不断的实验优化，每一次作钓都充满科学的魅力。",
+          formula: "(Data >= 10 && Experimental >= 7)",
+          suggestion: "试着构建一个系统的数据记录与反馈机制，不断验证和改进你的作钓策略。",
+          equip: "智能钓具和数据记录仪器将成为你的得力助手，助你在实验中不断突破。"
       },
       {
-          "title": "全能勇士（All-Rounder）",
-          "description": "你是钓鱼场上的全能战士，无论是数据分析、策略制定还是现场应变，你都能游刃有余。每一次作钓都证明了你的多面手实力。",
-          "formula": "true",
-          "suggestion": "继续保持全面的作钓风格，不断挑战自我，迎接更多未知的钓鱼场景！",
-          "equip": "多功能全能钓具，满足各种作钓需求，让你无论面对怎样的水域，都能轻松取胜。"
+          title: "全能勇士（All-Rounder）",
+          description: "你是钓鱼场上的全能战士，无论是数据分析、策略制定还是现场应变，你都能游刃有余。每一次作钓都证明了你的多面手实力。",
+          formula: "true",
+          suggestion: "继续保持全面的作钓风格，不断挑战自我，迎接更多未知的钓鱼场景！",
+          equip: "多功能全能钓具，满足各种作钓需求，让你无论面对怎样的水域，都能轻松取胜。"
       }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "战术狂徒（Aggressive）": "11.11",
+    "数据军师（Data）": "7.82",
+    "随机钓士（Casual）": "3.29",
+    "策略大师（Strategic + Data）": "8.23",
+    "观察大师（Analytical）": "10.70",
+    "柔性变通者（Adaptive）": "5.76",
+    "耐心老钓（Patient）": "9.47",
+    "实验先行者（Experimental）": "5.76",
+    "数据狂热者（Data & Experimental）": "9.88",
+    "全能勇士（All-Rounder）": "27.98"
+  }
 };
 const fishingKnowledgeTest = {
   id: 5,
@@ -1106,6 +1162,17 @@ const fishingKnowledgeTest = {
       equip: "智能模块化钓箱 + 全频段鱼情监测系统 + 多场景切换钓具套装"
       }
       ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "数字先锋（Digital）": "11.11",
+    "传统学者（Traditional）": "11.11",
+    "社交实践家（Social+Practical）": "17.28",
+    "数据分析师（Analytical）": "15.23",
+    "创新探索者（Exploratory）": "16.46",
+    "应变大师（Reactive）": "7.00",
+    "全能钓手（All-Rounder）": "21.81"
+  }
 };
 const yuhuochuli = {
   id: 6,
@@ -1331,6 +1398,18 @@ const yuhuochuli = {
           equip: "配备一套完整的钓鱼工具包，包含展示、烹饪、研究等多种用途的装备，满足不同场景的需求。"
       }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "炫技日常（Showoff）": "13.58",
+    "环保卫士（Conservation）": "8.23",
+    "美食家（Gourmet）": "16.05",
+    "收藏家（Collector）": "4.12",
+    "研究员（Research）": "2.47",
+    "社交达人（Social）": "5.76",
+    "观察者（Observe）": "6.17",
+    "均衡路亚人（Multi-Dimension）": "43.62"
+  }
 };
 const baoyang = {
   id: 7,
@@ -1572,6 +1651,20 @@ const baoyang = {
           equip: "选择一些通用性强、性能稳定的钓具，满足你各种作钓需求。"
       }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "装备守护神（Careful）": "8.64",
+    "技术保养大师（Tech）": "7.41",
+    "随性保养达人（Casual）": "14.40",
+    "规律保养者（Routine）": "16.87",
+    "冒险保养侠（Risky）": "7.41",
+    "安全第一卫士（Safety）": "3.29",
+    "精细保养学者（Careful+Tech）": "3.29",
+    "随性规律玩家（Casual+Routine）": "1.65",
+    "安全细心守护者（Safety+Careful）": "2.47",
+    "综合平衡钓手（All-Rounder）": "34.57"
+  }
 };
 const nierxuanze = {
   id: 8,
@@ -1784,6 +1877,18 @@ const nierxuanze = {
            equip: "根据不同环境灵活搭配各种高端拟饵与钓具，成就全能作钓风格。" 
       }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "极端拟饵大师（Extremehandler）": "11.11",
+    "安全规划专家（Safetyplanner）": "8.23",
+    "天气应变高手（Weatheradapter）": "12.35",
+    "乐观先锋（Optimisticcore）": "9.47",
+    "理性分析师（Analyticalmind）": "20.16",
+    "风险承受者（Risktolerance）": "3.29",
+    "安全优先守护者（Safetypriority）": "14.81",
+    "全能拟饵师": "20.58"
+  }
 };
 const shejiao = {
   id: 9,
@@ -2004,6 +2109,17 @@ const shejiao = {
           equip: "配备一套齐全的钓具，包括各种类型的钓竿、渔轮和鱼饵，适应不同的钓鱼需求。"
       }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "社交达人（Social Seeker）": "11.11",
+    "知识大师（Knowledge Hunter）": "7.00",
+    "独行侠（Soloenjoyer）": "11.11",
+    "低调展示者（Prudent Show）": "9.47",
+    "团队核心（Group Synergy）": "4.53",
+    "研究学者（Prudentshow）": "7.00",
+    "全能社交型（All-Rounder）": "49.79"
+  }
 };
 const tianqi = {
   id: 10,
@@ -2225,6 +2341,17 @@ const tianqi = {
           equip: "根据不同的天气情况选择合适的钓鱼装备，确保自己在各种天气下都能舒适钓鱼。"
       }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "极端天气征服者（Extremehandler）": "11.11",
+    "安全规划大师（Safetyplanner）": "9.47",
+    "天气观察者（Weatheradapter）": "7.82",
+    "乐观主义核心（Optimisticcore）": "8.23",
+    "风险掌控者（Risktolerance）": "4.53",
+    "安全至上模范（Safetypriority）": "10.70",
+    "综合气象钓手（All-Rounder）": "48.15"
+  }
 };    
 const dongji = {
   id: 11,
@@ -2448,6 +2575,18 @@ const dongji = {
           equip: "选择模块化钓具系统（如可换握把的钓竿、分区饵箱），一套装备满足多种需求。必备多功能钓箱（带杯架/手机支架/小冰箱），兼顾实用与舒适。"
       }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "自然疗愈者（Nature+Heal）": "11.66",
+    "竞技征服者（Compete+Achieve）": "7.22",
+    "社交探险家（Social+Explore）": "13.40",
+    "仪式守护者（Ritual+Nature）": "9.14",
+    "技术掌控者（Control+Explore）": "8.96",
+    "治愈社交家（Heal+Social）": "4.80",
+    "成就探索者（Achieve+Explore）": "6.45",
+    "平衡融合者（Four-Dimension）": "38.36"
+  }
 };
 const zhexue = {
   id: 12,
@@ -2671,6 +2810,18 @@ const zhexue = {
   equip: "推荐全水域套装（包含 1.8-2.4 米不同调性竿 + 通用型渔轮）+ 模块化钓箱（可灵活组合饵盒 / 工具区），满足你应对各种钓鱼场景的综合需求。"
   }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "静水流深者（Patience+Empathy）": "7.45",
+    "环境解读者（Observation+Adaptability）": "7.13",
+    "数据建筑师（Reflection+Control）": "7.27",
+    "自然对话者（Empathy+Observation）": "7.04",
+    "探索拓荒者（Openness+Adaptability）": "7.77",
+    "仪式守护者（Ritual+Patience）": "10.15",
+    "矛盾融合者（Control+Openness）": "9.83",
+    "平衡艺术师（Four-Dimension均衡者）": "43.35"
+  }
 };
 const airForce = {
   id: 13,
@@ -2894,6 +3045,18 @@ const airForce = {
       equip: "推荐全能型钓竿（ML调中快调）+ 泛用渔轮（6.3:1速比），兼顾不同钓法需求。配备多功能钓箱（带饵盒+杯架+小桌板），满足技术、社交、舒适等多重需求。"
     }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "结果至上者（Resultoriented+Techexploration）": "11.39",
+    "过程治愈者（Processenjoy+Natureconnection）": "14.72",
+    "社交松弛派（Socialrelax+Selfacceptance）": "11.48",
+    "成长型钓手（Growthlearning+Techexploration）": "9.47",
+    "自然感知者（Natureconnection+Mentalresilience）": "8.28",
+    "情绪稳定者（Mentalresilience+Selfacceptance）": "8.82",
+    "技术偏执狂（Techexploration+Resultoriented）": "3.75",
+    "综合平衡者（多维度均衡）": "32.10"
+  }
 };
 const personality = {
   id: 14,
@@ -3118,6 +3281,18 @@ const personality = {
   equip: "选择通用型装备（如 M 调枪柄竿 + 水滴轮），搭配 3-5 种经典拟饵（波扒 / 小胖子 / 亮片），满足不同场景需求，发挥你的综合优势。"
   }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "磐石型钓者（Patiencethreshold+Emotionalstability）": "5.90",
+    "数据精算师（Goalclarity+Resultorientation）": "10.56",
+    "环境感知者（Environmentaladaptability+Selfregulation）": "10.33",
+    "策略急先锋（Strategyflexibility+Frustrationtolerance）": "6.90",
+    "情绪平衡者（Emotionalstability+Selfregulation）": "10.38",
+    "目标校准者（Goalclarity+Patiencethreshold）": "4.07",
+    "体验探索者（Environmentaladaptability+Emotionalstability）": "9.24",
+    "综合平衡者（四维度均衡型）": "42.62"
+  }
 };
 const luresGearTest = {
       id: 15,
@@ -3348,6 +3523,19 @@ const luresGearTest = {
       equip: "选择中高端均衡款（如某品牌次旗舰竿，参数优秀 + 设计简约），拟饵选经典款 + 1-2 款设计款搭配，渔轮选口碑好 + 外观低调的实用型。"
       }
       ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "参数极客（Performance 主导）": "9.28",
+    "品牌信徒（Brand 主导）": "11.11",
+    "颜值大师（Aesthetic 主导）": "17.28",
+    "实用主义者（Practical 主导）": "7.04",
+    "科技尝鲜党（Innovation 主导）": "6.26",
+    "体验至上者（Experience 主导）": "4.80",
+    "社群影响者（Community 主导）": "7.22",
+    "风格特立者（Personaltaste 主导）": "7.45",
+    "理性感性平衡者（多维度均衡）": "29.54"
+  }
 }; 
 const fishingSpotStrategyTest = {
           id: 16,
@@ -3587,6 +3775,20 @@ const fishingSpotStrategyTest = {
           equip: "配备一套「探钓套装」：含综合竿（应对常规）、远投竿（探索远处）、微物竿（验证细节），覆盖全场景需求。"
           }
           ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "经验锚点者（Experience 主导）": "14.40",
+    "信息整合者（Information 主导）": "10.52",
+    "环境感知者（Environment 主导）": "15.41",
+    "风险探索者（Risk+Explore）": "12.89",
+    "系统分析者（System 主导）": "13.35",
+    "保守稳健者（Conservative 主导）": "5.12",
+    "直觉洞察者（Intuition 主导）": "2.65",
+    "经验 - 系统融合者（Experience+System）": "3.16",
+    "环境 - 直觉洞察者（Environment+Intuition）": "2.24",
+    "平衡策略家（多维度均衡）": "20.26"
+  }
 };                  
 const luresObsessionTest = {
             id: 17,
@@ -3810,6 +4012,18 @@ const luresObsessionTest = {
                 equip: "推荐专业级拟饵套装（如Lucky Craft 全场景组合），包含不同水层/季节/鱼种的针对性饵型，满足你全面应对的需求。"
               }
             ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "惯例守护者": "12.21",
+    "理性调整者": "13.76",
+    "创新探索者": "13.31",
+    "观察洞察者": "8.18",
+    "情感联结者": "13.31",
+    "灵活适应者": "13.95",
+    "平衡探索者": "2.38",
+    "综合型钓手": "22.91"
+  }
 };       
 const personality2 = {
   id: 18,
@@ -4033,6 +4247,18 @@ const personality2 = {
       equip: "全能型M调竿（如G.Loomis E6X）+ 2500型通用轮，搭配3-5种泛用饵（如米诺+软虫+VIB），必备折叠马扎+遮阳伞（舒适体验）。"
     }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "稀有鱼守望者（Rare+Patience）": "12.48",
+    "咬口节奏大师（Frequency+Experience）": "12.12",
+    "生态知识学者（Knowledge+Rare）": "14.86",
+    "环境适应专家（Adaptation+Frequency）": "12.85",
+    "创新实验达人（Innovation+Experience）": "11.93",
+    "成就驱动者（Achievement+Rare）": "5.81",
+    "数据驱动型玩家（Knowledge+Adaptation）": "5.21",
+    "平衡体验者（多维度均衡）": "24.74"
+  }
 };
 const fishingResilienceTest = {
   id: 19,
@@ -4257,6 +4483,18 @@ const fishingResilienceTest = {
       equip: "选择全能型装备（如M调泛用竿+2000型渔轮），搭配全水层拟饵套装（软饵/硬饵/浮水米诺），满足不同鱼情需求；配备多功能钓箱（带工具区+饵盒区），提升操作效率。"
     }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "冷静调整者（Calm+Adjust）": "13.85",
+    "系统分析家（Analyze+Systematic）": "16.23",
+    "情绪波动型（Emotional+Impulsive）": "16.87",
+    "灵活探索者（Flexible+Adjust）": "8.78",
+    "坚持验证者（Persist+Analyze）": "8.92",
+    "自然感知者（Calm+Nature）": "10.24",
+    "协作成长型（Collaborate+Systematic）": "5.35",
+    "均衡发展者（综合型）": "19.75"
+  }
 }; 
 const catchAndReleaseTest = {
   id: 20,
@@ -4487,6 +4725,19 @@ const catchAndReleaseTest = {
       equip: "推荐入门级无倒刺钩（降低伤害）+ 简易测鱼尺（固定在钓箱）+ 鱼类图鉴手册（放钓包外侧）。"
     }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "生态守护者（Eco+Future）": "11.48",
+    "务实生存者（Prag+Emo）": "10.29",
+    "规则捍卫者（Rule+Know）": "12.39",
+    "观察洞察者（Observe+Eco）": "14.04",
+    "情感联结者（Emo+Decide）": "11.52",
+    "未来视角者（Future+Know）": "10.52",
+    "平衡协调者（Prag+Rule）": "14.31",
+    "知识实践派（Know+Decide）": "9.47",
+    "均衡体验者（均衡得分）": "5.99"
+  }
 };
 const socialSharingTest = {
   id: 21,
@@ -4711,6 +4962,18 @@ const socialSharingTest = {
       equip: "选择多功能钓包（如SHIMANO跨界系列），满足不同分享场景需求；配备便携折叠凳（方便临时分享时与钓友交流）。"
     }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "共享型钓者（Cooperation+Altruism）": "12.48",
+    "谨慎守护者（Privacy+Security）": "11.61",
+    "社群连接器（Community+Recognition）": "10.70",
+    "竞争型隐者（Competition+Privacy）": "10.93",
+    "利他布道者（Altruism+Recognition）": "4.71",
+    "安全观察者（Security+Curiosity）": "4.94",
+    "反思型分享者（Curiosity+Community）": "9.10",
+    "平衡分享者（多维度均衡）": "35.53"
+  }
 };
 const fishingComparisonTest = {
   id: 22,
@@ -4941,6 +5204,19 @@ const fishingComparisonTest = {
       equip: "推荐 L 调 21 尺直柄竿（兼顾灵敏度与抛投距离）+ 2500 型纺车轮（通用线杯容量），搭配 5-7g 复合亮片（全水层搜索）和 TPE 仿生虾（自然拟态）。这套装备兼容性强，既能应对常规对象鱼（鲈鱼、鳜鱼），也适合探索新鱼种（翘嘴、罗非），完美匹配你 ' 均衡体验 ' 的需求。"
       }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "成就驱动者（Achievement+Resilience）": "9.47",
+    "成长型钓手（Growthmindset+Competition）": "11.61",
+    "超然体验者（Detachment+Enjoyment）": "11.89",
+    "自我验证者（Selfidentity+Socialcomparison）": "10.93",
+    "竞争型选手（Competition+Achievement）": "5.30",
+    "平衡调适者（Resilience+Growthmindset）": "5.44",
+    "社交连接者（Enjoyment+Growthmindset）": "13.99",
+    "佛系观察者（Detachment+Socialcomparison）": "7.13",
+    "均衡型钓者（All-Round Angler）": "24.23"
+  }
 };
 const patienceTest = {
   id: 23,
@@ -5165,6 +5441,18 @@ const patienceTest = {
       equip: "配置「万能钓组」：L-M调2.1米竿+2500型通用轮+0.6PE+3号前导，搭配3-10g复合亮片（覆盖90%常见鱼情），装备多功能钓包（分区收纳不同配件）。"
     }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "磐石耐心者（Patience+Focus）": "10.93",
+    "策略调整者（Strategic+Creativity）": "9.60",
+    "焦虑切换者（Anxiety+Adaptability）": "8.09",
+    "专注沉浸者（Focus+Resilience）": "5.81",
+    "常规坚守者（Routine+Patience）": "8.69",
+    "创新探索者（Creativity+Observe）": "11.71",
+    "情绪稳定者（Resilience+Focus）": "10.79",
+    "多维平衡者（综合型）": "34.39"
+  }
 };
 const memoryFilterTest = {
 id: 24,
@@ -5389,6 +5677,18 @@ suggestion: "保持现有模式，可尝试参与钓鱼教学或分享（如制�
 equip: "推荐模块化钓鱼箱（如 Plano Edge 3700），分区收纳拟饵、工具和记录设备，满足你对细节、情感、技术的多重需求。"
 }
 ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "阳光记忆者（Optimistic+Achievement）": "12.76",
+    "成长记录者（Reflective+Improvement）": "13.53",
+    "细节雕刻师（DetailOriented+Contextual）": "0.00",
+    "情感共鸣者（Emotional+Contextual）": "22.54",
+    "经验提炼者（Generalization+Reflective）": "12.53",
+    "情境还原者（Contextual+Emotional）": "10.61",
+    "直觉主导者（Optimistic+Generalization）": "17.51",
+    "平衡调节者（Four-Dimension）": "10.52"
+  }
 };
 const personalityTest1 = {
   id: 25,
@@ -5612,6 +5912,18 @@ const personalityTest1 = {
       equip: "推荐Shimano Stradic CI4+纺车轮（泛用性强）+G.Loomis E6X钓竿（多场景适用），搭配Berkley软饵套装（覆盖多种水层）。"
     }
   ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "竞技战神（Achievement+Skill）": "14.77",
+    "自然疗愈者（Nature+Relaxation）": "14.04",
+    "战术大师（Tactics+Skill）": "13.26",
+    "社交达人（Social+Relaxation）": "7.27",
+    "探索先驱（Experiment+Selfrealization）": "14.22",
+    "自我实现者（Selfrealization+Nature）": "5.81",
+    "休闲艺术家（Relaxation+Social）": "9.14",
+    "全能成长者（多维度均衡）": "21.49"
+  }
 };
 const environmentalConsistencyTest = {
 id: 26,
@@ -5849,6 +6161,20 @@ results: [
     equip: "双色饵盒（区分生态饵与普通饵）+ 生态计算器（估算不同饵的环境影响）"
   }
 ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "环保行动标杆（Practice）": "7.82",
+    "意识觉醒先驱（Consciousness）": "12.48",
+    "生态共情者（Empathy）": "13.08",
+    "知识科普达人（Cognition）": "2.88",
+    "理性协调者（Rationality）": "16.46",
+    "习惯固化者（Habit）": "6.54",
+    "自律守护者（Selfdiscipline）": "13.03",
+    "影响力传播者（Influence）": "5.30",
+    "知行合一典范（Consciousness+Practice）": "9.60",
+    "生态-理性平衡者（Empathy+Rationality）": "12.80"
+  }
 };
 const equipmentInvestmentTest = {
 id: 27,
@@ -6074,6 +6400,18 @@ results: [
     equip: "建立「模块化装备库」（1支泛用竿+2种轮组+3套饵盒，如St. Croix Mojo Bass组合），通过组合覆盖90%以上作钓需求。"
   }
 ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "性能偏执者（Performance主导）": "12.21",
+    "体验至上派（Frequency+Experience）": "10.97",
+    "均衡配置师（Balance主导）": "8.37",
+    "数据测评党（Depth+Data）": "13.63",
+    "实用主义者（Practical主导）": "11.80",
+    "审美装备控（Aesthetic主导）": "4.94",
+    "可持续玩家（Sustainability主导）": "8.64",
+    "六边形投资人（多维度均衡）": "29.45"
+  }
 };
 const competitionMotivationTest = {
 id: 28,
@@ -6304,6 +6642,19 @@ results: [
     equip: "推荐「模块化装备套装」：1支G.Loomis IMX-PRO通用竿+2颗Shimano Metanium MGL（微物/巨物线杯）+1个可扩展钓箱（分区存放拟饵、零食、急救包），灵活应对不同场景需求。"
   }
 ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "荣誉骑士（Honor主导）": "7.82",
+    "奖金猎人（Prize主导）": "10.97",
+    "社交达人（Social主导）": "8.37",
+    "挑战玩家（Challenge主导）": "5.21",
+    "技能大师（Mastery主导）": "10.75",
+    "社群核心（Community主导）": "11.93",
+    "地位象征者（Status主导）": "4.30",
+    "体验派玩家（Enjoyment主导）": "5.58",
+    "多维驱动者（综合型）": "35.07"
+  }
 };
 const personalityTest2 = {
 id: 29,
@@ -6527,6 +6878,18 @@ results: [
     equip: "选择入门级套装（如迪卡侬ST500），搭配基础蚯蚓/玉米饵，让装备回归'工具'本质。"
   }
 ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "装备收藏家（Material+Gear）": "9.28",
+    "技术修行者（Skill+Experience）": "8.82",
+    "自然感知者（Environment+Practice）": "12.16",
+    "数据分析师（Theory+Goal）": "10.61",
+    "经验传承者（Experience+Environment）": "10.75",
+    "跨界实验家（Skill+Theory）": "13.63",
+    "平衡型钓手（Three-Dimension）": "18.93",
+    "初心守护者（All-Dimension<15）": "15.82"
+  }
 };
 const virtualFishingTest = {
 id: 30,
@@ -6750,6 +7113,18 @@ results: [
     equip: "配置'全能套装'（包含高刷VR+专业手柄+社交设备）；收集'限定款装备'（如节日主题钓竿），丰富体验维度。"
   }
 ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "风景诗人（Aesthetic+Immersion）": "10.38",
+    "极限攀登者（Challenge+Exploration）": "9.05",
+    "舒适体验派（Comfort+Efficiency）": "10.01",
+    "社交氛围组（Social+Immersion）": "12.85",
+    "数据极客（Efficiency+Data）": "9.01",
+    "新奇探索者（Novelty+Exploration）": "15.45",
+    "自然融合者（Aesthetic+Challenge）": "14.77",
+    "全能体验家（综合维度）": "18.47"
+  }
 }; 
 const crisisPriorityTest = {
 id: 31,
@@ -6973,6 +7348,18 @@ results: [
     equip: "选择多功能钓包（集成急救仓+钓具仓），搭配轻量化钓竿（减轻操作负担），用装备支持你的全能表现。"
   }
 ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "责任磐石（Responsibility）": "8.64",
+    "共情守护者（Empathy）": "1.01",
+    "风险精算师（Riskassessment）": "20.12",
+    "规则践行者（Ruleadherence）": "2.97",
+    "长期视角者（Longtermview）": "7.32",
+    "冲动修正者（Impulse+Longtermview）": "1.60",
+    "资源调配师（Resourceallocation）": "2.06",
+    "平衡艺术者（Multi-Dimension）": "56.29"
+  }
 };
 const fishingRecordHabitTest = {
 id: 32,
@@ -7225,6 +7612,19 @@ results: [
     equip: "准备'全能记录套装'：专业APP（电子记录）+防水本（手绘细节）+拍立得（趣味记录），满足不同场景需求。"
   }
 ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "数据归档师（Record）": "12.57",
+    "复盘分析师（Analyze）": "11.03",
+    "细节捕捉者（Detail）": "12.30",
+    "习惯坚守者（Routine）": "12.10",
+    "记忆依赖者（Memory）": "12.71",
+    "提升驱动者（Improve）": "5.90",
+    "享受型钓手（Enjoy）": "10.50",
+    "工具技术流（Tech）": "2.83",
+    "综合记录者（Multi-Dimension）": "20.04"
+  }
 };
 const companionFishingTest = {
 id: 33,
@@ -7468,6 +7868,18 @@ results: [
     equip: "推荐「模块化」装备组合（如可换导环的竿体+通用渔轮），适应不同钓法需求。搭配多功能钓伞（防晒+遮雨+临时交流空间），为各种互动场景提供支持。"
   }
 ]
+,
+// 复合结果概率统计
+resultProbabilities: {
+    "导师型钓友（Teach+Collaborate）": "11.96",
+    "独立型钓手（Independent+Adapt）": "12.04",
+    "共情分享者（Share+Empathy）": "12.27",
+    "学习型伙伴（Learn+Collaborate）": "10.35",
+    "平衡协调者（Adapt+Empathy）": "10.09",
+    "技术联结者（Teach+Share）": "8.00",
+    "体验优先派（Independent+Learn）": "9.30",
+    "百搭型钓友（All-Rounder）": "25.99"
+  }
 };
 module.exports = {
   personalityTest,
