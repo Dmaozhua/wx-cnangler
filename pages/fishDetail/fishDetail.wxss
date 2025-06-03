@@ -39,7 +39,7 @@
 .back-btn {
   position: absolute;
   left: 30rpx;
-  top: 10%;
+  top: 8%;
   transform: translateY(-50%);
   width: 60rpx;
   height: 60rpx;

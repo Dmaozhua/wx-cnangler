@@ -2,7 +2,9 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh; /* 更安全的写法 */
+  padding-bottom: constant(safe-area-inset-bottom); /* 兼容旧设备 */
+  padding-bottom: env(safe-area-inset-bottom); /* 安全区域 */
   background: linear-gradient(to bottom, #1a4d2e, #2d6a4f);
   color: #e0f2e9;
   position: relative;
@@ -122,7 +124,7 @@
 .back-btn {
   position: absolute;
   left: 30rpx;
-  top: 10%;
+  top: 6%;
   transform: translateY(-50%);
   width: 60rpx;
   height: 60rpx;
@@ -284,8 +286,9 @@
 
 /* 标签分类过滤 */
 .filter-tabs {
-  padding: 10rpx 20rpx;
-  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10rpx;
+  width: calc(100%);
+  /* background-color: rgba(0, 0, 0, 0.2); */
   z-index: 5;
   border-bottom: 1rpx solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
@@ -316,20 +319,31 @@
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
 }
 
-/* 底部提示 */
+/* 底部提示 - 修正版 */
 .footer-tip {
-  padding: 20rpx;
-  text-align: center;
-  font-size: 24rpx;
-  border-radius: 20rpx;
-  padding: 14rpx 24rpx;
-  color: rgba(255, 255, 255, 0.6);
-  background-color: rgba(0, 0, 0, 0.2);
-  border-top: 1rpx solid rgba(255, 255, 255, 0.1);
-  z-index: 1;
-  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
-  word-wrap: break-word;
-  box-sizing: border-box;
-  width: calc(100% - 60rpx);
-  position: relative;
-}
+    padding: 0 20rpx;
+    text-align: center;
+    font-size: 24rpx;
+    border-radius: 20rpx;
+    color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top: 1rpx solid rgba(255, 255, 255, 0.1);
+    z-index: 1;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    width: calc(100% - 60rpx);
+    position: relative;
+    margin: 10rpx auto 20rpx;
+    
+    /* 关键修改：确保文字垂直居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* 高度控制：文字高度 + 5rpx */
+    min-height: calc(24rpx + 5rpx); /* 字体大小24rpx + 额外5rpx */
+    line-height: 1.4; /* 确保文字垂直居中 */
+    
+    /* 安全区域处理 */
+    padding-bottom: calc(5rpx + env(safe-area-inset-bottom));
+  }
