@@ -116,8 +116,8 @@ function calculateRealResultProbability(testType) {
 // 计算personalityTest的概率分布
 const probabilities = calculateRealResultProbability('personalityTest');
 
-console.log('PersonalityTest结果概率分布:');
-console.log('=' .repeat(50));
+// PersonalityTest结果概率分布检查
+// 概率分布详情
 
 let totalProbability = 0;
 let fallbackProbability = 0;
@@ -125,7 +125,7 @@ let otherProbabilities = 0;
 
 probabilities.forEach((result, index) => {
   const percentage = (result.probability * 100).toFixed(2);
-  console.log(`${index + 1}. ${result.title}: ${percentage}%`);
+  // 结果概率: ${result.title} - ${percentage}%
   totalProbability += result.probability;
   
   // 保底结果是"六边形战士"(formula为"true")
@@ -136,20 +136,14 @@ probabilities.forEach((result, index) => {
   }
 });
 
-console.log('\n' + '=' .repeat(50));
-console.log(`总概率: ${(totalProbability * 100).toFixed(2)}%`);
-console.log(`保底结果 (六边形战士): ${(fallbackProbability * 100).toFixed(2)}%`);
-console.log(`其他结果总和: ${(otherProbabilities * 100).toFixed(2)}%`);
-console.log(`保底 + 其他 = ${((fallbackProbability + otherProbabilities) * 100).toFixed(2)}%`);
+// 概率分布统计完成
+// 概率统计计算完成
 
-if (Math.abs(totalProbability - 1.0) < 0.0001) {
-  console.log('\n✅ 概率分布正确，总和为100%');
-} else {
-  console.log('\n❌ 概率分布有误，总和不等于100%');
-}
-
-if (Math.abs((fallbackProbability + otherProbabilities) - 1.0) < 0.0001) {
-  console.log('✅ 保底结果 + 其他结果 = 100%');
-} else {
-  console.log('❌ 保底结果 + 其他结果 ≠ 100%');
-}
+// 概率验证完成
+  if (Math.abs(totalProbability - 1) >= 0.0001) {
+    console.error('概率分布有误，总和不等于100%');
+  }
+  
+  if (Math.abs((fallbackProbability + otherProbabilities) - 1) >= 0.0001) {
+    console.error('保底结果 + 其他结果 ≠ 100%');
+  }
