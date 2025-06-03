@@ -1,165 +1,95 @@
 <!-- pages/fishCollection/fishCollection.wxml -->
 <view class="container" bindtouchstart="touchStart" bindtouchend="touchEnd">
-  <!-- 动态海浪背景 -->
-  <view class="waves">
-    <view class="wave wave-1"></view>
-    <view class="wave wave-2"></view>
-    <view class="wave wave-3"></view>
-  </view>
-
-  <!-- 顶部标题栏 -->
-  <view class="back-btn" bindtap="goBack">
-    <text class="back-icon">←</text>
-  </view>
-  
-  <view class="header">
-    <view class="title">图鉴</view>
-    <view class="collection-container">
-      <view class="collection-info" wx:if="{{showFishCollection}}">
-        已收集: {{collectionCount}}/{{totalCount}}
-      </view>
-      <view class="collection-info" wx:if="{{showEventCollection}}">
-        已收集: {{eventCollectionCount}}/{{eventTotalCount}}
-      </view>
+    <!-- 动态海浪背景 -->
+    <view class="waves">
+        <view class="wave wave-1"></view>
+        <view class="wave wave-2"></view>
+        <view class="wave wave-3"></view>
     </view>
-  </view>
-  
-  <!-- 图鉴类型切换 -->
-  <view class="gallery-type-tabs">
-    <view 
-      class="gallery-type-tab {{showFishCollection ? 'active' : ''}}" 
-      bindtap="switchGalleryType" 
-      data-type="fish"
-    >鱼类图鉴</view>
-    <view 
-      class="gallery-type-tab {{showEventCollection ? 'active' : ''}}" 
-      bindtap="switchGalleryType" 
-      data-type="event"
-    >事件图鉴</view>
-  </view>
 
-  <!-- 标签分类过滤 - 鱼类 -->
-  <view class="filter-tabs" wx:if="{{showFishCollection}}">
-    <scroll-view scroll-x="true" class="tabs-scroll" enhanced="true" show-scrollbar="false" enable-flex="true">
-      <view 
-        class="filter-tab {{currentFilter === 'all' ? 'active' : ''}}" 
-        bindtap="changeFilter" 
-        data-filter="all"
-      >全部</view>
-      <view 
-        class="filter-tab {{currentFilter === 'unlocked' ? 'active' : ''}}" 
-        bindtap="changeFilter" 
-        data-filter="unlocked"
-      >已解锁</view>
-      <view 
-        class="filter-tab {{currentFilter === 'locked' ? 'active' : ''}}" 
-        bindtap="changeFilter" 
-        data-filter="locked"
-      >未解锁</view>
-    </scroll-view>
-  </view>
-  
-  <!-- 标签分类过滤 - 事件 -->
-  <view class="filter-tabs" wx:if="{{showEventCollection}}">
-    <scroll-view scroll-x="true" class="tabs-scroll" enhanced="true" show-scrollbar="false" enable-flex="true">
-      <view 
-        class="filter-tab {{currentFilter === 'all' ? 'active' : ''}}" 
-        bindtap="changeFilter" 
-        data-filter="all"
-      >全部</view>
-      <view 
-        class="filter-tab {{currentFilter === 'unlocked' ? 'active' : ''}}" 
-        bindtap="changeFilter" 
-        data-filter="unlocked"
-      >已解锁</view>
-      <view 
-        class="filter-tab {{currentFilter === 'locked' ? 'active' : ''}}" 
-        bindtap="changeFilter" 
-        data-filter="locked"
-      >未解锁</view>
-      <view 
-        class="filter-tab {{currentFilter === 'BEF_FISHON' ? 'active' : ''}}" 
-        bindtap="changeFilter" 
-        data-filter="BEF_FISHON"
-      >钓鱼前</view>
-      <view 
-        class="filter-tab {{currentFilter === 'AFT_FISHON' ? 'active' : ''}}" 
-        bindtap="changeFilter" 
-        data-filter="AFT_FISHON"
-      >钓鱼后</view>
-      <view 
-        class="filter-tab {{currentFilter === 'EXTRA' ? 'active' : ''}}" 
-        bindtap="changeFilter" 
-        data-filter="EXTRA"
-      >特殊天气</view>
-    </scroll-view>
-  </view>
+    <!-- 顶部标题栏 -->
+    <view class="back-btn" bindtap="goBack">
+        <text class="back-icon">←</text>
+    </view>
 
-  <!-- 鱼类列表 -->
-  <scroll-view class="fish-list" scroll-y="true" enable-flex="true" enhanced="true" bounces="true" show-scrollbar="true" wx:if="{{showFishCollection}}">
-    <view class="fish-grid">
-      <view 
-        class="fish-item {{item.unlocked ? 'unlocked' : 'locked'}}" 
-        wx:for="{{filteredFishList}}" 
-        wx:key="id"
-        bindtap="viewFishDetail"
-        data-id="{{item.id}}"
-        data-unlocked="{{item.unlocked}}"
-      >
-        <view class="fish-card">
-          <image 
-            class="fish-image" 
-            src="{{item.imageUrl}}"
-            mode="aspectFit"
-            binderror="handleImageError"
-            data-index="{{index}}"
-          ></image>
-          <view class="fish-name">{{item.displayName}}</view>
-          <view class="fish-rarity {{item.unlocked ? 'rarity-' + item.rarity.toLowerCase() : ''}}">
-            {{item.unlocked ? rarityNames[item.rarity] : '???'}}
-          </view>
-          <view class="lock-icon" wx:if="{{!item.unlocked}}">
-            <text class="iconfont icon-lock">🔒</text>
-          </view>
+    <view class="header">
+        <view class="title">图鉴</view>
+        <view class="collection-container">
+            <view class="collection-info" wx:if="{{showFishCollection}}">
+                已收集: {{collectionCount}}/{{totalCount}}
+            </view>
+            <view class="collection-info" wx:if="{{showEventCollection}}">
+                已收集: {{eventCollectionCount}}/{{eventTotalCount}}
+            </view>
         </view>
-      </view>
     </view>
-  </scroll-view>
 
-  <!-- 事件列表 -->
-  <scroll-view class="event-list" scroll-y="true" enable-flex="true" enhanced="true" bounces="true" show-scrollbar="true" wx:if="{{showEventCollection}}">
-    <view class="event-grid">
-      <view 
-        class="event-item {{item.unlocked ? 'unlocked' : 'locked'}}" 
-        wx:for="{{filteredEventList}}" 
-        wx:key="id"
-        bindtap="viewEventDetail"
-        data-id="{{item.id}}"
-        data-unlocked="{{item.unlocked}}"
-      >
-        <view class="event-card">
-          <image 
-            class="event-image" 
-            src="{{item.imageUrl}}"
-            mode="aspectFit"
-            binderror="handleEventImageError"
-            data-index="{{index}}"
-          ></image>
-          <view class="event-name">{{item.displayName}}</view>
-          <view class="event-type">
-            {{item.unlocked ? item.type : '???'}}
-          </view>
-          <view class="lock-icon" wx:if="{{!item.unlocked}}">
-            <text class="iconfont icon-lock">🔒</text>
-          </view>
+    <!-- 图鉴类型切换 -->
+    <view class="gallery-type-tabs">
+        <view class="gallery-type-tab {{showFishCollection ? 'active' : ''}}" bindtap="switchGalleryType" data-type="fish">鱼类图鉴</view>
+        <view class="gallery-type-tab {{showEventCollection ? 'active' : ''}}" bindtap="switchGalleryType" data-type="event">事件图鉴</view>
+    </view>
+
+    <!-- 标签分类过滤 - 鱼类 -->
+    <view class="filter-tabs" wx:if="{{showFishCollection}}">
+        <scroll-view scroll-x="true" class="tabs-scroll" enhanced="true" show-scrollbar="false" enable-flex="true">
+            <view class="filter-tab {{currentFilter === 'all' ? 'active' : ''}}" bindtap="changeFilter" data-filter="all">全部</view>
+            <view class="filter-tab {{currentFilter === 'unlocked' ? 'active' : ''}}" bindtap="changeFilter" data-filter="unlocked">已解锁</view>
+            <view class="filter-tab {{currentFilter === 'locked' ? 'active' : ''}}" bindtap="changeFilter" data-filter="locked">未解锁</view>
+        </scroll-view>
+    </view>
+
+    <!-- 标签分类过滤 - 事件 -->
+    <view class="filter-tabs" wx:if="{{showEventCollection}}">
+        <scroll-view scroll-x="true" class="tabs-scroll" enhanced="true" show-scrollbar="false" enable-flex="true">
+            <view class="filter-tab {{currentFilter === 'all' ? 'active' : ''}}" bindtap="changeFilter" data-filter="all">全部</view>
+            <view class="filter-tab {{currentFilter === 'unlocked' ? 'active' : ''}}" bindtap="changeFilter" data-filter="unlocked">已解锁</view>
+            <view class="filter-tab {{currentFilter === 'locked' ? 'active' : ''}}" bindtap="changeFilter" data-filter="locked">未解锁</view>
+            <view class="filter-tab {{currentFilter === 'BEF_FISHON' ? 'active' : ''}}" bindtap="changeFilter" data-filter="BEF_FISHON">钓鱼前</view>
+            <view class="filter-tab {{currentFilter === 'AFT_FISHON' ? 'active' : ''}}" bindtap="changeFilter" data-filter="AFT_FISHON">钓鱼后</view>
+            <view class="filter-tab {{currentFilter === 'EXTRA' ? 'active' : ''}}" bindtap="changeFilter" data-filter="EXTRA">特殊天气</view>
+        </scroll-view>
+    </view>
+
+    <!-- 鱼类列表 -->
+    <scroll-view class="list-container" scroll-y="true" enable-flex="true" enhanced="true" bounces="true" show-scrollbar="true" wx:if="{{showFishCollection}}">
+        <view class="fish-grid">
+            <view class="fish-item {{item.unlocked ? 'unlocked' : 'locked'}}" wx:for="{{filteredFishList}}" wx:key="id" bindtap="viewFishDetail" data-id="{{item.id}}" data-unlocked="{{item.unlocked}}">
+                <view class="card">
+                    <image class="fish-image" src="{{item.imageUrl}}" mode="aspectFit" binderror="handleImageError" data-index="{{index}}"></image>
+                    <view class="fish-name">{{item.displayName}}</view>
+                    <view class="fish-rarity {{item.unlocked ? 'rarity-' + item.rarity.toLowerCase() : ''}}">
+                        {{item.unlocked ? rarityNames[item.rarity] : '???'}}
+                    </view>
+                    <view class="lock-icon" wx:if="{{!item.unlocked}}">
+                        <text class="iconfont icon-lock">🔒</text>
+                    </view>
+                </view>
+            </view>
         </view>
-      </view>
-    </view>
-  </scroll-view>
+    </scroll-view>
 
-  <!-- 底部提示 -->
-  <view class="footer-tip">
-    <text wx:if="{{showFishCollection}}">钓到新鱼后将自动解锁图鉴</text>
-    <text wx:if="{{showEventCollection}}">触发新事件后将自动解锁图鉴</text>
-  </view>
+    <!-- 事件列表 -->
+    <scroll-view class="list-container" scroll-y="true" enable-flex="true" enhanced="true" bounces="true" show-scrollbar="true" wx:if="{{showEventCollection}}">
+        <view class="event-grid">
+            <view class="event-item {{item.unlocked ? 'unlocked' : 'locked'}}" wx:for="{{filteredEventList}}" wx:key="id" bindtap="viewEventDetail" data-id="{{item.id}}" data-unlocked="{{item.unlocked}}">
+                <view class="card">
+                    <image class="event-image" src="{{item.imageUrl}}" mode="aspectFit" binderror="handleEventImageError" data-index="{{index}}"></image>
+                    <view class="event-name">{{item.displayName}}</view>
+                    <view class="event-type">
+                        {{item.unlocked ? item.type : '???'}}
+                    </view>
+                    <view class="lock-icon" wx:if="{{!item.unlocked}}">
+                        <text class="iconfont icon-lock">🔒</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+
+    <!-- 底部提示 -->
+    <view class="footer-tip">
+        <text wx:if="{{showFishCollection}}">钓到新鱼后将自动解锁图鉴</text>
+        <text wx:if="{{showEventCollection}}">触发新事件后将自动解锁图鉴</text>
+    </view>
 </view>
