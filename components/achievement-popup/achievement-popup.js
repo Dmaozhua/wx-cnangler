@@ -1,19 +1,30 @@
 // components/achievement-popup/achievement-popup.js
 Component({
     properties: {
-      visible: {
-        type: Boolean,
-        value: false
-      },
-      achievement: {
-        type: Object,
-        value: null
-      }
+    visible: {
+      type: Boolean,
+      value: false
     },
+    achievement: {
+      type: Object,
+      value: null
+    },
+    achievements: {
+      type: Array,
+      value: []
+    },
+    currentIndex: {
+      type: Number,
+      value: 0
+    }
+  },
   
     data: {
-      animationData: {}
-    },
+    animationData: {},
+    canSwitchPrev: false,
+    canSwitchNext: false,
+    achievementCount: 0
+  },
   
     lifetimes: {
       attached() {
@@ -48,27 +59,63 @@ Component({
     },
   
     observers: {
-      'visible': function(visible) {
-        // 确保animation对象已创建后再执行动画
-        if (!this.animation) {
-          this.animation = wx.createAnimation({
-            duration: 300, // 可根据 achievements 界面调整
-            timingFunction: 'ease' // 可根据 achievements 界面调整
-          })
-        }
-  
-        if (visible) {
-          this.showAnimation()
-        } else {
-          this.hideAnimation()
-        }
+    'visible': function(visible) {
+      // 确保animation对象已创建后再执行动画
+      if (!this.animation) {
+        this.animation = wx.createAnimation({
+          duration: 300, // 可根据 achievements 界面调整
+          timingFunction: 'ease' // 可根据 achievements 界面调整
+        })
+      }
+
+      if (visible) {
+        this.updateSwitchButtons();
+        this.showAnimation()
+      } else {
+        this.hideAnimation()
       }
     },
+    'achievements, currentIndex': function(achievements, currentIndex) {
+      this.updateSwitchButtons();
+    }
+  },
   
     methods: {
       preventTouchMove() {
         // 阻止触摸事件穿透
         return false
+      },
+
+      updateSwitchButtons() {
+        const achievements = this.properties.achievements || [];
+        const currentIndex = this.properties.currentIndex || 0;
+        
+        this.setData({
+          canSwitchPrev: achievements.length > 1 && currentIndex > 0,
+          canSwitchNext: achievements.length > 1 && currentIndex < achievements.length - 1,
+          achievementCount: achievements.length
+        });
+      },
+
+      onSwitchPrev() {
+        const currentIndex = this.properties.currentIndex;
+        if (currentIndex > 0) {
+          this.triggerEvent('switchAchievement', { 
+            direction: 'prev',
+            newIndex: currentIndex - 1 
+          });
+        }
+      },
+
+      onSwitchNext() {
+        const achievements = this.properties.achievements || [];
+        const currentIndex = this.properties.currentIndex;
+        if (currentIndex < achievements.length - 1) {
+          this.triggerEvent('switchAchievement', { 
+            direction: 'next',
+            newIndex: currentIndex + 1 
+          });
+        }
       },
   
       showAnimation() {

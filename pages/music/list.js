@@ -104,6 +104,8 @@ Page({
           });
           
           audioContext.onEnded(() => {
+            // 检查听歌成就
+            this.checkMusicAchievements();
             // 播放结束后，自动播放下一首
             console.log('音频播放结束，播放下一首');
             this.playNextSong();
@@ -231,6 +233,70 @@ Page({
         });
       },
       
+      // 检查听歌成就
+      checkMusicAchievements() {
+        const app = getApp();
+        const achievementsData = require('../../data/achievements.js');
+        
+        console.log('[成就系统] 开始检查听歌成就');
+        
+        // 确保userAchievements已初始化
+        if (!app.globalData.userAchievements) {
+            app.globalData.userAchievements = {};
+        }
+        
+        // 检查type 11成就（听一首路亚歌曲）
+        const musicAchievements = achievementsData.achievements.filter(achievement => 
+            achievement.type === 11
+        );
+        
+        console.log('[成就系统] 找到听歌成就数量:', musicAchievements.length);
+        console.log('[成就系统] 当前userAchievements:', app.globalData.userAchievements);
+        
+        musicAchievements.forEach(achievement => {
+            console.log('[成就系统] 检查成就:', achievement.id, achievement.title);
+            
+            // 获取当前成就数据
+            const achievementData = typeof app.globalData.userAchievements[achievement.id] === 'object' 
+                ? app.globalData.userAchievements[achievement.id] 
+                : { progress: 0, unlockTime: null };
+            
+            console.log('[成就系统] 当前成就数据:', achievementData);
+            
+            // 如果成就尚未解锁
+            if (!achievementData.unlockTime) {
+                console.log('[成就系统] 解锁听歌成就:', achievement.title);
+                
+                // 解锁成就
+                app.globalData.userAchievements[achievement.id] = {
+                    progress: 1,
+                    unlockTime: new Date().toISOString()
+                };
+                
+                // 增加成就分数
+                app.globalData.achievementScore = (app.globalData.achievementScore || 0) + achievement.score;
+                wx.setStorageSync('achievementScore', app.globalData.achievementScore);
+                
+                // 保存更新后的成就数据
+                wx.setStorageSync('achievements', app.globalData.userAchievements);
+                
+                console.log('[成就系统] 成就数据已保存到本地存储');
+                
+                // 将成就添加到待展示队列，等到返回Home页面时统一显示
+                if (!app.globalData.pendingAchievements) {
+                    app.globalData.pendingAchievements = [];
+                }
+                app.globalData.pendingAchievements.push(achievement);
+                wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements);
+                
+                console.log(`[成就系统] 解锁听歌成就: ${achievement.title}，已添加到待展示队列`);
+                console.log(`[成就系统] 当前待展示队列长度: ${app.globalData.pendingAchievements.length}`);
+            } else {
+                console.log('[成就系统] 成就已解锁:', achievement.title);
+            }
+        });
+    },
+
       // 页面卸载时处理
       onUnload() {
         // 注意：不要在这里销毁audioContext，因为我们需要在播放器页面继续使用它

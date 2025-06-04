@@ -98,6 +98,7 @@
 /* 成就卡片 */
 .achievement-card {
   background: white;
+  transition: all 0.3s ease;
   border-radius: 24rpx;
   margin: 0 20rpx 30rpx 20rpx;
   padding: 30rpx;
@@ -319,4 +320,309 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+/* 成就详情弹窗样式 */
+.achievement-detail-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.achievement-detail-content {
+  background: white;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  margin: 40rpx;
+  max-width: 600rpx;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+.achievement-detail-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.achievement-detail-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+
+.achievement-detail-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #2E4053;
+}
+
+.achievement-detail-desc {
+  font-size: 28rpx;
+  color: #7F8C8D;
+  line-height: 1.5;
+  margin-bottom: 30rpx;
+}
+
+.achievement-detail-info {
+  background: #f8f9fa;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.achievement-detail-info text {
+  display: block;
+  font-size: 26rpx;
+  color: #5D6D7E;
+  margin-bottom: 10rpx;
+}
+
+.achievement-detail-close {
+  width: 100%;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+}
+
+/* 成就完成动画效果 */
+.achievement-completing {
+  animation: achievement-glow 3s ease-in-out;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+@keyframes achievement-glow {
+  0% {
+    box-shadow: 0 10rpx 30rpx rgba(72,201,176,0.15);
+    transform: translateY(-4rpx) scale(1);
+  }
+  25% {
+    box-shadow: 0 20rpx 60rpx rgba(255,215,0,0.6), 0 0 40rpx rgba(255,215,0,0.4);
+    transform: translateY(-8rpx) scale(1.05);
+    border-color: rgba(255,215,0,0.8);
+  }
+  50% {
+    box-shadow: 0 25rpx 80rpx rgba(255,215,0,0.8), 0 0 60rpx rgba(255,215,0,0.6);
+    transform: translateY(-12rpx) scale(1.08);
+    border-color: rgba(255,215,0,1);
+  }
+  75% {
+    box-shadow: 0 20rpx 60rpx rgba(255,215,0,0.6), 0 0 40rpx rgba(255,215,0,0.4);
+    transform: translateY(-8rpx) scale(1.05);
+    border-color: rgba(255,215,0,0.8);
+  }
+  100% {
+    box-shadow: 0 10rpx 30rpx rgba(72,201,176,0.15);
+    transform: translateY(-4rpx) scale(1);
+    border-color: rgba(72,201,176,0.3);
+  }
+}
+
+/* 扫光特效 */
+.achievement-completing::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 215, 0, 0.6),
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: sweep-light 2s ease-in-out 0.5s;
+  z-index: 1;
+}
+
+@keyframes sweep-light {
+  0% {
+    left: -100%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+.achievement-completing::before {
+  background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700) !important;
+  animation: shimmer 3s ease-in-out;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+  }
+  50% {
+    background: linear-gradient(45deg, #FFA500, #FFD700, #FFA500);
+  }
+}
+
+.achievement-completing .achievement-icon {
+  animation: icon-pulse 3s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes icon-pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.3) saturate(1.2);
+  }
+}
+
+/* 进度条填满动画 */
+.achievement-completing .progress-fill,
+.progress-fill.progress-animating {
+  animation: progress-fill-complete 2s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes progress-fill-complete {
+  0% {
+    background: linear-gradient(90deg, #8ab6d3, rgb(72, 100, 182));
+  }
+  50% {
+    background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+    box-shadow: 0 0 20rpx rgba(255, 215, 0, 0.8);
+  }
+  100% {
+    background: linear-gradient(90deg, #48c9b0, #52c41a);
+    box-shadow: 0 0 15rpx rgba(72, 201, 176, 0.6);
+  }
+}
+
+/* 进度条闪光效果 */
+.achievement-completing .progress-fill::after,
+.progress-fill.progress-animating::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  animation: progress-shine 1.5s ease-in-out 0.3s;
+}
+
+@keyframes progress-shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* 成就标题闪烁效果 */
+.achievement-completing .achievement-title {
+  animation: title-glow 3s ease-in-out;
+}
+
+@keyframes title-glow {
+  0%, 100% {
+    color: #333;
+    text-shadow: none;
+  }
+  50% {
+    color: #FFD700;
+    text-shadow: 0 0 10rpx rgba(255, 215, 0, 0.8);
+  }
+}
+
+/* 成就卡片边框光效 */
+.achievement-completing {
+  border: 2rpx solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(45deg, #FFD700, #FFA500, #FFD700, #FFA500) border-box;
+}
+
+/* 额外的粒子效果容器 */
+.particle-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 8rpx;
+  height: 8rpx;
+  background: #FFD700;
+  border-radius: 50%;
+  animation: particle-float 2s ease-out forwards;
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100rpx) scale(0);
+    opacity: 0;
+  }
+}
+
+/* 成就完成时的背景光晕 */
+.achievement-completing::before {
+  content: '';
+  position: absolute;
+  top: -10rpx;
+  left: -10rpx;
+  right: -10rpx;
+  bottom: -10rpx;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+  border-radius: 20rpx;
+  z-index: -1;
+  animation: background-pulse 3s ease-in-out;
+}
+
+@keyframes background-pulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
 }

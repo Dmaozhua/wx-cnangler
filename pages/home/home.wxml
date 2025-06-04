@@ -17,7 +17,7 @@
         <!-- 添加用于颜色分析的隐藏canvas -->
         <canvas canvas-id="colorAnalyzerCanvas" id="colorAnalyzerCanvas" style="width: 100px; height: 100px; position: absolute; left: -1000px; visibility: hidden;" type="2d"></canvas>
         <!-- 成就弹窗组件 -->
-        <achievement-popup wx:if="{{achievementPopupVisible}}" visible="{{achievementPopupVisible}}" achievement="{{currentAchievement}}" bindclose="onCloseAchievementPopup" bindviewdetails="onViewAchievementDetails" />
+        <achievement-popup wx:if="{{achievementPopupVisible}}" visible="{{achievementPopupVisible}}" achievement="{{currentAchievement}}" achievements="{{pendingAchievements}}" currentIndex="{{currentAchievementIndex}}" bindclose="onCloseAchievementPopup" bindviewdetails="onViewAchievementDetails" bindswitchAchievement="onSwitchAchievement" />
 
         <!-- 天气弹窗组件 -->
         <weather-modal wx:if="{{weatherModalVisible}}" visible="{{weatherModalVisible}}" cityName="{{weatherCityName}}" weatherData="{{weatherData}}" pressure="{{weatherPressure}}" sunsetTime="{{weatherSunsetTime}}" bindclose="closeWeatherModal" />

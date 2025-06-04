@@ -35,9 +35,9 @@ export const FishEvents = [
       name: '发现奇怪的东西',
       description: '你突然发现了一个奇怪的东西，决定去看看，之后运气爆棚。\n稀有鱼出现概率增加20%',
       // triggerprobability:1,
-      retriggering:false,//是否可以重复触发
+      retriggering:true,//是否可以重复触发
       effects: { rareFishBoost: { value: 1.2, targetRarity: [RARE, EPIC, MYTHIC] } },
-      weight:0.1
+      weight:0.99
     },
     // {
     //   id: 'EVENT11',
@@ -79,9 +79,9 @@ export const FishEvents = [
       name: '水位上升',
       description: '水流突然变得湍急，水位也在上涨。理智的你决定先换个安全钓点。\n钓鱼时间减少30%\n鱼饵基础概率上升200%',
       // triggerprobability:0.1,
-      retriggering:true,
+      retriggering:false,
       effects: { timeModifier: -0.3, baitEffect: 2 },
-      weight:0.9
+      weight:0.1
     },
     // {
     //   id: 'EVENT17',

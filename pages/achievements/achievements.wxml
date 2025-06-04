@@ -13,7 +13,7 @@
 
 <canvas id="lottie-canvas" type="2d" style="width: 300rpx; height: 300rpx; position: absolute; left: -9999px;"></canvas>
 <view class="page-container">
-  <scroll-view class="achievement-container" scroll-y enable-flex>
+  <scroll-view class="achievement-container" scroll-y enable-flex scroll-into-view="{{scrollIntoViewId}}">
     <!-- 成就头衔 -->
     <view class="title-bar">
       <image src="/images/tab/路亚饵.png" class="title-icon"/>
@@ -39,7 +39,7 @@
       <block wx:for="{{filteredAchievements}}" wx:key="id">
         <view 
           id="{{item.scrollId}}" 
-          class="achievement-card {{item.unlocked ? 'unlocked' : 'locked'}}"
+          class="achievement-card {{item.unlocked ? 'unlocked' : 'locked'}} {{animatingAchievement === item.id ? 'achievement-completing' : ''}}"
           bindtap="{{item.unlocked ? 'showAchievementDetail' : 'showLockedTip'}}"
           data-achievement="{{item}}"
         >
@@ -73,7 +73,7 @@
   <!-- 进度条 -->
   <view class="progress-bar">
     <view 
-      class="progress-fill" 
+      class="progress-fill {{progressAnimating[item.id] ? 'progress-animating' : ''}}" 
       style="width: {{(item.currentProgress / item.targetProgress) * 100 + '%'}}"
     ></view>
     <text class="progress-text">

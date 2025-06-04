@@ -44,33 +44,28 @@ Page({
       
       // 每次显示页面时刷新成就数据
       onShow() {
-        // 重新从全局数据获取最新的成就数据
-        const userData = app.globalData.userAchievements
-        const achievementScore = app.globalData.achievementScore || 0
-        
-        console.log('成就页面显示，重新加载最新数据')
-        console.log('当前成就分数:', achievementScore)
-        console.log('成就进度:', JSON.stringify(userData))
-        
-        // 强制重新加载最新的成就数据
-        this.loadAchievements()
-        // 检查是否有新解锁的成就
-        this.checkNewAchievements()
-        
-        // 更新过滤后的成就列表
-        this.updateFilteredAchievements()
-        
-        // 重置滚动位置到顶部
-        wx.createSelectorQuery()
-          .select('.achievement-list')
-          .node()
-          .exec(res => {
-            if (res && res[0] && res[0].node) {
-              res[0].node.scrollTop = 0
-              console.log('成就列表滚动位置已重置')
-            }
-          })
-      },
+    // 重新从全局数据获取最新的成就数据
+    const userData = app.globalData.userAchievements
+    const achievementScore = app.globalData.achievementScore || 0
+    
+    console.log('成就页面显示，重新加载最新数据')
+    console.log('当前成就分数:', achievementScore)
+    console.log('成就进度:', JSON.stringify(userData))
+    
+    // 确保每次进入都显示'all'分类
+    this.setData({ activeCategory: 'all' })
+    
+    // 强制重新加载最新的成就数据
+    this.loadAchievements()
+    // 检查是否有新解锁的成就
+    this.checkNewAchievements()
+    
+    // 更新过滤后的成就列表
+    this.updateFilteredAchievements()
+    
+    // 检查是否有刚完成的成就需要展示
+    this.checkAndShowCompletedAchievements()
+  },
   data: {
     categories: [
       { id: 'all', name: '全部' },
@@ -91,7 +86,10 @@ Page({
     animationData: null,
     achievementScore: 0,
     scrollIntoViewId: '',
-    pageStyle: "overflow: visible" // 允许页面滚动
+    animatingAchievement: '', // 当前正在播放动画的成就ID
+    pageStyle: "overflow: visible", // 允许页面滚动
+    progressAnimating: {},
+    sweepAnimating: {}
   },
 
   onLoad(options) {
@@ -154,6 +152,32 @@ Page({
         // type:4 - 在特定时间段内完成测试解锁成就
         targetValue = 1; // 时间段类型的目标值固定为1
         isUnlocked = currentProgress >= 1;
+      } else if (a.type === 8) {
+        // type:8 - 累计钓到某一种鱼多少次
+        if (Array.isArray(a.value) && a.value.length >= 2) {
+          targetValue = parseInt(a.value[1], 10); // 目标次数
+          isUnlocked = currentProgress >= targetValue;
+        } else {
+          targetValue = 1;
+          isUnlocked = false;
+        }
+      } else if (a.type === 9) {
+        // type:9 - 累计遇到某一种事件多少次
+        if (Array.isArray(a.value) && a.value.length >= 2) {
+          targetValue = parseInt(a.value[1], 10); // 目标次数
+          isUnlocked = currentProgress >= targetValue;
+        } else {
+          targetValue = 1;
+          isUnlocked = false;
+        }
+      } else if (a.type === 10) {
+        // type:10 - 钓到strength强度比100%的任意一条鱼
+        targetValue = parseInt(a.value, 10) || 1;
+        isUnlocked = currentProgress >= targetValue;
+      } else if (a.type === 11) {
+        // type:11 - 听一首路亚歌曲
+        targetValue = parseInt(a.value, 10) || 1;
+        isUnlocked = currentProgress >= targetValue;
       } else {
         // 其他类型成就，获取目标值，确保是数字类型
         targetValue = parseInt(a.value, 10);
@@ -246,6 +270,242 @@ Page({
     }
   },
 
+  // 检查并展示刚完成的成就
+  checkAndShowCompletedAchievements() {
+    // 检查是否有刚完成的成就（从其他页面跳转过来时）
+    const recentlyCompleted = this.getRecentlyCompletedAchievements()
+    
+    if (recentlyCompleted.length > 0) {
+      console.log('发现刚完成的成就:', recentlyCompleted)
+      
+      // 如果有多个成就，定位到最后一个完成的成就
+      const latestAchievement = recentlyCompleted[recentlyCompleted.length - 1]
+      
+      console.log(`在'all'分类下定位到成就: ${latestAchievement.id}`)
+      
+      // 保持在'all'分类，直接定位到成就
+      // 延迟执行定位和动画，确保DOM已更新
+      setTimeout(() => {
+        console.log(`开始滚动到成就: ${latestAchievement.id}`)
+        this.scrollToAchievementAndAnimate(latestAchievement.id)
+      }, 500)
+      
+      // 标记这些成就为已展示，避免重复展示
+      this.markAchievementsAsShown(recentlyCompleted)
+    }
+  },
+
+  // 获取最近完成的成就
+  getRecentlyCompletedAchievements() {
+    const userData = app.globalData.userAchievements
+    const now = Date.now()
+    const recentTimeThreshold = 10 * 60 * 1000 // 10分钟内完成的成就
+    
+    return this.data.achievements.filter(achievement => {
+      const achievementData = userData[achievement.id]
+      
+      if (!achievementData || !achievement.unlocked) {
+        return false
+      }
+      
+      // 检查是否有解锁时间且在最近时间内
+      const unlockTime = typeof achievementData === 'object' ? achievementData.unlockTime : null
+      
+      if (unlockTime) {
+        // 处理时间格式：如果是字符串（ISO格式），转换为时间戳
+        const unlockTimestamp = typeof unlockTime === 'string' ? new Date(unlockTime).getTime() : unlockTime
+        const timeDiff = now - unlockTimestamp
+        console.log(`成就[${achievement.id}] 解锁时间: ${unlockTime}, 时间差: ${timeDiff}ms, 阈值: ${recentTimeThreshold}ms, shown: ${achievementData.shown}`)
+        return timeDiff <= recentTimeThreshold && !achievementData.shown
+      }
+      
+      return false
+    }).sort((a, b) => {
+      // 按解锁时间排序
+      const aTime = userData[a.id].unlockTime || 0
+      const bTime = userData[b.id].unlockTime || 0
+      // 处理时间格式：如果是字符串（ISO格式），转换为时间戳
+      const aTimestamp = typeof aTime === 'string' ? new Date(aTime).getTime() : aTime
+      const bTimestamp = typeof bTime === 'string' ? new Date(bTime).getTime() : bTime
+      return aTimestamp - bTimestamp
+    })
+  },
+
+  // 滚动到指定成就并播放动画
+  scrollToAchievementAndAnimate(achievementId) {
+    console.log('定位到成就:', achievementId)
+    
+    // 检查目标成就是否在当前过滤列表中
+    const targetAchievement = this.data.filteredAchievements.find(a => a.id === achievementId)
+    if (!targetAchievement) {
+      console.error(`成就 ${achievementId} 不在当前过滤列表中`)
+      console.log('当前过滤列表:', this.data.filteredAchievements.map(a => a.id))
+      return
+    }
+    
+    console.log(`找到目标成就: ${targetAchievement.title}, scrollId: ${targetAchievement.scrollId}`)
+    
+    // 使用scroll-view的scrollIntoView功能滚动到指定成就
+    this.setData({
+      scrollIntoViewId: `achievement-${achievementId}`
+    })
+    
+    // 延迟添加动画效果
+    setTimeout(() => {
+      this.addAchievementCompletionAnimation(achievementId)
+    }, 500)
+  },
+
+  // 添加成就完成动画效果
+  addAchievementCompletionAnimation(achievementId) {
+    const query = wx.createSelectorQuery()
+    query.select(`#achievement-${achievementId}`).boundingClientRect()
+    query.exec((res) => {
+      if (res[0]) {
+        // 添加高亮动画类
+        const achievementElement = res[0]
+        
+        // 分阶段触发动画效果
+        this.triggerAnimationSequence(achievementId)
+      }
+    })
+  },
+  
+  // 分阶段触发动画序列
+  triggerAnimationSequence(achievementId) {
+    // 第一阶段：开始动画
+    this.setData({
+      [`animatingAchievement`]: achievementId
+    })
+    
+    // 第二阶段：显示完成特效（延迟300ms）
+    setTimeout(() => {
+      this.showCompletionEffect(achievementId)
+    }, 300)
+    
+    // 第三阶段：进度条动画（延迟600ms）
+    setTimeout(() => {
+      this.triggerProgressAnimation(achievementId)
+    }, 600)
+    
+    // 第四阶段：扫光特效（延迟1000ms）
+    setTimeout(() => {
+      this.triggerSweepEffect(achievementId)
+    }, 1000)
+    
+    // 最终阶段：清理动画（延迟4000ms）
+    setTimeout(() => {
+      const progressAnimating = { ...this.data.progressAnimating }
+      const sweepAnimating = { ...this.data.sweepAnimating }
+      delete progressAnimating[achievementId]
+      delete sweepAnimating[achievementId]
+      
+      this.setData({
+        animatingAchievement: '',
+        progressAnimating: progressAnimating,
+        sweepAnimating: sweepAnimating
+      })
+    }, 4000)
+  },
+  
+  // 触发进度条动画
+  triggerProgressAnimation(achievementId) {
+    const progressAnimating = { ...this.data.progressAnimating }
+    progressAnimating[achievementId] = true
+    this.setData({
+      progressAnimating: progressAnimating
+    })
+  },
+  
+  // 触发扫光效果
+  triggerSweepEffect(achievementId) {
+    const sweepAnimating = { ...this.data.sweepAnimating }
+    sweepAnimating[achievementId] = true
+    this.setData({
+      sweepAnimating: sweepAnimating
+    })
+  },
+
+  // 显示完成特效
+  showCompletionEffect(achievementId) {
+    // 显示炫酷的成就达成提示
+    wx.showToast({
+      title: '🏆✨ 成就达成！✨🏆',
+      icon: 'none',
+      duration: 3000
+    })
+    
+    // 触发震动反馈
+    wx.vibrateShort({
+      type: 'heavy'
+    })
+    
+    // 延迟显示更多特效
+    setTimeout(() => {
+      this.showParticleEffect(achievementId)
+    }, 500)
+    
+    // 播放音效（如果有的话）
+    this.playAchievementSound()
+    
+    console.log('播放成就完成特效:', achievementId)
+  },
+  
+  // 显示粒子特效
+  showParticleEffect(achievementId) {
+    // 创建粒子动画效果
+    const particles = []
+    for (let i = 0; i < 8; i++) {
+      particles.push({
+        id: `particle-${i}`,
+        delay: i * 100,
+        duration: 1000 + Math.random() * 500
+      })
+    }
+    
+    this.setData({
+      [`particles_${achievementId}`]: particles
+    })
+    
+    // 清理粒子效果
+    setTimeout(() => {
+      this.setData({
+        [`particles_${achievementId}`]: []
+      })
+    }, 2000)
+  },
+  
+  // 播放成就音效
+  playAchievementSound() {
+    // 如果有音效文件，可以在这里播放
+    // wx.createInnerAudioContext() 播放音效
+    console.log('播放成就音效')
+  },
+
+  // 标记成就为已展示
+  markAchievementsAsShown(achievements) {
+    const userData = app.globalData.userAchievements
+    
+    achievements.forEach(achievement => {
+      const achievementData = userData[achievement.id]
+      if (typeof achievementData === 'object') {
+        achievementData.shown = true
+      } else {
+        // 如果是旧格式，转换为新格式
+        const beijingTime = new Date(Date.now() + 8 * 60 * 60 * 1000)
+        userData[achievement.id] = {
+          progress: achievementData,
+          unlockTime: beijingTime.toISOString(),
+          shown: true
+        }
+      }
+    })
+    
+    // 保存到本地存储
+    wx.setStorageSync('achievements', userData)
+    console.log('已标记成就为已展示:', achievements.map(a => a.id))
+  },
+
   // 成就解锁触发
   unlockAchievement(achievementId, progress) {
     const current = app.globalData.userAchievements[achievementId] || 0
@@ -289,6 +549,28 @@ Page({
 
   // 显示动画效果
   showUnlockEffect(achievement) {
+    // 记录解锁时间
+    const userData = app.globalData.userAchievements
+    const achievementData = userData[achievement.id]
+    
+    if (typeof achievementData === 'object') {
+      // 使用北京时间的ISO字符串格式，与app.js保持一致
+      const beijingTime = new Date(Date.now() + 8 * 60 * 60 * 1000)
+      achievementData.unlockTime = beijingTime.toISOString()
+      achievementData.shown = false // 标记为未展示
+    } else {
+      // 转换为新格式
+      const beijingTime = new Date(Date.now() + 8 * 60 * 60 * 1000)
+      userData[achievement.id] = {
+        progress: achievementData,
+        unlockTime: beijingTime.toISOString(),
+        shown: false
+      }
+    }
+    
+    // 保存到本地存储
+    wx.setStorageSync('achievements', userData)
+    
     // 显示动画
     this.setData({
       showAnimation: true,

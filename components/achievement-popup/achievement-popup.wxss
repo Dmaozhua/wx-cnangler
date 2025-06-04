@@ -7,17 +7,18 @@
     bottom: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.6); /* 可根据 achievements 界面调整 */
+    background-color: rgba(0, 0, 0, 0.6);
     z-index: 10001;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-  }
-  
-  .achievement-popup-content {
+}
+
+.achievement-popup-content {
     width: 80%;
-    background-color: #fff; /* 可根据 achievements 界面调整 */
+    background-color: #fff;
     border-radius: 20rpx;
     overflow: hidden;
     box-shadow: 0 10rpx 40rpx rgba(0, 0, 0, 0.25);
@@ -25,9 +26,53 @@
     transform: scale(0.8);
     max-width: 600rpx;
     border: 2rpx solid rgba(255, 255, 255, 0.3);
-  }
-  
-  .achievement-header {
+    margin-bottom: 30rpx; /* 增加底部间距 */
+    position: relative;
+}
+
+/* 按钮容器样式 */
+.switch-btn-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80%; /* 与弹出框宽度一致 */
+    max-width: 600rpx; /* 与弹出框最大宽度一致 */
+    padding: 0 10rpx; /* 内边距 */
+    box-sizing: border-box;
+    margin-top: -15rpx; /* 向上偏移，与弹出框重叠一部分 */
+}
+
+.switch-btn {
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8ab6d3, #3498DB);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40rpx;
+    font-weight: bold;
+    box-shadow: 0 4rpx 12rpx rgba(138, 182, 211, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    z-index: 10002;
+}
+
+.switch-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 2rpx 8rpx rgba(138, 182, 211, 0.4);
+}
+
+.prev-btn {
+    left: 0; /* 左对齐 */
+}
+
+.next-btn {
+    right: 0; /* 右对齐 */
+}
+
+.achievement-header {
     position: relative;
     padding: 36rpx;
     background: linear-gradient(135deg, #8ab6d3, #3498DB); /* 可根据 achievements 界面调整 */
@@ -35,15 +80,30 @@
     text-align: center;
     border-bottom: 4rpx solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
-  }
-  
-  .achievement-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.achievement-counter {
+    position: absolute;
+    left: 20rpx;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24rpx;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8rpx 12rpx;
+    border-radius: 20rpx;
+}
+
+.achievement-title {
     font-size: 36rpx;
     font-weight: bold;
     font-family: 'Your Font Family'; /* 可根据 achievements 界面调整 */
-  }
-  
-  .close-btn {
+}
+
+.close-btn {
     position: absolute;
     top: 20rpx;
     right: 20rpx;
@@ -54,16 +114,63 @@
     font-size: 40rpx;
     color: #fff;
     border-radius: 50%;
-  }
-  
-  .achievement-body {
+}
+
+.achievement-body {
     padding: 40rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.achievement-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .achievement-icon {
+    flex: 1;
+}
+
+.switch-btn {
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8ab6d3, #3498DB);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40rpx;
+    font-weight: bold;
+    box-shadow: 0 4rpx 12rpx rgba(138, 182, 211, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative; /* 修改为相对定位 */
+    margin: 0 10rpx; /* 添加左右间距 */
+}
+
+.switch-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 2rpx 8rpx rgba(138, 182, 211, 0.4);
+}
+
+.prev-btn {
+    /* 移除原来的 margin-right */
+}
+
+.next-btn {
+    /* 移除原来的 margin-left */
+}
+
+.switch-btn-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.achievement-icon {
     width: 160rpx;
     height: 160rpx;
     border-radius: 50%;
@@ -74,9 +181,9 @@
     padding: 10rpx;
     position: relative;
     z-index: 1;
-  }
-  
-  .achievement-icon::after {
+}
+
+.achievement-icon::after {
     content: '';
     position: absolute;
     top: -10rpx;
@@ -86,30 +193,30 @@
     border-radius: 50%;
     background: radial-gradient(circle, rgba(72, 201, 176, 0.2), transparent 70%);
     z-index: -1;
-  }
-  
-  .achievement-info {
+}
+
+.achievement-info {
     text-align: center;
-  }
-  
-  .achievement-name {
+}
+
+.achievement-name {
     font-size: 32rpx;
     font-weight: bold;
     color: #333; /* 可根据 achievements 界面调整 */
     margin-bottom: 10rpx;
     display: block;
     font-family: 'Your Font Family'; /* 可根据 achievements 界面调整 */
-  }
-  
-  .achievement-desc {
+}
+
+.achievement-desc {
     font-size: 28rpx;
     color: #666; /* 可根据 achievements 界面调整 */
     margin-bottom: 20rpx;
     display: block;
     font-family: 'Your Font Family'; /* 可根据 achievements 界面调整 */
-  }
-  
-  .achievement-score {
+}
+
+.achievement-score {
     font-size: 30rpx;
     color: #8ab6d3; /* 可根据 achievements 界面调整 */
     font-weight: bold;
@@ -117,9 +224,9 @@
     padding: 8rpx 16rpx;
     border-radius: 30rpx;
     display: inline-block;
-  }
-  
-  .achievement-footer {
+}
+
+.achievement-footer {
     padding: 30rpx 40rpx 40rpx;
     display: flex;
     justify-content: center;
@@ -127,9 +234,9 @@
     background-color: #f9f9f9; /* 可根据 achievements 界面调整 */
     border-top: 2rpx solid #eee;
     align-items: center;
-  }
-  
-  .view-detail-btn {
+}
+
+.view-detail-btn {
     background: linear-gradient(135deg, #8ab6d3, #3498DB); /* 可根据 achievements 界面调整 */
     color: #fff;
     border-radius: 40rpx;
@@ -143,15 +250,15 @@
     transition: all 0.3s ease;
     text-align: center;
     font-family: 'Your Font Family'; /* 可根据 achievements 界面调整 */
-  }
-  
-  .view-detail-btn:active {
+}
+
+.view-detail-btn:active {
     transform: translateY(2rpx);
     box-shadow: 0 2rpx 8rpx rgba(72, 201, 176, 0.3);
     opacity: 0.9;
-  }
-  
-  .view-detail-btn::after {
+}
+
+.view-detail-btn::after {
     content: '';
     position: absolute;
     top: 0;
@@ -160,9 +267,9 @@
     bottom: 0;
     background: linear-gradient(rgba(255, 255, 255, 0.2), transparent);
     border-radius: 40rpx;
-  }
-  
-  .close-btn-text {
+}
+
+.close-btn-text {
     background: none;
     color: #666;
     font-size: 28rpx;
@@ -172,18 +279,18 @@
     position: relative;
     transition: all 0.3s ease;
     font-family: 'Your Font Family'; /* 可根据 achievements 界面调整 */
-  }
-  
-  .close-btn-text:active {
+}
+
+.close-btn-text:active {
     background-color: #f0f0f0;
     color: #333;
-  }
-  
-  .close-btn-text::after {
+}
+
+.close-btn-text::after {
     display: none;
-  }
-  
-  .view-btn::after,
-  .close-btn-text::after {
+}
+
+.view-btn::after,
+.close-btn-text::after {
     border: none;
-  }
+}

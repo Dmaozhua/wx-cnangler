@@ -14,6 +14,8 @@ Page({
         // 成就弹窗相关数据
         achievementPopupVisible: false,
         currentAchievement: null,
+        pendingAchievements: [],
+        currentAchievementIndex: 0,
         // 背景渐变样式
         containerStyle: "linear-gradient(to bottom, #BDC3C7 0%, #BDC3C7 75%, #ffffff 95%); transition: background 0.3s ease;",
         // 标题样式
@@ -523,29 +525,42 @@ Page({
     checkPendingAchievements() {
         const app = getApp();
         if (app.globalData.pendingAchievements && app.globalData.pendingAchievements.length > 0) {
-            // 获取第一个待展示的成就
-            const achievement = app.globalData.pendingAchievements[0];
+            // 获取所有待展示的成就
+            const achievements = [...app.globalData.pendingAchievements];
             
-            // 从队列中移除该成就
-            app.globalData.pendingAchievements.shift();
+            // 清空待展示队列
+            app.globalData.pendingAchievements = [];
             wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements);
             
-            // 显示成就弹窗
             this.setData({
-                currentAchievement: achievement,
-                achievementPopupVisible: true
+                achievementPopupVisible: true,
+                pendingAchievements: achievements,
+                currentAchievement: achievements[0],
+                currentAchievementIndex: 0
             });
         }
     },
     
     // 关闭成就弹窗
     onCloseAchievementPopup() {
-        this.setData({ achievementPopupVisible: false });
+        this.setData({
+            achievementPopupVisible: false,
+            currentAchievement: null,
+            pendingAchievements: [],
+            currentAchievementIndex: 0
+        });
+    },
+
+    onSwitchAchievement(e) {
+        const { newIndex } = e.detail;
+        const achievements = this.data.pendingAchievements;
         
-        // 检查是否还有其他待展示的成就
-        setTimeout(() => {
-            this.checkPendingAchievements();
-        }, 500);
+        if (newIndex >= 0 && newIndex < achievements.length) {
+            this.setData({
+                currentAchievement: achievements[newIndex],
+                currentAchievementIndex: newIndex
+            });
+        }
     },
     
     // 查看成就详情

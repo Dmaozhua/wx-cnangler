@@ -1,26 +1,36 @@
 <!--components/achievement-popup/achievement-popup.wxml-->
 <view class="achievement-popup-mask" wx:if="{{visible}}" catchtouchmove="preventTouchMove">
   <view class="achievement-popup-content" animation="{{animationData}}">
+    <!-- 弹出框内容保持不变 -->
     <view class="achievement-header">
       <text class="achievement-title">🎉 成就解锁</text>
+      <view class="achievement-counter" wx:if="{{achievementCount > 1}}">
+        {{currentIndex + 1}}/{{achievementCount}}
+      </view>
       <view class="close-btn" bindtap="onClose">×</view>
     </view>
     
     <view class="achievement-body">
-      <image class="achievement-icon" src="/{{achievement.icon}}" mode="aspectFit"/>
-      <view class="achievement-info">
-        <text class="achievement-name">{{achievement.title}}</text>
-        <text class="achievement-desc">{{achievement.description}}</text>
-        <text class="achievement-score">+{{achievement.score}} 成就值</text>
+      <view class="achievement-content">
+        <image class="achievement-icon" src="/{{achievement.icon}}" mode="aspectFit"/>
+        <view class="achievement-info">
+          <text class="achievement-name">{{achievement.title}}</text>
+          <text class="achievement-desc">{{achievement.description}}</text>
+          <text class="achievement-score">+{{achievement.score}} 成就值</text>
+        </view>
       </view>
     </view>
     
     <view class="achievement-footer">
-      <view 
-        class="view-detail-btn centered-btn" 
-        bindtap="onViewDetails">
+      <view class="view-detail-btn centered-btn" bindtap="onViewDetails">
         查看详情
       </view>
     </view>
+  </view>
+  
+  <!-- 按钮容器 -->
+  <view class="switch-btn-container">
+    <view class="switch-btn prev-btn" wx:if="{{canSwitchPrev}}" bindtap="onSwitchPrev">‹</view>
+    <view class="switch-btn next-btn" wx:if="{{canSwitchNext}}" bindtap="onSwitchNext">›</view>
   </view>
 </view>

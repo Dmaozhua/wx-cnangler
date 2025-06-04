@@ -920,9 +920,125 @@ Page({
         updateFishCollection(fish.id, fish.strengthVal);
         console.log('[钓鱼游戏] 更新图鉴:', fish.id, fish.strengthVal);
 
+        // 检查成就
+        this.checkFishingAchievements(fish);
+
         // AFT_FISHON事件将在弹窗关闭后触发
         // 检查钓鱼时间是否结束
         this.checkFishingTime();
+    },
+
+    // 检查钓鱼相关成就
+    checkFishingAchievements(fish) {
+        if (!fish) return;
+        
+        const { achievements } = require('../../data/achievements.js');
+        
+        // 检查type 8成就：累计钓到某一种鱼多少次
+        const fishTypeAchievements = achievements.filter(a => a.type === 8);
+        fishTypeAchievements.forEach(achievement => {
+            if (Array.isArray(achievement.value) && achievement.value.length >= 2) {
+                const targetFishId = achievement.value[0];
+                const targetCount = achievement.value[1];
+                
+                if (fish.id === targetFishId) {
+                    // 更新该鱼类的钓获次数
+                    const storageKey = `fishCaught_${targetFishId}`;
+                    let currentCount = wx.getStorageSync(storageKey) || 0;
+                    currentCount += 1;
+                    wx.setStorageSync(storageKey, currentCount);
+                    
+                    // 更新成就进度
+                    this.updateFishingAchievement(achievement.id, currentCount);
+                    
+                    console.log(`[成就检查] 钓到${targetFishId}，当前次数：${currentCount}/${targetCount}`);
+                }
+            }
+        });
+        
+        // 检查type 10成就：钓到特定强度比的鱼
+        const strengthAchievements = achievements.filter(a => a.type === 10);
+        strengthAchievements.forEach(achievement => {
+            if (fish.strengthRatio !== undefined && fish.strengthRatio !== null) {
+                let shouldUnlock = false;
+                
+                // 根据成就的value值判断解锁条件
+                if (achievement.value === 100 && fish.strengthRatio >= 100) {
+                    // 钓到强度达到或超过100%的鱼
+                    shouldUnlock = true;
+                } else if (achievement.value === 0 && fish.strengthRatio <= 0) {
+                    // 钓到强度为0%或更低的鱼
+                    shouldUnlock = true;
+                }
+                
+                if (shouldUnlock) {
+                    this.updateFishingAchievement(achievement.id, 1);
+                    console.log(`[成就检查] 钓到强度${fish.strengthRatio}%的鱼，解锁成就：${achievement.title}`);
+                }
+            }
+        });
+    },
+
+    // 更新钓鱼成就进度
+    updateFishingAchievement(achievementId, progress) {
+        if (!app.globalData.userAchievements) {
+            app.globalData.userAchievements = {};
+        }
+        
+        // 获取当前成就数据，适配新旧格式
+        const achievementData = typeof app.globalData.userAchievements[achievementId] === 'object' 
+            ? app.globalData.userAchievements[achievementId] 
+            : { progress: 0, unlockTime: null };
+        
+        const currentProgress = achievementData.progress || 0;
+        
+        // 对于type 8和9，使用传入的progress值；对于type 10和11，只要触发就设为1
+        const newProgress = progress;
+        
+        if (newProgress > currentProgress) {
+            // 更新进度
+            app.globalData.userAchievements[achievementId] = {
+                progress: newProgress,
+                unlockTime: achievementData.unlockTime
+            };
+            
+            // 检查是否解锁成就
+            const { achievements } = require('../../data/achievements.js');
+            const achievement = achievements.find(a => a.id === achievementId);
+            
+            if (achievement) {
+                let targetValue = 1;
+                if (achievement.type === 8 || achievement.type === 9) {
+                    targetValue = Array.isArray(achievement.value) ? achievement.value[1] : 1;
+                } else {
+                    targetValue = parseInt(achievement.value, 10) || 1;
+                }
+                
+                if (newProgress >= targetValue && currentProgress < targetValue) {
+                    // 成就解锁
+                    app.globalData.userAchievements[achievementId].unlockTime = new Date().toISOString();
+                    
+                    // 增加成就分数
+                    app.globalData.achievementScore = (app.globalData.achievementScore || 0) + achievement.score;
+                    wx.setStorageSync('achievementScore', app.globalData.achievementScore);
+                    
+                    // 将成就添加到待展示队列，等到返回Home页面时统一显示
+                    if (!app.globalData.pendingAchievements) {
+                        app.globalData.pendingAchievements = [];
+                    }
+                    app.globalData.pendingAchievements.push(achievement);
+                    wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements);
+                    
+                    console.log(`[成就系统] 解锁成就: ${achievement.title}，已添加到待展示队列`);
+                    console.log(`[成就系统] 当前待展示队列长度: ${app.globalData.pendingAchievements.length}`);
+                    
+                    console.log(`[成就解锁] ${achievement.title}`);
+                }
+            }
+            
+            // 保存到本地存储
+            wx.setStorageSync('achievements', app.globalData.userAchievements);
+        }
     },
 
     // 关闭钓鱼成功弹窗
@@ -1263,6 +1379,9 @@ Page({
                         // 更新事件图鉴收集状态
                         updateEventCollection(evt.id);
 
+                        // 检查事件相关成就
+                        this.checkEventAchievements(evt.id);
+
                         // 如果事件不可重复触发，记录已触发
                         if (!evt.retriggering) {
                             app.globalData.triggeredEvents.push(evt.id);
@@ -1407,6 +1526,9 @@ Page({
 
                         // 更新事件图鉴收集状态
                         updateEventCollection(evt.id);
+
+                        // 检查事件相关成就
+                        this.checkEventAchievements(evt.id);
 
                         // 如果事件不可重复触发，记录已触发
                         if (!evt.retriggering) {
@@ -1762,7 +1884,94 @@ Page({
         }
     },
 
-    // 清空事件加成显示
+    // 检查事件相关成就
+    checkEventAchievements(eventId) {
+        const { getEventCollectionById } = require('../../data/FishData2/EventCollection.js');
+        const eventData = getEventCollectionById(eventId);
+        
+        if (eventData && eventData.count > 0) {
+            this.updateEventAchievement(eventId, eventData.count);
+        }
+    },
+
+    // 更新事件成就
+    updateEventAchievement(eventId, count) {
+        const app = getApp();
+        const achievementsData = require('../../data/achievements.js');
+        
+        console.log(`[成就系统] 检查事件成就，事件ID: ${eventId}, 触发次数: ${count}`);
+        
+        // 检查type 9成就（累计遇到某种事件多少次）
+        const eventAchievements = achievementsData.achievements.filter(achievement => {
+            if (achievement.type === 9 && Array.isArray(achievement.value)) {
+                const targetEventId = achievement.value[0];
+                console.log(`[成就系统] 检查成就 ${achievement.id}: 目标事件ID ${targetEventId} vs 当前事件ID ${eventId}`);
+                return targetEventId === eventId;
+            }
+            return false;
+        });
+        
+        console.log(`[成就系统] 找到 ${eventAchievements.length} 个相关事件成就`);
+        
+        eventAchievements.forEach(achievement => {
+            const targetEventId = achievement.value[0];
+            const targetCount = achievement.value[1];
+            
+            console.log(`[成就系统] 处理成就: ${achievement.title}, 目标: ${targetCount}次`);
+            
+            // 获取当前成就数据
+            const achievementData = typeof app.globalData.userAchievements[achievement.id] === 'object' 
+                ? app.globalData.userAchievements[achievement.id] 
+                : { progress: 0, unlockTime: null };
+            
+            const currentProgress = achievementData.progress || 0;
+            console.log(`[成就系统] 当前进度: ${currentProgress}, 新进度: ${count}`);
+            
+            // 更新成就进度
+            if (count > currentProgress) {
+                app.globalData.userAchievements[achievement.id] = {
+                    progress: count,
+                    unlockTime: achievementData.unlockTime
+                };
+                
+                // 保存到本地存储
+                wx.setStorageSync('achievements', app.globalData.userAchievements);
+                
+                console.log(`[成就系统] 更新进度到: ${count}`);
+                
+                // 检查是否达到解锁条件
+                if (count >= targetCount && !achievementData.unlockTime) {
+                    console.log(`[成就系统] 达到解锁条件，解锁成就: ${achievement.title}`);
+                    
+                    // 解锁成就
+                    app.globalData.userAchievements[achievement.id].unlockTime = new Date().toISOString();
+                    
+                    // 增加成就分数
+                    app.globalData.achievementScore += achievement.score;
+                    wx.setStorageSync('achievementScore', app.globalData.achievementScore);
+                    
+                    // 保存更新后的成就数据
+                    wx.setStorageSync('achievements', app.globalData.userAchievements);
+                    
+                    // 将成就添加到待展示队列，等到返回Home页面时统一显示
+                if (!app.globalData.pendingAchievements) {
+                    app.globalData.pendingAchievements = [];
+                }
+                app.globalData.pendingAchievements.push(achievement);
+                wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements);
+                
+                console.log(`[成就系统] 解锁成就: ${achievement.title}，已添加到待展示队列`);
+                console.log(`[成就系统] 当前待展示队列长度: ${app.globalData.pendingAchievements.length}`);
+                    
+                    console.log(`[成就系统] 解锁事件成就: ${achievement.title}`);
+                } else {
+                    console.log(`[成就系统] 未达到解锁条件: ${count}/${targetCount}`);
+                }
+            }
+        });
+    },
+
+    // 清除事件加成显示
     clearEventBuffsDisplay() {
         this.setData({
             eventBuffs: [],

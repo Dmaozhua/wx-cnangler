@@ -6,10 +6,11 @@
 // type: 5 - 阅读不同的文章解锁成就，value为阅读文章的次数
 // type: 6 - 连续阅读文章解锁成就，value为连续阅读的天数
 // type: 7 - 分享相关，value为分享系类别1测试2文章
+// type: 8 - 累计钓到某一种鱼多少次
+// type: 9 - 累计遇到到某一种事件多少次
+// type: 10 - 钓到strength强度比100%的任意一条鱼
+// type: 11 - 听一首路亚歌曲，music功能
 
-//提示，邂逅10次女钓友，抛竿100次..
-//提示 钓到强度比 100%的任意一条鱼
-//提示 听全部路亚主题歌曲
 
 const achievements = [
   {
@@ -105,12 +106,12 @@ const achievements = [
   },
   {
       num: 8,
-      type: 1,
+      type: 3,
       id: "fishing1",
       category: "fishing",
       title: "初次体验",
       description: "首次使用钓鱼功能",
-      value: 1,
+      value: 'fishing',
       icon: "images/achievements/钓鱼 (1).png",
       score: 15,
       weight: 2,
@@ -239,7 +240,72 @@ const achievements = [
     score: 35,
     weight: 4,
     detailed:'让我们一起把路亚做大做强，感谢你的分享！纪念用户首次分享钓鱼文章，颁发此成就！'
-},
+},{
+    num: 19,
+    type: 8,
+    id: "fishon",
+    category: "fishing",
+    title: "白条杀手",
+    description: "累计钓到白条3次。",
+    value:['FISH_03',3],
+    icon: "images/achievements/路亚轮 (1).png",
+    score: 35,
+    weight: 4,
+    detailed:'白条是我不打龟的勇气。'
+},{
+    num: 20,
+    type: 9,
+    id: "event",
+    category: "fishing",
+    title: "总发现奇怪的东西",
+    description: "累计遇到事件'发现奇怪的东西'3次。",
+    value:['EVENT1',3],
+    icon: "images/achievements/路亚轮 (1).png",
+    score: 35,
+    weight: 4,
+    detailed:'发现奇怪东西的神。'
+},{
+    num: 21,
+    type: 10,
+    id: "bigone",
+    category: "fishing",
+    title: "大鱼猎手",
+    description: "钓到任意强度比100%的鱼.",
+    value:100,
+    icon: "images/achievements/路亚轮 (1).png",
+    score: 35,
+    weight: 4,
+    detailed:'大鱼猎手！'
+},{
+    num: 22,
+    type: 11,
+    id: "music",
+    category: "persion",
+    title: "音乐爱好者",
+    description: "听完任意一首路亚歌曲.",
+    value:1,
+    icon: "images/achievements/路亚轮 (1).png",
+    score: 35,
+    weight: 4,
+    detailed:'知我！'
+},{
+    num: 23,
+    type: 10,
+    id: "smallone",
+    category: "fishing",
+    title: "袖珍",
+    description: "钓到任意强度比0%的鱼.",
+    value:0,
+    icon: "images/achievements/路亚轮 (1).png",
+    score: 35,
+    weight: 4,
+    detailed:'带回家养吧！'
+}
+
+
+
+
+
 ];
 
 module.exports = {
