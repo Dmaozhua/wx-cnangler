@@ -66,6 +66,11 @@ Page({
     // 每次显示页面时重新加载数据，确保数据最新
     this.loadFishData();
     this.loadEventData();
+    
+    // 重新应用当前的过滤状态，保持排序效果
+    if (this.data.currentFilter) {
+      this.changeFilter({ currentTarget: { dataset: { filter: this.data.currentFilter } } });
+    }
   },
 
   /**
@@ -87,13 +92,20 @@ Page({
       };
     });
 
+    // 排序：已解锁的排在前面，然后按原有顺序
+    const sortedFishList = fishList.sort((a, b) => {
+      if (a.unlocked && !b.unlocked) return -1;
+      if (!a.unlocked && b.unlocked) return 1;
+      return 0; // 保持原有顺序
+    });
+
     // 计算收集数量
     const collectionCount = fishList.filter(fish => fish.unlocked).length;
     const totalCount = fishList.length;
 
     this.setData({
-      fishList,
-      filteredFishList: fishList, // 初始显示全部鱼类
+      fishList: sortedFishList,
+      filteredFishList: sortedFishList, // 初始显示全部鱼类
       collectionData,
       collectionCount,
       totalCount
@@ -121,13 +133,20 @@ Page({
       };
     });
 
+    // 排序：已解锁的排在前面，然后按原有顺序
+    const sortedEventList = eventList.sort((a, b) => {
+      if (a.unlocked && !b.unlocked) return -1;
+      if (!a.unlocked && b.unlocked) return 1;
+      return 0; // 保持原有顺序
+    });
+
     // 计算收集数量
     const eventCollectionCount = eventList.filter(event => event.unlocked).length;
     const eventTotalCount = eventList.length;
 
     this.setData({
-      eventList,
-      filteredEventList: eventList, // 初始显示全部事件
+      eventList: sortedEventList,
+      filteredEventList: sortedEventList, // 初始显示全部事件
       eventCollectionData,
       eventCollectionCount,
       eventTotalCount
@@ -369,6 +388,13 @@ Page({
           filteredFishList = this.data.fishList;
       }
       
+      // 对过滤后的列表进行排序：已解锁的排在前面
+      filteredFishList = filteredFishList.sort((a, b) => {
+        if (a.unlocked && !b.unlocked) return -1;
+        if (!a.unlocked && b.unlocked) return 1;
+        return 0; // 保持原有顺序
+      });
+      
       this.setData({
         currentFilter: filter,
         filteredFishList
@@ -399,6 +425,13 @@ Page({
         default:
           filteredEventList = this.data.eventList;
       }
+      
+      // 对过滤后的列表进行排序：已解锁的排在前面
+      filteredEventList = filteredEventList.sort((a, b) => {
+        if (a.unlocked && !b.unlocked) return -1;
+        if (!a.unlocked && b.unlocked) return 1;
+        return 0; // 保持原有顺序
+      });
       
       this.setData({
         currentFilter: filter,
