@@ -1,375 +1,309 @@
 /* pages/fishCollection/fishCollection.wxss */
 .container {
-  display: flex;
-  flex-direction: column;
-  height: 108vh;
-  background: linear-gradient(to bottom, #1a4d2e, #2d6a4f);
-  color: #e0f2e9;
-  position: relative;
-  overflow: hidden; /* 禁止container本身滚动 */
-}
-
-
-/* 增强版海浪效果 - 更明显的动画 */
-.waves {
-    position: fixed;
-    top: 0;
+    display: flex;
+    flex-direction: column;
+    height: 108vh;
+    background: linear-gradient(to bottom, #1a4d2e, #2d6a4f);
+    color: #e0f2e9;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 动态海浪效果 */
+  .waves {
+    position: absolute;
+    bottom: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    height: 20%;
     z-index: 0;
     overflow: hidden;
-    pointer-events: none;
   }
   
   .wave {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
-    width: 400%; /* 更宽的宽度实现横向动画 */
+    width: 200%;
     height: 100%;
     background-repeat: repeat-x;
     background-position: bottom;
     transform-origin: center bottom;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+  }
+  
+  .wave-1,
+  .wave-2,
+  .wave-3 {
+    animation: wave linear infinite;
   }
   
   .wave-1 {
-    background-image: linear-gradient(to bottom, 
-      transparent 30%,
-      rgba(0, 200, 180, 0.7) 60%,
-      rgba(0, 160, 140, 0.9) 80%,
-      transparent 100%
-    );
-    animation: horizontalWave 18s linear infinite;
+    background-image: url('data:image/svg+xml;utf8,<svg ... fill="%2300a896"/></svg>');
+    animation-duration: 15s;
+    opacity: 0.8;
     z-index: 3;
-    opacity: 0.8; /* 增加不透明度 */
   }
   
   .wave-2 {
-    background-image: linear-gradient(to bottom, 
-      transparent 20%,
-      rgba(0, 180, 160, 0.6) 50%,
-      rgba(0, 140, 125, 0.8) 70%,
-      transparent 100%
-    );
-    animation: horizontalWave 22s linear infinite;
-    animation-delay: -4s;
+    background-image: url('data:image/svg+xml;utf8,<svg ... fill="%2300a896"/></svg>');
+    animation-duration: 12s;
+    animation-delay: -2s;
+    opacity: 0.6;
     z-index: 2;
+  }
+  
+  .wave-3 {
+    background-image: url('data:image/svg+xml;utf8,<svg ... fill="%2300a896"/></svg>');
+    animation-duration: 18s;
+    animation-delay: -5s;
+    opacity: 0.5;
+    z-index: 1;
+  }
+  
+  @keyframes wave {
+    0% {
+      transform: translateX(0) translateZ(0) scaleY(1);
+    }
+    50% {
+      transform: translateX(-25%) translateZ(0) scaleY(0.95);
+    }
+    100% {
+      transform: translateX(-50%) translateZ(0) scaleY(1);
+    }
+  }
+  
+  /* 图鉴类型切换标签 */
+  .gallery-type-tabs {
+    display: flex;
+    margin-bottom: 20rpx;
+    background-color: #fff;
+    border-radius: 10rpx;
+    overflow: hidden;
+    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+    width: calc(100% - 60rpx);
+    z-index: 10;
+  }
+  
+  .gallery-type-tab {
+    flex: 1;
+    text-align: center;
+    padding: 20rpx 0;
+    font-size: 28rpx;
+    color: #666;
+    position: relative;
+    transition: all 0.3s;
+  }
+  
+  .gallery-type-tab.active {
+    color: #3a7bff;
+    font-weight: bold;
+  }
+  
+  .gallery-type-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    height: 6rpx;
+    background-color: #3a7bff;
+    border-radius: 3rpx;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20rpx 30rpx;
+    background: rgba(30, 86, 49, 0.85);
+    height: 100rpx;
+    color: #fff;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    margin: 20rpx 30rpx;
+    border-radius: 24rpx;
+    box-sizing: border-box;
+    width: calc(100% - 60rpx);
+  }
+  
+  .back-btn {
+    position: absolute;
+    left: 30rpx;
+    top: 10%;
+    transform: translateY(-50%);
+    width: 60rpx;
+    height: 60rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    z-index: 10;
+    transition: all 0.3s ease;
+  }
+  
+  .back-btn:active {
+    transform: translateY(-50%) scale(0.9);
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .back-icon {
+    font-size: 40rpx;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .title {
+    flex: 1;
+    text-align: left;
+    font-size: 36rpx;
+    font-weight: bold;
+    text-shadow: 0 2rpx 4rpx rgba(2, 2, 2, 0.3);
+  }
+  
+  .collection-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .collection-info {
+    font-size: 24rpx;
+    color: #a0e4bc;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 6rpx 12rpx;
+    border-radius: 20rpx;
+    border: 1rpx solid rgba(255, 255, 255, 0.2);
+    margin-left: 12rpx;
+  }
+  
+  /* 列表通用容器样式 */
+  .list-container {
+    flex: 1;
+    padding: 20rpx;
+    position: relative;
+    z-index: 1;
+    height: calc(100vh - 250rpx);
+    overflow-y: auto;
+    background: linear-gradient(to bottom, #1a4d2e, #2d6a4f);
+  }
+  
+  .grid {
+    padding: 30rpx;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .fish-item, .event-item {
+    width: calc(50% - 20rpx);
+    margin-bottom: 30rpx;
+    z-index: 5;
+  }
+  
+  .list-container .card {
+    border-radius: 15rpx;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.9);
+  }
+  
+  .fish-image, .event-image{
+    width: auto;
+    height: 180rpx;
+    background-color: #f0f0f0;
+    object-fit: contain;
+  }
+  
+  .fish-name, .event-name {
+    font-size: 26rpx;
+    color: #333;
+    padding: 10rpx 15rpx;
+    text-align: center;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .rarity {
+    font-size: 22rpx;
+    padding: 5rpx 15rpx 15rpx;
+    text-align: center;
+    color: #999;
+  }
+  
+  /* 稀有度颜色 */
+  .rarity-common { color: #b0b0b0; }
+  .rarity-uncommon { color: #4caf50; }
+  .rarity-rare { color: #2196f3; }
+  .rarity-epic { color: #9c27b0; }
+  .rarity-mythic {
+    color: #ff9800;
+    text-shadow: 0 0 5rpx rgba(255, 152, 0, 0.5);
+  }
+  .rarity-boss {
+    color: #f44336;
+    text-shadow: 0 0 5rpx rgba(244, 67, 54, 0.5);
+  }
+  .rarity-waste { color: #795548; }
+  
+  .locked .card {
     opacity: 0.7;
   }
   
-  .wave-3 {
-    background-image: linear-gradient(to bottom, 
-      transparent 10%,
-      rgba(0, 160, 140, 0.5) 40%,
-      rgba(0, 120, 110, 0.7) 60%,
-      transparent 100%
-    );
-    animation: horizontalWave 26s linear infinite;
-    animation-delay: -8s;
-    z-index: 1;
-    opacity: 0.6;
+  .lock-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 60rpx;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.5);
+    z-index: 2;
   }
   
-  @keyframes horizontalWave {
-    0% {
-      transform: translateX(0) translateZ(0);
-    }
-    100% {
-      transform: translateX(-50%) translateZ(0); /* 横向移动50% */
-    }
+  /* 标签分类过滤 */
+  .filter-tabs {
+    padding: 10rpx 20rpx;
+    z-index: 5;
+    overflow: hidden;
+    position: relative;
   }
   
-  /* 添加波浪高度变化动画 */
-  @keyframes waveHeight {
-    0%, 100% {
-      height: 100%;
-    }
-    50% {
-      height: 105%; /* 制造波浪起伏效果 */
-    }
+  .tabs-scroll {
+    white-space: nowrap;
+    width: 100%;
+    padding: 0 30rpx;
+    box-sizing: border-box;
   }
   
-  .wave {
-    animation: horizontalWave linear infinite, 
-               waveHeight 8s ease-in-out infinite;
+  .filter-tab {
+    display: inline-block;
+    padding: 10rpx 20rpx;
+    margin-right: 15rpx;
+    font-size: 26rpx;
+    color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 30rpx;
+    transition: all 0.3s ease;
   }
   
-  .wave-1 {
-    animation: horizontalWave 18s linear infinite, 
-               waveHeight 2s ease-in-out infinite;
+  .filter-tab.active {
+    background-color: #3a7734;
+    color: white;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
   }
   
-  .wave-2 {
-    animation: horizontalWave 22s linear infinite, 
-               waveHeight 8s ease-in-out infinite;
-    animation-delay: -4s, -2s;
-  }
-  
-  .wave-3 {
-    animation: horizontalWave 26s linear infinite, 
-               waveHeight 9s ease-in-out infinite;
-    animation-delay: -8s, -4s;
-  }
-/* 图鉴类型切换标签 */
-.gallery-type-tabs {
-  display: flex;
-  width: 100%;
-  margin-bottom: 20rpx;
-  background-color: #fff;
-  border-radius: 10rpx;
-  overflow: hidden;
-  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
-  width: calc(100% - 60rpx);
-  z-index: 10;
-}
-
-.gallery-type-tab {
-  flex: 1;
-  text-align: center;
-  padding: 20rpx 0;
-  font-size: 28rpx;
-  color: #666;
-  position: relative;
-  transition: all 0.3s;
-}
-
-.gallery-type-tab.active {
-  color: #3a7bff;
-  font-weight: bold;
-}
-
-.gallery-type-tab.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 25%;
-  width: 50%;
-  height: 6rpx;
-  background-color: #3a7bff;
-  border-radius: 3rpx;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20rpx 30rpx;
-  background: rgba(30, 86, 49, 0.85);
-  height: 100rpx;
-  color: rgb(255, 255, 255);
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
-  z-index: 10;
-  margin: 20rpx 30rpx;
-  border-radius: 24rpx;
-  box-sizing: border-box;
-  width: calc(100% - 60rpx);
-}
-
-.back-btn {
-  position: absolute;
-  left: 30rpx;
-  top: 8%;
-  transform: translateY(-50%);
-  width: 60rpx;
-  height: 60rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  z-index: 10;
-  transition: all 0.3s ease;
-}
-
-.back-btn:active {
-  transform: translateY(-50%) scale(0.9);
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-.back-icon {
-  font-size: 40rpx;
-  font-weight: bold;
-  color: white;
-}
-
-.title {
-  flex: 1;
-  text-align: left;
-  font-size: 36rpx;
-  font-weight: bold;
-  text-shadow: 0 2rpx 4rpx rgba(2, 2, 2, 0.3);
-  margin-left: 0rpx;
-}
-.collection-container {
-  display: flex;
-  align-items: center;
-}
-.collection-info {
-  font-size: 24rpx;
-  color: #a0e4bc;
-  background-color: rgba(0, 0, 0, 0.2);
-  padding: 6rpx 12rpx;
-  border-radius: 20rpx;
-  border: 1rpx solid rgba(255, 255, 255, 0.2);
-  margin-left: 12rpx;
-}
-
-/* 鱼类列表 */
-.fish-list,
-.event-list {
-  flex: 1;
-  padding: 20rpx;
-  position: relative;
-  z-index: 1;
-  height: calc(100vh - 250rpx);
-  overflow-y: auto;
-}
-
-.fish-grid,
-.event-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.fish-item,
-.event-item {
-  width: calc(33.33% - 20rpx);
-  margin-bottom: 30rpx;
-  z-index: 5;
-}
-
-.fish-card,
-.event-card {
-  background-color: #fff;
-  border-radius: 15rpx;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
-  transition: all 0.3s;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.fish-image,
-.event-image {
-  width: 100%;
-  height: 180rpx;
-  background-color: #f0f0f0;
-  object-fit: contain;
-}
-
-.fish-name,
-.event-name {
-  font-size: 26rpx;
-  color: #333;
-  padding: 10rpx 15rpx;
-  text-align: center;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.fish-rarity,
-.event-type {
-  font-size: 22rpx;
-  padding: 5rpx 15rpx 15rpx;
-  text-align: center;
-  color: #999;
-}
-
-/* 稀有度颜色 */
-.rarity-common {
-  color: #b0b0b0;
-}
-
-.rarity-uncommon {
-  color: #4caf50;
-}
-
-.rarity-rare {
-  color: #2196f3;
-}
-
-.rarity-epic {
-  color: #9c27b0;
-}
-
-.rarity-mythic {
-  color: #ff9800;
-  text-shadow: 0 0 5rpx rgba(255, 152, 0, 0.5);
-}
-
-.rarity-boss {
-  color: #f44336;
-  text-shadow: 0 0 5rpx rgba(244, 67, 54, 0.5);
-}
-
-.rarity-waste {
-  color: #795548;
-}
-
-.locked .fish-card,
-.locked .event-card {
-  opacity: 0.7;
-}
-
-.lock-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 60rpx;
-  color: rgba(255, 255, 255, 0.8);
-  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.5);
-  z-index: 2;
-}
-
-/* 标签分类过滤 */
-.filter-tabs {
-  padding: 10rpx;
-  width: calc(100%);
-  /* background-color: rgba(0, 0, 0, 0.2); */
-  z-index: 5;
-  border-bottom: 1rpx solid rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-  position: relative;
-}
-
-.tabs-scroll {
-  white-space: nowrap;
-  width: 100%;
-  padding: 0 30rpx;
-  box-sizing: border-box;
-}
-
-.filter-tab {
-  display: inline-block;
-  padding: 10rpx 20rpx;
-  margin-right: 15rpx;
-  font-size: 26rpx;
-  color: rgba(255, 255, 255, 0.7);
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 30rpx;
-  transition: all 0.3s ease;
-}
-
-.filter-tab.active {
-  background-color: #3a7734;
-  color: white;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
-}
-
-/* 底部提示 - 修正版 */
-.footer-tip {
+  /* 底部提示 */
+  .footer-tip {
+    padding: 20rpx;
     text-align: center;
-    font-size: 30rpx;
+    font-size: 24rpx;
     border-radius: 20rpx;
     color: rgba(255, 255, 255, 0.6);
     background-color: rgba(0, 0, 0, 0.2);
@@ -379,16 +313,6 @@
     box-sizing: border-box;
     width: calc(100% - 60rpx);
     position: relative;
-    margin: 10rpx auto 20rpx;
-    
-    /* 关键修改：确保文字垂直居中 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    /* 高度控制：文字高度 + 5rpx */
-    min-height: calc(24rpx + 50rpx); /* 字体大小24rpx + 额外5rpx */
-    line-height: 1.4; /* 确保文字垂直居中 */
-    
-
+    top: 30rpx;
   }
+  
