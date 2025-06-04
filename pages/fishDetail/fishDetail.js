@@ -19,7 +19,13 @@ Page({
       'WASTE': '杂物'
     },
     touchStartX: 0, // 记录触摸开始的X坐标
-    touchEndX: 0    // 记录触摸结束的X坐标
+    touchEndX: 0,    // 记录触摸结束的X坐标
+    // 图片展示相关
+    serverImages: [], // 服务器图片列表
+    showImageModal: false, // 是否显示图片放大模态框
+    currentImageUrl: '', // 当前放大显示的图片URL
+    imageLoadError: false, // 图片加载错误状态
+    showNoImagesText: true // 是否显示无图片文本
   },
 
   /**
@@ -71,6 +77,9 @@ Page({
       fishImageUrl,
       isUsingDefaultImage: false
     });
+
+    // 加载服务器图片
+    this.loadServerImages(fishId);
 
     console.log('[鱼类详情] 加载鱼类信息', fishInfo.name);
   },
@@ -124,5 +133,121 @@ Page({
     this.setData({
       touchEndX: touchEndX
     });
+  },
+
+  /**
+   * 加载服务器图片
+   */
+  loadServerImages(fishId) {
+    const baseUrl = 'https://anglertest.xyz/game/fish/fishpic/';
+    const imageUrls = [];
+    
+    // 尝试加载多张图片（假设最多有5张图片，编号为1-5）
+    for (let i = 1; i <= 5; i++) {
+      const imageUrl = `${baseUrl}${fishId}/${i}.png`;
+      imageUrls.push({
+        url: imageUrl,
+        index: i,
+        loaded: false,
+        error: false
+      });
+    }
+    
+    console.log('开始加载图片，fishId:', fishId);
+    console.log('图片URLs:', imageUrls.map(item => item.url));
+    
+    this.setData({
+      serverImages: imageUrls,
+      showNoImagesText: true
+    });
+    
+    // 预加载图片以检查是否存在
+    this.preloadImages(imageUrls);
+  },
+
+  /**
+   * 预加载图片检查是否存在
+   */
+  preloadImages(imageUrls) {
+    console.log('开始预加载图片，总数:', imageUrls.length);
+    imageUrls.forEach((imageItem, index) => {
+      console.log(`正在检查图片 ${index + 1}:`, imageItem.url);
+      wx.getImageInfo({
+        src: imageItem.url,
+        success: (res) => {
+          console.log(`图片 ${index + 1} 加载成功:`, imageItem.url, res);
+          const updatedImages = [...this.data.serverImages];
+          updatedImages[index].loaded = true;
+          this.setData({
+            serverImages: updatedImages
+          });
+          this.updateNoImagesTextStatus();
+        },
+        fail: (err) => {
+          console.log(`图片 ${index + 1} 加载失败:`, imageItem.url, err);
+          const updatedImages = [...this.data.serverImages];
+          updatedImages[index].error = true;
+          this.setData({
+            serverImages: updatedImages
+          });
+          this.updateNoImagesTextStatus();
+        }
+      });
+    });
+  },
+
+  /**
+   * 更新无图片文本显示状态
+   */
+  updateNoImagesTextStatus() {
+    const { serverImages } = this.data;
+    const hasValidImages = serverImages.some(item => item.loaded && !item.error);
+    const loadedCount = serverImages.filter(item => item.loaded).length;
+    const errorCount = serverImages.filter(item => item.error).length;
+    
+    console.log('更新图片显示状态:');
+    console.log('- 总图片数:', serverImages.length);
+    console.log('- 成功加载:', loadedCount);
+    console.log('- 加载失败:', errorCount);
+    console.log('- 有效图片:', hasValidImages);
+    console.log('- 显示无图片文本:', !hasValidImages);
+    
+    this.setData({
+      showNoImagesText: !hasValidImages
+    });
+  },
+
+  /**
+   * 点击图片放大显示
+   */
+  onImageTap(e) {
+    const { url } = e.currentTarget.dataset;
+    this.setData({
+      showImageModal: true,
+      currentImageUrl: url
+    });
+  },
+
+  /**
+   * 关闭图片模态框
+   */
+  closeImageModal() {
+    this.setData({
+      showImageModal: false,
+      currentImageUrl: ''
+    });
+  },
+
+  /**
+   * 处理服务器图片加载错误
+   */
+  onServerImageError(e) {
+    const { index } = e.currentTarget.dataset;
+    const updatedImages = [...this.data.serverImages];
+    updatedImages[index].error = true;
+    this.setData({
+      serverImages: updatedImages
+    });
+    this.updateNoImagesTextStatus();
   }
 });

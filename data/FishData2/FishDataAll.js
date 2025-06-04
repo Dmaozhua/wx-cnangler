@@ -55,7 +55,8 @@ export const RARITY_MULTIPLIER = {
         "sunny": 1.8,
         "rainy": 0.3
       }
-    },{
+    },
+    {
       id: 'FISH_03',
       name: '白条',
       rarity: COMMON,
@@ -256,6 +257,25 @@ export const RARITY_MULTIPLIER = {
       QTEFail: 0.1,
       strength: [0.4, 1.3],
       BaseHP: 100,
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
+      weatherAffinity: {
+        "sunny": 1.8,
+        "rainy": 0.3
+      }
+    },
+    {
+      id: 'FISH_14',
+      name: '溪哥',
+      rarity: UNCOMMON,
+      description: '城市河道的明星，溪流精灵',
+      habitats: ['backwater','slowmoving','rapids'],
+      baitPref: ['BREADone','BREADtwo'],
+      QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
+      QTEFail: 0.15,
+      strength: [0.5, 1.5],
+      BaseHP: 120,
       Image: 'https://anglertest.xyz/game/fish/fishon.webp',
       backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
       defImage: '../../images/icons/whatfish.png',

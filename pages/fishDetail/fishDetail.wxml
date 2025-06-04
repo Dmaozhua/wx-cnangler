@@ -37,5 +37,41 @@
         <text class="stats-value">{{collectionInfo.maxStrength || 0}}</text>
       </view>
     </view>
+
+    <!-- 图片展示模块 -->
+    <view class="image-gallery-section">
+      <view class="gallery-title">更多图片</view>
+      <view class="image-gallery">
+        <block wx:for="{{serverImages}}" wx:key="index">
+          <view class="image-item" wx:if="{{item.loaded && !item.error}}">
+            <image 
+              class="gallery-image" 
+              src="{{item.url}}" 
+              mode="aspectFill"
+              data-url="{{item.url}}"
+              data-index="{{index}}"
+              bindtap="onImageTap"
+              binderror="onServerImageError"
+            ></image>
+          </view>
+        </block>
+        <!-- 当没有图片时显示默认文本 -->
+        <view class="no-images" wx:if="{{showNoImagesText}}">
+          <text class="no-images-text">暂无更多，作者正在谋划中</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 图片放大模态框 -->
+  <view class="image-modal" wx:if="{{showImageModal}}" bindtap="closeImageModal">
+    <view class="modal-overlay"></view>
+    <view class="modal-content" catchtap="">
+      <image 
+        class="modal-image" 
+        src="{{currentImageUrl}}" 
+        mode="aspectFit"
+      ></image>
+    </view>
   </view>
 </view>

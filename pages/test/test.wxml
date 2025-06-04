@@ -74,7 +74,7 @@
   <view wx:if="{{showResult}}" class="result-modal">
     <view class="result-content">
       <text class="result-title">{{resultData.title || resultData.type}}</text>
-      <text wx:if="{{resultData.resultPercentage !== null}}" class="result-percentage">占比：{{resultData.resultPercentage}}%</text>
+      <text wx:if="{{resultData.resultPercentage}}" class="result-percentage">出现概率：{{resultData.resultPercentage}}%</text>
       
       <!-- 人格画像 -->
       <view class="section-container">

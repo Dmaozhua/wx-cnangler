@@ -2,7 +2,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 108vh;
     background: linear-gradient(to bottom, #1a4d2e, #2d6a4f);
     color: #e0f2e9;
     position: relative;
