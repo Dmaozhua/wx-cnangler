@@ -49,5 +49,5 @@
   </view>
   
   <button class="restart-btn" bindtap="restart" hover-class="btn-hover">再来亿竿</button>
-  <button class="restart-btn" bindtap="restart" hover-class="btn-hover">返回主页</button>
+  <button class="restart-btn" bindtap="goBack" hover-class="btn-hover">返回主页</button>
 </view>

@@ -171,14 +171,15 @@ Page({
   
   // 返回主页
   goBack() {
-    wx.navigateBack({
-      delta: 1,
+    wx.navigateTo({
+      url: '/pages/home/home',
       success: () => {
-        console.log('[钓鱼模拟器] 返回上一页成功');
+        console.log('[钓鱼模拟器] 返回Home页成功');
       },
       fail: (err) => {
-        console.error('[钓鱼模拟器] 返回上一页失败:', err);
+        console.error('[钓鱼模拟器] 返回Home页失败:', err);
       }
     });
   }
 });
+

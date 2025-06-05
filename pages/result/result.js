@@ -33,14 +33,16 @@ Page({
       water: this.data.water.name
     });
   },
-  
-  // 重新开始钓鱼
-  restart() {
-    console.log('[钓鱼结果] 用户点击重新开始');
-    
-    // 跳转到钓鱼准备页面
-    wx.redirectTo({
-      url: '../preparation/preparation'
+    // 返回主页
+  goBack() {
+    wx.navigateTo({
+      url: '/pages/home/home',
+      success: () => {
+        console.log('[钓鱼模拟器] 返回Home页成功');
+      },
+      fail: (err) => {
+        console.error('[钓鱼模拟器] 返回Home页失败:', err);
+      }
     });
   }
 });

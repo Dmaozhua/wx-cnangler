@@ -133,9 +133,16 @@ Page({
       const achievementData = userData[a.id] || { progress: 0, unlockTime: null }
       
       // 获取当前进度，确保是数字类型
-      const currentProgress = typeof achievementData === 'object' 
-        ? parseInt(achievementData.progress || 0, 10)
-        : parseInt(achievementData || 0, 10)
+      let currentProgress;
+      if (a.type === 2) {
+        // type:2 - 成就分数统计，使用全局成就分数
+        currentProgress = parseInt(achievementScore, 10) || 0;
+      } else {
+        // 其他类型使用存储的进度
+        currentProgress = typeof achievementData === 'object' 
+          ? parseInt(achievementData.progress || 0, 10)
+          : parseInt(achievementData || 0, 10);
+      }
       
       // 根据成就类型处理不同的解锁条件
       let isUnlocked = false

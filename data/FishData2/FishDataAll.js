@@ -65,7 +65,7 @@ export const RARITY_MULTIPLIER = {
       baitPref: ['BREADone','BREADtwo'],
       QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
       QTEFail: 0.1,
-      strength: [1.29, 1.3],
+      strength: [0.5, 1.3],
       BaseHP: 100,
       Image: 'https://anglertest.xyz/game/fish/fishon.webp',
       backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',

@@ -963,8 +963,8 @@ Page({
                 let shouldUnlock = false;
                 
                 // 根据成就的value值判断解锁条件
-                if (achievement.value === 100 && fish.strengthRatio >= 100) {
-                    // 钓到强度达到或超过100%的鱼
+                if ((achievement.value === 100 || achievement.value === 1) && fish.strengthRatio >= 100) {
+                    // 钓到强度达到或超过100%的鱼 (value为100或1都表示这个条件)
                     shouldUnlock = true;
                 } else if (achievement.value === 0 && fish.strengthRatio <= 0) {
                     // 钓到强度为0%或更低的鱼
@@ -1167,6 +1167,9 @@ Page({
         // 保存到本地存储
         wx.setStorageSync('fishingSessionCount', app.globalData.fishingSessionCount);
         console.log('[钓鱼游戏] 钓鱼会话计数:', app.globalData.fishingSessionCount);
+        
+        // 更新钓鱼相关成就进度
+        this.updateFishingAchievementProgress();
 
         // 重置钓鱼相关状态
         app.globalData.fishingTime = fishtimeData.Basetime;
@@ -1235,6 +1238,9 @@ Page({
             // 保存到本地存储
             wx.setStorageSync('fishingSessionCount', app.globalData.fishingSessionCount);
             console.log('[钓鱼游戏] 钓鱼会话计数:', app.globalData.fishingSessionCount);
+            
+            // 更新钓鱼相关成就进度
+            this.updateFishingAchievementProgress();
 
             // 跳转到结果页面
             wx.redirectTo({
@@ -2070,6 +2076,9 @@ Page({
             // 保存到本地存储
             wx.setStorageSync('fishingSessionCount', app.globalData.fishingSessionCount);
             console.log('[钓鱼游戏] 钓鱼会话计数:', app.globalData.fishingSessionCount);
+            
+            // 更新钓鱼相关成就进度
+            this.updateFishingAchievementProgress();
 
             // 跳转到结果页面
             wx.redirectTo({
@@ -2108,5 +2117,36 @@ Page({
         this.setData({ currentFish: null, state: 'waiting', qteData: {}, qteOptions: [] });
         // 检查总时间是否结束
         this.checkFishingTime();
+    },
+
+    // 更新钓鱼相关成就进度
+    updateFishingAchievementProgress() {
+        const { achievements } = require('../../data/achievements.js');
+        const currentCount = app.globalData.fishingSessionCount;
+        
+        // 查找钓鱼相关成就
+        const fishingAchievements = ['fishing1', 'fishing2', 'fishing3'];
+        
+        fishingAchievements.forEach(achievementId => {
+            const achievement = achievements.find(a => a.id === achievementId);
+            if (achievement && achievement.type === 1) {
+                // 获取当前成就数据
+                const currentData = app.globalData.userAchievements[achievementId] || { progress: 0, unlockTime: null };
+                
+                // 如果成就未解锁，更新进度
+                if (!currentData.unlockTime) {
+                    // 更新全局数据
+                    app.globalData.userAchievements[achievementId] = {
+                        ...currentData,
+                        progress: currentCount
+                    };
+                    
+                    // 保存到本地存储
+                    wx.setStorageSync('userAchievements', app.globalData.userAchievements);
+                    
+                    console.log(`[钓鱼成就] 更新 ${achievementId} 进度: ${currentCount}/${achievement.value}`);
+                }
+            }
+        });
     }
 });

@@ -528,6 +528,11 @@ evaluateFormula(formula, env) {
         this.updateAchievement('test1', 1);
       }
       
+      // 实时更新测试相关成就的进度
+      this.updateTestAchievementProgress('test2', completedTests.length); // 完成5个测试
+      this.updateTestAchievementProgress('test4', completedTests.length); // 完成10个测试
+      this.updateTestAchievementProgress('test5', completedTests.length); // 完成20个测试
+      
       // 检查成就：完成5个测试
       if (completedTests.length >= 5) {
         this.updateAchievement('test2', 5);
@@ -542,6 +547,43 @@ evaluateFormula(formula, env) {
       if (completedTests.length >= 20) {
         this.updateAchievement('test5', 20);
       }
+    }
+  },
+  
+  // 实时更新测试成就进度（不触发解锁，只更新进度显示）
+  updateTestAchievementProgress(achievementId, currentProgress) {
+    const app = getApp();
+    
+    // 确保userAchievements已初始化
+    if (!app.globalData.userAchievements) {
+      app.globalData.userAchievements = {};
+    }
+    
+    // 获取成就配置数据
+    const { achievements } = require('../../data/achievements.js');
+    const achievement = achievements.find(a => a.id === achievementId);
+    
+    if (!achievement) {
+      console.warn(`找不到成就配置: ${achievementId}`);
+      return;
+    }
+    
+    const targetProgress = achievement.value;
+    
+    // 获取当前成就数据
+    const achievementData = typeof app.globalData.userAchievements[achievementId] === 'object' 
+      ? app.globalData.userAchievements[achievementId] 
+      : { progress: 0, unlockTime: null };
+    
+    // 只有在未解锁状态下才更新进度显示
+    if (!achievementData.unlockTime && currentProgress < targetProgress) {
+      app.globalData.userAchievements[achievementId] = {
+        progress: currentProgress,
+        unlockTime: achievementData.unlockTime
+      };
+      wx.setStorageSync('achievements', app.globalData.userAchievements);
+      
+      console.log(`[进度更新] ${achievementId}: ${currentProgress}/${targetProgress}`);
     }
   },
   

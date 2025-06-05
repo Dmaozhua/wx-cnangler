@@ -271,7 +271,7 @@ const achievements = [
     category: "fishing",
     title: "大鱼猎手",
     description: "钓到任意强度比100%的鱼.",
-    value:100,
+    value:1,
     icon: "images/achievements/路亚轮 (1).png",
     score: 35,
     weight: 4,
