@@ -172,7 +172,7 @@ Page({
   // 返回主页
   goBack() {
     wx.navigateTo({
-      url: '/pages/home/home',
+      url: '/pages/fishingHome/fishingHome',
       success: () => {
         console.log('[钓鱼模拟器] 返回Home页成功');
       },

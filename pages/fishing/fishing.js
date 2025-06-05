@@ -1627,6 +1627,14 @@ Page({
                      };
                  }
 
+                 // 应用时间修正
+                 if (evt.effects.timeModifier) {
+                     app.globalData.eventModifiers.timeModifier += evt.effects.timeModifier;
+                     // 直接应用到钓鱼时间
+                     const timeChange = app.globalData.fishingTime * evt.effects.timeModifier;
+                     this.updateFishingTime(timeChange);
+                 }
+
                  // 调整 rareFishBoost
                  if (evt.effects.rareFishBoost) {
                      app.globalData.eventModifiers.rareFishBoost = evt.effects.rareFishBoost;
