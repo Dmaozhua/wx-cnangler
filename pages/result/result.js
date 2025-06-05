@@ -34,15 +34,15 @@ Page({
     });
   },
     // 返回主页
-  goBack() {
-    wx.navigateTo({
-      url: '/pages/home/home',
-      success: () => {
-        console.log('[钓鱼模拟器] 返回Home页成功');
-      },
-      fail: (err) => {
-        console.error('[钓鱼模拟器] 返回Home页失败:', err);
+    goBack() {
+        wx.switchTab({
+          url: '/pages/home/home',
+          success: () => {
+            console.log('[钓鱼模拟器] 返回Home页成功');
+          },
+          fail: (err) => {
+            console.error('[钓鱼模拟器] 返回Home页失败:', err);
+          }
+        });
       }
-    });
-  }
 });

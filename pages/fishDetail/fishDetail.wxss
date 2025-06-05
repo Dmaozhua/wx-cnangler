@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: linear-gradient(to bottom, #1a4d2e, #2d6a4f);
+  background: linear-gradient(to bottom, #017EA6, #069BBB);
   color: #e0f2e9;
   position: relative;
  
@@ -28,7 +28,7 @@
   display: flex;
   align-items: center;
   padding: 20rpx 30rpx;
-  background: linear-gradient(to right, #1e5631, #3a7734);
+  background: linear-gradient(to right, #017EA6, #069BBB);
   position: relative;
   height: 80rpx;
   color: white;
