@@ -13,7 +13,10 @@
 
 <view class="container" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
   <view class="header">
-    <text class="title">🎭 所有测试</text>
+    <view class="title">
+      <image class="title-icon" src="/images/icons/homeicon1.png" mode="aspectFit"></image>
+      <text class="title-text">所有测试</text>
+    </view>
   </view>
 
   <view class="section-header">

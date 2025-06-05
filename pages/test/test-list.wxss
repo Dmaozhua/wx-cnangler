@@ -132,7 +132,21 @@ page {
 
 .title {
     flex: 1;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #1E3A8A;
+}
+
+.title-icon {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 10rpx;
+}
+
+.title-text {
     font-size: 36rpx;
     font-weight: bold;
     color: #1E3A8A;
