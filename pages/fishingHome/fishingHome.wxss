@@ -34,7 +34,7 @@
 .back-btn {
     position: absolute;
     top: 100rpx;
-    left: 30rpx;
+    left: 5%;
     width: 80rpx;
     height: 80rpx;
     background-color: rgba(255, 255, 255, 0.3);
@@ -79,7 +79,7 @@
 .help-btn {
     position: absolute;
     top: 200rpx;
-    left: 30rpx;
+    left: 5%;
     width: 80rpx;
     height: 80rpx;
     background-color: rgba(255, 255, 255, 0.3);
@@ -116,8 +116,8 @@
   animation: floating 3s ease-in-out infinite;
 }
 .game-logo {
-  width: 900rpx; /* 减小宽度确保完整显示 */
-  height: 900rpx; /* 减小高度确保完整显示 */
+  width: 1000rpx; /* 减小宽度确保完整显示 */
+  height: 1000rpx; /* 减小高度确保完整显示 */
   max-width: 80vw; /* 更小的最大宽度 */
   object-fit: contain; /* 确保图片完整显示 */
 }
@@ -140,64 +140,79 @@
     overflow: hidden;
     /* 配合光效层溢出隐藏 */
 }
+/* 包裹图片的容器，设置固定大小 */
+.start-btn-wrapper {
+    width: 500rpx; /* 固定宽度 */
+    height: 200rpx; /* 固定高度 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* 隐藏超出部分 */
+    /* 添加脉冲动画 */
+    /* animation: pulse 2s infinite;  */
+    /* 添加悬停效果 */
+    /* transition: all 0.3s ease; */
+  }
+  
+  .start-btn-wrapper:active {
+    transform: scale(0.95);
+  }
+/* 开始按钮图片样式 */
 
-/* 优化标题文字效果 */
-.title {
-    font-size: 42rpx;
-    color: #ffffff;
-    font-weight: 700;
+.start-btn-img {
+    width: 80%; /* 宽度填满容器 */
+    height: 80%; /* 高度填满容器 */
+    object-fit: cover; /* 保持比例填充容器 */
     position: relative;
+    overflow: hidden;
+  }
+  
+  .start-btn-img:active {
+    transform: scale(0.95);
+  }
+
+/* 扫光效果 */
+.start-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.start-btn-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: sweep 3s infinite;
     z-index: 1;
-    text-shadow: 0 4rpx 8rpx rgba(30, 58, 138, 0.5);
-    letter-spacing: 1rpx;
-    background: linear-gradient(45deg, #fff, #E6F0FF);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    pointer-events: none;
 }
 
-.game-title {
-    font-size: 100rpx;
-    font-weight: 900;
-    letter-spacing: 12rpx;
-    text-transform: uppercase;
-    /* 全大写增强科技感 */
-    background: linear-gradient(135deg, #00FFFF, #00BFFF, #40E0D0);
-    /* 青蓝渐变 */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow:
-        0 0 20rpx rgba(0, 255, 244, 0.8),
-        /* 高频发光 */
-        0 0 40rpx rgba(0, 255, 244, 0.5),
-        0 0 80rpx rgba(0, 255, 244, 0.3),
-        0 0 120rpx rgba(0, 255, 244, 0.1);
-    position: relative;
-    z-index: 2;
-    /* 确保文字在光效层上方 */
+@keyframes sweep {
+    0% {
+        left: -100%;
+    }
+    50% {
+        left: 100%;
+    }
+    100% {
+        left: 100%;
+    }
 }
 
-.version {
-    font-size: 36rpx;
-    color: #87FFEB;
-    text-shadow: 0 0 16rpx rgba(135, 255, 235, 0.6);
-    letter-spacing: 4rpx;
-    font-family: 'Courier New', monospace;
-    /* 等宽字体增强科技感 */
-}
-
-/* 开始按钮样式 */
-/* 开始按钮容器样式优化 */
+/* 开始按钮容器 */
 .start-btn-container {
     position: absolute;
-    bottom: 20%;
+    bottom: 20%; /* 位于容器底部20%位置 */
     left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    text-align: center;
+    transform: translateX(-50%); /* 水平居中 */
+    z-index: 10;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-}
+  }
 
 .start-btn {
     background-color: #3a7734;
@@ -230,6 +245,33 @@
 .collection-btn:hover {
     transform: scale(1.05); /* 鼠标悬停时放大 */
     box-shadow: 0 10rpx 15rpx rgba(0, 0, 0, 0.3), 0 0 30rpx rgba(74, 144, 226, 0.7); /* 悬停时增强阴影和发光效果 */
+}
+
+/* 图鉴按钮样式 */
+.note-btn {
+    position: fixed;
+    bottom: 100rpx;
+    left: 5%;
+    width: 100rpx;
+    height: 20%;
+    z-index: 100;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+/* .note-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.3);
+} */
+
+.note-icon {
+    width: 200rpx;
+    height: 200rpx;
 }
 /* 帮助提示弹窗内容样式优化 */
 .tips-content {
