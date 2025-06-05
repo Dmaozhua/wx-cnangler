@@ -1,4 +1,7 @@
 <!-- pages/fishingHome/fishingHome.wxml -->
+<!-- 新增最底层背景层，解决不同设备显示问题 -->
+<view class="background-layer"></view>
+
 <view class="container" style="background-image: url('https://anglertest.xyz/game/BG/tittle/14.webp');">
   <!-- 返回按钮 -->
   <view class="back-btn" bindtap="goBack">
@@ -11,12 +14,11 @@
   </view>
   
   <!-- 游戏标题 -->
-  <!-- <view class="title-container">
-    <view class="title-box">  新增标题背景框 -->
-    <!-- <view class="game-title">路亚模拟器</view>
-    <view class="version">v0.1</view>
-  </view> -->
-    <!-- </view> -->
+<view 
+    class="logo-container {{logoAnimated ? 'animated' : ''}}">
+    <image class="game-logo" src="https://anglertest.xyz/game/fishlogo.webp" mode="aspectFit"></image>
+</view>
+
   
   <!-- 开始按钮 -->
   <view class="start-btn-container">
