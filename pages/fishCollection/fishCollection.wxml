@@ -62,7 +62,7 @@
                         {{item.unlocked ? rarityNames[item.rarity] : '???'}}
                     </view>
                     <view class="lock-icon" wx:if="{{!item.unlocked}}">
-                        <text class="iconfont icon-lock">🔒</text>
+                        <image class="lock-image" src="https://anglertest.xyz/icon/lock.png" mode="aspectFit"></image>
                     </view>
                 </view>
             </view>
@@ -80,7 +80,7 @@
                         {{item.unlocked ? item.type : '???'}}
                     </view>
                     <view class="lock-icon" wx:if="{{!item.unlocked}}">
-                        <text class="iconfont icon-lock">🔒</text>
+                        <image class="lock-image" src="https://anglertest.xyz/icon/lock.png" mode="aspectFit"></image>
                     </view>
                 </view>
             </view>

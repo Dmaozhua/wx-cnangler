@@ -267,6 +267,12 @@
     z-index: 2;
   }
   
+  .lock-image {
+    width: 150rpx;
+    height: 150rpx;
+    filter: drop-shadow(0 2rpx 4rpx rgba(0, 0, 0, 0.5));
+  }
+  
   /* 标签分类过滤 */
   .filter-tabs {
     padding: 10rpx 20rpx;
