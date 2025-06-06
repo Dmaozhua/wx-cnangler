@@ -142,11 +142,13 @@
 }
 /* 包裹图片的容器，设置固定大小 */
 .start-btn-wrapper {
-    width: 500rpx; /* 固定宽度 */
-    height: 200rpx; /* 固定高度 */
+    width: 360rpx; /* 固定宽度 */
+    height: 130rpx; /* 固定高度 */
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
+    border-radius: 250rpx;
     overflow: hidden; /* 隐藏超出部分 */
     /* 添加脉冲动画 */
     /* animation: pulse 2s infinite;  */
@@ -160,8 +162,8 @@
 /* 开始按钮图片样式 */
 
 .start-btn-img {
-    width: 80%; /* 宽度填满容器 */
-    height: 80%; /* 高度填满容器 */
+    width: 100%; /* 宽度填满容器 */
+    height: 100%; /* 高度填满容器 */
     object-fit: cover; /* 保持比例填充容器 */
     position: relative;
     overflow: hidden;
@@ -170,12 +172,6 @@
   .start-btn-img:active {
     transform: scale(0.95);
   }
-
-/* 扫光效果 */
-.start-btn-wrapper {
-    position: relative;
-    overflow: hidden;
-}
 
 .start-btn-wrapper::before {
     content: '';
