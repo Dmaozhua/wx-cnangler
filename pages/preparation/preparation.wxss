@@ -99,15 +99,39 @@ page {
   border-radius: 16rpx;
   padding: 12rpx;
   margin-bottom: 8rpx;
-  box-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.15);
+  /* 立体扁平化效果 */
+  box-shadow: 
+    0 2rpx 8rpx rgba(0, 0, 0, 0.1),
+    0 8rpx 24rpx rgba(0, 0, 0, 0.08),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1rpx 0 rgba(0, 0, 0, 0.05);
   border: 1rpx solid rgba(30, 58, 138, 0.1);
   backdrop-filter: blur(5px);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  transform: translateZ(0);
+}
+
+.info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16rpx;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+  pointer-events: none;
+  z-index: 1;
 }
 
 .info-card:hover {
-  transform: translateY(-2rpx);
-  box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.2);
+  transform: translateY(-4rpx) translateZ(0);
+  box-shadow: 
+    0 4rpx 16rpx rgba(0, 0, 0, 0.12),
+    0 12rpx 32rpx rgba(0, 0, 0, 0.1),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1rpx 0 rgba(0, 0, 0, 0.08);
 }
 
 /* 卡片网格布局 */
@@ -116,6 +140,16 @@ page {
   grid-template-columns: 1fr 1fr; /* 两列布局 */
   gap: 8rpx;
   margin-bottom: 4rpx;
+}
+
+/* 确保卡片内容在伪元素之上 */
+.card-title,
+.weather-info,
+.water-info,
+.habitat-options,
+.water-image {
+  position: relative;
+  z-index: 2;
 }
 
 /* 天气卡片特殊样式 */
