@@ -342,7 +342,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 30rpx;
-    background: linear-gradient(45deg, #009688, #00bfa5); /* 添加渐变背景 */
+    background: linear-gradient(45deg, #017EA6, #069BBB); /* 添加渐变背景 */
     color: white;
     border-top-left-radius: 20rpx;
     border-top-right-radius: 20rpx;
