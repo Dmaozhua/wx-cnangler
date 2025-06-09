@@ -118,7 +118,7 @@
 .game-logo {
   width: 1000rpx; /* 减小宽度确保完整显示 */
   height: 1000rpx; /* 减小高度确保完整显示 */
-  max-width: 100vw; /* 更小的最大宽度 */
+  max-width: 80vw; /* 更小的最大宽度 */
   object-fit: contain; /* 确保图片完整显示 */
 }
 
@@ -248,7 +248,7 @@
     position: fixed;
     bottom: 100rpx;
     left: 5%;
-    width: 100rpx;
+    width: 120rpx;
     height: 20%;
     z-index: 100;
     border-radius: 50%;
