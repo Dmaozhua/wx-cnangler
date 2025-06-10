@@ -7,7 +7,7 @@
     </view>
     
     <view class="achievement-body">
-      <image class="achievement-icon" src="/{{achievement.icon}}" mode="aspectFit"/>
+      <image class="achievement-icon" src="{{achievement.icon}}" mode="aspectFit"/>
       <view class="achievement-info">
         <text class="achievement-name">{{achievement.title}}</text>
         <text class="achievement-desc">{{achievement.description}}</text>

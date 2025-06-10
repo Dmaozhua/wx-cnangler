@@ -525,27 +525,27 @@ evaluateFormula(formula, env) {
       
       // 检查成就：首次完成任意测试
       if (completedTests.length === 1) {
-        this.updateAchievement('test1', 1);
+        this.updateAchievement('test', 1);
       }
       
       // 实时更新测试相关成就的进度
-      this.updateTestAchievementProgress('test2', completedTests.length); // 完成5个测试
-      this.updateTestAchievementProgress('test4', completedTests.length); // 完成10个测试
-      this.updateTestAchievementProgress('test5', completedTests.length); // 完成20个测试
+      this.updateTestAchievementProgress('test1', completedTests.length); // 完成5个测试
+      this.updateTestAchievementProgress('test2', completedTests.length); // 完成10个测试
+      this.updateTestAchievementProgress('test3', completedTests.length); // 完成20个测试
       
       // 检查成就：完成5个测试
       if (completedTests.length >= 5) {
-        this.updateAchievement('test2', 5);
+        this.updateAchievement('test1', 5);
       }
       
       // 检查成就：完成10个测试
       if (completedTests.length >= 10) {
-        this.updateAchievement('test4', 10);
+        this.updateAchievement('test2', 10);
       }
       
       // 检查成就：完成20个测试
       if (completedTests.length >= 20) {
-        this.updateAchievement('test5', 20);
+        this.updateAchievement('test3', 20);
       }
     }
   },
@@ -612,6 +612,15 @@ evaluateFormula(formula, env) {
     const achievement = allAchievements.find(a => a.id === achievementId);
     
     if (achievement) {
+      // 确保成就对象包含正确的icon属性
+      const { getAchievementIcon } = require('../../data/achievements.js');
+      const achievementWithIcon = {
+        ...achievement,
+        icon: achievement.getIcon ? achievement.getIcon(true) : getAchievementIcon(achievement.id, true)
+      };
+      
+      console.log('[test.js] 成就图标地址:', achievementWithIcon.icon);
+      
       // 增加成就分数
       const oldScore = app.globalData.achievementScore || 0;
       app.globalData.achievementScore = oldScore + achievement.score;
@@ -621,7 +630,7 @@ evaluateFormula(formula, env) {
       if (!app.globalData.pendingAchievements) {
         app.globalData.pendingAchievements = [];
       }
-      app.globalData.pendingAchievements.push(achievement);
+      app.globalData.pendingAchievements.push(achievementWithIcon);
       wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements);
       
       // 检查成就值相关的成就
@@ -653,11 +662,20 @@ evaluateFormula(formula, env) {
           app.globalData.achievementScore += achievement.score;
           wx.setStorageSync('achievementScore', app.globalData.achievementScore);
           
+          // 确保成就对象包含正确的icon属性
+          const { getAchievementIcon } = require('../../data/achievements.js');
+          const achievementWithIcon = {
+            ...achievement,
+            icon: achievement.getIcon ? achievement.getIcon(true) : getAchievementIcon(achievement.id, true)
+          };
+          
+          console.log('[test.js checkScoreAchievements] 成就图标地址:', achievementWithIcon.icon);
+          
           // 将成就添加到待展示队列
           if (!app.globalData.pendingAchievements) {
             app.globalData.pendingAchievements = [];
           }
-          app.globalData.pendingAchievements.push(achievement);
+          app.globalData.pendingAchievements.push(achievementWithIcon);
           wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements);
         }
       }

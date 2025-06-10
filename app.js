@@ -141,5 +141,66 @@ App({
     
     // 返回更新后的进度值
     return this.globalData.userAchievements[achievementId]
+  },
+  
+  // 检查功能使用成就
+  checkFeatureAchievement(featureId) {
+    const { achievements, getAchievementIcon } = require('./data/achievements.js');
+    
+    console.log(`===== 功能使用成就检查 =====`);
+    console.log(`当前使用功能: ${featureId}`);
+    
+    // 筛选出type:3类型的成就（首次使用特定功能）
+    const featureAchievements = achievements.filter(a => a.type === 3 && a.value === featureId);
+    console.log(`相关功能成就数量: ${featureAchievements.length}`);
+    
+    featureAchievements.forEach(achievement => {
+      // 获取当前成就进度
+      const achievementData = typeof this.globalData.userAchievements[achievement.id] === 'object'
+        ? this.globalData.userAchievements[achievement.id]
+        : { progress: 0, unlockTime: null };
+      
+      const current = achievementData.progress || 0;
+      
+      console.log(`检查成就[${achievement.id}] ${achievement.title}: 当前进度 ${current}`);
+      
+      // 如果成就尚未解锁，则解锁它
+      if (current < 1) {
+        console.log(`解锁功能使用成就: ${achievement.title}`);
+        
+        // 更新成就进度
+        this.updateAchievementProgress(achievement.id, 1);
+        
+        // 获取成就数据
+        const achievementData = achievements.find(a => a.id === achievement.id);
+        
+        if (achievementData) {
+          // 确保成就对象包含正确的icon属性
+          const achievementWithIcon = {
+            ...achievementData,
+            icon: achievementData.getIcon ? achievementData.getIcon(true) : getAchievementIcon(achievementData.id, true)
+          };
+          
+          console.log('[checkFeatureAchievement] 成就图标地址:', achievementWithIcon.icon);
+          
+          // 增加成就分数
+          const oldScore = this.globalData.achievementScore || 0;
+          this.globalData.achievementScore = oldScore + achievementData.score;
+          wx.setStorageSync('achievementScore', this.globalData.achievementScore);
+          console.log(`成就分数更新: ${oldScore} -> ${this.globalData.achievementScore}`);
+          
+          // 将成就添加到待展示队列
+          if (!this.globalData.pendingAchievements) {
+            this.globalData.pendingAchievements = [];
+          }
+          this.globalData.pendingAchievements.push(achievementWithIcon);
+          wx.setStorageSync('pendingAchievements', this.globalData.pendingAchievements);
+          
+          console.log(`成就已添加到待展示队列，当前队列长度: ${this.globalData.pendingAchievements.length}`);
+        }
+      } else {
+        console.log(`成就[${achievement.id}]已解锁，跳过`);
+      }
+    });
   }
 })

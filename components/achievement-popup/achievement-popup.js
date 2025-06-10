@@ -69,6 +69,20 @@ Component({
       }
 
       if (visible) {
+        // 打印成就图标地址日志
+        const achievement = this.properties.achievement;
+        if (achievement && achievement.icon) {
+          console.log('[Achievement Popup] 成就图标地址:', achievement.icon);
+          console.log('[Achievement Popup] 成就信息:', {
+            id: achievement.id,
+            title: achievement.title,
+            icon: achievement.icon,
+            unlocked: achievement.unlocked
+          });
+        } else {
+          console.log('[Achievement Popup] 成就对象或图标地址为空:', achievement);
+        }
+        
         this.updateSwitchButtons();
         this.showAnimation()
       } else {

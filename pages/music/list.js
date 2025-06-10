@@ -282,11 +282,20 @@ Page({
                 
                 console.log('[成就系统] 成就数据已保存到本地存储');
                 
+                // 确保成就对象包含正确的icon属性
+                const { getAchievementIcon } = require('../../data/achievements.js');
+                const achievementWithIcon = {
+                    ...achievement,
+                    icon: achievement.getIcon ? achievement.getIcon(true) : getAchievementIcon(achievement.id, true)
+                };
+                
+                console.log('[music/list.js] 成就图标地址:', achievementWithIcon.icon);
+                
                 // 将成就添加到待展示队列，等到返回Home页面时统一显示
                 if (!app.globalData.pendingAchievements) {
                     app.globalData.pendingAchievements = [];
                 }
-                app.globalData.pendingAchievements.push(achievement);
+                app.globalData.pendingAchievements.push(achievementWithIcon);
                 wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements);
                 
                 console.log(`[成就系统] 解锁听歌成就: ${achievement.title}，已添加到待展示队列`);

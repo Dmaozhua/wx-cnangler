@@ -419,7 +419,7 @@ Page({
     // 检查功能使用相关成就
     checkFeatureAchievement(featureId) {
         const app = getApp();
-        const { achievements } = require('../../data/achievements.js');
+        const { achievements, getAchievementIcon } = require('../../data/achievements.js');
         
         console.log(`===== 功能使用成就检查 =====`);
         console.log(`当前使用功能: ${featureId}`);
@@ -449,6 +449,14 @@ Page({
                 const achievementData = achievements.find(a => a.id === achievement.id);
                 
                 if (achievementData) {
+                    // 确保成就对象包含正确的icon属性
+                    const achievementWithIcon = {
+                        ...achievementData,
+                        icon: achievementData.getIcon ? achievementData.getIcon(true) : getAchievementIcon(achievementData.id, true)
+                    };
+                    
+                    console.log('[checkFeatureAchievement] 成就图标地址:', achievementWithIcon.icon);
+                    
                     // 增加成就分数
                     const oldScore = app.globalData.achievementScore || 0;
                     app.globalData.achievementScore = oldScore + achievementData.score;
@@ -459,7 +467,7 @@ Page({
                     if (!app.globalData.pendingAchievements) {
                         app.globalData.pendingAchievements = [];
                     }
-                    app.globalData.pendingAchievements.push(achievementData);
+                    app.globalData.pendingAchievements.push(achievementWithIcon);
                     wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements);
                     console.log(`成就已添加到展示队列，当前队列长度: ${app.globalData.pendingAchievements.length}`);
                 }

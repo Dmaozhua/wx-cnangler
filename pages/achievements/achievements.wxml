@@ -46,7 +46,7 @@
           <!-- 成就图标 -->
           <view class="icon-box">
             <image 
-              src="{{item.unlocked ? '/' + item.icon : '/images/tab/路亚饵 (1).png'}}" 
+              src="{{item.icon}}" 
               class="achievement-icon"
             />
             <image 

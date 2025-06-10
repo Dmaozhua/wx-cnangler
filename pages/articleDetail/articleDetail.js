@@ -244,11 +244,20 @@ touchEnd() {
                 app.globalData.achievementScore = oldScore + achievement.score;
                 wx.setStorageSync('achievementScore', app.globalData.achievementScore);
                 
+                // 确保成就对象包含正确的icon属性
+                const { getAchievementIcon } = require('../../data/achievements.js');
+                const achievementWithIcon = {
+                  ...achievement,
+                  icon: achievement.getIcon ? achievement.getIcon(true) : getAchievementIcon(achievement.id, true)
+                };
+                
+                console.log('[articleDetail.js] 成就图标地址:', achievementWithIcon.icon);
+                
                 // 将成就添加到待展示队列
                 if (!app.globalData.pendingAchievements) {
                   app.globalData.pendingAchievements = [];
                 }
-                app.globalData.pendingAchievements.push(achievement);
+                app.globalData.pendingAchievements.push(achievementWithIcon);
                 wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements);
               }
             }
@@ -342,11 +351,20 @@ touchEnd() {
               app.globalData.achievementScore = oldScore + achievement.score;
               wx.setStorageSync('achievementScore', app.globalData.achievementScore);
               
+              // 确保成就对象包含正确的icon属性
+              const { getAchievementIcon } = require('../../data/achievements.js');
+              const achievementWithIcon = {
+                ...achievement,
+                icon: achievement.getIcon ? achievement.getIcon(true) : getAchievementIcon(achievement.id, true)
+              };
+              
+              console.log('[articleDetail.js] 成就图标地址:', achievementWithIcon.icon);
+              
               // 将成就添加到待展示队列
               if (!app.globalData.pendingAchievements) {
                 app.globalData.pendingAchievements = [];
               }
-              app.globalData.pendingAchievements.push(achievement);
+              app.globalData.pendingAchievements.push(achievementWithIcon);
               wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements);
             }
           }

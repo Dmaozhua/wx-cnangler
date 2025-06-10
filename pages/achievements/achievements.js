@@ -124,7 +124,7 @@ Page({
 
   // 加载成就数据
   loadAchievements() {
-    const { achievements: allAchievements } = require('../../data/achievements.js')
+    const { achievements: allAchievements, getAchievementIcon } = require('../../data/achievements.js')
     const userData = app.globalData.userAchievements
     const achievementScore = app.globalData.achievementScore || 0
     
@@ -208,7 +208,8 @@ Page({
         targetProgress: targetValue,
         unlocked: isUnlocked,
         unlockTime: unlockTime,
-        scrollId: `achievement-${a.id}`
+        scrollId: `achievement-${a.id}`,
+        icon: a.getIcon ? a.getIcon(isUnlocked) : getAchievementIcon(a.id, isUnlocked)
       }
     })
 
@@ -271,9 +272,23 @@ Page({
       .sort((a,b) => b.weight - a.weight)
     
     if (newAchieves.length > 0) {
-      this.setData({ newAchievement: newAchieves[0] })
+      const achievement = newAchieves[0];
+      // 确保成就对象包含正确的icon属性
+      const achievementWithIcon = {
+        ...achievement,
+        icon: achievement.getIcon ? achievement.getIcon(achievement.unlocked) : getAchievementIcon(achievement.id, achievement.unlocked)
+      };
+      
+      console.log('[checkNewAchievements] 设置新成就弹窗:', {
+        id: achievementWithIcon.id,
+        title: achievementWithIcon.title,
+        icon: achievementWithIcon.icon,
+        unlocked: achievementWithIcon.unlocked
+      });
+      
+      this.setData({ newAchievement: achievementWithIcon })
       // 标记为已查看
-      app.markAchievementViewed(newAchieves[0].id)
+      app.markAchievementViewed(achievement.id)
     }
   },
 
@@ -556,6 +571,14 @@ Page({
 
   // 显示动画效果
   showUnlockEffect(achievement) {
+    // 确保成就对象包含正确的icon属性
+    const achievementWithIcon = {
+      ...achievement,
+      icon: achievement.getIcon ? achievement.getIcon(true) : getAchievementIcon(achievement.id, true)
+    };
+    
+    console.log('[showUnlockEffect] 成就图标地址:', achievementWithIcon.icon);
+    
     // 记录解锁时间
     const userData = app.globalData.userAchievements
     const achievementData = userData[achievement.id]
@@ -581,7 +604,7 @@ Page({
     // 显示动画
     this.setData({
       showAnimation: true,
-      newAchievement: achievement
+      newAchievement: achievementWithIcon
     })
     
     // 3秒后隐藏动画并显示弹窗
@@ -596,7 +619,7 @@ Page({
     if (!app.globalData.pendingAchievements) {
       app.globalData.pendingAchievements = []
     }
-    app.globalData.pendingAchievements.push(achievement)
+    app.globalData.pendingAchievements.push(achievementWithIcon)
     wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements)
   },
   

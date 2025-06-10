@@ -1,35 +1,37 @@
-<!--components/achievement-popup/achievement-popup.wxml-->
+<!-- 成就弹出框组件 -->
 <view class="achievement-popup-mask" wx:if="{{visible}}" catchtouchmove="preventTouchMove">
   <view class="achievement-popup-content" animation="{{animationData}}">
-    <!-- 弹出框内容保持不变 -->
+    <!-- 标题区域 -->
     <view class="achievement-header">
-      <text class="achievement-title">🎉 成就解锁</text>
-      <view class="achievement-counter" wx:if="{{achievementCount > 1}}">
-        {{currentIndex + 1}}/{{achievementCount}}
-      </view>
+      <text class="achievement-title">成就解锁</text>
       <view class="close-btn" bindtap="onClose">×</view>
     </view>
     
+    <!-- 成就内容区域 -->
     <view class="achievement-body">
-      <view class="achievement-content">
-        <image class="achievement-icon" src="/{{achievement.icon}}" mode="aspectFit"/>
-        <view class="achievement-info">
-          <text class="achievement-name">{{achievement.title}}</text>
-          <text class="achievement-desc">{{achievement.description}}</text>
-          <text class="achievement-score">+{{achievement.score}} 成就值</text>
-        </view>
+      <!-- 成就图标区域 -->
+      <view class="achievement-icon-container">
+        <view class="achievement-icon-bg-animation"></view>
+        <image class="achievement-icon" src="{{achievement.icon}}" mode="aspectFit"/>
+      </view>
+      
+      <!-- 成就信息区域 -->
+      <view class="achievement-info">
+        <text class="achievement-name">{{achievement.title}}</text>
+        <text class="achievement-desc">{{achievement.description}}</text>
       </view>
     </view>
     
+    <!-- 底部按钮区域 -->
     <view class="achievement-footer">
-      <view class="view-detail-btn centered-btn" bindtap="onViewDetails">
+      <view class="view-detail-btn" bindtap="onViewDetails">
         查看详情
       </view>
     </view>
   </view>
   
-  <!-- 按钮容器 -->
-  <view class="switch-btn-container">
+  <!-- 切换按钮容器 -->
+  <view class="switch-btn-container" wx:if="{{achievementCount > 1}}">
     <view class="switch-btn prev-btn" wx:if="{{canSwitchPrev}}" bindtap="onSwitchPrev">‹</view>
     <view class="switch-btn next-btn" wx:if="{{canSwitchNext}}" bindtap="onSwitchNext">›</view>
   </view>

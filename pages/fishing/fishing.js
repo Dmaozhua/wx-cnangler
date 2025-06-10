@@ -248,6 +248,11 @@ Page({
             fishingTime: app.globalData.fishingTime,
             fishingTimePercent: timePercent
         });
+        
+        // 触发钓鱼功能使用成就检查
+        if (app.checkFeatureAchievement) {
+            app.checkFeatureAchievement('fishing');
+        }
     },
     // 点击“抛竿”按钮时触发
     // 鱼状态组件动画结束回调
@@ -1022,11 +1027,20 @@ Page({
                     app.globalData.achievementScore = (app.globalData.achievementScore || 0) + achievement.score;
                     wx.setStorageSync('achievementScore', app.globalData.achievementScore);
                     
+                    // 确保成就对象包含正确的icon属性
+                    const { getAchievementIcon } = require('../../data/achievements.js');
+                    const achievementWithIcon = {
+                        ...achievement,
+                        icon: achievement.getIcon ? achievement.getIcon(true) : getAchievementIcon(achievement.id, true)
+                    };
+                    
+                    console.log('[fishing.js] 成就图标地址:', achievementWithIcon.icon);
+                    
                     // 将成就添加到待展示队列，等到返回Home页面时统一显示
                     if (!app.globalData.pendingAchievements) {
                         app.globalData.pendingAchievements = [];
                     }
-                    app.globalData.pendingAchievements.push(achievement);
+                    app.globalData.pendingAchievements.push(achievementWithIcon);
                     wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements);
                     
                     console.log(`[成就系统] 解锁成就: ${achievement.title}，已添加到待展示队列`);
@@ -1967,11 +1981,20 @@ Page({
                     // 保存更新后的成就数据
                     wx.setStorageSync('achievements', app.globalData.userAchievements);
                     
+                    // 确保成就对象包含正确的icon属性
+                    const { getAchievementIcon } = require('../../data/achievements.js');
+                    const achievementWithIcon = {
+                        ...achievement,
+                        icon: achievement.getIcon ? achievement.getIcon(true) : getAchievementIcon(achievement.id, true)
+                    };
+                    
+                    console.log('[fishing.js] 成就图标地址:', achievementWithIcon.icon);
+                    
                     // 将成就添加到待展示队列，等到返回Home页面时统一显示
                 if (!app.globalData.pendingAchievements) {
                     app.globalData.pendingAchievements = [];
                 }
-                app.globalData.pendingAchievements.push(achievement);
+                app.globalData.pendingAchievements.push(achievementWithIcon);
                 wx.setStorageSync('pendingAchievements', app.globalData.pendingAchievements);
                 
                 console.log(`[成就系统] 解锁成就: ${achievement.title}，已添加到待展示队列`);
