@@ -83,7 +83,7 @@ export const WeatherEvents = [
     type: 'EXTRA',
     name: '雷暴天气',
     description: '作为理智和有责任心的钓鱼人，此刻你决定暂时撤离等待雷暴结束。\n钓鱼时间减少99%，但下一竿总存在着惊喜。',
-    effects: { timeModifier: -0.999 ,nextFishRarity: { rarity: MYTHIC, blockEvents: true }},
+    effects: { timeModifier: -0.99 ,nextFishRarity: { rarity: MYTHIC, blockEvents: true }},
     weight:0.9
   }
 ];
