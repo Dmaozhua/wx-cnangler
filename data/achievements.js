@@ -343,14 +343,15 @@ const achievements = [
       type: 10,
       id: "bigone",
       category: "fishing",
-      title: "大鱼猎手",
+      title: "最大体型",
       description: "钓到任意体型比100%的鱼。",
       value:1,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
       score: 35,
       weight: 4,
-      detailed:'大鱼猎手！'
-  },{
+      detailed:'这个大，这个大！'
+  }
+  ,{
       num: 22,
       type: 11,
       id: "music",
@@ -367,7 +368,7 @@ const achievements = [
       type: 10,
       id: "smallone",
       category: "fishing",
-      title: "袖珍",
+      title: "最小体型",
       description: "钓到任意强度比0%的鱼.",
       value:0,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },

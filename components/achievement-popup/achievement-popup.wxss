@@ -136,12 +136,12 @@
   .achievement-icon {
     width: 90%;
     height: 90%;
-    border-radius: 50%;
-    border: 6rpx solid rgba(255, 215, 0, 0.6);
-    box-shadow: 
+    /* border-radius: 50%; */
+    /* border: 6rpx solid rgba(255, 215, 0, 0.6); */
+    /* box-shadow: 
       0 0 30rpx rgba(255, 215, 0, 0.4),
-      inset 0 0 20rpx rgba(255, 255, 255, 0.1);
-    background-color: rgba(255, 255, 255, 0.05);
+      inset 0 0 20rpx rgba(255, 255, 255, 0.1); */
+    /* background-color: rgba(255, 255, 255, 0.05); */
     position: relative;
     z-index: 2;
   }

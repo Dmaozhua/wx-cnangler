@@ -11,7 +11,7 @@
     <view class="achievement-body">
       <!-- 成就图标区域 -->
       <view class="achievement-icon-container">
-        <view class="achievement-icon-bg-animation"></view>
+        <!-- <view class="achievement-icon-bg-animation"></view> -->
         <image class="achievement-icon" src="{{achievement.icon}}" mode="aspectFit"/>
       </view>
       
