@@ -8,8 +8,13 @@
 // type: 7 - 分享相关，value为分享系类别1测试2文章
 // type: 8 - 累计钓到某一种鱼多少次
 // type: 9 - 累计遇到到某一种事件多少次
-// type: 10 - 钓到strength强度比100%的任意一条鱼
+// type: 10 - 累计钓到x条体型比y%的鱼，y范围0-1闭区间，x正整数
 // type: 11 - 听一首路亚歌曲，music功能
+// type: 12累计跑掉x条鱼，x正整数，在fishing游戏中当鱼脱钩时，计数增加1
+// type: 13累计钓到x条稀有度rarity是['y']的鱼，x正整数,y是FishDataAll中的rarity字段的值
+// type: 14解锁图鉴中全部的鱼种，FishDataAll（不包含boss鱼）value=1代表全部解锁
+// type: 15解锁全部的钓鱼事件，FishEvents value=1代表全部解锁
+// type: 16解锁全部的天气事件，WeatherEvents value=1代表全部解锁
 
 
 // 成就图标基础路径
@@ -345,12 +350,24 @@ const achievements = [
       category: "fishing",
       title: "最大体型",
       description: "钓到任意体型比100%的鱼。",
-      value:1,
+      value:[1,1],
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
       score: 35,
       weight: 4,
       detailed:'这个大，这个大！'
-  }
+  },{
+    num: 21,
+    type: 10,
+    id: "bigone1",
+    category: "fishing",
+    title: "巨物",
+    description: "累计钓到20条体型比100%的鱼。",
+    value:[1,20],
+      getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
+    score: 35,
+    weight: 4,
+    detailed:'巨物猎手！'
+}
   ,{
       num: 22,
       type: 11,
@@ -370,13 +387,120 @@ const achievements = [
       category: "fishing",
       title: "最小体型",
       description: "钓到任意强度比0%的鱼.",
-      value:0,
+      value:[0,1],
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
       score: 35,
       weight: 4,
       detailed:'带回家养吧！'
-  }
-  
+  },{
+    num: 23,
+    type: 10,
+    id: "smallone1",
+    category: "fishing",
+    title: "袖珍",
+    description: "累计钓到20条强度比0%的鱼.",
+    value:[0,20],
+      getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
+    score: 35,
+    weight: 4,
+    detailed:'有小就有大。'
+},{
+    num: 23,
+    type: 12,
+    id: "runaway",
+    category: "fishing",
+    title: "哎呀！跑了！",
+    description: "累计跑了10条鱼.",
+    value:10,
+      getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
+    score: 35,
+    weight: 4,
+    detailed:'自动脱钩！'
+},{
+    num: 23,
+    type: 12,
+    id: "runaway1",
+    category: "fishing",
+    title: "拍大腿",
+    description: "累计跑了100条鱼。",
+    value:100,
+      getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
+    score: 35,
+    weight: 4,
+    detailed:'不知道大腿被拍了多少次。'
+},{
+    num: 23,
+    type: 13,
+    id: "rarity",
+    category: "fishing",
+    title: "身经百战",
+    description: "钓到1条Boss鱼。",
+    value:['BOSS',1],
+      getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
+    score: 35,
+    weight: 4,
+    detailed:'超高的技巧才能匹配的狂野巨兽。'
+},{
+    num: 23,
+    type: 13,
+    id: "rarity1",
+    category: "fishing",
+    title: "金色传说",
+    description: "钓到1条传说级鱼。",
+    value:['MYTHIC',1],
+      getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
+    score: 35,
+    weight: 4,
+    detailed:'金色。'
+},{
+    num: 23,
+    type: 13,
+    id: "rarity2",
+    category: "fishing",
+    title: "紫色",
+    description: "钓到1条史诗级鱼。",
+    value:['EPIC',1],
+      getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
+    score: 35,
+    weight: 4,
+    detailed:'紫色。'
+},{
+    num: 23,
+    type: 14,
+    id: "note",
+    category: "persion",
+    title: "鱼类图鉴",
+    description: "鱼类图鉴全部解锁。",
+    value:1,
+      getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
+    score: 35,
+    weight: 4,
+    detailed:'鱼类图鉴全部解锁。'
+},{
+    num: 23,
+    type: 15,
+    id: "note1",
+    category: "persion",
+    title: "钓鱼事件图鉴",
+    description: "钓鱼事件图鉴全部解锁。",
+    value:1,
+      getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
+    score: 35,
+    weight: 4,
+    detailed:'钓鱼事件图鉴全部解锁。'
+},{
+    num: 23,
+    type: 16,
+    id: "note2",
+    category: "persion",
+    title: "天气事件",
+    description: "天气事件全部解锁。",
+    value:1,
+      getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
+    score: 35,
+    weight: 4,
+    detailed:'天气事件全部解锁。'
+}
   
   
   
