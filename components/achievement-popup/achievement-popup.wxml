@@ -1,6 +1,6 @@
 <!-- 成就弹出框组件 -->
 <view class="achievement-popup-mask" wx:if="{{visible}}" catchtouchmove="preventTouchMove">
-  <view class="achievement-popup-content" animation="{{animationData}}">
+  <!-- <view class="achievement-popup-content" animation="{{animationData}}"> -->
     <!-- 标题区域 -->
     <view class="achievement-header">
       <text class="achievement-title">成就解锁</text>
@@ -28,7 +28,7 @@
         查看详情
       </view>
     </view>
-  </view>
+  <!-- </view> -->
   
   <!-- 切换按钮容器 -->
   <view class="switch-btn-container" wx:if="{{achievementCount > 1}}">
