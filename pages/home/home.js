@@ -463,6 +463,9 @@ Page({
                     wx.setStorageSync('achievementScore', app.globalData.achievementScore);
                     console.log(`成就分数更新: ${oldScore} -> ${app.globalData.achievementScore}`);
                     
+                    // 检查成就分数相关的成就（type: 2）
+                    app.checkScoreAchievements();
+                    
                     // 将成就添加到待展示队列
                     if (!app.globalData.pendingAchievements) {
                         app.globalData.pendingAchievements = [];

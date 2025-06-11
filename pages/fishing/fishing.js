@@ -1027,6 +1027,9 @@ Page({
                     app.globalData.achievementScore = (app.globalData.achievementScore || 0) + achievement.score;
                     wx.setStorageSync('achievementScore', app.globalData.achievementScore);
                     
+                    // 检查成就分数相关的成就（type: 2）
+                    app.checkScoreAchievements();
+                    
                     // 确保成就对象包含正确的icon属性
                     const { getAchievementIcon } = require('../../data/achievements.js');
                     const achievementWithIcon = {
@@ -1977,6 +1980,9 @@ Page({
                     // 增加成就分数
                     app.globalData.achievementScore += achievement.score;
                     wx.setStorageSync('achievementScore', app.globalData.achievementScore);
+                    
+                    // 检查成就分数相关的成就（type: 2）
+                    app.checkScoreAchievements();
                     
                     // 保存更新后的成就数据
                     wx.setStorageSync('achievements', app.globalData.userAchievements);

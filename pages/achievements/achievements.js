@@ -300,16 +300,19 @@ Page({
     if (recentlyCompleted.length > 0) {
       console.log('发现刚完成的成就:', recentlyCompleted)
       
-      // 如果有多个成就，定位到最后一个完成的成就
-      const latestAchievement = recentlyCompleted[recentlyCompleted.length - 1]
+      // 如果有多个成就，定位到第一个完成的成就（按解锁时间排序）
+      const firstAchievement = recentlyCompleted[0]
       
-      console.log(`在'all'分类下定位到成就: ${latestAchievement.id}`)
+      console.log(`在'all'分类下定位到第一个成就: ${firstAchievement.id}`)
       
       // 保持在'all'分类，直接定位到成就
       // 延迟执行定位和动画，确保DOM已更新
       setTimeout(() => {
-        console.log(`开始滚动到成就: ${latestAchievement.id}`)
-        this.scrollToAchievementAndAnimate(latestAchievement.id)
+        console.log(`开始滚动到第一个成就: ${firstAchievement.id}`)
+        this.scrollToAchievementAndAnimate(firstAchievement.id)
+        
+        // 为所有新完成的成就播放动画效果
+        this.playAllCompletedAchievementsAnimation(recentlyCompleted)
       }, 500)
       
       // 标记这些成就为已展示，避免重复展示
@@ -377,6 +380,35 @@ Page({
       this.addAchievementCompletionAnimation(achievementId)
     }, 500)
   },
+  
+  // 为所有新完成的成就播放动画效果
+  playAllCompletedAchievementsAnimation(completedAchievements) {
+    console.log('为所有新完成的成就播放动画:', completedAchievements.map(a => a.id))
+    
+    // 为每个成就依次播放动画，避免同时播放造成性能问题
+    completedAchievements.forEach((achievement, index) => {
+      setTimeout(() => {
+        console.log(`播放成就动画: ${achievement.id}`)
+        this.addAchievementCompletionAnimation(achievement.id)
+      }, index * 1000) // 每个成就间隔1秒播放动画
+    })
+    
+    // 显示总体完成提示
+    if (completedAchievements.length > 1) {
+      setTimeout(() => {
+        wx.showToast({
+          title: `🎉 恭喜解锁${completedAchievements.length}个成就！`,
+          icon: 'none',
+          duration: 3000
+        })
+        
+        // 触发强烈震动反馈
+        wx.vibrateShort({
+          type: 'heavy'
+        })
+      }, 200)
+    }
+  },
 
   // 添加成就完成动画效果
   addAchievementCompletionAnimation(achievementId) {
@@ -384,6 +416,12 @@ Page({
     query.select(`#achievement-${achievementId}`).boundingClientRect()
     query.exec((res) => {
       if (res[0]) {
+        // 检查是否已经在播放动画，避免重复播放
+        if (this.data.animatingAchievement === achievementId) {
+          console.log(`成就 ${achievementId} 已在播放动画，跳过`)
+          return
+        }
+        
         // 添加高亮动画类
         const achievementElement = res[0]
         
@@ -395,6 +433,8 @@ Page({
   
   // 分阶段触发动画序列
   triggerAnimationSequence(achievementId) {
+    console.log(`开始播放成就动画序列: ${achievementId}`)
+    
     // 第一阶段：开始动画
     this.setData({
       [`animatingAchievement`]: achievementId
@@ -415,19 +455,29 @@ Page({
       this.triggerSweepEffect(achievementId)
     }, 1000)
     
-    // 最终阶段：清理动画（延迟4000ms）
+    // 第五阶段：额外的庆祝效果（延迟2000ms）
+    setTimeout(() => {
+      this.showCelebrationEffect(achievementId)
+    }, 2000)
+    
+    // 最终阶段：清理动画（延迟5000ms，延长动画时间）
     setTimeout(() => {
       const progressAnimating = { ...this.data.progressAnimating }
       const sweepAnimating = { ...this.data.sweepAnimating }
       delete progressAnimating[achievementId]
       delete sweepAnimating[achievementId]
       
+      // 只有当前正在播放动画的成就才清理animatingAchievement
+      const currentAnimating = this.data.animatingAchievement === achievementId ? '' : this.data.animatingAchievement
+      
       this.setData({
-        animatingAchievement: '',
+        animatingAchievement: currentAnimating,
         progressAnimating: progressAnimating,
         sweepAnimating: sweepAnimating
       })
-    }, 4000)
+      
+      console.log(`成就动画序列完成: ${achievementId}`)
+    }, 5000)
   },
   
   // 触发进度条动画
@@ -450,11 +500,15 @@ Page({
 
   // 显示完成特效
   showCompletionEffect(achievementId) {
-    // 显示炫酷的成就达成提示
+    // 获取成就信息
+    const achievement = this.data.achievements.find(a => a.id === achievementId)
+    const achievementTitle = achievement ? achievement.title : '成就'
+    
+    // 显示个性化的成就达成提示
     wx.showToast({
-      title: '🏆✨ 成就达成！✨🏆',
+      title: `🏆 ${achievementTitle} 达成！`,
       icon: 'none',
-      duration: 3000
+      duration: 2500
     })
     
     // 触发震动反馈
@@ -470,7 +524,30 @@ Page({
     // 播放音效（如果有的话）
     this.playAchievementSound()
     
-    console.log('播放成就完成特效:', achievementId)
+    console.log('播放成就完成特效:', achievementId, achievementTitle)
+  },
+  
+  // 显示庆祝效果
+  showCelebrationEffect(achievementId) {
+    console.log('显示庆祝效果:', achievementId)
+    
+    // 创建额外的视觉效果
+    const achievement = this.data.achievements.find(a => a.id === achievementId)
+    if (achievement) {
+      // 显示成就分数奖励提示
+      setTimeout(() => {
+        wx.showToast({
+          title: `+${achievement.score} 成就值`,
+          icon: 'none',
+          duration: 2000
+        })
+      }, 300)
+    }
+    
+    // 触发轻微震动
+    wx.vibrateShort({
+      type: 'light'
+    })
   },
   
   // 显示粒子特效

@@ -244,6 +244,9 @@ touchEnd() {
                 app.globalData.achievementScore = oldScore + achievement.score;
                 wx.setStorageSync('achievementScore', app.globalData.achievementScore);
                 
+                // 检查成就分数相关的成就（type: 2）
+                app.checkScoreAchievements();
+                
                 // 确保成就对象包含正确的icon属性
                 const { getAchievementIcon } = require('../../data/achievements.js');
                 const achievementWithIcon = {
@@ -350,6 +353,9 @@ touchEnd() {
               const oldScore = app.globalData.achievementScore || 0;
               app.globalData.achievementScore = oldScore + achievement.score;
               wx.setStorageSync('achievementScore', app.globalData.achievementScore);
+              
+              // 检查成就分数相关的成就（type: 2）
+              app.checkScoreAchievements();
               
               // 确保成就对象包含正确的icon属性
               const { getAchievementIcon } = require('../../data/achievements.js');

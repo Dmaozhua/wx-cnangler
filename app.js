@@ -189,6 +189,9 @@ App({
           wx.setStorageSync('achievementScore', this.globalData.achievementScore);
           console.log(`成就分数更新: ${oldScore} -> ${this.globalData.achievementScore}`);
           
+          // 检查成就分数相关的成就（type: 2）
+          this.checkScoreAchievements();
+          
           // 将成就添加到待展示队列
           if (!this.globalData.pendingAchievements) {
             this.globalData.pendingAchievements = [];
@@ -200,6 +203,60 @@ App({
         }
       } else {
         console.log(`成就[${achievement.id}]已解锁，跳过`);
+      }
+    });
+  },
+  
+  // 检查成就分数相关的成就（type: 2）
+  checkScoreAchievements() {
+    const { achievements, getAchievementIcon } = require('./data/achievements.js');
+    const scoreAchievements = achievements.filter(a => a.type === 2);
+    const currentScore = this.globalData.achievementScore || 0;
+    
+    console.log('检查成就分数相关成就，当前成就分数:', currentScore);
+    
+    scoreAchievements.forEach(achievement => {
+      // 检查当前成就分数是否达到成就要求
+      if (currentScore >= achievement.value) {
+        // 获取当前成就进度
+        const achievementData = typeof this.globalData.userAchievements[achievement.id] === 'object'
+          ? this.globalData.userAchievements[achievement.id]
+          : { progress: 0, unlockTime: null };
+        
+        const current = achievementData.progress || 0;
+        console.log(`检查成就[${achievement.id}] ${achievement.title}，要求:${achievement.value}，当前进度:${current}`);
+        
+        // 如果成就尚未解锁
+        if (current < achievement.value) {
+          console.log(`解锁成就分数成就: ${achievement.title}`);
+          
+          // 更新成就进度并记录解锁时间
+          this.updateAchievementProgress(achievement.id, achievement.value - current);
+          
+          // 增加成就分数（注意：这里可能会导致递归触发其他成就）
+          const oldScore = this.globalData.achievementScore;
+          this.globalData.achievementScore = oldScore + achievement.score;
+          wx.setStorageSync('achievementScore', this.globalData.achievementScore);
+          
+          console.log(`成就分数更新: ${oldScore} -> ${this.globalData.achievementScore}`);
+          
+          // 确保成就对象包含正确的icon属性
+          const achievementWithIcon = {
+            ...achievement,
+            icon: achievement.getIcon ? achievement.getIcon(true) : getAchievementIcon(achievement.id, true)
+          };
+          
+          console.log('[app.js checkScoreAchievements] 成就图标地址:', achievementWithIcon.icon);
+          
+          // 将成就添加到待展示队列
+          if (!this.globalData.pendingAchievements) {
+            this.globalData.pendingAchievements = [];
+          }
+          this.globalData.pendingAchievements.push(achievementWithIcon);
+          wx.setStorageSync('pendingAchievements', this.globalData.pendingAchievements);
+          
+          console.log(`成就分数成就已添加到待展示队列，当前队列长度: ${this.globalData.pendingAchievements.length}`);
+        }
       }
     });
   }

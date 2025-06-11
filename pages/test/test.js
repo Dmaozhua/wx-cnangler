@@ -626,6 +626,9 @@ evaluateFormula(formula, env) {
       app.globalData.achievementScore = oldScore + achievement.score;
       wx.setStorageSync('achievementScore', app.globalData.achievementScore);
       
+      // 检查成就分数相关的成就（type: 2）
+      this.checkScoreAchievements();
+      
       // 将成就添加到待展示队列
       if (!app.globalData.pendingAchievements) {
         app.globalData.pendingAchievements = [];
@@ -661,6 +664,9 @@ evaluateFormula(formula, env) {
           const oldScore = app.globalData.achievementScore;
           app.globalData.achievementScore += achievement.score;
           wx.setStorageSync('achievementScore', app.globalData.achievementScore);
+          
+          // 检查成就分数相关的成就（type: 2）
+          this.checkScoreAchievements();
           
           // 确保成就对象包含正确的icon属性
           const { getAchievementIcon } = require('../../data/achievements.js');
