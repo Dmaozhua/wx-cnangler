@@ -49,11 +49,7 @@
               src="{{item.icon}}" 
               class="achievement-icon"
             />
-            <image 
-              wx:if="{{item.unlocked}}" 
-              src="/images/sparkle.gif" 
-              class="sparkle-effect"
-            />
+
           </view>
 
           <!-- 成就详情 -->

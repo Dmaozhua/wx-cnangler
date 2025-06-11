@@ -50,11 +50,11 @@ Page({
     app.globalData.water = water;
     app.globalData.habitat = selectedHabitat;
     
-    // 重置相关数据
+    // 重置相关数据（注意：fishEscaped是累计值，不应重置）
     app.globalData.fishingTime = fishtimeData.Basetime;
     app.globalData.initialFishingTime = fishtimeData.Basetime; // 保存初始时间值，用于计算百分比
     app.globalData.fishCaught = 0;
-    app.globalData.fishEscaped = 0;
+    // app.globalData.fishEscaped = 0; // 移除重置，保持累计值
     app.globalData.playerHP = app.globalData.equipment.USER_LINEHP;
     app.globalData.eventModifiers = { rareFishBoost: 1, baseMultiplier: 1, timeModifier: 0, baitEffect: 1 };
     app.globalData.extraWeatherTriggered = false;

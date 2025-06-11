@@ -6,7 +6,8 @@ App({
     achievementScore: 0,
     pendingAchievements: [],
     completedTests: [], // 添加已完成测试记录
-    fishingSessionCount: 0 // 添加钓鱼会话次数计数器
+    fishingSessionCount: 0, // 添加钓鱼会话次数计数器
+    fishEscaped: 0 // 添加累计跑鱼次数计数器
   },
   
   onLaunch() {
@@ -47,6 +48,7 @@ App({
     this.globalData.pendingAchievements = wx.getStorageSync('pendingAchievements') || []
     this.globalData.completedTests = wx.getStorageSync('completedTests') || []
     this.globalData.fishingSessionCount = wx.getStorageSync('fishingSessionCount') || 0
+    this.globalData.fishEscaped = wx.getStorageSync('fishEscaped') || 0
     
     // 输出成就初始化日志
     console.log('===== 成就系统初始化 =====')
@@ -111,8 +113,19 @@ App({
           // 这个类型的解锁逻辑在test.js中处理
           isUnlocked = newProgress >= 1
           wasUnlocked = current >= 1
+        } else if (achievement.type === 10) {
+          // type:10 - 累计钓到x条体型比y%的鱼，value格式为[y,x]
+          if (Array.isArray(achievement.value) && achievement.value.length === 2) {
+            const targetCount = achievement.value[1]
+            isUnlocked = newProgress >= targetCount
+            wasUnlocked = current >= targetCount
+          } else {
+            // 兼容旧格式
+            isUnlocked = newProgress >= achievement.value
+            wasUnlocked = current >= achievement.value
+          }
         } else {
-          // 常规类型成就（type:1和type:2）
+          // 常规类型成就（type:1和type:2等）
           isUnlocked = newProgress >= achievement.value
           wasUnlocked = current >= achievement.value
         }

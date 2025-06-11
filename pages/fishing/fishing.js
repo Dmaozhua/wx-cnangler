@@ -924,9 +924,15 @@ Page({
         // 更新鱼类图鉴收集数据
         updateFishCollection(fish.id, fish.strengthVal);
         console.log('[钓鱼游戏] 更新图鉴:', fish.id, fish.strengthVal);
+        
+        // 检查图鉴解锁成就（type 14）
+        this.checkCollectionAchievements();
 
         // 检查成就
         this.checkFishingAchievements(fish);
+        
+        // 检查type 13成就：累计钓到特定稀有度的鱼
+        this.checkRarityAchievements(fish);
 
         // AFT_FISHON事件将在弹窗关闭后触发
         // 检查钓鱼时间是否结束
@@ -947,38 +953,77 @@ Page({
                 const targetCount = achievement.value[1];
                 
                 if (fish.id === targetFishId) {
-                    // 更新该鱼类的钓获次数
-                    const storageKey = `fishCaught_${targetFishId}`;
-                    let currentCount = wx.getStorageSync(storageKey) || 0;
-                    currentCount += 1;
-                    wx.setStorageSync(storageKey, currentCount);
+                    // 检查成就是否已解锁
+                    const achievementData = typeof app.globalData.userAchievements[achievement.id] === 'object' 
+                        ? app.globalData.userAchievements[achievement.id] 
+                        : { progress: 0, unlockTime: null };
                     
-                    // 更新成就进度
-                    this.updateFishingAchievement(achievement.id, currentCount);
-                    
-                    console.log(`[成就检查] 钓到${targetFishId}，当前次数：${currentCount}/${targetCount}`);
+                    // 只有在成就未解锁时才更新计数和进度
+                    if (!achievementData.unlockTime) {
+                        // 更新该鱼类的钓获次数
+                        const storageKey = `fishCaught_${targetFishId}`;
+                        let currentCount = wx.getStorageSync(storageKey) || 0;
+                        currentCount += 1;
+                        wx.setStorageSync(storageKey, currentCount);
+                        
+                        // 更新成就进度
+                        this.updateFishingAchievement(achievement.id, currentCount);
+                        
+                        console.log(`[成就检查] 钓到${targetFishId}，当前次数：${currentCount}/${targetCount}`);
+                    } else {
+                        console.log(`[成就检查] ${achievement.title} 已解锁，跳过重复处理`);
+                    }
                 }
             }
         });
         
-        // 检查type 10成就：钓到特定强度比的鱼
+        // 检查type 10成就：钓到特定体型比的鱼
         const strengthAchievements = achievements.filter(a => a.type === 10);
         strengthAchievements.forEach(achievement => {
             if (fish.strengthRatio !== undefined && fish.strengthRatio !== null) {
-                let shouldUnlock = false;
-                
-                // 根据成就的value值判断解锁条件
-                if ((achievement.value === 100 || achievement.value === 1) && fish.strengthRatio >= 100) {
-                    // 钓到强度达到或超过100%的鱼 (value为100或1都表示这个条件)
-                    shouldUnlock = true;
-                } else if (achievement.value === 0 && fish.strengthRatio <= 0) {
-                    // 钓到强度为0%或更低的鱼
-                    shouldUnlock = true;
-                }
-                
-                if (shouldUnlock) {
-                    this.updateFishingAchievement(achievement.id, 1);
-                    console.log(`[成就检查] 钓到强度${fish.strengthRatio}%的鱼，解锁成就：${achievement.title}`);
+                // 新格式：value为[y,x]，y是体型比例阈值(0-1)，x是需要钓到的数量
+                if (Array.isArray(achievement.value) && achievement.value.length === 2) {
+                    const [thresholdRatio, targetCount] = achievement.value;
+                    const thresholdPercent = thresholdRatio * 100; // 转换为百分比
+                    
+                    // 检查当前鱼的体型比是否满足条件
+                    let meetsCondition = false;
+                    if (thresholdRatio === 1 && fish.strengthRatio >= 100) {
+                        // 体型比100%的鱼
+                        meetsCondition = true;
+                    } else if (thresholdRatio === 0 && fish.strengthRatio <= 0) {
+                        // 体型比0%的鱼
+                        meetsCondition = true;
+                    } else if (thresholdRatio > 0 && thresholdRatio < 1) {
+                        // 其他体型比例
+                        meetsCondition = fish.strengthRatio >= thresholdPercent;
+                    }
+                    
+                    if (meetsCondition) {
+                        // 使用独立的存储键来跟踪每个体型比例成就的进度
+                        const storageKey = `sizeRatio_${thresholdRatio}`;
+                        let currentCount = wx.getStorageSync(storageKey) || 0;
+                        currentCount++;
+                        wx.setStorageSync(storageKey, currentCount);
+                        
+                        console.log(`[成就检查] 钓到体型比${fish.strengthRatio}%的鱼，当前${thresholdPercent}%体型比鱼类计数：${currentCount}/${targetCount}`);
+                        
+                        // 检查成就是否已解锁
+                        const achievementData = typeof app.globalData.userAchievements[achievement.id] === 'object' 
+                            ? app.globalData.userAchievements[achievement.id] 
+                            : { progress: 0, unlockTime: null };
+                        
+                        // 只有在成就未解锁时才更新进度
+                        if (!achievementData.unlockTime && currentCount >= targetCount) {
+                            this.updateFishingAchievement(achievement.id, currentCount);
+                            console.log(`[成就解锁] ${achievement.title} - 累计钓到${currentCount}条体型比${thresholdPercent}%的鱼`);
+                        } else if (achievementData.unlockTime) {
+                            console.log(`[成就检查] ${achievement.title} 已解锁，跳过重复处理`);
+                        }
+                    }
+                } else {
+                    // 兼容旧格式的代码（如果还有的话）
+                    console.warn(`[成就检查] ${achievement.id} 使用了旧的value格式：${achievement.value}`);
                 }
             }
         });
@@ -1102,12 +1147,16 @@ Page({
 
         // 增加脱钩的鱼数量
         app.globalData.fishEscaped += 1;
+        wx.setStorageSync('fishEscaped', app.globalData.fishEscaped); // 保存到本地存储
         this.setData({
             fishEscaped: app.globalData.fishEscaped,
             state: 'waiting',
             qteStatusText: '鱼儿逃脱了！',
             canCastRod: false // 禁用抛竿按钮，等待动画完成
         });
+        
+        // 检查type 12成就：累计跑掉x条鱼
+        this.checkFishEscapedAchievements();
 
         // 优化3：延长等待时间，确保血条动画完成后再隐藏鱼状态组件
         setTimeout(() => {
@@ -1163,8 +1212,177 @@ Page({
         // 扣除钓鱼时间
         this.updateFishingTime(fishtimeData.everyfishon);
     },
+    
+    // 检查鱼脱钩相关成就（type 12）
+    checkFishEscapedAchievements() {
+        const { achievements } = require('../../data/achievements.js');
+        
+        // 检查type 12成就：累计跑掉x条鱼
+        const escapedAchievements = achievements.filter(a => a.type === 12);
+        escapedAchievements.forEach(achievement => {
+            const targetCount = parseInt(achievement.value, 10) || 1;
+            const currentCount = app.globalData.fishEscaped;
+            
+            // 检查成就是否已解锁
+            const achievementData = typeof app.globalData.userAchievements[achievement.id] === 'object' 
+                ? app.globalData.userAchievements[achievement.id] 
+                : { progress: 0, unlockTime: null };
+            
+            // 只有在成就未解锁时才更新进度
+            if (!achievementData.unlockTime) {
+                // 更新成就进度
+                this.updateFishingAchievement(achievement.id, currentCount);
+                
+                console.log(`[成就检查] 鱼脱钩次数：${currentCount}/${targetCount}`);
+            } else {
+                console.log(`[成就检查] ${achievement.title} 已解锁，跳过重复处理`);
+            }
+        });
+    },
+    
+    // 检查稀有度相关成就（type 13）
+    checkRarityAchievements(fish) {
+        if (!fish || !fish.rarity) return;
+        
+        const { achievements } = require('../../data/achievements.js');
+        
+        // 检查type 13成就：累计钓到特定稀有度的鱼
+        const rarityAchievements = achievements.filter(a => a.type === 13);
+        rarityAchievements.forEach(achievement => {
+            if (Array.isArray(achievement.value) && achievement.value.length >= 2) {
+                const targetRarity = achievement.value[0];
+                const targetCount = achievement.value[1];
+                
+                if (fish.rarity === targetRarity) {
+                    // 检查成就是否已解锁
+                    const achievementData = typeof app.globalData.userAchievements[achievement.id] === 'object' 
+                        ? app.globalData.userAchievements[achievement.id] 
+                        : { progress: 0, unlockTime: null };
+                    
+                    // 只有在成就未解锁时才更新计数和进度
+                    if (!achievementData.unlockTime) {
+                        // 更新该稀有度的钓获次数
+                        const storageKey = `rarityFishCaught_${targetRarity}`;
+                        let currentCount = wx.getStorageSync(storageKey) || 0;
+                        currentCount += 1;
+                        wx.setStorageSync(storageKey, currentCount);
+                        
+                        // 更新成就进度
+                        this.updateFishingAchievement(achievement.id, currentCount);
+                        
+                        console.log(`[成就检查] 钓到${targetRarity}稀有度鱼，当前次数：${currentCount}/${targetCount}`);
+                    } else {
+                        console.log(`[成就检查] ${achievement.title} 已解锁，跳过重复处理`);
+                    }
+                }
+            }
+        });
+     },
+     
+     // 检查图鉴解锁成就（type 14）
+     checkCollectionAchievements() {
+         const { achievements } = require('../../data/achievements.js');
+         const { getFishCollection } = require('../../data/FishData2/FishCollection');
+         const { FishData, BOSS } = require('../../data/FishData2/FishDataAll');
+         
+         // 检查type 14成就：解锁全部鱼种图鉴
+         const collectionAchievements = achievements.filter(a => a.type === 14);
+         collectionAchievements.forEach(achievement => {
+             if (achievement.value === 1) { // 全部解锁
+                 const fishCollection = getFishCollection();
+                 
+                 // 获取所有非BOSS鱼的数量
+                 const nonBossFish = FishData.filter(fish => fish.rarity !== BOSS);
+                 const totalFishCount = nonBossFish.length;
+                 
+                 // 计算已解锁的非BOSS鱼数量
+                 let unlockedCount = 0;
+                 nonBossFish.forEach(fish => {
+                     if (fishCollection[fish.id] && fishCollection[fish.id].unlocked) {
+                         unlockedCount++;
+                     }
+                 });
+                 
+                 // 如果全部解锁，更新成就进度
+                 if (unlockedCount >= totalFishCount) {
+                     this.updateFishingAchievement(achievement.id, 1);
+                     console.log(`[成就检查] 鱼类图鉴全部解锁：${unlockedCount}/${totalFishCount}`);
+                 } else {
+                     console.log(`[成就检查] 鱼类图鉴进度：${unlockedCount}/${totalFishCount}`);
+                 }
+             }
+         });
+     },
+     
+     // 检查钓鱼事件图鉴解锁成就（type 15）
+     checkEventCollectionAchievements() {
+         const { achievements } = require('../../data/achievements.js');
+         const { getEventCollection } = require('../../data/FishData2/EventCollection');
+         const { FishEvents } = require('../../data/FishData2/FishEvents');
+         
+         // 检查type 15成就：解锁全部钓鱼事件
+         const eventCollectionAchievements = achievements.filter(a => a.type === 15);
+         eventCollectionAchievements.forEach(achievement => {
+             if (achievement.value === 1) { // 全部解锁
+                 const eventCollection = getEventCollection();
+                 
+                 // 获取所有钓鱼事件的数量
+                 const totalEventCount = FishEvents.length;
+                 
+                 // 计算已解锁的钓鱼事件数量
+                 let unlockedCount = 0;
+                 FishEvents.forEach(event => {
+                     if (eventCollection[event.id] && eventCollection[event.id].unlocked) {
+                         unlockedCount++;
+                     }
+                 });
+                 
+                 // 如果全部解锁，更新成就进度
+                 if (unlockedCount >= totalEventCount) {
+                     this.updateFishingAchievement(achievement.id, 1);
+                     console.log(`[成就检查] 钓鱼事件图鉴全部解锁：${unlockedCount}/${totalEventCount}`);
+                 } else {
+                     console.log(`[成就检查] 钓鱼事件图鉴进度：${unlockedCount}/${totalEventCount}`);
+                 }
+             }
+         });
+     },
+     
+     // 检查天气事件图鉴解锁成就（type 16）
+     checkWeatherEventCollectionAchievements() {
+         const { achievements } = require('../../data/achievements.js');
+         const { getEventCollection } = require('../../data/FishData2/EventCollection');
+         const { WeatherEvents } = require('../../data/FishData2/WeatherEvents');
+         
+         // 检查type 16成就：解锁全部天气事件
+         const weatherEventCollectionAchievements = achievements.filter(a => a.type === 16);
+         weatherEventCollectionAchievements.forEach(achievement => {
+             if (achievement.value === 1) { // 全部解锁
+                 const eventCollection = getEventCollection();
+                 
+                 // 获取所有天气事件的数量
+                 const totalWeatherEventCount = WeatherEvents.length;
+                 
+                 // 计算已解锁的天气事件数量
+                 let unlockedCount = 0;
+                 WeatherEvents.forEach(event => {
+                     if (eventCollection[event.id] && eventCollection[event.id].unlocked) {
+                         unlockedCount++;
+                     }
+                 });
+                 
+                 // 如果全部解锁，更新成就进度
+                 if (unlockedCount >= totalWeatherEventCount) {
+                     this.updateFishingAchievement(achievement.id, 1);
+                     console.log(`[成就检查] 天气事件图鉴全部解锁：${unlockedCount}/${totalWeatherEventCount}`);
+                 } else {
+                     console.log(`[成就检查] 天气事件图鉴进度：${unlockedCount}/${totalWeatherEventCount}`);
+                 }
+             }
+         });
+     },
 
-    // 页面卸载时清除所有计时器
+     // 页面卸载时清除所有计时器
     onUnload() {
         this.clearAllTimers();
     },
@@ -1188,11 +1406,11 @@ Page({
         // 更新钓鱼相关成就进度
         this.updateFishingAchievementProgress();
 
-        // 重置钓鱼相关状态
+        // 重置钓鱼相关状态（注意：fishEscaped是累计值，不应重置）
         app.globalData.fishingTime = fishtimeData.Basetime;
         app.globalData.initialFishingTime = fishtimeData.Basetime;
         app.globalData.fishCaught = 0;
-        app.globalData.fishEscaped = 0;
+        // app.globalData.fishEscaped = 0; // 移除重置，保持累计值
         app.globalData.playerHP = app.globalData.equipment.USER_LINEHP;
         app.globalData.eventModifiers = { rareFishBoost: 1, baseMultiplier: 1, timeModifier: 0, baitEffect: 1 };
         app.globalData.extraWeatherTriggered = false;
@@ -1401,6 +1619,9 @@ Page({
 
                         // 更新事件图鉴收集状态
                         updateEventCollection(evt.id);
+                        
+                        // 检查事件图鉴解锁成就（type 15）
+                        this.checkEventCollectionAchievements();
 
                         // 检查事件相关成就
                         this.checkEventAchievements(evt.id);
@@ -1549,6 +1770,9 @@ Page({
 
                         // 更新事件图鉴收集状态
                         updateEventCollection(evt.id);
+                        
+                        // 检查事件图鉴解锁成就（type 15）
+                        this.checkEventCollectionAchievements();
 
                         // 检查事件相关成就
                         this.checkEventAchievements(evt.id);
@@ -1664,6 +1888,9 @@ Page({
 
                  // 更新事件图鉴收集状态
                  updateEventCollection(evt.id);
+                 
+                 // 检查天气事件图鉴解锁成就（type 16）
+                 this.checkWeatherEventCollectionAchievements();
 
                  console.log('[钓鱼游戏] 触发EXTRA天气事件:', evt.name, app.globalData.eventModifiers);
                  callback();
@@ -1955,6 +2182,12 @@ Page({
                 ? app.globalData.userAchievements[achievement.id] 
                 : { progress: 0, unlockTime: null };
             
+            // 如果成就已解锁，跳过处理
+            if (achievementData.unlockTime) {
+                console.log(`[成就系统] ${achievement.title} 已解锁，跳过重复处理`);
+                return;
+            }
+            
             const currentProgress = achievementData.progress || 0;
             console.log(`[成就系统] 当前进度: ${currentProgress}, 新进度: ${count}`);
             
@@ -2162,7 +2395,7 @@ Page({
         const currentCount = app.globalData.fishingSessionCount;
         
         // 查找钓鱼相关成就
-        const fishingAchievements = ['fishing1', 'fishing2', 'fishing3'];
+        const fishingAchievements = ['fishing1', 'fishing2', 'fishing3', 'fishing4'];
         
         fishingAchievements.forEach(achievementId => {
             const achievement = achievements.find(a => a.id === achievementId);
@@ -2170,16 +2403,10 @@ Page({
                 // 获取当前成就数据
                 const currentData = app.globalData.userAchievements[achievementId] || { progress: 0, unlockTime: null };
                 
-                // 如果成就未解锁，更新进度
+                // 如果成就未解锁，更新进度并检查解锁条件
                 if (!currentData.unlockTime) {
-                    // 更新全局数据
-                    app.globalData.userAchievements[achievementId] = {
-                        ...currentData,
-                        progress: currentCount
-                    };
-                    
-                    // 保存到本地存储
-                    wx.setStorageSync('userAchievements', app.globalData.userAchievements);
+                    // 调用updateFishingAchievement方法来处理进度更新和解锁检查
+                    this.updateFishingAchievement(achievementId, currentCount);
                     
                     console.log(`[钓鱼成就] 更新 ${achievementId} 进度: ${currentCount}/${achievement.value}`);
                 }

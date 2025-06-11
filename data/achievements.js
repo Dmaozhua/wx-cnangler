@@ -8,13 +8,13 @@
 // type: 7 - 分享相关，value为分享系类别1测试2文章
 // type: 8 - 累计钓到某一种鱼多少次
 // type: 9 - 累计遇到到某一种事件多少次
-// type: 10 - 累计钓到x条体型比y%的鱼，y范围0-1闭区间，x正整数
+// type: 10 - 累计钓到x条体型比y%的鱼，value格式为[y,x]，y范围0-1闭区间，x正整数
 // type: 11 - 听一首路亚歌曲，music功能
-// type: 12累计跑掉x条鱼，x正整数，在fishing游戏中当鱼脱钩时，计数增加1
-// type: 13累计钓到x条稀有度rarity是['y']的鱼，x正整数,y是FishDataAll中的rarity字段的值
-// type: 14解锁图鉴中全部的鱼种，FishDataAll（不包含boss鱼）value=1代表全部解锁
-// type: 15解锁全部的钓鱼事件，FishEvents value=1代表全部解锁
-// type: 16解锁全部的天气事件，WeatherEvents value=1代表全部解锁
+// type: 12 - 累计跑掉x条鱼，x正整数，在fishing游戏中当鱼脱钩时，计数增加1
+// type: 13 - 累计钓到x条稀有度rarity是['y']的鱼，value格式为['y',x]，x正整数，y是FishDataAll中的rarity字段的值
+// type: 14 - 解锁图鉴中全部的鱼种，FishDataAll（不包含boss鱼）value=1代表全部解锁
+// type: 15 - 解锁全部的钓鱼事件，FishEvents value=1代表全部解锁
+// type: 16 - 解锁全部的天气事件，WeatherEvents value=1代表全部解锁
 
 
 // 成就图标基础路径
@@ -142,7 +142,7 @@ const achievements = [
         category: "fishing",
         title: "爱好觉醒",
         description: "完成10次钓鱼活动",
-        value: 10,
+        value: 2,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
         score: 25,
         weight: 3,
@@ -155,7 +155,7 @@ const achievements = [
         category: "fishing",
         title: "标点猎手",
         description: "完成30次钓鱼活动",
-        value: 30,
+        value: 3,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
         score: 25,
         weight: 3,
@@ -168,7 +168,7 @@ const achievements = [
         category: "fishing",
         title: "全水域猎人",
         description: "完成60次钓鱼活动",
-        value: 60,
+        value: 6,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
         score: 35,
         weight: 4,
@@ -286,11 +286,11 @@ const achievements = [
   },{
       num: 19,
       type: 8,
-      id: "fish2",
+      id: "baitiao2",
        category: "fishing",
        title: "白条达人",
        description: "累计钓获白条50次。",
-       value:['FISH_03',50],
+       value:['FISH_03',5],
          getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
       score: 35,
       weight: 4,
@@ -298,11 +298,11 @@ const achievements = [
   },{
       num: 19,
       type: 8,
-      id: "fish3",
+      id: "baitiao3",
        category: "fishing",
        title: "白条专家",
        description: "累计钓获白条150次。",
-       value:['FISH_03',150],
+       value:['FISH_03',10],
          getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
       score: 35,
       weight: 4,
@@ -360,9 +360,9 @@ const achievements = [
     type: 10,
     id: "bigone1",
     category: "fishing",
-    title: "巨物",
+    title: "爱好巨物",
     description: "累计钓到20条体型比100%的鱼。",
-    value:[1,20],
+    value:[1,5],
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
     score: 35,
     weight: 4,
@@ -386,7 +386,7 @@ const achievements = [
       id: "smallone",
       category: "fishing",
       title: "最小体型",
-      description: "钓到任意强度比0%的鱼.",
+      description: "钓到任意体型比0%的鱼.",
       value:[0,1],
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
       score: 35,
@@ -397,9 +397,9 @@ const achievements = [
     type: 10,
     id: "smallone1",
     category: "fishing",
-    title: "袖珍",
-    description: "累计钓到20条强度比0%的鱼.",
-    value:[0,20],
+    title: "袖珍大师",
+    description: "累计钓到20条体型比0%的鱼.",
+    value:[0,5],
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
     score: 35,
     weight: 4,
@@ -411,7 +411,7 @@ const achievements = [
     category: "fishing",
     title: "哎呀！跑了！",
     description: "累计跑了10条鱼.",
-    value:10,
+    value:1,
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
     score: 35,
     weight: 4,
@@ -421,9 +421,9 @@ const achievements = [
     type: 12,
     id: "runaway1",
     category: "fishing",
-    title: "拍大腿",
+    title: "拍大腿！",
     description: "累计跑了100条鱼。",
-    value:100,
+    value:5,
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
     score: 35,
     weight: 4,
@@ -434,72 +434,84 @@ const achievements = [
     id: "rarity",
     category: "fishing",
     title: "身经百战",
-    description: "钓到1条Boss鱼。",
+    description: "在钓鱼模拟中，钓到1条Boss鱼。",
     value:['BOSS',1],
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
     score: 35,
     weight: 4,
-    detailed:'超高的技巧才能匹配的狂野巨兽。'
+    detailed:'喂，钓友！作者在向你喊话，你那有口吗？几克的铅？沉水浮水的？'
 },{
     num: 23,
     type: 13,
     id: "rarity1",
     category: "fishing",
-    title: "金色传说",
-    description: "钓到1条传说级鱼。",
+    title: "是托吗",
+    description: "在钓鱼模拟中，钓到任意1条传说级鱼。",
     value:['MYTHIC',1],
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
     score: 35,
     weight: 4,
-    detailed:'金色。'
+    detailed:'遇到传说，钓起传说，成为传说！'
 },{
     num: 23,
     type: 13,
     id: "rarity2",
     category: "fishing",
-    title: "紫色",
-    description: "钓到1条史诗级鱼。",
+    title: "拿得出手",
+    description: "在钓鱼模拟中，钓到任意1条史诗级鱼。",
     value:['EPIC',1],
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
     score: 35,
     weight: 4,
-    detailed:'紫色。'
+    detailed:'这条还算像样，掏出手机，拍照-留念-分享。'
+},{
+  num: 23,
+  type: 13,
+  id: "rarity3",
+  category: "fishing",
+  title: "鱼类避雷针",
+  description: "在钓鱼模拟中，钓到10次杂物。",
+  value:['WASTE',10],
+    getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
+  score: 35,
+  weight: 4,
+  detailed:'反向欧皇，饵在水里就有希望，也包括不是鱼的杂物。'
 },{
     num: 23,
     type: 14,
     id: "note",
     category: "persion",
-    title: "鱼类图鉴",
-    description: "鱼类图鉴全部解锁。",
+    title: "钓鱼佬的执念",
+    description: "在钓鱼模拟中，钓获了全部鱼种。",
     value:1,
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
     score: 35,
     weight: 4,
-    detailed:'鱼类图鉴全部解锁。'
+    detailed:'解锁、解锁、解锁，钓鱼佬的自我救赎，全图鉴只是一个新的起点。'
 },{
     num: 23,
     type: 15,
     id: "note1",
     category: "persion",
-    title: "钓鱼事件图鉴",
-    description: "钓鱼事件图鉴全部解锁。",
+    title: "江河万事录",
+    description: "在钓鱼模拟中，触发了全部钓鱼事件。",
     value:1,
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
     score: 35,
     weight: 4,
-    detailed:'钓鱼事件图鉴全部解锁。'
+    detailed:'每个水域都藏着不按常理出牌的瞬间，你的每段钓行都充满了奇遇。'
 },{
     num: 23,
     type: 16,
     id: "note2",
     category: "persion",
-    title: "天气事件",
-    description: "天气事件全部解锁。",
+    title: "气候万象",
+    description: "在钓鱼模拟中，触发了所有天气事件。",
     value:1,
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
     score: 35,
     weight: 4,
-    detailed:'天气事件全部解锁。'
+    detailed:'集齐全部天气形态，天地间的喜怒无常，终被你收于图鉴之中。'
 }
   
   
