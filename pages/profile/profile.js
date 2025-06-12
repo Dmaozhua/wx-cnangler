@@ -40,20 +40,59 @@ Page({
             const { achievements } = require('../../data/achievements.js')
             const userData = app.globalData.userAchievements || {}
             
-            // 计算已解锁的成就数量
+            // 计算已解锁的成就数量（与achievements页面保持完全一致）
             unlockedCount = achievements.filter(a => {
                 const achievementData = userData[a.id] || { progress: 0 }
                 const currentProgress = typeof achievementData === 'object' 
                     ? parseInt(achievementData.progress || 0, 10)
                     : parseInt(achievementData || 0, 10)
                 
-                // 根据成就类型判断是否解锁
-                if (a.type === 3 || a.type === 4) {
-                    return currentProgress >= 1
+                let isUnlocked = false;
+                let targetValue = 0;
+                
+                // 根据成就类型处理不同的解锁条件（与achievements.js保持一致）
+                if (a.type === 3) {
+                    // type:3 - 首次使用特定功能后解锁成就
+                    targetValue = 1;
+                    isUnlocked = currentProgress >= 1;
+                } else if (a.type === 4) {
+                    // type:4 - 在特定时间段内完成测试解锁成就
+                    targetValue = 1;
+                    isUnlocked = currentProgress >= 1;
+                } else if (a.type === 8) {
+                    // type:8 - 累计钓到某一种鱼多少次
+                    if (Array.isArray(a.value) && a.value.length >= 2) {
+                        targetValue = parseInt(a.value[1], 10);
+                        isUnlocked = currentProgress >= targetValue;
+                    } else {
+                        targetValue = 1;
+                        isUnlocked = false;
+                    }
+                } else if (a.type === 9) {
+                    // type:9 - 累计遇到某一种事件多少次
+                    if (Array.isArray(a.value) && a.value.length >= 2) {
+                        targetValue = parseInt(a.value[1], 10);
+                        isUnlocked = currentProgress >= targetValue;
+                    } else {
+                        targetValue = 1;
+                        isUnlocked = false;
+                    }
+                } else if (a.type === 10) {
+                    // type:10 - 钓到strength强度比100%的任意一条鱼
+                    targetValue = parseInt(a.value, 10) || 1;
+                    isUnlocked = currentProgress >= targetValue;
+                } else if (a.type === 11) {
+                    // type:11 - 听一首路亚歌曲
+                    targetValue = parseInt(a.value, 10) || 1;
+                    isUnlocked = currentProgress >= targetValue;
                 } else {
-                    const targetValue = parseInt(a.value, 10)
-                    return currentProgress >= targetValue
+                    // 其他类型成就
+                    targetValue = parseInt(a.value, 10);
+                    if (isNaN(targetValue)) targetValue = 1;
+                    isUnlocked = currentProgress >= targetValue;
                 }
+                
+                return isUnlocked;
             }).length
         } catch (error) {
             console.error('计算已解锁成就数量失败:', error)

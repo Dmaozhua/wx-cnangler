@@ -16,22 +16,31 @@ Component({
   },
   data: {
     animationData: {},
-    formattedTime: ''
+    formattedTime: '',
+    showFullscreenIcon: false
   },
 
   observers: {
     'achievement': function(achievement) {
+      console.log('achievement数据变化:', achievement);
       if (achievement && achievement.unlockTime) {
         this.formatUnlockTime(achievement.unlockTime);
       } else if (achievement) {
         // 如果没有解锁时间，显示为未解锁
         this.setData({ formattedTime: '未解锁' });
       }
+    },
+    'visible': function(visible) {
+      console.log('visible状态变化:', visible);
     }
   },
 
 lifetimes: {
   attached() {
+    console.log('=== achievement-detail组件attached ===');
+    console.log('初始properties:', this.properties);
+    console.log('初始data:', this.data);
+    
     this.animation = wx.createAnimation({
       duration: 300,
       timingFunction: 'ease'
@@ -43,6 +52,8 @@ lifetimes: {
     
     // 立即触发显示动画（无需等待渲染）
     this.showAnimation();
+    
+    console.log('=== 组件初始化完成 ===');
   }
 },
   
@@ -129,6 +140,37 @@ formatUnlockTime(isoTimeString) {
 
     onClose() {
       this.triggerEvent('close');
+    },
+
+    // 防止事件冒泡
+    preventBubble(e) {
+        console.log('preventBubble 被调用，事件类型:', e.type, '目标元素:', e.target);
+        // 在微信小程序中，使用 catchtap 已经阻止了事件冒泡，不需要调用 stopPropagation
+        return false;
+    },
+
+    // 点击遮罩关闭
+    onMaskTap() {
+      console.log('遮罩被点击，准备关闭');
+      this.triggerEvent('close');
+    },
+
+    // 点击图标全屏显示
+    onIconTap(e) {
+        console.log('[DEBUG] 图标点击事件触发', e);
+        
+        this.setData({ showFullscreenIcon: true }, () => {
+          console.log('[DEBUG] 全屏状态已更新:', this.data.showFullscreenIcon);
+        });
+        
+        // 添加震动反馈
+        wx.vibrateShort({ type: 'light' });
+    },
+    // 优化：关闭全屏方法
+    onFullscreenClose() {
+        this.setData({ showFullscreenIcon: false }, () => {
+          console.log('[DEBUG] 全屏已关闭');
+        });
     }
   }
 });
