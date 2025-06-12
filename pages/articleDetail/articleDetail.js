@@ -13,7 +13,8 @@ Page({
     swipeProgress: 0,       // 新增滑动进度(0-1)
     isAnimating: false ,     // 新增动画状态锁
     swipeTransform: 'transform: translateX(0)',
-    isTouchMoving: false
+    isTouchMoving: false,
+    referencesCollapsed: true  // 参考文献折叠状态
   },
 
   onLoad: function(options) {
@@ -396,10 +397,10 @@ touchEnd() {
         title: "引言",
         text: ""
       },
-      // 保留原始的content字段
-      content: rawArticle.content || rawArticle.text || "",
-      // 保留原始的children结构
-      children: rawArticle.children || [],
+      // 保留原始的content字段，并处理换行符
+      content: this.processReferences(rawArticle.content || rawArticle.text || ""),
+      // 保留原始的children结构，但需要处理引用链接
+      children: this.processChildrenWithReferences(rawArticle.children || []),
       chapters: []
     };
     
@@ -410,7 +411,7 @@ touchEnd() {
       if (intro) {
         processedArticle.introduction = {
           title: intro.title || "引言",
-          text: intro.content || ""
+          text: this.processReferences(intro.content || "")
         };
       }
       
@@ -428,7 +429,7 @@ touchEnd() {
         if (chapter.content && chapter.content.trim() !== "") {
           processedChapter.sections.push({
             subtitle: "",
-            content: [{ type: "text", value: chapter.content }]
+            content: [{ type: "text", value: this.processReferences(chapter.content) }]
           });
         }
         
@@ -438,7 +439,7 @@ touchEnd() {
             if (section) {
               processedChapter.sections.push({
                 subtitle: section.title || "",
-                content: [{ type: "text", value: section.content || "" }]
+                content: [{ type: "text", value: this.processReferences(section.content || "") }]
               });
             }
           });
@@ -455,14 +456,14 @@ touchEnd() {
       if (rawArticle.content && rawArticle.content.trim() !== "") {
         processedArticle.introduction = {
           title: "引言",
-          text: rawArticle.content
+          text: this.processReferences(rawArticle.content)
         };
       } 
       // 如果文章有text字段（旧格式），将其作为引言
       else if (rawArticle.text && rawArticle.text.trim() !== "") {
         processedArticle.introduction = {
           title: "引言",
-          text: rawArticle.text
+          text: this.processReferences(rawArticle.text)
         };
       }
       
@@ -480,11 +481,46 @@ touchEnd() {
     
     return processedArticle;
   },
-    // 导航到主页
-    navigateToHome: function() {
-        wx.switchTab({
-          url: '/pages/articlePage/articlePage'
-        });
-      }
+
+  // 处理子节点中的引用链接
+  processChildrenWithReferences: function(children) {
+    return children.map(child => {
+      const processedChild = {
+        ...child,
+        content: this.processReferences(child.content || ''),
+        children: child.children ? this.processChildrenWithReferences(child.children) : []
+      };
+      return processedChild;
+    });
+  },
+
+  // 处理引用链接格式
+  processReferences: function(content) {
+    if (!content) return content;
+    
+    // 匹配格式：[[数字](链接)] 或 [数字](链接)
+    // 替换为显示[数字]，隐藏链接和外层方括号
+    let processedContent = content.replace(/\[\[(\d+)\]\([^)]+\)\]/g, '[$1]')
+                                 .replace(/\[(\d+)\]\([^)]+\)/g, '[$1]');
+    
+    // 处理换行符：将\n转换为<br>标签
+    processedContent = processedContent.replace(/\n/g, '<br>');
+    
+    return processedContent;
+  },
+
+  // 切换参考文献折叠状态
+  toggleReferences: function() {
+    this.setData({
+      referencesCollapsed: !this.data.referencesCollapsed
+    });
+  },
+
+  // 导航到主页
+  navigateToHome: function() {
+    wx.switchTab({
+      url: '/pages/articlePage/articlePage'
+    });
+  }
 
 });

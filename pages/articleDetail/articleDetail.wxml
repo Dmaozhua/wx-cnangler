@@ -10,7 +10,7 @@
     
     <!-- 添加自定义返回按钮 -->
     <view class="nav-back-btn" bindtap="navigateBack">
-      <image class="back-icon" src="/images/back_icon.png" mode="aspectFit"></image>
+      <!-- <image class="back-icon" src="/images/back_icon.png" mode="aspectFit"></image> -->
     </view>
   </navigation-bar>
 </page-meta>
@@ -45,29 +45,43 @@
     <!-- 文章内容区域 - 根据数据结构选择性显示 -->
     <!-- 1. 直接显示文章内容 -->
     <view class="article-content" wx:if="{{article.content}}">
-      <text user-select="true" decode="true" space="nbsp">{{article.content}}</text>
+      <rich-text user-select="true" nodes="{{article.content}}"></rich-text>
     </view>
 
     <!-- 2. 显示文章子节点 -->
     <view class="article-children" wx:elif="{{article.children && article.children.length > 0}}">
       <block wx:for="{{article.children}}" wx:key="title" wx:for-item="child">
-        <view class="article-child">
+        <!-- 特殊处理参考文献部分 -->
+        <view class="article-child" wx:if="{{child.title === '参考文献'}}">
+          <view class="references-section">
+            <view class="references-header" bindtap="toggleReferences">
+              <view class="child-title references-title">{{child.title}}</view>
+              <view class="collapse-icon {{referencesCollapsed ? 'collapsed' : 'expanded'}}">▼</view>
+            </view>
+            <view class="references-content" wx:if="{{!referencesCollapsed}}">
+              <rich-text class="child-content references-list" nodes="{{child.content}}"></rich-text>
+            </view>
+          </view>
+        </view>
+        
+        <!-- 普通文章子节点 -->
+        <view class="article-child" wx:else>
           <view class="child-title">{{child.title}}</view>
-          <view class="child-content" wx:if="{{child.content}}">{{child.content}}</view>
+          <rich-text class="child-content" wx:if="{{child.content}}" nodes="{{child.content}}"></rich-text>
           
           <!-- 显示子节点的子节点 -->
           <view class="child-children" wx:if="{{child.children && child.children.length > 0}}">
             <block wx:for="{{child.children}}" wx:key="title" wx:for-item="grandchild">
               <view class="grandchild">
                 <view class="grandchild-title">{{grandchild.title}}</view>
-                <view class="grandchild-content" wx:if="{{grandchild.content}}">{{grandchild.content}}</view>
+                <rich-text class="grandchild-content" wx:if="{{grandchild.content}}" nodes="{{grandchild.content}}"></rich-text>
                 
                 <!-- 显示第三层子节点 -->
                 <view class="great-grandchild-children" wx:if="{{grandchild.children && grandchild.children.length > 0}}">
                   <block wx:for="{{grandchild.children}}" wx:key="title" wx:for-item="greatGrandchild">
                     <view class="great-grandchild">
                       <view class="great-grandchild-title">{{greatGrandchild.title}}</view>
-                      <view class="great-grandchild-content">{{greatGrandchild.content}}</view>
+                      <rich-text class="great-grandchild-content" nodes="{{greatGrandchild.content}}"></rich-text>
                     </view>
                   </block>
                 </view>
@@ -91,7 +105,7 @@
               
               <!-- 段落内容 -->
               <block wx:for="{{section.content}}" wx:key="index" wx:for-item="content">
-                <view class="paragraph" wx:if="{{content.type === 'text'}}">{{content.value}}</view>
+                <rich-text class="paragraph" wx:if="{{content.type === 'text'}}" nodes="{{content.value}}"></rich-text>
                 <image class="content-image" wx:elif="{{content.type === 'image'}}" src="{{content.url}}" mode="widthFix"></image>
               </block>
             </view>

@@ -20,7 +20,11 @@
   align-items: center;
   height: 80vh;
 }
-
+/* 参考文献编号样式 */
+.reference-number {
+  font-size: 0.8em; /* 缩小字体 */
+  color: #6c757d; /* 灰色字体 */
+}
 .loading {
   font-size: 32rpx;
   color: #6c757d;
@@ -218,6 +222,75 @@
   box-sizing: border-box;
   word-wrap: break-word;
   word-break: break-all;
+}
+
+/* 参考文献样式 */
+.references-section {
+  background-color: rgba(108, 117, 125, 0.05);
+  border-radius: 12rpx;
+  overflow: hidden;
+  border: 1px solid rgba(108, 117, 125, 0.1);
+}
+
+.references-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx;
+  background-color: rgba(108, 117, 125, 0.08);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.references-header:active {
+  background-color: rgba(108, 117, 125, 0.12);
+}
+
+.references-title {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+  font-size: 36rpx;
+  color: #495057;
+}
+
+.collapse-icon {
+  font-size: 24rpx;
+  color: #6c757d;
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+
+.collapse-icon.collapsed {
+  transform: rotate(-90deg);
+}
+
+.collapse-icon.expanded {
+  transform: rotate(0deg);
+}
+
+.references-content {
+  padding: 0 30rpx 30rpx 30rpx;
+  animation: slideDown 0.3s ease;
+}
+
+.references-list {
+  font-size: 28rpx;
+  color: #6c757d;
+  line-height: 1.6;
+  white-space: pre-line;
+  margin-bottom: 0;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000rpx;
+  }
 }
 
 .grandchild {
