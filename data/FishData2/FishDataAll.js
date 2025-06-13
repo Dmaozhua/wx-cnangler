@@ -11,17 +11,12 @@ export const RARITY_MULTIPLIER = {
   [COMMON]: 2.5,  // 普通
   [UNCOMMON]: 1.6, // 少见
   [RARE]: 0.8,     // 稀有
-  [EPIC]: 0.1,     // 史诗级
-  [MYTHIC]: 0.05,   // 传说级  
-  [BOSS]: 0.001,       // Boss级
+  [EPIC]: 0.2,     // 史诗级
+  [MYTHIC]: 0.08,   // 传说级  
+  [BOSS]: 0.2,       // Boss级
   [WASTE]: 0.6,    // 杂物
 };
 
-//白COMMON:   罗非
-//绿UNCOMMON:     太阳
-//蓝RARE:        
-//紫EPIC:      龙纹斑
-//彩MYTHIC:   哲罗鲑  金目鲈 孔雀鲈 蓝吉罗 
     //     backwater: '回水湾',
     //     slowmoving: '缓流',
     //     rapids: '急流',
@@ -41,10 +36,9 @@ export const RARITY_MULTIPLIER = {
 //蓝RARE: 大口黑鲈 鳜鱼 叉尾鮰 黑鱼 狗鱼 沙塘鳢 花骨鱼 重唇鱼 五道黑 淡化海鲈 雷龙
 //紫EPIC: 斑鳜 翘嘴  虹鳟 金樽 军鱼 梭鲈 雅罗鱼 金目鲈
 //彩MYTHIC: 鳡鱼  哲罗鲑   孔雀鲈 山女鳟
-//彩色BOSS: 
+//彩色BOSS: “百战”白条，“独眼”大口鲈，“生化”鳄雀鳝，“暴虐”鳡，“深渊”鲶，“幽冥”鳟
 //白WASTE：塑料袋 枯树枝 水草 橡胶制品 贴身衣物 鲫鱼 鲤鱼 草鱼
 //白条 溪哥 马口 鳜鱼 斑鳜 鳡鱼 大口鲶 叉尾鮰 翘嘴 红尾 红眼 青稍 黑鱼 雷龙  虹鳟 金樽 哲罗鲑 山女鳟 柳根 军鱼 狗鱼 金目鲈 淡化海鲈 沙塘鳢 梭鲈 花骨鱼 重唇鱼 雅罗鱼 五道黑
-
 
 
 
@@ -651,5 +645,179 @@ export const FishData = [
     weatherAffinity: {
       "sunny": 0.6,
       "rainy": 1.7
-    }}
+    }},{
+      id: 'FISH_34',
+      name: '一块破布',
+      rarity: WASTE,//稀有度
+      description: '你别说，拉力还可以。',
+      habitats: ['backwater','slowmoving','shallow','obstacle','Deep','rapids'],// 出现水域类型
+      baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
+      QTEList: ['nopower'],// 可触发QTE的事件
+      QTEFail: 0.1,
+      strength: [1.5, 3.51],
+      BaseHP: 150,
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
+      weatherAffinity: {
+        "sunny": 0.6,
+        "rainy": 1.7
+      }},{
+      id: 'FISH_35',
+      name: '橡胶制品',
+      rarity: WASTE,//稀有度
+      description: '对，就是你想的那个东西。',
+      habitats: ['backwater','slowmoving','shallow','obstacle','Deep','rapids'],// 出现水域类型
+      baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
+      QTEList: ['nopower'],// 可触发QTE的事件
+      QTEFail: 0.1,
+      strength: [1.5, 3.51],
+      BaseHP: 150,
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
+      weatherAffinity: {
+        "sunny": 0.6,
+        "rainy": 1.7
+      }},{
+      id: 'FISH_36',
+      name: '水草',
+      rarity: WASTE,//稀有度
+      description: '中鱼就在下一竿。',
+      habitats: ['backwater','slowmoving','shallow','obstacle','Deep','rapids'],// 出现水域类型
+      baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
+       QTEList: ['nopower'],// 可触发QTE的事件
+      QTEFail: 0.1,
+      strength: [1, 3],
+      BaseHP: 100,
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
+      weatherAffinity: {
+        "sunny": 0.6,
+        "rainy": 1.7
+      }},{
+      id: 'FISH_37',
+      name: '枯树枝',
+      rarity: WASTE,//稀有度
+      description: '有挂才有鱼。',
+      habitats: ['backwater','slowmoving','shallow','obstacle','Deep','rapids'],// 出现水域类型
+      baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
+      QTEList: ['nopower'],// 可触发QTE的事件
+      QTEFail: 0.1,
+      strength: [1, 3],
+      BaseHP: 120,
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
+      weatherAffinity: {
+        "sunny": 0.6,
+        "rainy": 1.7
+      }}
+
+      ,
+	  
+	  {
+      id: 'FISH_38',
+      name: '“百战”白条',
+      rarity: BOSS,//稀有度
+      description: '在浑浊的青焰江流域，白条鱼向来是食物链底端的 “弱者”。它们身形纤细，成群游动时宛如闪烁的碎银，却总是在黑鱼、鲶鱼等掠食者的阴影下东躲西藏。直到一次工业废水的意外泄露，大量放射性物质涌入江水，改变了整个生态链。​\n大部分白条鱼在污染中痛苦死去，唯有一条身形矫健、生性好斗的白条鱼 “百战” 在变异中觉醒。它的鱼鳃长出细密的血色脉络，能将摄入的污染物转化为战斗能量。它不再蜷缩于族群之中，反而将废弃的桥墩当作据点，用收集来的金属废料和破碎的渔具，搭建起一座充满金属质感的 “战争堡垒”。​\n“百战” 以近乎疯狂的姿态统治着领地，它会释放出特殊的化学信号，吸引其他鱼类前来争夺 “资源”。当挑战者靠近，它便如离弦之箭般发动攻击，凭借超强的爆发力和不知疲倦的战斗本能，将对手打得遍体鳞伤。久而久之，江面上漂浮着各种鱼类的残骸，而 “百战” 的威名也在整个流域不胫而走，成为所有生物闻风丧胆的存在。',
+    habitats: ['backwater','slowmoving','rapids','shallow'],
+    baitPref: ['BREADone','BREADtwo'],
+    QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
+    QTEFail: 0.999,
+    strength: [1, 4],
+    BaseHP: 200,
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
+      weatherAffinity: {
+        "sunny": 0.6,
+        "rainy": 1.7
+      }},{
+      id: 'FISH_39',
+      name: '“独眼”大口鲈',
+      rarity: BOSS,//稀有度
+      description: '在暗流涌动的黑渊湖深处，曾有一只大口鲈族群的王者，它凭借着敏锐的双眼与迅猛的捕食技巧，称霸一方。然而，一场突如其来的人类水下爆破工程，彻底改变了它的命运。爆炸产生的强大冲击波，不仅摧毁了它的栖息地，还让它失去了右眼。​\n剧痛与愤怒彻底激发了这只大口鲈的野性，它拖着受伤的身体，躲进湖底那座布满尖刺的沉船残骸中养伤。在此期间，它吞噬着误入沉船的各类生物，在血腥厮杀中不断进化。当它再次现身时，曾经的王者变得更加暴戾，被称作 “独眼”。​\n“独眼” 占据了沉船周边最危险的水域，它会用仅剩的左眼锁定猎物，再凭借超乎寻常的爆发力发起突袭。它还会利用独眼释放出特殊声波，干扰周围鱼类的方向感，让它们如同陷入迷雾般，只能乖乖成为自己的盘中餐。久而久之，黑渊湖的鱼类们谈 “独眼” 色变，它也成为了湖底最令人恐惧的存在。',
+    habitats: ['backwater','slowmoving','shallow','obstacle','Deep'],// 出现水域类型
+    baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
+    QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower', 'come'],// 可触发QTE的事件
+    QTEFail: 0.999,
+    strength: [3, 4.51],//鱼的强度范围，随机
+    BaseHP: 300,
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
+      weatherAffinity: {
+        "sunny": 0.6,
+        "rainy": 1.7
+      }},{
+      id: 'FISH_40',
+      name: '“生化”鳄雀鳝',
+      rarity: BOSS,//稀有度
+      description: '在一座被人类遗弃的化工城市边缘，有片被污染的死水湖。这里曾是鳄雀鳝的栖息地，原本凶猛的它们在污水与泄漏化学物质的侵蚀下，发生了可怕的变异。其中一条体型最大的鳄雀鳝，在吞噬了大量变异鱼类和化工废料后，蜕变成了令人闻风丧胆的 “生化” 鳄雀鳝。​\n它的身体不断分泌出诡异的绿色黏液，所到之处，水体都会泛起阵阵毒雾。它不再满足于捕食普通鱼类，甚至会主动攻击误入水域的人类和其他大型生物。每当夜幕降临，湖面就会传来低沉的嘶吼声，那是 “生化” 鳄雀鳝在召唤被它释放出的生化孢子所感染的 “鱼群军团”，这些受控制的鱼类会组成恐怖的包围圈，将猎物逼入它的血盆大口。',
+    habitats: ['Deep','slowmoving','obstacle'],
+    baitPref: ['BREADone','BREADtwo'],
+    QTEList: ['nopower', 'InObstacles', 'SpeedUp', 'come'],
+    QTEFail: 0.999,
+    strength: [5, 10],
+    BaseHP: 600,
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
+      weatherAffinity: {
+        "sunny": 0.6,
+        "rainy": 1.7
+      }},{
+      id: 'FISH_41',
+      name: '“暴虐”鳡',
+      rarity: BOSS,//稀有度
+      description: '在一条暗流汹涌的古河道深处，沉睡着一处被遗忘的上古战场遗址。常年受战场残留煞气与神秘磁场影响，河道中的鳡鱼群体发生了诡异转变，其中一条身形巨大的鳡鱼更是成为 “暴虐” 的代名词。​\n它天生嗜杀，领地意识极强，在吞噬了沾染战场戾气的古兵器碎片与骸骨后，体内的暴戾因子被彻底激发。“暴虐” 鳡不再满足于常规的捕食，它会主动挑衅一切闯入领地的生物，无论是体型庞大的鲶鱼群，还是误入河道的水鸟，都难逃它的追杀。它游动时会发出震耳欲聋的嘶吼，所经之处掀起滔天巨浪，仿佛是来自远古战场的杀戮机器在宣泄无尽的怒火。更可怕的是，它能释放出特殊的声波干扰，让周围生物陷入恐惧与混乱，成为它肆意虐杀的目标。',
+    habitats: ['backwater','slowmoving','shallow'],
+    baitPref: ['BREADone','BREADtwo'],
+    QTEList: ['nopower', 'InObstacles', 'SpeedUp', 'come'],
+    QTEFail: 0.999,
+    strength: [5, 10],
+    BaseHP: 600,
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
+      weatherAffinity: {
+        "sunny": 0.6,
+        "rainy": 1.7
+      }},{
+      id: 'FISH_42',
+      name: '“深渊”鲶',
+      rarity: BOSS,//稀有度
+      description: '在一片人迹罕至的湖泊底部，隐藏着深不见底的水下洞穴群，这里弥漫着永恒的黑暗与神秘。一条普通的鲶鱼偶然游入洞穴最深处，接触到了蕴含远古深渊力量的黑色晶体。黑暗能量不断侵蚀着它的身体，让它发生了恐怖的变异，成为令人闻风丧胆的 “深渊” 鲶。​\n“深渊” 鲶掌控着洞穴内的黑暗力量，它会在洞穴入口释放出黑色迷雾，将误入其中的生物困在迷雾迷宫里。它还能召唤由腐烂水草和淤泥组成的 “触手”，从各个角落发动袭击。每当有猎物靠近，洞穴深处就会传来低沉而诡异的 “咕噜” 声，那是 “深渊” 鲶在宣告领地主权，也是死亡降临的预兆。它如同深渊的使者，吞噬着所有敢于踏入这片黑暗领域的生命，将湖泊变成了充满恐惧的死亡禁地。',
+     habitats: ['backwater','Deep'],
+    baitPref: ['BREADone','BREADtwo'],
+    QTEList: ['nopower', 'InObstacles', 'SpeedUp', 'nomove', 'come'],
+    QTEFail: 0.999,
+    strength: [2.5, 4.91],
+    BaseHP: 350,
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
+      weatherAffinity: {
+        "sunny": 0.6,
+        "rainy": 1.7
+      }},{
+      id: 'FISH_43',
+      name: '“幽冥”鳟',
+      rarity: BOSS,//稀有度
+      description: '在终年笼罩着浓雾的寒潭深处，沉睡着一座被遗忘的古代祭坛。一条生性机敏的鳟鱼，在一次觅食时误触祭坛封印，释放出了沉睡千年的幽冥之气。这股阴气如附骨之疽般缠绕着鳟鱼，使其身体与灵魂都发生了扭曲，“幽冥” 鳟就此诞生。​\n“幽冥” 鳟掌控着寒潭的生死轮回，它游动时，身后会拖曳出一条由幽蓝色磷火组成的光带，如同引路的冥河。它能操纵潭底的枯木、骸骨组成 “幽冥军团”，对闯入领地的生物发动围攻。每当月圆之夜，寒潭水面便会浮现出模糊的人脸虚影，伴随着空灵而凄厉的哀鸣，那是 “幽冥” 鳟在召唤被它吞噬的亡魂，将整片水域化作阴森恐怖的幽冥世界。',
+   habitats: ['backwater','slowmoving','shallow','rapids'],// 出现水域类型
+    baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
+    QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower', 'come'],// 可触发QTE的事件
+    QTEFail: 0.999,
+    strength: [2.5, 4.91],//鱼的强度范围，随机
+    BaseHP: 350,
+      Image: 'https://anglertest.xyz/game/fish/fishon.webp',
+      backgroundImage: 'https://anglertest.xyz/game/fish/5.webp',
+      defImage: '../../images/icons/whatfish.png',
+      weatherAffinity: {
+        "sunny": 0.6,
+        "rainy": 1.7
+      }}
 ];

@@ -38,7 +38,7 @@
             </div>
         </view>
         <view class="fish-caught-footer">
-            <button class="fish-caught-btn" bindtap="onCloseFishCaughtPopup">放流</button>
+            <button class="fish-caught-btn" bindtap="onCloseFishCaughtPopup">确认</button>
         </view>
     </view>
 </view>
