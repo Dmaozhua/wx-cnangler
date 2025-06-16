@@ -43,15 +43,29 @@ Page({
             // 计算已解锁的成就数量（与achievements页面保持完全一致）
             unlockedCount = achievements.filter(a => {
                 const achievementData = userData[a.id] || { progress: 0 }
-                const currentProgress = typeof achievementData === 'object' 
-                    ? parseInt(achievementData.progress || 0, 10)
-                    : parseInt(achievementData || 0, 10)
+                
+                // 获取当前进度，确保是数字类型
+                let currentProgress;
+                if (a.type === 2) {
+                    // type:2 - 成就分数统计，使用全局成就分数
+                    currentProgress = parseInt(achievementScore, 10) || 0;
+                } else {
+                    // 其他类型使用存储的进度
+                    currentProgress = typeof achievementData === 'object' 
+                        ? parseInt(achievementData.progress || 0, 10)
+                        : parseInt(achievementData || 0, 10);
+                }
                 
                 let isUnlocked = false;
                 let targetValue = 0;
                 
                 // 根据成就类型处理不同的解锁条件（与achievements.js保持一致）
-                if (a.type === 3) {
+                if (a.type === 2) {
+                    // type:2 - 成就分数统计
+                    targetValue = parseInt(a.value, 10);
+                    if (isNaN(targetValue)) targetValue = 1;
+                    isUnlocked = currentProgress >= targetValue;
+                } else if (a.type === 3) {
                     // type:3 - 首次使用特定功能后解锁成就
                     targetValue = 1;
                     isUnlocked = currentProgress >= 1;
