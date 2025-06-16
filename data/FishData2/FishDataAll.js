@@ -8,12 +8,12 @@ export const BOSS = 'BOSS';
 export const WASTE = 'WASTE';
 
 export const RARITY_MULTIPLIER = {
-  [COMMON]: 2.5,  // 普通
+  [COMMON]: 2,  // 普通
   [UNCOMMON]: 1.6, // 少见
-  [RARE]: 0.8,     // 稀有
-  [EPIC]: 0.2,     // 史诗级
-  [MYTHIC]: 0.08,   // 传说级  
-  [BOSS]: 0.2,       // Boss级
+  [RARE]: 1,     // 稀有
+  [EPIC]: 0.5,     // 史诗级
+  [MYTHIC]: 0.1,   // 传说级  
+  [BOSS]: 0.05,       // Boss级
   [WASTE]: 0.6,    // 杂物
 };
 
@@ -22,7 +22,10 @@ export const RARITY_MULTIPLIER = {
     //     rapids: '急流',
     //     shallow: '浅滩',
     //     obstacle: '障碍'
-    //     Deep: '深滩'
+    //     Deep: '深潭'
+    //     surface: '水面',
+    //     cliff:'崖壁'
+
 
     //   JUMP:洗腮
     //   InObstacles:钻结构
@@ -48,7 +51,7 @@ export const FishData = [
     name: '大口黑鲈',
     rarity: RARE,//稀有度
     description: '路亚圈的真正核心，路亚的重中之重。',
-    habitats: ['backwater','slowmoving','shallow','obstacle','Deep'],// 出现水域类型
+    habitats: ['backwater','slowmoving','shallow','obstacle','Deep','cliff','surface'],// 出现水域类型
     baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
     QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower', 'come'],// 可触发QTE的事件
     QTEFail: 0.5,//qte失败后，逃跑概率
@@ -67,7 +70,7 @@ export const FishData = [
     name: '马口',
     rarity: UNCOMMON,
     description: '城市河道的明星，溪流精灵。',
-    habitats: ['backwater','slowmoving','rapids','shallow'],
+    habitats: ['backwater','slowmoving','rapids','shallow','obstacle','Deep','surface'],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
     QTEFail: 0.2,
@@ -86,7 +89,7 @@ export const FishData = [
     name: '白条',
     rarity: COMMON,
     description: '这是尊严，要轻拿轻放。',
-    habitats: ['backwater','slowmoving','rapids','shallow'],
+    habitats: ['backwater','slowmoving','rapids','shallow','obstacle','Deep','cliff','surface'],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
     QTEFail: 0.2,
@@ -102,10 +105,10 @@ export const FishData = [
   },
   {
     id: 'FISH_04',
-    name: '鳜鱼',
+    name: '白鳜鱼',
     rarity: EPIC,
     description: '隐秘伏击的水底暴君,Duang的一口谁都喜爱,背鳍毒棘需小心。',
-    habitats: ['Deep','obstacle','rapids','slowmoving'],
+    habitats: ['Deep','obstacle','rapids','slowmoving','cliff'],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp', 'nomove', 'come'],
     QTEFail: 0.5,
@@ -124,7 +127,7 @@ export const FishData = [
     name: '鳡鱼',
     rarity: MYTHIC,
     description: '顶级掠食者，淡水速度与激情的代言鱼。',
-    habitats: ['backwater','slowmoving','shallow'],
+    habitats: ['backwater','slowmoving','shallow','surface','obstacle'],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp', 'come'],
     QTEFail: 0.7,
@@ -144,7 +147,7 @@ export const FishData = [
     name: '柳根鱼',
     rarity: UNCOMMON,
     description: '冷水限定，偏好急流浅滩、乱石堆，喜欢集群。',
-    habitats: ['backwater','slowmoving','shallow'],
+    habitats: ['backwater','slowmoving','shallow','rapids',],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
     QTEFail: 0.1,
@@ -164,7 +167,7 @@ export const FishData = [
     name: '青稍',
     rarity: COMMON,
     description: '小翘嘴平替，偏好静水或缓流的湖泊、水库浅湾及河湾。',
-    habitats: ['backwater','slowmoving','shallow'],
+    habitats: ['backwater','slowmoving','shallow','Deep','cliff'],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
     QTEFail: 0.2,
@@ -183,7 +186,7 @@ export const FishData = [
     name: '红尾',
     rarity: COMMON,
     description: '性情凶猛，爆发力强，喜欢组团围猎饵鱼。',
-    habitats: ['backwater','slowmoving','shallow','obstacle'],
+    habitats: ['backwater','slowmoving','shallow','obstacle','Deep','cliff','surface','rapids'],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp', 'JUMP', 'come'],
     QTEFail: 0.4,
@@ -202,7 +205,7 @@ export const FishData = [
     name: '红眼',
     rarity: COMMON,
     description: '性情暴躁，游动迅猛，是淡水路亚中兼具视觉吸引力与钓获挑战的目标鱼。',
-    habitats: ['backwater','slowmoving','rapids','shallow'],
+    habitats: ['backwater','slowmoving','shallow','obstacle','Deep','cliff','surface','rapids'],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp', 'JUMP', 'come'],
     QTEFail: 0.4,
@@ -221,7 +224,7 @@ export const FishData = [
     name: '溪哥',
     rarity: UNCOMMON,
     description: '溪流生态的视觉盛宴，偏好山涧溪流、清澈小河及江河支流，砂砾底浅滩。',
-    habitats: ['backwater','slowmoving','rapids','shallow'],
+    habitats: ['backwater','slowmoving','rapids','shallow','obstacle'],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
     QTEFail: 0.2,
@@ -240,7 +243,7 @@ export const FishData = [
     name: '大口鲶',
     rarity: UNCOMMON,
     description: '昼伏夜出，喜栖息于江河、湖泊、水库的深水底层。',
-    habitats: ['backwater','Deep'],
+    habitats: ['backwater','Deep','slowmoving','cliff'],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp', 'nomove', 'come'],
     QTEFail: 0.4,
@@ -316,7 +319,7 @@ export const FishData = [
     name: '狗鱼',
     rarity: RARE,
     description: '寒流原住民，吻部尖长，似鸭嘴，牙齿格外锋利。',
-    habitats: ['Deep','slowmoving','obstacle'],
+    habitats: ['Deep','slowmoving','obstacle','backwater'],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp', 'come'],
     QTEFail: 0.9,
@@ -352,7 +355,7 @@ export const FishData = [
     name: '花骨鱼',
     rarity: RARE,//稀有度
     description: '独特斑点，偏好微流水、水质清澈的中下层，底质以沙砾或泥沙为主。',
-    habitats: ['slowmoving','obstacle','shallow'],// 出现水域类型
+    habitats: ['slowmoving','obstacle','shallow','Deep','backwater'],// 出现水域类型
     baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
     QTEList: ['InObstacles','nopower','SpeedUp'],// 可触发QTE的事件
     QTEFail: 0.5,//qte失败后，逃跑概率
@@ -370,7 +373,7 @@ export const FishData = [
     name: '重唇鱼',
     rarity: RARE,//稀有度
     description: '被蜜蜂蛰过的嘟嘟嘴，偏好水流湍急、底质为沙砾或砂石的江河中下层水域。',
-    habitats: ['slowmoving','shallow','rapids','backwater'],// 出现水域类型
+    habitats: ['slowmoving','obstacle','shallow','Deep','backwater'],// 出现水域类型
     baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
     QTEList: ['InObstacles','nopower','SpeedUp'],// 可触发QTE的事件
     QTEFail: 0.5,//qte失败后，逃跑概率
@@ -388,7 +391,7 @@ export const FishData = [
     name: '五道黑',
     rarity: RARE,//稀有度
     description: '带条形码的新疆特产，有橙红色鱼鳍却是热情的冷水鱼。',
-    habitats: ['backwater','slowmoving','shallow','obstacle','Deep'],// 出现水域类型
+    habitats: ['backwater','slowmoving','shallow','obstacle','Deep','cliff'],// 出现水域类型
     baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
     QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower', 'come'],// 可触发QTE的事件
     QTEFail: 0.5,//qte失败后，逃跑概率
@@ -423,7 +426,7 @@ export const FishData = [
     name: '斑鳜',
     rarity: EPIC,//稀有度
     description: '野生豹纹尖牙利嘴，肉质细嫩且为路亚的重要目标鱼种。',
-    habitats: ['backwater','slowmoving','rapids','obstacle','Deep'],// 出现水域类型
+    habitats: ['backwater','slowmoving','rapids','obstacle','Deep','cliff'],// 出现水域类型
     baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
     QTEList: ['InObstacles', 'SpeedUp', 'nopower', 'come', 'nomove'],// 可触发QTE的事件
     QTEFail: 0.7,//qte失败后，逃跑概率
@@ -441,7 +444,7 @@ export const FishData = [
     name: '翘嘴',
     rarity: EPIC,//稀有度
     description: '身影捉摸不定，米翘却是路亚佬的必修课。',
-    habitats: ['backwater','shallow'],// 出现水域类型
+    habitats: ['backwater','slowmoving','shallow','surface'],// 出现水域类型
     baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
     QTEList: ['JUMP', 'SpeedUp', 'nopower', 'come'],// 可触发QTE的事件
     QTEFail: 0.7,//qte失败后，逃跑概率
@@ -458,7 +461,7 @@ export const FishData = [
     name: '虹鳟',
     rarity: EPIC,//稀有度
     description: '侧线一条彩虹状纵纹，体侧散布黑色斑点，活泼善跳跃，水温到达22℃不宜生存。',
-    habitats: ['backwater','slowmoving','shallow','rapids'],// 出现水域类型
+    habitats: ['backwater','slowmoving','shallow','rapids','Deep'],// 出现水域类型
     baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
     QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower', 'come'],// 可触发QTE的事件
     QTEFail: 0.7,//qte失败后，逃跑概率
@@ -475,7 +478,7 @@ export const FishData = [
     name: '金鳟',
     rarity: EPIC,//稀有度
     description: '虹鳟的土豪亲戚，金黄色突变品系。',
-   habitats: ['backwater','slowmoving','shallow','rapids'],// 出现水域类型
+    habitats: ['backwater','slowmoving','shallow','rapids','Deep'],// 出现水域类型
     baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
     QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower', 'come'],// 可触发QTE的事件
     QTEFail: 0.7,//qte失败后，逃跑概率
@@ -492,7 +495,7 @@ export const FishData = [
     name: '山女鳟',
     rarity: MYTHIC,//稀有度
     description: '冷水里的樱花武士，鳃盖后延伸鲜红色彩带，体侧分布8-10个椭圆斑点。',
-  habitats: ['backwater','slowmoving','shallow','rapids'],// 出现水域类型
+    habitats: ['backwater','slowmoving','shallow','rapids','Deep'],// 出现水域类型
     baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
     QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower', 'come'],// 可触发QTE的事件
     QTEFail: 0.8,//qte失败后，逃跑概率
@@ -543,7 +546,7 @@ export const FishData = [
     name: '军鱼',
     rarity: EPIC,//稀有度
     description: '身着宽大鳞甲，性格暴躁，时常在溪流中展示暴力美学。',
-    habitats: ['backwater','slowmoving','shallow','rapids'],// 出现水域类型
+    habitats: ['backwater','slowmoving','shallow','rapids','obstacle'],// 出现水域类型
     baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
     QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower', 'come'],// 可触发QTE的事件
     QTEFail: 0.7,//qte失败后，逃跑概率
@@ -561,7 +564,7 @@ export const FishData = [
     name: '罗非鱼',
     rarity: COMMON,
     description: '生存卷王，超生游击队。',
-    habitats: ['backwater','slowmoving','Deep','shallow'],
+    habitats: ['backwater','slowmoving','Deep','shallow','surface'],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp', 'come'],
     QTEFail: 0.2,
@@ -633,7 +636,7 @@ export const FishData = [
     name: '蓝吉罗',
     rarity: MYTHIC,//稀有度
     description: '钴蓝鳞片在激流中折射出冰晶般的冷冽光泽，在砾石密布的急流区游动时，活脱脱是一群披着 “液态龙鳞甲” 的水下贵族。',
-    habitats: ['rapids','obstacle','Deep'],// 出现水域类型
+    habitats: ['rapids','obstacle','Deep','backwater','slowmoving'],// 出现水域类型
     baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
     QTEList: ['JUMP', 'InObstacles', 'SpeedUp', 'nopower', 'come', 'nomove'],// 可触发QTE的事件
     QTEFail: 0.9,//qte失败后，逃跑概率
@@ -650,7 +653,7 @@ export const FishData = [
       name: '一块破布',
       rarity: WASTE,//稀有度
       description: '你别说，拉力还可以。',
-      habitats: ['backwater','slowmoving','shallow','obstacle','Deep','rapids'],// 出现水域类型
+      habitats: ['backwater','slowmoving','shallow','obstacle','Deep','rapids','surface','obstacle'],// 出现水域类型
       baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
       QTEList: ['nopower'],// 可触发QTE的事件
       QTEFail: 0.1,
@@ -667,7 +670,7 @@ export const FishData = [
       name: '橡胶制品',
       rarity: WASTE,//稀有度
       description: '对，就是你想的那个东西。',
-      habitats: ['backwater','slowmoving','shallow','obstacle','Deep','rapids'],// 出现水域类型
+      habitats: ['backwater','slowmoving','shallow','obstacle','Deep','rapids','surface','obstacle'],// 出现水域类型
       baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
       QTEList: ['nopower'],// 可触发QTE的事件
       QTEFail: 0.1,
@@ -684,7 +687,7 @@ export const FishData = [
       name: '水草',
       rarity: WASTE,//稀有度
       description: '中鱼就在下一竿。',
-      habitats: ['backwater','slowmoving','shallow','obstacle','Deep','rapids'],// 出现水域类型
+      habitats: ['backwater','slowmoving','shallow','obstacle','Deep','rapids','surface','obstacle'],// 出现水域类型
       baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
        QTEList: ['nopower'],// 可触发QTE的事件
       QTEFail: 0.1,
@@ -701,7 +704,7 @@ export const FishData = [
       name: '枯树枝',
       rarity: WASTE,//稀有度
       description: '有挂才有鱼。',
-      habitats: ['backwater','slowmoving','shallow','obstacle','Deep','rapids'],// 出现水域类型
+      habitats: ['backwater','slowmoving','shallow','obstacle','Deep','rapids','surface','obstacle'],// 出现水域类型
       baitPref: ['BREADone','BREADtwo'],// 鱼饵类型，当前默认
       QTEList: ['nopower'],// 可触发QTE的事件
       QTEFail: 0.1,
@@ -722,7 +725,7 @@ export const FishData = [
       name: '“百战”白条',
       rarity: BOSS,//稀有度
       description: '在浑浊的青焰江流域，白条鱼向来是食物链底端的 “弱者”。它们身形纤细，成群游动时宛如闪烁的碎银，却总是在黑鱼、鲶鱼等掠食者的阴影下东躲西藏。直到一次工业废水的意外泄露，大量放射性物质涌入江水，改变了整个生态链。​\n大部分白条鱼在污染中痛苦死去，唯有一条身形矫健、生性好斗的白条鱼 “百战” 在变异中觉醒。它的鱼鳃长出细密的血色脉络，能将摄入的污染物转化为战斗能量。它不再蜷缩于族群之中，反而将废弃的桥墩当作据点，用收集来的金属废料和破碎的渔具，搭建起一座充满金属质感的 “战争堡垒”。​\n“百战” 以近乎疯狂的姿态统治着领地，它会释放出特殊的化学信号，吸引其他鱼类前来争夺 “资源”。当挑战者靠近，它便如离弦之箭般发动攻击，凭借超强的爆发力和不知疲倦的战斗本能，将对手打得遍体鳞伤。久而久之，江面上漂浮着各种鱼类的残骸，而 “百战” 的威名也在整个流域不胫而走，成为所有生物闻风丧胆的存在。',
-    habitats: ['backwater','slowmoving','rapids','shallow'],
+    habitats: ['backwater','slowmoving','rapids','shallow','obstacle','Deep'],
     baitPref: ['BREADone','BREADtwo'],
     QTEList: ['nopower', 'InObstacles', 'SpeedUp'],
     QTEFail: 0.999,

@@ -33,6 +33,31 @@ Page({
       water: this.data.water.name
     });
   },
+    // 重新开始游戏
+    restart() {
+        // 重置全局数据
+        app.globalData.fishCaught = 0;
+        app.globalData.fishEscaped = 0;
+        app.globalData.fishingTime = 0;
+        app.globalData.nextFishRarity = null;
+        app.globalData.triggeredEvents = [];
+        app.globalData.eventModifiers = {};
+        app.globalData.castCount = 0;
+        
+        console.log('[钓鱼模拟器] 重置游戏数据，准备开始新游戏');
+        
+        // 跳转到准备界面
+        wx.navigateTo({
+          url: '/pages/preparation/preparation',
+          success: () => {
+            console.log('[钓鱼模拟器] 跳转到准备界面成功');
+          },
+          fail: (err) => {
+            console.error('[钓鱼模拟器] 跳转到准备界面失败:', err);
+          }
+        });
+    },
+    
     // 返回主页
     goBack() {
         wx.switchTab({

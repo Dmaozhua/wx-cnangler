@@ -2,7 +2,7 @@
 /* 添加背景图 */
 .container {
     padding: 20rpx;
-    background-image: url('path/to/your/background-image.jpg'); /* 替换为实际背景图路径 */
+    background-image: url('https://anglertest.xyz/game/BG/tittle/15.webp'); /* 替换为实际背景图路径 */
     background-size: cover;
     background-position: center;
     min-height: 100vh;

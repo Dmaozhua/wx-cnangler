@@ -512,9 +512,9 @@ Page({
     })
     
     // 触发震动反馈
-    wx.vibrateShort({
-      type: 'heavy'
-    })
+    // wx.vibrateShort({
+    //   type: 'heavy'
+    // })
     
     // 延迟显示更多特效
     setTimeout(() => {

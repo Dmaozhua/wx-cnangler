@@ -338,9 +338,14 @@ Page({
         if (app.globalData.nextFishRarity) {
             console.log('[钓鱼游戏] 触发指定稀有度鱼效果:', app.globalData.nextFishRarity);
             
-            // 获取指定稀有度的所有鱼
+            // 获取当前水域当前栖息地中存在的鱼类ID列表
+            const currentWaterFishIds = Object.keys(app.globalData.water.fishProbabilities[app.globalData.habitat] || {})
+                .filter(fishId => fishId !== 'NONE' && (app.globalData.water.fishProbabilities[app.globalData.habitat][fishId] || 0) > 0);
+            
+            // 从当前水域的鱼类中筛选指定稀有度的鱼
             const targetRarityFishes = FishData.filter(fish => 
                 fish.rarity === app.globalData.nextFishRarity && 
+                currentWaterFishIds.includes(fish.id) &&
                 fish.habitats.includes(app.globalData.habitat) &&
                 fish.baitPref.includes((app.globalData.currentBait || { id: 'BREADone' }).id)
             );

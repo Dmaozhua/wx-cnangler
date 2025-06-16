@@ -53,7 +53,7 @@ const achievements = [
         description: "累计完成测试5次",
         value: 5,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-        score: 15,
+        score: 30,
         weight: 2,
         detailed:'五份报告在手，看来你已深谙此塘鱼性，是时候挑战更复杂的钓场了！'
     },
@@ -63,12 +63,13 @@ const achievements = [
         id: "chengjiu1",
         category: "persion",
         title: "初出茅庐",
-        description: "累计获得15成就分数",
-        value: 15,
+        description: "累计获得150成就分数",
+        value: 150,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-        score: 20,
+        score: 30,
         weight: 4,
-        detailed:'恭喜获得累计15点成就分，你已经可以在小程序中自由探索了。'
+        detailed:'恭喜获得累计150点成就分，你已经可以在小程序中自由探索了。'
+
     },
     {
         num: 4,
@@ -79,7 +80,7 @@ const achievements = [
         description: "累计完成测试10次",
         value: 10,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-        score: 25,
+        score: 35,
         weight: 3,
         detailed:'十次数据沉淀。你的性格轮廓已在数据中清晰浮现。'
     },
@@ -92,7 +93,7 @@ const achievements = [
         description: "完成20个任意测试",
         value: 20,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-        score: 35,
+        score: 55,
         weight: 4,
         detailed:'二十次严谨测试构成完整样本，你已掌握性格变化的潮汐规律。'
     },
@@ -102,8 +103,8 @@ const achievements = [
         id: "chengjiu2",
         category: "persion",
         title: "小有成就",
-        description: "累计获得50成就分数",
-        value: 50,
+        description: "累计获得300成就分数",
+        value: 300,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
         score: 30,
         weight: 3,
@@ -115,10 +116,10 @@ const achievements = [
         id: "chengjiu3",
         category: "persion",
         title: "成就斐然",
-        description: "累计获得100成就分数",
-        value: 100,
+        description: "累计获得500成就分数",
+        value: 500,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-        score: 40,
+        score: 50,
         weight: 4,
         detailed:'快去联系作者。'
     },
@@ -131,7 +132,7 @@ const achievements = [
         description: "首次使用钓鱼功能",
         value: 'fishing',
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-        score: 15,
+        score: 20,
         weight: 2,
         detailed:'Fishing On！'
     },
@@ -142,11 +143,11 @@ const achievements = [
         category: "fishing",
         title: "爱好觉醒",
         description: "完成10次钓鱼活动",
-        value: 2,
+        value: 10,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
         score: 25,
         weight: 3,
-        detailed:'纪念用户累计使用钓鱼功能5次，特授予这份成就。'
+        detailed:'纪念用户累计使用钓鱼模拟功能10次，特授予这份成就。'
     },
     {
         num: 9,
@@ -155,11 +156,11 @@ const achievements = [
         category: "fishing",
         title: "标点猎手",
         description: "完成30次钓鱼活动",
-        value: 3,
+        value: 30,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-        score: 25,
+        score: 45,
         weight: 3,
-        detailed:'纪念用户累计使用钓鱼功能5次，特授予这份成就。'
+        detailed:'纪念用户累计使用钓鱼模拟功能30次，特授予这份成就。'
     },
     {
         num: 10,
@@ -168,11 +169,11 @@ const achievements = [
         category: "fishing",
         title: "全水域猎人",
         description: "完成60次钓鱼活动",
-        value: 6,
+        value: 60,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-        score: 35,
+        score: 65,
         weight: 4,
-        detailed:'纪念用户累计使用钓鱼功能15次，特授予这份成就。'
+        detailed:'纪念用户累计使用钓鱼模拟功能60次，特授予这份成就。'
     },
     {
         num: 11,
@@ -196,7 +197,7 @@ const achievements = [
         description: "在凌晨3-6点完成任意测试题",
         value:[[3],[6]],
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-        score: 35,
+        score: 45,
         weight: 4,
         detailed:'当世界还在沉睡，你已清醒逐光。这份成就献给打早口的钓鱼人！'
     },  {
@@ -220,7 +221,7 @@ const achievements = [
       description: "累计阅读任意10篇路亚文章",
       value:10,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-      score: 35,
+      score: 45,
       weight: 4,
       detailed:'在路亚知识的探索中，每一次阅读都是沉淀。您累计阅读 10 篇路亚文章，既温故知新，又不断突破。特授予这一成就，致敬您的坚持。'
   },{
@@ -232,7 +233,7 @@ const achievements = [
       description: "累计阅读任意30篇钓鱼文章",
       value:30,
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-      score: 35,
+      score: 55,
       weight: 4,
       detailed:'在路亚领域，知识是丈量水域的标尺，阅读是积累经验的良方。鱼饵在左，钓竿在右，智慧在心中！纪念用户累计阅读30篇路亚文章，在路亚领域，知识是丈量水域的标尺，阅读是积累经验的良方。'
   },{
@@ -278,11 +279,11 @@ const achievements = [
       category: "fishing",
       title: "白条猎手",
       description: "累计钓获白条5次。",
-      value:['FISH_03',1],
+      value:['FISH_03',5],
         getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
       score: 35,
       weight: 4,
-      detailed:'白条是我不打龟的勇气。'
+      detailed:'白条，是我不打龟的勇气。'
   },{
       num: 19,
       type: 8,
@@ -290,9 +291,9 @@ const achievements = [
        category: "fishing",
        title: "白条达人",
        description: "累计钓获白条50次。",
-       value:['FISH_03',5],
+       value:['FISH_03',,0],
          getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-      score: 35,
+      score: 55,
       weight: 4,
       detailed:'白条是我不打龟的勇气。'
   },{
@@ -302,9 +303,9 @@ const achievements = [
        category: "fishing",
        title: "白条专家",
        description: "累计钓获白条150次。",
-       value:['FISH_03',10],
+       value:['FISH_03',150],
          getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-      score: 35,
+      score: 75,
       weight: 4,
       detailed:'白条是我不打龟的勇气。'
   },{
@@ -328,7 +329,7 @@ const achievements = [
        description: "累计遇到事件'发现奇怪的东西'15次。",
        value:['EVENT1',15],
          getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-      score: 35,
+      score: 45,
       weight: 4,
       detailed:'发现奇怪东西的神。'
   },{
@@ -340,7 +341,7 @@ const achievements = [
        description: "累计遇到事件'发现奇怪的东西'50次。",
        value:['EVENT1',50],
          getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-      score: 35,
+      score: 55,
       weight: 4,
       detailed:'发现奇怪东西的神。'
   },{
@@ -362,9 +363,9 @@ const achievements = [
     category: "fishing",
     title: "爱好巨物",
     description: "累计钓到20条体型比100%的鱼。",
-    value:[1,5],
+    value:[1,20],
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-    score: 35,
+    score: 55,
     weight: 4,
     detailed:'巨物猎手！'
 }
@@ -399,9 +400,9 @@ const achievements = [
     category: "fishing",
     title: "袖珍大师",
     description: "累计钓到20条体型比0%的鱼.",
-    value:[0,5],
+    value:[0,20],
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-    score: 35,
+    score: 55,
     weight: 4,
     detailed:'有小就有大。'
 },{
@@ -411,7 +412,7 @@ const achievements = [
     category: "fishing",
     title: "哎呀！跑了！",
     description: "累计跑了10条鱼.",
-    value:1,
+    value:10,
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
     score: 35,
     weight: 4,
@@ -423,9 +424,9 @@ const achievements = [
     category: "fishing",
     title: "拍大腿！",
     description: "累计跑了100条鱼。",
-    value:5,
+    value:100,
       getIcon: function(isUnlocked) { return getAchievementIcon(this.id, isUnlocked); },
-    score: 35,
+    score: 55,
     weight: 4,
     detailed:'不知道大腿被拍了多少次。'
 },{
