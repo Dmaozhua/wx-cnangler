@@ -1,0 +1,21 @@
+<!-- neo-tabs.wxml - Neo Brutalist标签页组件模板 -->
+<view class="neo-tabs" style="background-color: {{bgColor}}">
+  <view class="tabs-header">
+    <block wx:for="{{tabs}}" wx:key="*this" wx:for-item="tab" wx:for-index="tabIndex">
+      <text class="tab-button {{currentIndex === tabIndex ? 'active' : ''}}" 
+            style="{{currentIndex === tabIndex ? 'background-color: ' + activeColor : ''}}"
+            data-index="{{tabIndex}}"
+            bindtap="onTabChange">
+        {{tab}}
+      </text>
+    </block>
+  </view>
+  <view class="tabs-content">
+    <view class="tab-content-item">
+      {{contents[currentIndex]}}
+      <!-- 支持插槽内容 -->
+      <slot name="content-{{currentIndex}}"></slot>
+      <slot></slot>
+    </view>
+  </view>
+</view>

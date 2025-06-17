@@ -1,0 +1,19 @@
+<!-- neo-input.wxml - Neo Brutalist输入框组件模板 -->
+<view class="neo-input-container">
+  <view class="neo-input-label" wx:if="{{label}}">
+    <text class="neo-label-text">{{label}}</text>
+  </view>
+  <view class="neo-input-wrapper {{focused ? 'focused' : ''}} {{disabled ? 'disabled' : ''}}">
+    <input class="neo-input"
+           type="{{type}}"
+           placeholder="{{placeholder}}"
+           value="{{value}}"
+           disabled="{{disabled}}"
+           maxlength="{{maxlength}}"
+           style="background-color: {{bgColor}}"
+           bindinput="onInput"
+           bindfocus="onFocus"
+           bindblur="onBlur"
+           bindconfirm="onConfirm" />
+  </view>
+</view>

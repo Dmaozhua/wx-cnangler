@@ -94,45 +94,7 @@ page {
   display: block;
 }
 
-.info-card {
-  background-color: rgba(255, 255, 255, 0.85);
-  border-radius: 16rpx;
-  padding: 12rpx;
-  margin-bottom: 8rpx;
-  /* 立体扁平化效果 */
-  box-shadow: 
-    0 2rpx 8rpx rgba(0, 0, 0, 0.1),
-    0 8rpx 24rpx rgba(0, 0, 0, 0.08),
-    inset 0 1rpx 0 rgba(255, 255, 255, 0.6),
-    inset 0 -1rpx 0 rgba(0, 0, 0, 0.05);
-  border: 1rpx solid rgba(30, 58, 138, 0.1);
-  backdrop-filter: blur(5px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  transform: translateZ(0);
-}
-
-.info-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 16rpx;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-  pointer-events: none;
-  z-index: 1;
-}
-
-.info-card:hover {
-  transform: translateY(-4rpx) translateZ(0);
-  box-shadow: 
-    0 4rpx 16rpx rgba(0, 0, 0, 0.12),
-    0 12rpx 32rpx rgba(0, 0, 0, 0.1),
-    inset 0 1rpx 0 rgba(255, 255, 255, 0.7),
-    inset 0 -1rpx 0 rgba(0, 0, 0, 0.08);
-}
+/* 原有的info-card样式已被neo-card和neo-tabs替代 */
 
 /* 卡片网格布局 */
 .cards-grid {
@@ -142,32 +104,63 @@ page {
   margin-bottom: 4rpx;
 }
 
-/* 确保卡片内容在伪元素之上 */
-.card-title,
-.weather-info,
-.water-info,
-.habitat-options,
-.water-image {
-  position: relative;
-  z-index: 2;
-}
-
-/* 天气卡片特殊样式 */
-.weather-card {
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(209, 233, 255, 0.85));
+/* Neo-card容器样式 */
+.weather-card-container {
   grid-column: 1;
 }
 
-/* 水域卡片特殊样式 */
-.water-card {
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(209, 255, 236, 0.85));
+.water-card-container {
   grid-column: 2;
 }
 
-/* 栖息地卡片特殊样式 */
-.habitat-card {
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(255, 245, 209, 0.85));
+.habitat-card-container {
   grid-column: 1 / span 2; /* 横跨两列 */
+  margin-top: 8rpx;
+}
+
+/* 水域图片样式 - 保持原有样式 */
+.water-image {
+  width: 100%;
+  height: 120rpx;
+  border-radius: 8rpx;
+  margin-top: 8rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.water-image:hover {
+  transform: scale(1.02);
+}
+
+/* 栖息地选择区域样式 */
+.habitat-selection {
+  padding: 8rpx 0;
+}
+
+.habitat-radio-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rpx 16rpx;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 20rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2rpx solid transparent;
+}
+
+.habitat-radio-option.selected {
+  background-color: rgba(30, 58, 138, 0.15);
+  border-color: #1E3A8A;
+  box-shadow: 0 3rpx 10rpx rgba(30, 58, 138, 0.2);
+}
+
+.habitat-radio-text {
+  margin-left: 8rpx;
+  font-size: 24rpx;
+  color: #333;
+  font-weight: 500;
 }
 
 /* 自定义radio样式 */
@@ -189,29 +182,6 @@ page {
   transform: scale(1.05);
 }
 
-.card-title {
-  font-size: 30rpx;
-  font-weight: bold;
-  color: #1E3A8A;
-  margin-bottom: 6rpx;
-  border-bottom: 2rpx solid rgba(30, 58, 138, 0.2);
-  padding-bottom: 4rpx;
-  text-align: center;
-  position: relative;
-}
-
-.card-title::after {
-  content: '';
-  position: absolute;
-  bottom: -2rpx;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60rpx;
-  height: 3rpx;
-  background-color: #1E3A8A;
-  border-radius: 3rpx;
-}
-
 .weather-info, .water-info {
   display: flex;
   flex-direction: column;
@@ -221,18 +191,16 @@ page {
 }
 
 .weather-name, .water-name {
-  font-size: 30rpx;
-  font-weight: bold;
-  margin-bottom: 8rpx;
+  font-size: 32rpx;
+  font-weight: 700;
   color: #1E3A8A;
-  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.1);
+  margin-bottom: 4rpx;
 }
 
-.weather-desc, .water-desc {
-  font-size: 26rpx;
-  color: #555;
+.weather-description, .water-description {
+  font-size: 24rpx;
+  color: #64748B;
   line-height: 1.4;
-  max-width: 90%;
 }
 
 .water-image {
@@ -249,38 +217,7 @@ page {
   transform: scale(1.02);
 }
 
-.habitat-options {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8rpx;
-  margin: 8rpx 0;
-}
-
-.habitat-option {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8rpx 12rpx;
-  margin: 2rpx;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 30rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.12);
-  transition: all 0.3s ease;
-  border: 1rpx solid transparent;
-}
-
-.habitat-option:hover,
-.habitat-option:active {
-  background-color: rgba(30, 58, 138, 0.1);
-  transform: scale(1.02);
-}
-
-.habitat-name {
-  margin-left: 8rpx;
-  font-size: 26rpx;
-  color: #333;
-  font-weight: 500;
-}
+/* 栖息地选项样式已被neo-tabs替代 */
 
 .button-group {
   display: flex;

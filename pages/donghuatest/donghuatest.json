@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "boat-animation": "/components/boat-animation/boat-animation",
+    "component-library": "/components/componentLibrary/componentLibrary",
+    "neo-button": "/components/neo-button/neo-button",
+    "neo-card": "/components/neo-card/neo-card",
+    "neo-input": "/components/neo-input/neo-input"
+  }
+}

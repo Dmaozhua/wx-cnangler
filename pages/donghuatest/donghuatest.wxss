@@ -1,0 +1,85 @@
+/* donghuatest.wxss */
+.container {
+  padding: 40rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.title {
+  font-size: 48rpx;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 60rpx;
+  color: #333;
+}
+
+/* 拆分组件演示区域 */
+.split-components-section {
+  margin-bottom: 60rpx;
+  padding: 40rpx;
+  background-color: #ffffff;
+  border: 6rpx solid #000000;
+  box-shadow: 12rpx 12rpx 0 #000000;
+}
+
+.component-demo {
+  margin-bottom: 60rpx;
+  padding: 30rpx;
+  background-color: #f8f8f8;
+  border: 4rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+}
+
+.demo-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+  color: #000000;
+  display: block;
+  border-bottom: 3rpx solid #000000;
+  padding-bottom: 15rpx;
+}
+
+/* 完整组件库区域 */
+.full-library-section {
+  margin-bottom: 60rpx;
+}
+
+.animation-container {
+  width: 100%;
+  height: 600rpx;
+  background-color: #87CEEB;
+  border: 4rpx solid #000;
+  box-shadow: 8rpx 8rpx 0 #000;
+  margin: 40rpx 0;
+}
+
+.animation-section {
+  margin-top: 60rpx;
+}
+
+.section-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+  color: #333;
+  display: block;
+  border-left: 8rpx solid #000000;
+  padding-left: 20rpx;
+}
+
+/* 按钮组件间距 */
+neo-button {
+  margin: 10rpx;
+  display: inline-block;
+}
+
+/* 卡片组件间距 */
+neo-card {
+  margin-bottom: 20rpx;
+}
+
+/* 输入框组件间距 */
+neo-input {
+  margin-bottom: 20rpx;
+}

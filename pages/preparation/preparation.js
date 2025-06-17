@@ -12,6 +12,9 @@ Page({
     water: {},
     habitatsList: [],
     selectedHabitat: '',
+    selectedHabitatIndex: 0, // 当前选中的栖息地索引
+    habitatTabNames: [], // 栖息地标签页名称
+    habitatTabContents: [], // 栖息地标签页内容
     isRandomButtonDisabled: false, // 随机按钮是否禁用
     isTransitioning: false, // 是否正在过渡中
     sceneBgFadeOut: false, // 背景淡出状态
@@ -43,6 +46,11 @@ Page({
       name: water.habitats[key] || key // 使用中文名称，如果没有则使用键名
     }));
     
+    // 为neo-tabs组件准备数据
+    const habitatTabNames = habitatsListWithNames.map(item => item.name);
+    const habitatTabContents = habitatsListWithNames.map(item => `钓点: ${item.name}`);
+    const selectedHabitatIndex = 0; // 默认选中第一个
+    
     console.log('[钓鱼准备] 有效栖息地列表:', habitats);
 
     // 保存在全局数据中
@@ -71,7 +79,10 @@ Page({
       weather,
       water,
       habitatsList: habitatsListWithNames,
-      selectedHabitat
+      selectedHabitat,
+      selectedHabitatIndex,
+      habitatTabNames,
+      habitatTabContents
     });
   },
   onHabitatChange(e) {
@@ -80,6 +91,20 @@ Page({
     });
     app.globalData.habitat = e.detail.value;
     console.log('[钓鱼准备] 选择钓点:', e.detail.value);
+  },
+  
+  // 处理neo-tabs标签页切换
+  onHabitatTabChange(e) {
+    const { index } = e.detail;
+    const selectedHabitat = this.data.habitatsList[index].key;
+    
+    this.setData({
+      selectedHabitatIndex: index,
+      selectedHabitat: selectedHabitat
+    });
+    
+    app.globalData.habitat = selectedHabitat;
+    console.log('[钓鱼准备] 切换钓点标签页:', index, selectedHabitat);
   },
   onRandomAgain() {
     // 如果按钮已禁用，则不执行随机操作
@@ -116,6 +141,11 @@ Page({
       name: water.habitats[key] || key // 使用中文名称，如果没有则使用键名
     }));
     
+    // 为neo-tabs组件准备数据
+    const habitatTabNames = habitatsListWithNames.map(item => item.name);
+    const habitatTabContents = habitatsListWithNames.map(item => `钓点: ${item.name}`);
+    const selectedHabitatIndex = 0; // 默认选中第一个
+    
     console.log('[钓鱼准备] 重新随机:', {
       weather: weather.name,
       water: water.name,
@@ -140,6 +170,9 @@ Page({
         water,
         habitatsList: habitatsListWithNames,
         selectedHabitat,
+        selectedHabitatIndex,
+        habitatTabNames,
+        habitatTabContents,
         sceneBgFadeOut: false, // 取消淡出状态，准备淡入
         sceneBgFadeIn: true // 开始淡入动画
       });

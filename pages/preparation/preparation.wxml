@@ -23,35 +23,43 @@
 
   <!-- 卡片网格布局 -->
   <view class="cards-grid">
-    <!-- 天气信息 -->
-    <view class="info-card weather-card">
-      <view class="card-title">当前天气</view>
-      <view class="weather-info">
-        <text class="weather-name">{{weather.name}}</text>
-        <text class="weather-desc">{{weather.description}}</text>
-      </view>
+    <!-- 天气信息 - 使用neo-card -->
+    <view class="weather-card-container">
+      <neo-card title="当前天气" 
+                content="{{weather.name}} - {{weather.description}}"
+                bg-color="rgba(209, 233, 255, 0.9)">
+      </neo-card>
     </view>
     
-    <!-- 水域信息 -->
-    <view class="info-card water-card">
-      <view class="card-title">钓场水域</view>
-      <view class="water-info">
-        <text class="water-name">{{water.name}}</text>
-        <text class="water-desc">{{water.description}}</text>
-      </view>
-      <image class="water-image" src="{{water.image}}" mode="aspectFill"></image>
+    <!-- 水域信息 - 使用neo-card -->
+    <view class="water-card-container">
+      <neo-card title="钓场水域" 
+                content="{{water.name}} - {{water.description}}"
+                bg-color="rgba(209, 255, 236, 0.9)">
+        <image class="water-image" src="{{water.image}}" mode="aspectFill"></image>
+      </neo-card>
     </view>
   
-    <!-- 栖息地选择 -->
-    <view class="info-card habitat-card">
-    <view class="card-title">选择钓点</view>
-    <radio-group class="habitat-options" bindchange="onHabitatChange">
-      <label class="habitat-option {{selectedHabitat === item.key ? 'habitat-option-selected' : ''}}" wx:for="{{habitatsList}}" wx:key="index">
-        <radio value="{{item.key}}" checked="{{selectedHabitat === item.key}}" color="#1E3A8A"/>
-        <text class="habitat-name">{{item.name}}</text>
-      </label>
-    </radio-group>
-  </view>
+    <!-- 栖息地选择 - 使用neo-tabs -->
+    <view class="habitat-card-container">
+      <neo-tabs tabs="{{habitatTabNames}}" 
+                contents="{{habitatTabContents}}"
+                active-index="{{selectedHabitatIndex}}"
+                bg-color="rgba(255, 245, 209, 0.9)"
+                active-color="#FFD166"
+                bind:tabchange="onHabitatTabChange">
+        <view slot="content-{{selectedHabitatIndex}}" class="habitat-selection">
+          <radio-group bindchange="onHabitatChange">
+            <label class="habitat-radio-option {{selectedHabitat === habitatsList[selectedHabitatIndex].key ? 'selected' : ''}}">
+              <radio value="{{habitatsList[selectedHabitatIndex].key}}" 
+                     checked="{{selectedHabitat === habitatsList[selectedHabitatIndex].key}}" 
+                     color="#1E3A8A"/>
+              <text class="habitat-radio-text">选择此钓点</text>
+            </label>
+          </radio-group>
+        </view>
+      </neo-tabs>
+    </view>
   </view>
   
   <!-- 开始钓鱼按钮 -->

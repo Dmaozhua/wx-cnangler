@@ -1,0 +1,61 @@
+/* neo-card.wxss - Neo Brutalist卡片组件样式 */
+
+.neo-card {
+  border: 6rpx solid #000000;
+  box-shadow: 12rpx 12rpx 0 #000000;
+  background-color: #06FFA5;
+  padding: 32rpx;
+  margin: 16rpx 0;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.neo-card:active {
+  box-shadow: 6rpx 6rpx 0 #000000;
+  transform: translate(6rpx, 6rpx);
+}
+
+.neo-card:hover {
+  box-shadow: 8rpx 8rpx 0 #000000;
+  transform: translate(4rpx, 4rpx);
+}
+
+.neo-card-header {
+  margin-bottom: 24rpx;
+  border-bottom: 4rpx solid #000000;
+  padding-bottom: 16rpx;
+}
+
+.neo-card-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #000000;
+  line-height: 1.2;
+}
+
+.neo-card-content {
+  color: #000000;
+}
+
+.neo-card-text {
+  font-size: 28rpx;
+  line-height: 1.5;
+  display: block;
+  margin-bottom: 16rpx;
+}
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .neo-card {
+    padding: 24rpx;
+    margin: 12rpx 0;
+  }
+  
+  .neo-card-title {
+    font-size: 32rpx;
+  }
+  
+  .neo-card-text {
+    font-size: 26rpx;
+  }
+}

@@ -86,6 +86,9 @@
                 <button class="feature-btn simulator-btn" hover-class="btn-hover" bindtap="goToFishingSimulator">
                     <image class="feature-icon music-icon" src="../../images/icons/homeicon15.png"></image>
                 钓鱼模拟器</button>
+                <button class="feature-btn test-btn" hover-class="btn-hover" bindtap="goToDonghuaTest">
+                    <image class="feature-icon music-icon" src="../../images/icons/homeicon16.png"></image>
+                动画测试</button>
             </view>
         </view>
     </scroll-view>

@@ -1,0 +1,7 @@
+<!-- neo-button.wxml - Neo Brutalist按钮组件模板 -->
+<button class="neo-button {{size}} {{disabled ? 'disabled' : ''}}"
+        style="background-color: {{color}}; color: {{textColor}}"
+        disabled="{{disabled}}"
+        bindtap="onButtonTap">
+  {{text}}
+</button>

@@ -1,0 +1,61 @@
+<!-- donghuatest.wxml -->
+<view class="container">
+  <text class="title">Neo Brutalist 组件库演示</text>
+  
+  <!-- 拆分组件演示 -->
+  <view class="split-components-section">
+    <text class="section-title">拆分组件演示</text>
+    
+    <!-- Neo Button 演示 -->
+    <view class="component-demo">
+      <text class="demo-title">Neo Button 组件</text>
+      <neo-button text="默认按钮" bind:tap="onButtonTap"></neo-button>
+      <neo-button text="大按钮" size="large" color="#FF6B6B" bind:tap="onButtonTap"></neo-button>
+      <neo-button text="小按钮" size="small" color="#4ECDC4" bind:tap="onButtonTap"></neo-button>
+      <neo-button text="禁用按钮" disabled="{{true}}"></neo-button>
+    </view>
+    
+    <!-- Neo Card 演示 -->
+    <view class="component-demo">
+      <text class="demo-title">Neo Card 组件</text>
+      <neo-card title="示例卡片" 
+                content="这是一个Neo Brutalist风格的卡片组件，具有粗边框和阴影效果。"
+                bind:cardtap="onCardTap"></neo-card>
+      <neo-card title="自定义颜色卡片" 
+                content="可以自定义背景颜色的卡片组件。"
+                bg-color="#FFD93D"
+                bind:cardtap="onCardTap"></neo-card>
+    </view>
+    
+    <!-- Neo Input 演示 -->
+    <view class="component-demo">
+      <text class="demo-title">Neo Input 组件</text>
+      <neo-input label="用户名" 
+                 placeholder="请输入用户名"
+                 bind:input="onInputChange"></neo-input>
+      <neo-input label="密码" 
+                 type="password"
+                 placeholder="请输入密码"
+                 bind:input="onInputChange"></neo-input>
+      <neo-input label="年龄" 
+                 type="number"
+                 placeholder="请输入年龄"
+                 bg-color="#F8F8FF"
+                 bind:input="onInputChange"></neo-input>
+    </view>
+  </view>
+  
+  <!-- 完整组件库展示 -->
+  <view class="full-library-section">
+    <text class="section-title">完整组件库</text>
+    <component-library></component-library>
+  </view>
+  
+  <!-- 动画演示部分 -->
+  <view class="animation-section">
+    <text class="section-title">船只动画演示</text>
+    <view class="animation-container">
+      <boat-animation></boat-animation>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,77 @@
+/* neo-tabs.wxss - Neo Brutalist标签页组件样式 */
+
+.neo-tabs {
+  width: 100%;
+  background-color: #ffffff;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+  transition: all 0.2s ease;
+}
+
+.neo-tabs:active {
+  box-shadow: 4rpx 4rpx 0 #000000;
+  transform: translate(4rpx, 4rpx);
+}
+
+.tabs-header {
+  display: flex;
+  border-bottom: 6rpx solid #000000;
+  background-color: #f0f0f0;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 16rpx 12rpx;
+  font-size: 24rpx;
+  font-weight: bold;
+  text-align: center;
+  background-color: #e0e0e0;
+  color: #1a1a1a;
+  border-right: 4rpx solid #000000;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.tab-button:last-child {
+  border-right: none;
+}
+
+.tab-button:active {
+  transform: scale(0.95);
+}
+
+.tab-button.active {
+  background-color: #FFD166;
+  color: #000000;
+  box-shadow: inset 0 4rpx 8rpx rgba(0, 0, 0, 0.2);
+}
+
+.tabs-content {
+  padding: 24rpx;
+  background-color: #ffffff;
+  min-height: 120rpx;
+}
+
+.tab-content-item {
+  font-size: 24rpx;
+  color: #666666;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .tab-button {
+    padding: 12rpx 8rpx;
+    font-size: 22rpx;
+  }
+  
+  .tabs-content {
+    padding: 20rpx;
+  }
+  
+  .tab-content-item {
+    font-size: 22rpx;
+  }
+}

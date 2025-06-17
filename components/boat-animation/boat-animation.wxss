@@ -1,0 +1,38 @@
+/* boat-animation.wxss */
+.boat-animation-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #1e3a8a; /* 深蓝色背景 */
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.boat-canvas {
+  width: 300px;
+  height: 300px;
+  display: block;
+}
+
+.description {
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 16px;
+  opacity: 0.8;
+}

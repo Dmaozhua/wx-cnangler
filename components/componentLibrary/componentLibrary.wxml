@@ -1,0 +1,208 @@
+<!-- componentLibrary.wxml - 微信小程序组件库模板 -->
+<view class="container">
+  <view class="header">
+    <text class="title">Neo Brutalist Component Library</text>
+  </view>
+
+  <!-- 组件网格 -->
+  <view class="components-grid">
+    <block wx:for="{{components}}" wx:key="id" wx:for-item="component" wx:for-index="index">
+      <view class="component-card">
+        <!-- 组件标题 -->
+        <view class="component-header">
+          <text class="component-title">{{component.title}}</text>
+          <text class="component-description">{{component.description}}</text>
+        </view>
+
+        <!-- 组件预览 -->
+        <view class="component-preview">
+          
+          <!-- Button 组件 -->
+          <block wx:if="{{component.id === 'button'}}">
+            <button class="neo-button" 
+                    style="background-color: {{component.props.color}}; color: {{component.props.textColor}}"
+                    data-component="{{component}}"
+                    bindtap="onButtonTap">
+              {{component.props.text}}
+            </button>
+          </block>
+
+          <!-- Card 组件 -->
+          <block wx:if="{{component.id === 'card'}}">
+            <view class="neo-card">
+              <text class="card-title">{{component.props.title}}</text>
+              <text class="card-content">{{component.props.content}}</text>
+            </view>
+          </block>
+
+          <!-- Input 组件 -->
+          <block wx:if="{{component.id === 'input'}}">
+            <input class="neo-input" 
+                   placeholder="{{component.props.placeholder}}"
+                   type="{{component.props.type}}"
+                   value="{{component.props.value}}"
+                   data-component="{{component}}"
+                   data-index="{{index}}"
+                   bindinput="onInputChange" />
+          </block>
+
+          <!-- Toggle 组件 -->
+          <block wx:if="{{component.id === 'toggle'}}">
+            <view class="neo-toggle">
+              <switch checked="{{component.props.checked}}"
+                      data-component="{{component}}"
+                      data-index="{{index}}"
+                      bindchange="onToggleChange" />
+              <text class="toggle-label">{{component.props.label}}</text>
+            </view>
+          </block>
+
+          <!-- Alert 组件 -->
+          <block wx:if="{{component.id === 'alert'}}">
+            <view class="neo-alert alert-{{component.props.type}}">
+              <text class="alert-message">{{component.props.message}}</text>
+              <text class="alert-close" 
+                    data-index="{{index}}"
+                    bindtap="onAlertClose">×</text>
+            </view>
+          </block>
+
+          <!-- Modal 组件 -->
+          <block wx:if="{{component.id === 'modal'}}">
+            <view class="neo-modal-container">
+              <button class="neo-button" 
+                      data-index="{{index}}"
+                      bindtap="onModalToggle">
+                打开模态框
+              </button>
+              <view class="neo-modal {{component.props.visible ? 'visible' : 'hidden'}}">
+                <view class="modal-content">
+                  <text class="modal-title">{{component.props.title}}</text>
+                  <text class="modal-text">{{component.props.content}}</text>
+                  <button class="neo-button" 
+                          data-index="{{index}}"
+                          bindtap="onModalToggle">
+                    关闭
+                  </button>
+                </view>
+              </view>
+            </view>
+          </block>
+
+          <!-- Nav 组件 -->
+          <block wx:if="{{component.id === 'nav'}}">
+            <view class="neo-nav">
+              <block wx:for="{{component.props.links}}" wx:key="*this" wx:for-item="link">
+                <text class="nav-link" 
+                      data-link="{{link}}"
+                      bindtap="onNavLinkTap">
+                  {{link}}
+                </text>
+              </block>
+            </view>
+          </block>
+
+          <!-- Progress 组件 -->
+          <block wx:if="{{component.id === 'progress'}}">
+            <view class="neo-progress">
+              <view class="progress-bar" 
+                    style="width: {{component.props.value}}%; background-color: {{component.props.color}}">
+              </view>
+            </view>
+          </block>
+
+          <!-- Dropdown 组件 -->
+          <block wx:if="{{component.id === 'dropdown'}}">
+            <view class="neo-dropdown">
+              <button class="dropdown-button" 
+                      data-index="{{index}}"
+                      bindtap="onDropdownToggle">
+                {{component.props.label}}
+              </button>
+              <view class="dropdown-menu {{component.props.visible ? 'visible' : 'hidden'}}">
+                <block wx:for="{{component.props.options}}" wx:key="*this" wx:for-item="option">
+                  <text class="dropdown-option" 
+                        data-option="{{option}}"
+                        data-index="{{index}}"
+                        bindtap="onDropdownOptionTap">
+                    {{option}}
+                  </text>
+                </block>
+              </view>
+            </view>
+          </block>
+
+          <!-- Accordion 组件 -->
+          <block wx:if="{{component.id === 'accordion'}}">
+            <view class="neo-accordion">
+              <block wx:for="{{component.props.items}}" wx:key="title" wx:for-item="item" wx:for-index="itemIndex">
+                <view class="accordion-item">
+                  <view class="accordion-header" 
+                        data-index="{{index}}"
+                        data-item-index="{{itemIndex}}"
+                        bindtap="onAccordionToggle">
+                    <text class="accordion-title">{{item.title}}</text>
+                    <text class="accordion-icon">{{item.open ? '-' : '+'}}</text>
+                  </view>
+                  <view class="accordion-content {{item.open ? 'open' : 'closed'}}">
+                    <text class="accordion-text">{{item.content}}</text>
+                  </view>
+                </view>
+              </block>
+            </view>
+          </block>
+
+          <!-- Tooltip 组件 -->
+          <block wx:if="{{component.id === 'tooltip'}}">
+            <view class="neo-tooltip">
+              <text class="tooltip-trigger" 
+                    data-index="{{index}}"
+                    bindtap="onTooltipToggle">
+                {{component.props.trigger}}
+              </text>
+              <view class="tooltip-content {{component.props.visible ? 'visible' : 'hidden'}}">
+                <text class="tooltip-text">{{component.props.content}}</text>
+              </view>
+            </view>
+          </block>
+
+          <!-- Avatar 组件 -->
+          <block wx:if="{{component.id === 'avatar'}}">
+            <view class="neo-avatar" 
+                  style="background-color: {{component.props.bgColor}}; color: {{component.props.textColor}}">
+              <text class="avatar-text">{{component.props.initials}}</text>
+            </view>
+          </block>
+
+          <!-- Badge 组件 -->
+          <block wx:if="{{component.id === 'badge'}}">
+            <text class="neo-badge" 
+                  style="background-color: {{component.props.color}}; color: {{component.props.textColor}}">
+              {{component.props.text}}
+            </text>
+          </block>
+
+          <!-- Tabs 组件 -->
+          <block wx:if="{{component.id === 'tabs'}}">
+            <view class="neo-tabs">
+              <view class="tabs-header">
+                <block wx:for="{{component.props.tabs}}" wx:key="*this" wx:for-item="tab" wx:for-index="tabIndex">
+                  <text class="tab-button {{component.props.activeIndex === tabIndex ? 'active' : ''}}" 
+                        data-index="{{index}}"
+                        data-tab-index="{{tabIndex}}"
+                        bindtap="onTabChange">
+                    {{tab}}
+                  </text>
+                </block>
+              </view>
+              <view class="tabs-content">
+                <text class="tab-content">{{component.props.contents[component.props.activeIndex]}}</text>
+              </view>
+            </view>
+          </block>
+
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

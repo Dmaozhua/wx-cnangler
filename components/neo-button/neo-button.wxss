@@ -1,0 +1,67 @@
+/* neo-button.wxss - Neo Brutalist按钮组件样式 */
+
+.neo-button {
+  padding: 16rpx 32rpx;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+  font-size: 28rpx;
+  font-weight: bold;
+  border-radius: 0;
+  background-color: #FFD166;
+  color: #000000;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  outline: none;
+  display: inline-block;
+  text-align: center;
+  line-height: 1;
+}
+
+.neo-button:active {
+  box-shadow: 4rpx 4rpx 0 #000000;
+  transform: translate(4rpx, 4rpx);
+}
+
+.neo-button:hover {
+  box-shadow: 6rpx 6rpx 0 #000000;
+  transform: translate(2rpx, 2rpx);
+}
+
+/* 按钮大小变体 */
+.neo-button.small {
+  padding: 12rpx 24rpx;
+  font-size: 24rpx;
+  border: 4rpx solid #000000;
+  box-shadow: 6rpx 6rpx 0 #000000;
+}
+
+.neo-button.small:active {
+  box-shadow: 3rpx 3rpx 0 #000000;
+  transform: translate(3rpx, 3rpx);
+}
+
+.neo-button.large {
+  padding: 24rpx 48rpx;
+  font-size: 32rpx;
+  border: 8rpx solid #000000;
+  box-shadow: 12rpx 12rpx 0 #000000;
+}
+
+.neo-button.large:active {
+  box-shadow: 6rpx 6rpx 0 #000000;
+  transform: translate(6rpx, 6rpx);
+}
+
+/* 禁用状态 */
+.neo-button.disabled {
+  background-color: #cccccc !important;
+  color: #666666 !important;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.neo-button.disabled:active,
+.neo-button.disabled:hover {
+  box-shadow: 8rpx 8rpx 0 #000000;
+  transform: none;
+}

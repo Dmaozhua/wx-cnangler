@@ -1,0 +1,8 @@
+<!-- boat-animation.wxml -->
+<view class="boat-animation-container">
+  <canvas canvas-id="boatCanvas" class="boat-canvas"></canvas>
+  <view class="description" wx:if="{{showDescription}}">
+    <text class="title">小船儿</text>
+    <text class="subtitle">轻轻荡，荡到了海中央</text>
+  </view>
+</view>

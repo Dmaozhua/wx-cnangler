@@ -1,0 +1,70 @@
+/* neo-input.wxss - Neo Brutalist输入框组件样式 */
+
+.neo-input-container {
+  margin: 16rpx 0;
+}
+
+.neo-input-label {
+  margin-bottom: 12rpx;
+}
+
+.neo-label-text {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #000000;
+  display: block;
+}
+
+.neo-input-wrapper {
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+  background-color: #FFFFFF;
+  transition: all 0.2s ease;
+}
+
+.neo-input-wrapper.focused {
+  box-shadow: 6rpx 6rpx 0 #000000;
+  transform: translate(2rpx, 2rpx);
+}
+
+.neo-input-wrapper.disabled {
+  background-color: #f0f0f0;
+  opacity: 0.6;
+}
+
+.neo-input {
+  width: 100%;
+  padding: 24rpx;
+  font-size: 28rpx;
+  color: #000000;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.neo-input::placeholder {
+  color: #666666;
+  font-style: italic;
+}
+
+/* 不同类型的输入框样式 */
+.neo-input[type="password"] {
+  font-family: monospace;
+}
+
+.neo-input[type="number"] {
+  text-align: right;
+}
+
+/* 响应式设计 */
+@media (max-width: 750rpx) {
+  .neo-input {
+    padding: 20rpx;
+    font-size: 26rpx;
+  }
+  
+  .neo-label-text {
+    font-size: 26rpx;
+  }
+}

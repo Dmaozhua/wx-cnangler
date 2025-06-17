@@ -1,0 +1,13 @@
+<!-- neo-card.wxml - Neo Brutalist卡片组件模板 -->
+<view class="neo-card" 
+      style="background-color: {{bgColor}}; height: {{height}}"
+      bindtap="onCardTap">
+  <view class="neo-card-header" wx:if="{{showTitle}}">
+    <text class="neo-card-title">{{title}}</text>
+  </view>
+  <view class="neo-card-content">
+    <text class="neo-card-text">{{content}}</text>
+    <!-- 支持插槽内容 -->
+    <slot></slot>
+  </view>
+</view>

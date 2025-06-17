@@ -1,0 +1,476 @@
+/* componentLibrary.wxss - 微信小程序组件库样式 */
+
+/* 全局样式 */
+.container {
+  padding: 32rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 48rpx;
+}
+
+.title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+  letter-spacing: 4rpx;
+}
+
+/* 组件网格 */
+.components-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+}
+
+.component-card {
+  background-color: #ffffff;
+  border: 8rpx solid #000000;
+  box-shadow: 16rpx 16rpx 0 #000000;
+  border-radius: 0;
+}
+
+.component-header {
+  padding: 24rpx;
+  border-bottom: 8rpx solid #000000;
+  background-color: #f0f0f0;
+}
+
+.component-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 8rpx;
+}
+
+.component-description {
+  display: block;
+  font-size: 24rpx;
+  color: #666666;
+}
+
+.component-preview {
+  padding: 32rpx;
+  min-height: 200rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Neo Brutalist 基础样式 */
+.neo-button {
+  padding: 16rpx 32rpx;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+  font-size: 28rpx;
+  font-weight: bold;
+  border-radius: 0;
+  background-color: #FFD166;
+  color: #000000;
+}
+
+.neo-button:active {
+  box-shadow: 4rpx 4rpx 0 #000000;
+  transform: translate(4rpx, 4rpx);
+}
+
+/* Card 组件样式 */
+.neo-card {
+  background-color: #ffffff;
+  border: 6rpx solid #000000;
+  box-shadow: 12rpx 12rpx 0 #000000;
+  padding: 32rpx;
+  width: 100%;
+  max-width: 400rpx;
+}
+
+.card-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 16rpx;
+  color: #1a1a1a;
+}
+
+.card-content {
+  display: block;
+  font-size: 24rpx;
+  color: #666666;
+  line-height: 1.5;
+}
+
+/* Input 组件样式 */
+.neo-input {
+  width: 100%;
+  max-width: 400rpx;
+  padding: 16rpx;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+  font-size: 28rpx;
+  background-color: #ffffff;
+  border-radius: 0;
+}
+
+/* Toggle 组件样式 */
+.neo-toggle {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.toggle-label {
+  font-size: 28rpx;
+  color: #1a1a1a;
+}
+
+/* Alert 组件样式 */
+.neo-alert {
+  padding: 24rpx;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 400rpx;
+}
+
+.alert-success {
+  background-color: #4CAF50;
+  color: #ffffff;
+}
+
+.alert-error {
+  background-color: #F44336;
+  color: #ffffff;
+}
+
+.alert-message {
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.alert-close {
+  font-size: 40rpx;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Modal 组件样式 */
+.neo-modal-container {
+  position: relative;
+}
+
+.neo-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.neo-modal.hidden {
+  display: none;
+}
+
+.neo-modal.visible {
+  display: flex;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  border: 8rpx solid #000000;
+  box-shadow: 16rpx 16rpx 0 #000000;
+  padding: 48rpx;
+  margin: 32rpx;
+  max-width: 600rpx;
+  width: 90%;
+}
+
+.modal-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 24rpx;
+  color: #1a1a1a;
+}
+
+.modal-text {
+  display: block;
+  font-size: 28rpx;
+  margin-bottom: 32rpx;
+  color: #666666;
+  line-height: 1.5;
+}
+
+/* Nav 组件样式 */
+.neo-nav {
+  background-color: #000000;
+  padding: 24rpx;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24rpx;
+}
+
+.nav-link {
+  color: #ffffff;
+  font-size: 28rpx;
+  font-weight: bold;
+  padding: 8rpx 16rpx;
+}
+
+/* Progress 组件样式 */
+.neo-progress {
+  width: 100%;
+  max-width: 400rpx;
+  height: 32rpx;
+  background-color: #e0e0e0;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #000000;
+  transition: width 0.3s ease;
+}
+
+/* Dropdown 组件样式 */
+.neo-dropdown {
+  position: relative;
+  width: 100%;
+  max-width: 300rpx;
+}
+
+.dropdown-button {
+  width: 100%;
+  padding: 16rpx 32rpx;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+  background-color: #FFD166;
+  color: #000000;
+  font-size: 28rpx;
+  font-weight: bold;
+  text-align: left;
+  border-radius: 0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+  z-index: 100;
+  margin-top: 8rpx;
+}
+
+.dropdown-menu.hidden {
+  display: none;
+}
+
+.dropdown-menu.visible {
+  display: block;
+}
+
+.dropdown-option {
+  display: block;
+  padding: 16rpx 24rpx;
+  font-size: 28rpx;
+  color: #1a1a1a;
+  border-bottom: 2rpx solid #e0e0e0;
+}
+
+.dropdown-option:last-child {
+  border-bottom: none;
+}
+
+/* Accordion 组件样式 */
+.neo-accordion {
+  width: 100%;
+  max-width: 500rpx;
+  background-color: #ffffff;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+}
+
+.accordion-item {
+  border-bottom: 6rpx solid #000000;
+}
+
+.accordion-item:last-child {
+  border-bottom: none;
+}
+
+.accordion-header {
+  padding: 24rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+.accordion-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.accordion-icon {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.accordion-content {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.accordion-content.open {
+  max-height: 1000rpx;
+}
+
+.accordion-content.closed {
+  max-height: 0;
+}
+
+.accordion-text {
+  display: block;
+  padding: 24rpx;
+  font-size: 24rpx;
+  color: #666666;
+  line-height: 1.5;
+}
+
+/* Tooltip 组件样式 */
+.neo-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-trigger {
+  background-color: #FFD166;
+  color: #000000;
+  padding: 8rpx 16rpx;
+  border: 4rpx solid #000000;
+  box-shadow: 6rpx 6rpx 0 #000000;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.tooltip-content {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000000;
+  color: #ffffff;
+  padding: 16rpx;
+  border: 4rpx solid #000000;
+  box-shadow: 6rpx 6rpx 0 #000000;
+  font-size: 24rpx;
+  white-space: nowrap;
+  z-index: 100;
+  margin-top: 8rpx;
+}
+
+.tooltip-content.hidden {
+  display: none;
+}
+
+.tooltip-content.visible {
+  display: block;
+}
+
+.tooltip-text {
+  color: #ffffff;
+}
+
+/* Avatar 组件样式 */
+.neo-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFD166;
+  color: #000000;
+}
+
+.avatar-text {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+/* Badge 组件样式 */
+.neo-badge {
+  display: inline-block;
+  padding: 8rpx 16rpx;
+  border: 4rpx solid #000000;
+  box-shadow: 6rpx 6rpx 0 #000000;
+  font-size: 24rpx;
+  font-weight: bold;
+  background-color: #F44336;
+  color: #ffffff;
+}
+
+/* Tabs 组件样式 */
+.neo-tabs {
+  width: 100%;
+  max-width: 500rpx;
+  background-color: #ffffff;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
+}
+
+.tabs-header {
+  display: flex;
+  border-bottom: 6rpx solid #000000;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 16rpx;
+  font-size: 24rpx;
+  font-weight: bold;
+  text-align: center;
+  background-color: #e0e0e0;
+  color: #1a1a1a;
+  border-right: 4rpx solid #000000;
+}
+
+.tab-button:last-child {
+  border-right: none;
+}
+
+.tab-button.active {
+  background-color: #FFD166;
+  color: #000000;
+}
+
+.tabs-content {
+  padding: 24rpx;
+}
+
+.tab-content {
+  font-size: 24rpx;
+  color: #666666;
+  line-height: 1.5;
+}

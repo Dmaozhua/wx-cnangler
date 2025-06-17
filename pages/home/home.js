@@ -526,6 +526,13 @@ Page({
         });
     },
     
+    // 跳转到动画测试页面
+    goToDonghuaTest() {
+        wx.navigateTo({
+            url: '/pages/donghuatest/donghuatest'
+        });
+    },
+    
     // 成就相关方法
     onShow() {
         // 检查是否有待展示的成就

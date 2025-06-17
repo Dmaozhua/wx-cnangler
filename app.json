@@ -22,7 +22,8 @@
         "pages/music/player",
         "pages/AnglerSay/AnglerSay",
         "pages/AnglerSay/AnglerSayDetail",
-        "pages/eventDetail/eventDetail"
+        "pages/eventDetail/eventDetail",
+        "pages/donghuatest/donghuatest"
     ],
     "window": {
         "navigationBarTitleText": "钓鱼人测试",
