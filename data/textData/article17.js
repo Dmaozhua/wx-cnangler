@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "翘嘴红鳍鲌生态习性与路亚钓法全解析",
-  "author": "李华",
-  "publishDate": "2024-02-15",
+  "author": "AImPhish",
+  "publishDate": "2024-03-15",
   "content": "",
   "children": [
     {

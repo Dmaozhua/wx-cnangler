@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "鱼类听觉系统与声音对鱼类的影响：路亚钓法中声音假饵的诱鱼作用研究",
-  "author": "李华",
-  "publishDate": "2024-02-15",
+  "author": "AImPhish",
+  "publishDate": "2024-03-15",
   "content": "",
   "children": [
     {

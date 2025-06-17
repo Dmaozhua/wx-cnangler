@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "德州钓组(Texas rig)全面解析：历史、使用场景、搭配技巧与操作技巧",
-  "author": "李华",
-  "publishDate": "2024-02-15",
+  "author": "AImPhish",
+  "publishDate": "2024-02-18",
   "content": "",
   "children": [
     {

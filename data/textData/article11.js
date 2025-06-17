@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "路亚钓鱼的全面解析：历史、发展、技术特点与优势",
-  "author": "李华",
-  "publishDate": "2024-02-15",
+  "author": "AImPhish",
+  "publishDate": "2024-02-22",
   "content": "",
   "children": [
     {

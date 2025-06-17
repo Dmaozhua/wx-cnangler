@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "气压对鱼类及路亚钓法的影响：科学数据与实践经验",
-  "author": "李华",
-  "publishDate": "2024-02-15",
+  "author": "AImPhish",
+  "publishDate": "2024-02-20",
   "content": "",
   "children": [
     {

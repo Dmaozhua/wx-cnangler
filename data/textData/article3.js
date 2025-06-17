@@ -1,7 +1,7 @@
 const fishingData = {
     "title": "抽停米诺(Jerkbait)在路亚钓法中的使用时机、选择建议与技巧全解析",
-    "author": "李华",
-    "publishDate": "2024-02-15",
+    "author": "AImPhish",
+    "publishDate": "2024-02-16",
     "content": "",
     "children": [
       {

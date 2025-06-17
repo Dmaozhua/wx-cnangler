@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "大口黑鲈（淡水鲈鱼）自然习性研究报告",
-  "author": "李华",
-  "publishDate": "2024-02-15",
+  "author": "AImPhish",
+  "publishDate": "2024-02-20",
   "content": "",
   "children": [
     {

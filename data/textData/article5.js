@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "路亚钓法中的Neko钓组：历史、使用场景与技巧总结",
-  "author": "李华",
-  "publishDate": "2024-02-15",
+  "author": "AImPhish",
+  "publishDate": "2024-02-188",
   "content": "",
   "children": [
     {

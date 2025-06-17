@@ -1,6 +1,6 @@
 const fishingData = {
   "title": "路亚钓鱼中复合亮片的种类、使用方法和技巧",
-  "author": "李华",
+  "author": "AImPhish",
   "publishDate": "2024-02-15",
   "content": "",
   "children": [

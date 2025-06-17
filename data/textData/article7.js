@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "自由钓组(Free Rig)在路亚钓法中的历史、技巧与应用",
-  "author": "李华",
-  "publishDate": "2024-02-15",
+  "author": "AImPhish",
+  "publishDate": "2024-02-18",
   "content": "",
   "children": [
     {
