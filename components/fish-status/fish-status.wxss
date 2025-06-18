@@ -1,16 +1,11 @@
 /* components/fish-status/fish-status.wxss */
 .fish-status-container {
   position: fixed;
-  left: 0;
   top: 45%;
-  transform: translateX(-100%) translateY(-50%);
-  width: 600rpx;
-  background-color: rgba(234, 234, 234, 0.9);
-  border-radius: 0 16rpx 16rpx 0;
-  box-shadow: 2rpx 2rpx 10rpx rgba(0, 0, 0, 0.2);
-  padding: 20rpx;
+  left: 20rpx;
+  right: 20rpx;
+  transform: translateY(-50%);
   z-index: 100;
-
 }
 
 .visible {
@@ -26,17 +21,18 @@
 /* 入场从左侧滑进 */
 @keyframes slide-in {
     from { transform: translateX(-100%) translateY(-50%); }
-    to   { transform: translateX(0)     translateY(-50%); }
+    to   { transform: translateX(0) translateY(-50%); }
   }
   /* 出场滑回左侧 */
   @keyframes slide-out {
-    from { transform: translateX(0)     translateY(-50%); }
+    from { transform: translateX(0) translateY(-50%); }
     to   { transform: translateX(-100%) translateY(-50%); }
   }
 .status-content {
   display: flex;
   flex-direction: column;
   gap: 20rpx;
+  padding: 0;
 }
 
 .fish-info {
@@ -372,20 +368,23 @@
   display: flex;
   flex-direction: column;
   gap: 5rpx;
+  
 }
 
-/* 自定义进度条样式 */
-.progress-bar {
+/* Neo Progress 样式 */
+.neo-progress {
   width: 100%;
-  height: 16rpx;
-  background-color: #f0f0f0; /* 背景色 */
-  border-radius: 8rpx;
+  max-width: 580rpx; /* 移除最大宽度限制 */
+  height: 32rpx;
+  background-color: #e0e0e0;
+  border: 6rpx solid #000000;
+  box-shadow: 8rpx 8rpx 0 #000000;
   overflow: hidden;
+
 }
 
-.progress-inner {
+.progress-bar {
   height: 100%;
-  border-radius: 8rpx;
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡效果 */
 }
 
@@ -397,10 +396,18 @@
   background-color:rgb(131, 146, 190); /* 钓线状态进度条颜色 */
 }
 
+/* 标签和动画同行布局 */
+.progress-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5rpx;
+}
+
 .progress-label {
   font-size: 30rpx;
   color: #666;
-  margin-top: 5rpx;
+  flex-shrink: 0;
 }
 
 .line-info {
@@ -425,7 +432,15 @@
 .damage-animations-container {
   position: relative;
   height: 40rpx;
-  margin-top: 5rpx;
+  flex: 1;
+  margin-left: 20rpx;
+}
+
+.line-damage-animations-container {
+  position: relative;
+  height: 40rpx;
+  flex: 1;
+  margin-left: 20rpx;
 }
 
 .damage-animation {
@@ -441,6 +456,12 @@
   font-weight: bold;
   text-shadow: 0 0 3rpx rgba(0, 0, 0, 0.3);
 }
+.damage-text1 {
+    color:rgb(131, 146, 190);
+    font-size: 28rpx;
+    font-weight: bold;
+    text-shadow: 0 0 3rpx rgba(0, 0, 0, 0.3);
+  }
 
 /* —— BOSS 稀有度文字 —— */
 .rarity-5-boss {

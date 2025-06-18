@@ -106,8 +106,8 @@
           <block wx:if="{{component.id === 'progress'}}">
             <view class="neo-progress">
               <view class="progress-bar" 
-                    style="width: {{component.props.value}}%; background-color: {{component.props.color}}">
-              </view>
+              style="width: {{component.props.value + '%'}}; background-color: {{component.props.color}}"
+              ></view>
             </view>
           </block>
 

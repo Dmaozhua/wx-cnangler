@@ -48,7 +48,7 @@ Page({
     
     // 为neo-tabs组件准备数据
     const habitatTabNames = habitatsListWithNames.map(item => item.name);
-    const habitatTabContents = habitatsListWithNames.map(item => `钓点: ${item.name}`);
+    const habitatTabContents = habitatsListWithNames.map(item => `当搜索区域: ${item.name}`);
     const selectedHabitatIndex = 0; // 默认选中第一个
     
     console.log('[钓鱼准备] 有效栖息地列表:', habitats);

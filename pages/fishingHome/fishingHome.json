@@ -1,5 +1,7 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "neo-card": "/components/neo-card/neo-card"
+  },
   "navigationBarTitleText": "路亚模拟器",
   "navigationBarBackgroundColor": "#000000",
   "navigationBarTextStyle": "white",

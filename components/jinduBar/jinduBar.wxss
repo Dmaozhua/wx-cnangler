@@ -1,0 +1,89 @@
+/* components/jinduBar/jinduBar.wxss */
+.progress-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40rpx;
+  background: #0B0B0B;
+}
+
+.center {
+  width: 600rpx;
+  height: 80rpx;
+  position: relative;
+  background: rgba(0,0,0,1);
+  border: 4rpx solid rgba(255,255,255,1);
+  border-radius: 10rpx;
+  box-shadow: 0rpx 0rpx 20rpx 10rpx rgba(255,255,255,0.2);
+}
+
+.main {
+  width: 400rpx;
+  height: 80rpx;
+  background: #92C81A;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: stretch 5s infinite linear;
+}
+
+.row {
+  height: 20rpx;
+  width: 800rpx;
+  position: absolute;
+  right: 0;
+  display: flex;
+  animation: squeeze 5s infinite linear;
+}
+
+#r-one {
+  top: 0;
+}
+
+#r-two {
+  top: 20rpx;
+}
+
+#r-three {
+  top: 40rpx;
+}
+
+#r-four {
+  top: 60rpx;
+}
+
+.sq {
+  height: 20rpx;
+  width: 20rpx;
+  display: inline-block;
+}
+
+#sq-2 { background: #4A672F;}
+#sq-3 { background: #1D2019;}
+#sq-6 { background: #2C341C;}
+#sq-1, #sq-5, #sq-9 {
+  background: #74B215;
+}
+#sq-4, #sq-8, #sq-12 {
+  background: #7BC415;
+}
+#sq-7, #sq-10, #sq-11 {
+  background: #92C81A;
+}
+
+@keyframes stretch {
+  0% {width: 400rpx;}
+  25% {width: 560rpx;}
+  50% {width: 720rpx;}
+  75% {width: 480rpx;}
+  100% {width: 400rpx;}
+}
+
+@keyframes squeeze {
+  0% {width: 800rpx;}
+  25% {width: 640rpx;}
+  50% {width: 280rpx;}
+  75% {width: 720rpx;}
+  100% {width: 800rpx;}
+}

@@ -1,0 +1,18 @@
+<!-- components/glowcards/glowcards.wxml -->
+<view class="glow-cards-container">
+  <view class="section-wrapper">
+    <view class="boxes">
+      <view class="card-item" wx:for="{{cards}}" wx:key="id" data-card="{{item}}" bindtap="onCardTap">
+        <view class="card-figure">
+          <text class="card-title">{{item.title}}</text>
+          <text class="card-content">{{item.content}}</text>
+          <view class="card-button" data-card="{{item}}" bindtap="onButtonTap">
+            <text class="button-text">{{item.buttonText}}</text>
+            <text class="button-icon">››</text>
+          </view>
+        </view>
+        <view class="card-glow"></view>
+      </view>
+    </view>
+  </view>
+</view>

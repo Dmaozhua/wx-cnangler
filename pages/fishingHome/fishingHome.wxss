@@ -42,7 +42,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 50;
     transition: background-color 0.3s;
 }
 
@@ -87,7 +87,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 50;
     transition: background-color 0.3s;
 }
 
@@ -272,10 +272,8 @@
 /* 帮助提示弹窗内容样式优化 */
 .tips-content {
     width: 80%;
-    background: linear-gradient(135deg, #f9f9f9, #e0e0e0); /* 添加渐变背景 */
     border-radius: 20rpx;
     overflow: hidden;
-    box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.5), 0 0 40rpx rgba(255, 255, 255, 0.3); /* 添加阴影和发光效果 */
     max-height: 80vh;
     display: flex;
     flex-direction: column;
@@ -328,29 +326,17 @@
 
 .tips-content {
     width: 80%;
-    background-color: white;
-    border-radius: 20rpx;
-    overflow: hidden;
-    box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.5);
     max-height: 80vh;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
-.tips-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 30rpx;
-    background: linear-gradient(45deg, #017EA6, #069BBB); /* 添加渐变背景 */
-    color: white;
-    border-top-left-radius: 20rpx;
-    border-top-right-radius: 20rpx;
-}
-
-.tips-title {
-    font-size: 36rpx;
-    font-weight: bold;
+.tips-header-extra {
+    position: absolute;
+    top: 15rpx;
+    right: 20rpx;
+    z-index: 10;
 }
 
 
@@ -359,9 +345,17 @@
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
+    color: white;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    width: 60rpx;
+    height: 60rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .close-btn:hover {
-    color: #ff5252; /* 鼠标悬停时改变颜色 */
+    background: rgba(255, 82, 82, 0.8);
 }
 
 .tips-body-scroll {

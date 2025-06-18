@@ -9,7 +9,7 @@ Component({
     // 卡片内容
     content: {
       type: String,
-      value: 'This is a neo-brutalist card component with bold borders and shadows.'
+      value: ''
     },
     // 背景颜色
     bgColor: {

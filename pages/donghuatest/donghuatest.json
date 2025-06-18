@@ -4,6 +4,9 @@
     "component-library": "/components/componentLibrary/componentLibrary",
     "neo-button": "/components/neo-button/neo-button",
     "neo-card": "/components/neo-card/neo-card",
-    "neo-input": "/components/neo-input/neo-input"
+    "neo-input": "/components/neo-input/neo-input",
+    "loading-demo": "/components/loadingdemo/loadingdemo",
+    "jindu-bar": "/components/jinduBar/jinduBar",
+    "glow-cards": "/components/glowcards/glowcards"
   }
 }

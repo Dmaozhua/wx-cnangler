@@ -1,5 +1,5 @@
 export const fishtimeData = {
-  Basetime: 300,          // 初始钓鱼时间
-  everyfishon: -5,       // 每次中鱼或者脱钩后扣除
-  everyNONE: -2          // 每次没有鱼咬钩扣除
+  Basetime: 10,          // 初始钓鱼时间
+  everyfishon: -20,       // 每次中鱼或者脱钩后扣除
+  everyNONE: -10          // 每次没有鱼咬钩扣除
 };

@@ -32,13 +32,12 @@ page {
 .fish-caught-content {
     width: 80%;
     max-width: 600rpx;
-    background: linear-gradient(135deg, #3498db, #1e6091);
-    border-radius: 20rpx;
-    overflow: hidden;
-    box-shadow: 0 4rpx 30rpx rgba(0, 0, 0, 0.3);
-    transform: scale(0.9);
-    transition: transform 0.3s;
     animation: popup-appear 0.5s forwards;
+}
+
+.fish-caught-content neo-card {
+    border-radius: 20rpx;
+    box-shadow: 0 4rpx 30rpx rgba(0, 0, 0, 0.3);
 }
 
 @keyframes popup-appear {
@@ -72,6 +71,39 @@ page {
     text-align: center;
 }
 
+/* 鱼类插图样式 */
+.fish-illustration {
+    width: 200rpx;
+    height: 200rpx;
+    margin: 0 auto 30rpx;
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80rpx;
+    color: white;
+    text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4rpx 20rpx rgba(116, 185, 255, 0.4);
+}
+
+.fish-name {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 20rpx;
+    text-align: center;
+}
+
+.fish-info {
+    margin: 30rpx 0;
+}
+
+.confirm-btn-container {
+    margin-top: 30rpx;
+    text-align: center;
+}
+
 .fish-caught-name {
     font-size: 48rpx;
     color: #ffffff;
@@ -86,20 +118,60 @@ page {
     align-items: center;
     margin-top: 20rpx;
 }
-
+/* 标签样式 */
 .fish-caught-label {
-    font-size: 30rpx;
+    font-size: 32rpx;
     color: #B0E0E6;
-    margin-bottom: 8rpx;
-}
+    min-width: 180rpx; /* 增加标签宽度 */
+    text-align: right; /* 右对齐 */
+    padding-right: 24rpx; /* 标签右侧间距 */
+  }
+  
 
+/* 值样式 */
 .fish-caught-value {
     font-size: 40rpx;
     color: #FFD700;
-    text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.4);
+    text-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.5);
+    flex-grow: 1;
+    font-weight: bold; /* 加粗字体 */
 }
 
-/* 极值强度特殊效果 */
+/* 正常范围 20%-80% 白色 */
+.strength-normal {
+    color: #FFFFFF;
+    text-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.7);
+}
+
+/* 警告范围 10%-20% 和 80%-90% 黄色 */
+.strength-warning {
+    color: #FFD700;
+    text-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.5);
+}
+
+/* 极值范围 0%-10%左开右闭 和 90%-100%左闭右开 黑金渐变 + 闪烁 */
+.strength-extreme {
+    background: linear-gradient(45deg, #000000, #FFD700, #000000, #FFD700);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: extreme-shimmer 1.5s infinite, extreme-blink 0.8s infinite;
+    text-shadow: none;
+}
+
+/* 完美值 0% 和 100% 黑红金渐变 + 闪烁 */
+.strength-perfect {
+    background: linear-gradient(45deg,rgb(119, 27, 212),rgb(221, 120, 234), #FFD700,rgb(221, 120, 234), #000000);
+    background-size: 500% 500%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: perfect-shimmer 1.2s infinite, perfect-blink 0.6s infinite;
+    text-shadow: none;
+}
+
+/* 极值强度特殊效果（保留兼容性） */
 .extreme-strength {
     color: #FF4500;
     animation: extreme-glow 1.2s infinite alternate;
@@ -113,6 +185,58 @@ page {
     100% {
         text-shadow: 0 0 20rpx #FF4500, 0 0 30rpx rgba(255, 69, 0, 0.8);
         transform: scale(1.05);
+    }
+}
+
+/* 黑金渐变流动动画 */
+@keyframes extreme-shimmer {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 闪烁动画 */
+@keyframes extreme-blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    25%, 75% {
+        opacity: 0.7;
+    }
+}
+
+/* 完美值黑红金渐变流动动画 */
+@keyframes perfect-shimmer {
+    0% {
+        background-position: 0% 50%;
+    }
+    25% {
+        background-position: 50% 25%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    75% {
+        background-position: 50% 75%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 完美值闪烁动画 */
+@keyframes perfect-blink {
+    0%, 40% {
+        opacity: 1;
+    }
+    20%, 60% {
+        opacity: 0.6;
     }
 }
 
@@ -179,45 +303,57 @@ page {
     flex-direction: column;
     align-items: flex-start; /* 关键代码 */
 }
-.status-bar {
+/* 原有的status-bar样式已被neo-card替代 */
+.status-bar-container {
     display: flex;
     flex: 1;
     justify-content: space-between;
-    padding: 20rpx;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(209, 233, 255, 0.85));
-    border-radius: 12rpx;
-    /* margin: 20rpx 20rpx; 上下边距20rpx，左右边距20rpx */
-    margin: 0; /* 移除原有的外边距 */
-    margin-left: 120rpx; /* 单独将左边边距调整为40rpx */
-    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+    margin: 0;
+    margin-left: 120rpx;
     width: 200rpx;
 }
-.bottom-info {
-    flex: 1; /* 上 1 和上 2 各占一半宽度 */
+
+.status-bar-container neo-card {
+    width: 100%;
+    padding: 20rpx;
+}
+/* 原有的bottom-info样式已被neo-card替代 */
+.bottom-info-container {
+    flex: 1;
     display: flex;
     justify-content: space-around;
-    padding: 20rpx;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(209, 233, 255, 0.85));
-    /* margin: 0rpx 20rpx 20rpx 40rpx;  */
-    margin: 0; /* 移除原有的外边距 */
-    border-radius: 12rpx;
-    margin-right: 120rpx; /* 单独将左边边距调整为40rpx */
-    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+    margin: 0;
+    margin-right: 120rpx;
     width: 200rpx;
 }
-/* 事件加成显示区域样式 */
+
+.bottom-info-container neo-card {
+    width: 100%;
+    padding: 20rpx;
+}
+
+.bottom-info-content {
+    display: flex;
+    justify-content: space-around;
+}
+/* 事件加成显示区域样式 - 已被neo-card替代 */
 .event-buffs-container {
     display: flex;
     flex-direction: column;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(209, 233, 255, 0.85));
-    border-radius: 12rpx;
-    /* margin: 0 20rpx 20rpx; */
-    margin: 0; /* 移除原有的外边距 */
+    margin: 0;
+    margin-right: 120rpx;
+    margin-left: 120rpx;
+    box-sizing: border-box;
+}
+
+.event-buffs-container neo-card {
+    width: 100%;
     padding: 16rpx;
-    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
-    margin-right: 120rpx; /* 单独将左边边距调整为40rpx */
-    margin-left: 120rpx; /* 单独将左边边距调整为40rpx */
-    box-sizing: border-box; /* 确保内边距和边框包含在高度内 */
+}
+
+.event-buffs-content {
+    display: flex;
+    flex-direction: column;
 }
 
 .status-item {
@@ -242,18 +378,20 @@ page {
     margin-top: 10rpx;
 }
 
-.progress-bar {
+/* Neo Progress 样式 */
+.neo-progress {
     width: 100%;
-    height: 12rpx;
-    background-color: #444444;
-    border-radius: 6rpx;
+    max-width: 400rpx;
+    height: 32rpx;
+    background-color: #e0e0e0;
+    border: 6rpx solid #000000;
+    box-shadow: 8rpx 8rpx 0 #000000;
     overflow: hidden;
     margin-top: 10rpx;
 }
 
-.progress-inner {
+.progress-bar {
     height: 100%;
-    border-radius: 6rpx;
     transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡效果 */
 }
 
@@ -325,86 +463,20 @@ page {
     margin-bottom: 30rpx;
 }
 
+/* cast-btn样式已被neo-button替代 */
 .cast-btn-container {
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20rpx;
-    position: relative;
-    z-index: 20;
-    animation: container-pulse 2s infinite alternate;
+    margin-top: 40rpx;
+    padding: 0 60rpx;
+    
 }
 
-@keyframes container-pulse {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.02);
-    }
-}
-
-.cast-btn {
-    background-color: #1E3A8A;
-    color: white;
-    font-size: 32rpx;
-    padding: 20rpx 60rpx;
-    border-radius: 50rpx;
-    font-weight: bold;
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
-    position: relative;
-    z-index: 20;
-    min-width: 200rpx;
-    overflow: hidden;
-    animation: pulse 1.5s infinite alternate;
-    transition: background-color 0.3s;
-}
-
-.cast-btn:hover {
-    background-color: #2c5282;
-}
-
-.btn-hover {
-    opacity: 0.8;
-    transform: scale(0.98);
-}
-
-/* 按钮动效 - 呼吸效果 */
-@keyframes pulse {
-    0% {
-        box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
-        transform: scale(1);
-    }
-    100% {
-        box-shadow: 0 4rpx 20rpx rgba(30, 58, 138, 0.7);
-        transform: scale(1.03);
-    }
-}
-
-/* 按钮扫光效果 */
-.cast-btn::after {
-    content: '';
-    position: absolute;
-    top: -180%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
-    transform: rotate(30deg);
-    animation: sweep 3s infinite linear;
-    pointer-events: none;
-}
-
-@keyframes sweep {
-    0% {
-        transform: rotate(30deg) translateX(-100%);
-    }
-    100% {
-        transform: rotate(30deg) translateX(100%);
-    }
-}
-
+.big-cast-btn {
+    transform: scale(1.3); /* 放大1.2倍，可调整数值 */
+    transform-origin: center; /* 缩放中心点为中心 */
+  }
 .fish-info {
     background-color: rgba(255, 255, 255, 0.8);
     padding: 20rpx;
@@ -445,55 +517,38 @@ page {
 
 .qte-timer {
     font-size: 30rpx;
-    color: #ff4d4f;
+    color: #ff774d;
     margin-bottom: 30rpx;
     display: block;
     text-align: center;
 }
-
 .qte-options {
+    /* 改用网格布局，更适合按钮数量不固定的情况 */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150rpx, 1fr)); /* 增加最小宽度 */
+    gap: 24rpx; /* 增加间距到24rpx */
+    justify-items: center;
+    padding: 0 30rpx; /* 增加左右内边距 */
+    margin: 10rpx 0; /* 增加上下外边距 */
+}
+
+
+
+
+.qte-options neo-button {
+    min-width: 140rpx;
+    margin: 0; /* 移除边距，使用网格间隙 */
+}
+
+/* 信息项样式 */
+.info-item {
+    width: 100%;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20rpx;
-}
-
-.qte-option-btn {
-    background: linear-gradient(135deg, #3d9fe8 0%, #8ac5c7 100%);
-    color: white;
-    font-size: 30rpx;
-    padding: 20rpx 0;
-    border-radius: 40rpx;
-    border: none;
-    margin: 0 10rpx;
-    min-width: 200rpx;
-    text-align: center;
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.qte-option-btn.active {
-    transform: scale(0.95);
-    box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.3);
-}
-
-.qte-option-btn:active {
-    transform: scale(0.95);
-    box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.3);
-    background: linear-gradient(135deg, #2980b9 0%, #00a3a3 100%);
-}
-
-
-.info-item {
-    text-align: left;
-    display: flex;        /* 开启Flex布局 */
-    flex-direction: column; /* 垂直排列子元素 */
-    gap: 8rpx;            /* 子元素间距（可根据需求调整） */
-    padding: 16rpx 0;      /* 增加容器内边距提升视觉效果 */
-}
+    align-items: center;
+    padding: 16rpx 0;
+    border-bottom: 1rpx solid rgba(176, 224, 230, 0.2); /* 分隔线 */
+  }
 
 .info-label {
     font-size: 24rpx;
@@ -513,13 +568,14 @@ page {
     display: flex;
     flex-direction: column;
     gap: 20rpx; /* 上下之间的间距 */
-    width: 90%; /* 组合容器的宽度 */
-    max-width: 1000rpx; /* 最大宽度 */
+    width: 99%; /* 组合容器的宽度 */
+    max-width: 1200rpx; /* 最大宽度 */
 }
 
 .top-container {
     display: flex;
-    gap: 20rpx; /* 左右之间的间距 */
+    gap: 1rpx; 
+    width: 100%; /* 明确父容器宽度为100% */
 }
 
 
@@ -556,4 +612,116 @@ page {
 .event-buffs-empty text {
     font-size: 26rpx;
     color: #999;
+}
+
+/* 自定义事件弹窗样式 */
+.custom-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.custom-modal.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.custom-modal.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.custom-modal .modal-content {
+    background-color: #ffffff;
+    border: 8rpx solid #000000;
+    box-shadow: 16rpx 16rpx 0 #000000;
+    padding: 48rpx;
+    margin: 32rpx;
+    max-width: 600rpx;
+    width: 90%;
+    animation: modal-appear 0.3s forwards;
+}
+
+.custom-modal .modal-title {
+    display: block;
+    font-size: 36rpx;
+    font-weight: bold;
+    margin-bottom: 24rpx;
+    color: #1a1a1a;
+}
+
+.custom-modal .modal-text {
+    display: block;
+    font-size: 28rpx;
+    margin-bottom: 32rpx;
+    color: #333;
+    line-height: 1.5;
+}
+
+.custom-modal .neo-button {
+    width: 100%;
+    background-color: #FFD700;
+    border: 4rpx solid #000000;
+    box-shadow: 8rpx 8rpx 0 #000000;
+    padding: 20rpx;
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #000000;
+}
+
+@keyframes modal-appear {
+    0% {
+        transform: translateY(-50rpx) scale(0.9);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+/* 自定义tooltip样式 */
+.custom-tooltip {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+    transition: all 0.3s ease;
+}
+
+.custom-tooltip.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
+.custom-tooltip.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.custom-tooltip .tooltip-content {
+    background: #000;
+    color: #fff;
+    padding: 12rpx 24rpx;
+    border-radius: 8rpx;
+    font-size: 28rpx;
+    font-weight: 600;
+    border: 4rpx solid #000;
+    box-shadow: 6rpx 6rpx 0 #ff6b35;
+    max-width: 500rpx;
+    text-align: center;
+    word-wrap: break-word;
 }

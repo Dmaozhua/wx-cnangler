@@ -1,5 +1,8 @@
 {
   "usingComponents": {
-    "fish-status": "/components/fish-status/fish-status"
+    "fish-status": "/components/fish-status/fish-status",
+    "neo-card": "/components/neo-card/neo-card",
+    "neo-button": "/components/neo-button/neo-button",
+    "component-library": "/components/componentLibrary/componentLibrary"
   }
 }

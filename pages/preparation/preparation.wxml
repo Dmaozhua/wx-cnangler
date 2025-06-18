@@ -48,23 +48,26 @@
                 bg-color="rgba(255, 245, 209, 0.9)"
                 active-color="#FFD166"
                 bind:tabchange="onHabitatTabChange">
-        <view slot="content-{{selectedHabitatIndex}}" class="habitat-selection">
-          <radio-group bindchange="onHabitatChange">
-            <label class="habitat-radio-option {{selectedHabitat === habitatsList[selectedHabitatIndex].key ? 'selected' : ''}}">
-              <radio value="{{habitatsList[selectedHabitatIndex].key}}" 
-                     checked="{{selectedHabitat === habitatsList[selectedHabitatIndex].key}}" 
-                     color="#1E3A8A"/>
-              <text class="habitat-radio-text">选择此钓点</text>
-            </label>
-          </radio-group>
-        </view>
       </neo-tabs>
     </view>
   </view>
   
   <!-- 开始钓鱼按钮 -->
   <view class="button-group">
-    <button class="random-btn" bindtap="onRandomAgain" hover-class="btn-hover" disabled="{{isRandomButtonDisabled}}">再次随机</button>
-    <button class="start-btn" bindtap="onStart" hover-class="btn-hover">出发钓鱼</button>
+    <view class="random-btn-container">
+      <neo-button text="再次随机" 
+                  bind:tap="onRandomAgain" 
+                  disabled="{{isRandomButtonDisabled}}"
+                  bg-color="#FFD166"
+                  text-color="#333">
+      </neo-button>
+    </view>
+    <view class="start-btn-container">
+      <neo-button text="出发钓鱼" 
+                  bind:tap="onStart"
+                  bg-color="#06D6A0"
+                  text-color="#333">
+      </neo-button>
+    </view>
   </view>
 </view>

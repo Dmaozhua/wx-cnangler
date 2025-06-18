@@ -23,7 +23,14 @@ Component({
         // 钓线状态（玩家血量）
         playerHP: {
             type: Number,
-            value: 100
+            value: 100,
+            observer: function(newVal, oldVal) {
+                // 检查是否需要显示钓线状态减少动画
+                if (oldVal && oldVal > newVal) {
+                    const damage = Number((oldVal - newVal).toFixed(0));
+                    this.showLineDamageAnimation(damage);
+                }
+            }
         },
         // 组件显示状态
         visible: {
@@ -59,7 +66,9 @@ Component({
         rarityBgClass: 'rarity-bg-1', // 默认背景样式类
         rarityBorderClass: 'rarity-border-1', // 默认边框样式类
         damageAnimations: [], // 存储血量减少动画的数组
-        damageAnimationId: 0 // 用于生成唯一的动画ID
+        damageAnimationId: 0, // 用于生成唯一的动画ID
+        lineDamageAnimations: [], // 存储钓线状态减少动画的数组
+        lineDamageAnimationId: 0 // 用于生成唯一的钓线动画ID
     },
 
     lifetimes: {
@@ -180,6 +189,68 @@ Component({
                         const filteredAnimations = this.data.damageAnimations.filter(anim => anim.id !== animId);
                         this.setData({
                             damageAnimations: filteredAnimations
+                        });
+                    }, 500);
+                }, 0);
+            });
+        },
+        
+        // 显示钓线状态减少的动画
+        showLineDamageAnimation: function(damage) {
+            // 确保即使在钓线状态为0或小于0的情况下也能正常显示动画
+            if (!damage) return;
+            
+            // 确保damage为正数，用于显示
+            const displayDamage = Math.abs(damage);
+            
+            // 生成唯一的动画ID
+            const animId = this.data.lineDamageAnimationId + 1;
+            
+            // 创建新的动画对象
+            const newAnimation = {
+                id: animId,
+                damage: `-${displayDamage}`,
+                animationData: {}
+            };
+            
+            // 将新动画添加到数组中
+            const animations = [...this.data.lineDamageAnimations, newAnimation];
+            
+            this.setData({
+                lineDamageAnimations: animations,
+                lineDamageAnimationId: animId
+            }, () => {
+                // 在下一帧创建并执行动画
+                setTimeout(() => {
+                    // 创建动画实例
+                    const animation = wx.createAnimation({
+                        duration: 500,
+                        timingFunction: 'ease-out'
+                    });
+                    
+                    // 设置动画：向上移动并淡出
+                    animation.translateY('-30rpx').opacity(0).step();
+                    
+                    // 更新特定动画的数据
+                    const updatedAnimations = this.data.lineDamageAnimations.map(anim => {
+                        if (anim.id === animId) {
+                            return {
+                                ...anim,
+                                animationData: animation.export()
+                            };
+                        }
+                        return anim;
+                    });
+                    
+                    this.setData({
+                        lineDamageAnimations: updatedAnimations
+                    });
+                    
+                    // 动画结束后移除该动画
+                    setTimeout(() => {
+                        const filteredAnimations = this.data.lineDamageAnimations.filter(anim => anim.id !== animId);
+                        this.setData({
+                            lineDamageAnimations: filteredAnimations
                         });
                     }, 500);
                 }, 0);

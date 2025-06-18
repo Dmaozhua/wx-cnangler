@@ -1,0 +1,133 @@
+/* components/glowcards/glowcards.wxss */
+.glow-cards-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+  background-color: #222;
+  min-height: 100vh;
+}
+
+.section-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 40rpx;
+}
+
+.boxes {
+  display: flex;
+  flex-direction: column;
+  gap: 60rpx;
+  width: 100%;
+  max-width: 800rpx;
+}
+
+.card-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #333;
+  border: 6rpx solid #fff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  box-shadow: 0 0 40rpx rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.card-item:hover {
+  transform: translateY(-10rpx);
+  box-shadow: 0 20rpx 60rpx rgba(255, 255, 255, 0.5);
+}
+
+.card-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+}
+
+.card-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+
+.card-content {
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: #ccc;
+  text-align: left;
+  margin-bottom: 30rpx;
+}
+
+.card-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  padding: 20rpx 40rpx;
+  background: #fff;
+  border: 4rpx solid #000;
+  border-radius: 10rpx;
+  box-shadow: 6rpx 6rpx 0 #000;
+  transition: all 0.2s ease;
+}
+
+.card-button:active {
+  transform: translate(3rpx, 3rpx);
+  box-shadow: 3rpx 3rpx 0 #000;
+}
+
+.button-text {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #000;
+}
+
+.button-icon {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #000;
+}
+
+.card-glow {
+  position: absolute;
+  top: -10rpx;
+  left: -10rpx;
+  right: -10rpx;
+  bottom: -10rpx;
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+  border-radius: 25rpx;
+  z-index: -1;
+  opacity: 0;
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+.card-item:nth-child(1) .card-glow {
+  background: linear-gradient(45deg, #3F9F47, #5AB027, #74B215);
+}
+
+.card-item:nth-child(2) .card-glow {
+  background: linear-gradient(45deg, #FF3636, #FF6B6B, #FF9999);
+}
+
+.card-item:nth-child(3) .card-glow {
+  background: linear-gradient(45deg, #00A9FF, #4ECDC4, #45B7D1);
+}
+
+@keyframes glow {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}

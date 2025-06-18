@@ -1,0 +1,13 @@
+<!-- components/loadingdemo/loadingdemo.wxml -->
+<view class="loading" wx:if="{{show}}">
+  <text class="loading-text">{{text}}</text>
+  <view class="loading-dots">
+    <view class="dot"></view>
+    <view class="dot"></view>
+    <view class="dot"></view>
+    <view class="dot"></view>
+    <view class="dot"></view>
+    <view class="dot"></view>
+    <view class="dot"></view>
+  </view>
+</view>

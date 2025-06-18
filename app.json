@@ -1,6 +1,8 @@
 {
     "lazyCodeLoading": "requiredComponents",
-    "requiredBackgroundModes": ["audio"],
+    "requiredBackgroundModes": [
+        "audio"
+    ],
     "pages": [
         "pages/home/home",
         "pages/equipment/equipment",

@@ -21,8 +21,8 @@
 
 .tab-button {
   flex: 1;
-  padding: 16rpx 12rpx;
-  font-size: 24rpx;
+  padding: 12rpx 12rpx;
+  font-size: 30rpx;
   font-weight: bold;
   text-align: center;
   background-color: #e0e0e0;
@@ -30,7 +30,7 @@
   border-right: 4rpx solid #000000;
   transition: all 0.2s ease;
   cursor: pointer;
-  line-height: 1.2;
+  line-height: 0.8;
 }
 
 .tab-button:last-child {
@@ -48,13 +48,13 @@
 }
 
 .tabs-content {
-  padding: 24rpx;
+  padding: 30rpx;
   background-color: #ffffff;
-  min-height: 120rpx;
+  min-height: 60rpx;
 }
 
 .tab-content-item {
-  font-size: 24rpx;
+  font-size: 30rpx;
   color: #666666;
   line-height: 1.5;
   word-wrap: break-word;

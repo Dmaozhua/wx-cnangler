@@ -220,53 +220,21 @@ page {
 /* 栖息地选项样式已被neo-tabs替代 */
 
 .button-group {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 90%;
-  margin: 80rpx auto;
-  gap: 12rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    margin: 82rpx auto;
+    gap: 100rpx; /* 增加间距 */
+  }
+
+.random-btn-container ,.start-btn-container {
+    transform: scale(1.2); /* 放大10% */
+    transform-origin: center; /* 以中心为原点放大 */
 }
 
-.random-btn {
-  background-color: #4B5563;
-  color: white;
-  font-size: 28rpx;
-  padding: 15rpx 0;
-  border-radius: 50rpx;
-  width: 48%;
-  font-weight: bold;
-  box-shadow: 0 4rpx 12rpx rgba(75, 85, 99, 0.3);
-  transition: all 0.3s ease; /* 添加过渡效果 */
-}
 
-/* 随机按钮禁用状态 */
-.random-btn[disabled] {
-  background-color: #9CA3AF;
-  opacity: 0.7;
-  box-shadow: none;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.start-btn {
-  background-color: #1E3A8A;
-  color: white;
-  font-size: 28rpx;
-  padding: 15rpx 0;
-  border-radius: 50rpx;
-  width: 48%;
-  font-weight: bold;
-  box-shadow: 0 4rpx 12rpx rgba(30, 58, 138, 0.3);
-  position: relative;
-  overflow: hidden;
-  animation: pulse 1.5s infinite alternate;
-}
-
-.btn-hover {
-  opacity: 0.8;
-  transform: scale(0.98);
-}
 
 /* 按钮动效 - 呼吸效果 */
 @keyframes pulse {

@@ -24,14 +24,14 @@
     }
   }
   
-  .result-card {
-    background-color: rgba(255, 255, 255, 0.9); /* 半透明背景 */
-    border-radius: 12rpx;
-    padding: 40rpx 30rpx;
+  .result-card-container {
     width: 85%;
-    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
     margin-bottom: 40rpx;
     animation: slideUp 0.8s ease-in-out; /* 添加向上滑动动画 */
+  }
+
+  .result-card-container neo-card {
+    padding: 40rpx 30rpx;
   }
   
   @keyframes slideUp {
@@ -45,26 +45,7 @@
     }
   }
   
-  .result-header {
-    text-align: center;
-    margin-bottom: 40rpx;
-  }
-  
-  .result-title {
-    font-size: 48rpx;
-    font-weight: bold;
-    color: #FFD700; /* 金色标题 */
-    display: block;
-    margin-bottom: 10rpx;
-    text-shadow: 2rpx 2rpx 4rpx rgba(0, 0, 0, 0.5); /* 添加文字阴影 */
-  }
-  
-  .result-subtitle {
-    font-size: 32rpx;
-    color: #fff;
-    display: block;
-    text-shadow: 1rpx 1rpx 2rpx rgba(0, 0, 0, 0.5); /* 添加文字阴影 */
-  }
+
   
   .result-stats {
     display: flex;
@@ -134,26 +115,10 @@
     border-top: 1px solid rgba(255, 255, 255, 0.3);
     text-shadow: 1rpx 1rpx 2rpx rgba(0, 0, 0, 0.5); /* 添加文字阴影 */
   }
-  
-  .restart-btn {
-    background-color: #FF4500; /* 橙色按钮 */
-    color: white;
-    font-size: 36rpx;
-    padding: 20rpx 0;
-    border-radius: 50rpx;
-    width: 80%;
-    font-weight: bold;
-    box-shadow: 0 4rpx 12rpx rgba(255, 69, 0, 0.3);
-    margin-bottom: 20rpx;
-    transition: all 0.3s ease-in-out; /* 添加过渡效果 */
-  }
-  
-  .restart-btn:hover {
-    background-color: #FF6347; /* 鼠标悬停时颜色变深 */
-    transform: scale(1.05); /* 鼠标悬停时放大 */
-  }
-  
-  .btn-hover {
-    opacity: 0.8;
-    transform: scale(0.98);
+
+  .restart-btn-container {
+    padding: 20rpx 60rpx;  /* 上下内边距20rpx，左右60rpx */
+    font-size: 32rpx;      /* 字体大小同步调整 */
+    transform: scale(1.2);  /* 放大1.2倍，1.0为原始大小 */
+    transform-origin: center; /* 缩放中心点 */
   }

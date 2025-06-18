@@ -42,29 +42,33 @@
   <!-- 帮助提示弹窗 -->
   <view class="tips-modal" wx:if="{{showTips}}">
     <view class="tips-content">
-      <view class="tips-header">
-        <text class="tips-title">{{fishingHelp.title}}</text>
-        <text class="close-btn" bindtap="toggleTips">×</text>
-      </view>
-      <scroll-view scroll-y="true" class="tips-body-scroll">
-        <view class="tips-body">
-  <view class="help-section" wx:for="{{fishingHelp.sections}}" wx:key="title">
-    <view class="help-title">{{item.title}}</view>
-    <view class="help-content">
-      <block wx:if="{{isString(item.content)}}">
-                      <!-- 将 text 标签替换为 view 标签 -->
-                      <view>{{index == 0 ? item : item}}</view>
-      </block>
-      <block wx:else>
-        <view wx:for="{{item.content}}" wx:for-item="contentItem" wx:key="*this" class="content-item">
-                  <!-- 将 text 标签替换为 view 标签 -->
-                  <view>{{contentItem}}</view> 
+      <neo-card title="{{fishingHelp.title}}"
+                bg-color="white"
+                border-color="#069BBB"
+                text-color="#333">
+        <view class="tips-header-extra">
+          <text class="close-btn" bindtap="toggleTips">×</text>
         </view>
-      </block>
-    </view>
-  </view>
-</view>
-      </scroll-view>
+        <scroll-view scroll-y="true" class="tips-body-scroll">
+          <view class="tips-body">
+            <view class="help-section" wx:for="{{fishingHelp.sections}}" wx:key="title">
+              <view class="help-title">{{item.title}}</view>
+              <view class="help-content">
+                <block wx:if="{{isString(item.content)}}">
+                  <!-- 将 text 标签替换为 view 标签 -->
+                  <view>{{index == 0 ? item : item}}</view>
+                </block>
+                <block wx:else>
+                  <view wx:for="{{item.content}}" wx:for-item="contentItem" wx:key="*this" class="content-item">
+                    <!-- 将 text 标签替换为 view 标签 -->
+                    <view>{{contentItem}}</view> 
+                  </view>
+                </block>
+              </view>
+            </view>
+          </view>
+        </scroll-view>
+      </neo-card>
     </view>
   </view>
 </view>

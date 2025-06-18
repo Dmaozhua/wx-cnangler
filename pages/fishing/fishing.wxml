@@ -11,35 +11,30 @@
 <!-- 钓鱼成功弹窗 -->
 <view class="fish-caught-popup {{showFishCaughtPopup ? 'show' : ''}}">
     <view class="fish-caught-content">
-        <view class="fish-caught-header">
-            <text class="fish-caught-title">成功钓起</text>
-            <view class="fish-shadow"></view>
-        </view>
-        <view class="fish-caught-body">
-            <view class="fish-illustration" style="background-image: url('{{caughtFish.img}}')"></view>
-            <view class="fish-caught-name">{{caughtFish.name}}</view>
-            <view class="info-group">
-                <div class="info-item">
-                    <text class="fish-caught-label">强度值：</text>
-                    <text class="fish-caught-value {{caughtFish.isExtremeStrength ? 'extreme-strength' : ''}}">
-                        {{caughtFish.strengthValue}}
-                    </text>
-                </div>
-                <div class="info-item">
-                    <text class="fish-caught-label">强度比：</text>
-                    <text class="fish-caught-value {{caughtFish.isExtremeStrength ? 'extreme-strength' : ''}}">
-                        {{caughtFish.strengthRatio}}%
-                    </text>
-                </div>
+        <neo-card title="成功钓起" 
+                  bg-color="rgba(52, 152, 219, 0.95)"
+                  border-color="#ffffff"
+                  text-color="#ffffff">
+            <view class="fish-caught-body">
+                <view class="fish-illustration" style="background-image: url('{{caughtFish.img}}')"></view>
+                <view class="fish-caught-name">{{caughtFish.name}}</view>
+                <view class="info-item">
+    <text class="fish-caught-label">强度比：</text>
+    <text class="fish-caught-value {{caughtFish.strengthRatio >= 20 && caughtFish.strengthRatio < 80 ? 'strength-normal' : ''}} {{(caughtFish.strengthRatio >= 10 && caughtFish.strengthRatio < 20) || (caughtFish.strengthRatio >= 80 && caughtFish.strengthRatio < 90) ? 'strength-warning' : ''}} {{(caughtFish.strengthRatio > 0 && caughtFish.strengthRatio <= 10) || (caughtFish.strengthRatio >= 90 && caughtFish.strengthRatio < 100) ? 'strength-extreme' : ''}} {{caughtFish.strengthRatio === 0 || caughtFish.strengthRatio === 100 ? 'strength-perfect' : ''}}">{{caughtFish.strengthRatio}}%</text>
+</view>
+<view class="info-item">
+    <text class="fish-caught-label">搏鱼时间：</text>
+    <text class="fish-caught-value">{{caughtFish.battleTime}}</text>
+</view>
             </view>
-            <div class="info-item">
-                <text class="fish-caught-label">搏鱼时间：</text>
-                <text class="fish-caught-value">{{caughtFish.battleTime}}</text>
-            </div>
-        </view>
-        <view class="fish-caught-footer">
-            <button class="fish-caught-btn" bindtap="onCloseFishCaughtPopup">确认</button>
-        </view>
+            <view class="fish-caught-footer">
+                <neo-button text="确认" 
+                           bg-color="#FFFFFF" 
+                           text-color="#2980b9"
+                           bind:tap="onCloseFishCaughtPopup">
+                </neo-button>
+            </view>
+        </neo-card>
     </view>
 </view>
 
@@ -64,40 +59,47 @@
  <view class="combined-container">
         <view class="top-container">
             <!-- 状态信息区域 -->
-            <view class="status-bar">
-                <view class="status-item">
-                    <text class="status-label">剩余时间：</text>
-                    <text class="status-value">{{fishingTimePercent}}%</text>
-                    <view class="progress-bar">
-                        <view class="progress-inner time-progress-inner" style="{{'width:' + fishingTimePercent + '%'}}"></view>
+            <view class="status-bar-container">
+                <neo-card title="剩余时间" bg-color="rgba(255, 255, 255, 0.9)" border-color="#1E3A8A">
+                    <view class="status-item">
+                        <text class="status-value">{{fishingTimePercent}}%</text>
+                        <view class="neo-progress">
+                            <view class="progress-bar time-progress-inner" style="{{'width:' + fishingTimePercent + '%'}}"></view>
+                        </view>
                     </view>
-                </view>
+                </neo-card>
             </view>
-            <view class="bottom-info">
-                <view class="info-item">
-                    <text class="info-label">已钓起</text>
-                    <text class="info-value">{{fishCaught || 0}}条</text>
-                </view>
-                <view class="info-item">
-                    <text class="info-label">脱钩</text>
-                    <text class="info-value">{{fishEscaped || 0}}条</text>
-                </view>
+            <view class="bottom-info-container">
+                <neo-card title="鱼获记录" bg-color="rgba(255, 255, 255, 0.9)" border-color="#1E3A8A">
+                    <view class="bottom-info-content">
+                        <view class="info-item">
+                            <text class="info-label">钓起</text>
+                            <text class="info-value">{{fishCaught || 0}}条</text>
+                        </view>
+                        <view class="info-item">
+                            <text class="info-label">脱钩</text>
+                            <text class="info-value">{{sessionFishEscaped || 0}}条</text>
+                        </view>
+                    </view>
+                </neo-card>
             </view>
         </view>
         <!-- 事件加成显示区域 -->
-        <view class="event-buffs-container" wx:if="{{hasEventBuffs}}">
-            <view class="event-buffs-title">事件加成</view>
-            <view class="event-buffs-list">
-                <view class="event-buff-item" wx:for="{{eventBuffs}}" wx:key="type">
-                    <text class="event-buff-text">{{item.description}}</text>
+        <view class="event-buffs-container">
+            <neo-card title="事件加成" bg-color="rgba(255, 255, 255, 0.9)" border-color="#1E3A8A">
+                <view class="event-buffs-content" wx:if="{{hasEventBuffs}}">
+                    <view class="event-buffs-list">
+                        <view class="event-buff-item" wx:for="{{eventBuffs}}" wx:key="type">
+                            <text class="event-buff-text">{{item.description}}</text>
+                        </view>
+                    </view>
                 </view>
-            </view>
-        </view>
-        <view class="event-buffs-container" wx:else>
-            <view class="event-buffs-title">事件加成</view>
-            <view class="event-buffs-empty">
-                <text>暂无事件</text>
-            </view>
+                <view class="event-buffs-content" wx:else>
+                    <view class="event-buffs-empty">
+                        <text>暂无事件</text>
+                    </view>
+                </view>
+            </neo-card>
         </view>
     </view>
     
@@ -107,7 +109,7 @@
         <view class="fishing-status waiting" wx:if="{{state === 'waiting'}}">
             <text class="status-text">准备抛竿</text>
             <view class="cast-btn-container">
-                <button class="cast-btn" bindtap="onCastRod" hover-class="btn-hover">抛竿</button>
+                <neo-button text="抛竿" bg-color="#FFD166" text-color="#000" bind:tap="onCastRod"    class="big-cast-btn"  ></neo-button>
             </view>
         </view>
         
@@ -122,17 +124,16 @@
                 <text class="qte-title">{{qteData.description}}</text>
                 <text class="qte-timer">剩余时间: {{qteTimeLeft}}</text>
                 <view class="qte-options">
-                    <button 
+                    <neo-button 
                         wx:for="{{qteOptions}}" 
                         wx:key="index" 
-                        class="qte-option-btn" 
+                        text="{{item.description}}"
+                        bg-color="#FFD166" 
+                        text-color="#000"
                         data-option="{{item.key}}" 
-                        bindtap="onQteSelect"
-                        bindtouchend="onQteTouchEnd"
-                        hover-class="btn-hover"
-                    >
-                        {{item.description}}
-                    </button>
+                        bind:tap="onQteSelect"
+                        bind:touchend="onQteTouchEnd"
+                    ></neo-button>
                 </view>
             </view>
         </view>
@@ -146,7 +147,23 @@
         </view>
         <view class="info-item">
             <text class="info-label">脱钩</text>
-            <text class="info-value">{{fishEscaped || 0}}条</text>
+            <text class="info-value">{{sessionFishEscaped || 0}}条</text>
         </view>
     </view> -->
+    
+    <!-- 自定义事件弹窗 -->
+    <view class="custom-modal {{showCustomModal ? 'visible' : 'hidden'}}">
+        <view class="modal-content" catchtap="stopPropagation">
+            <text class="modal-title">{{customModalData.title}}</text>
+            <text class="modal-text">{{customModalData.content}}</text>
+            <button class="neo-button" bindtap="hideCustomModal">
+                确定
+            </button>
+        </view>
+    </view>
+
+    <!-- 自定义tooltip -->
+    <view class="custom-tooltip {{showCustomTooltip ? 'visible' : 'hidden'}}" wx:if="{{showCustomTooltip}}">
+        <view class="tooltip-content">{{customTooltipData.content}}</view>
+    </view>
 </view>

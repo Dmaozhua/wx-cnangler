@@ -5,49 +5,60 @@
 </page-meta>
 
 <view class="container">
-  <view class="result-card">
-    <view class="result-header">
-      <text class="result-title">钓鱼结束</text>
-      <text class="result-subtitle">本次钓鱼结果</text>
-    </view>
-    
-    <view class="result-stats">
-      <view class="stat-item">
-        <text class="stat-value">{{fishCaught}}</text>
-        <text class="stat-label">钓起</text>
+  <view class="result-card-container">
+    <neo-card title="钓鱼结束" 
+              content="本次钓鱼结果"
+              bg-color="rgba(255, 255, 255, 0.95)">
+      <view class="result-stats">
+        <view class="stat-item">
+          <text class="stat-value">{{fishCaught}}</text>
+          <text class="stat-label">钓起</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{fishEscaped}}</text>
+          <text class="stat-label">脱钩</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{fishCaught + fishEscaped}}</text>
+          <text class="stat-label">总计</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{successRate}}%</text>
+          <text class="stat-label">成功率</text>
+        </view>
       </view>
-      <view class="stat-item">
-        <text class="stat-value">{{fishEscaped}}</text>
-        <text class="stat-label">脱钩</text>
+      
+      <view class="fishing-info">
+        <view class="info-item">
+          <text class="info-label">钓场:</text>
+          <text class="info-value">{{water.name}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">天气:</text>
+          <text class="info-value">{{weather.name}}</text>
+        </view>
       </view>
-      <view class="stat-item">
-        <text class="stat-value">{{fishCaught + fishEscaped}}</text>
-        <text class="stat-label">总计</text>
+      
+      <view class="result-message">
+        <text wx:if="{{fishCaught > fishEscaped}}">恭喜你！本次钓鱼收获颇丰。</text>
+        <text wx:elif="{{fishCaught === fishEscaped}}">不错的尝试，继续努力！</text>
+        <text wx:else>下次再接再厉，钓鱼需要耐心。</text>
       </view>
-      <view class="stat-item">
-        <text class="stat-value">{{successRate}}%</text>
-        <text class="stat-label">成功率</text>
-      </view>
-    </view>
-    
-    <view class="fishing-info">
-      <view class="info-item">
-        <text class="info-label">钓场:</text>
-        <text class="info-value">{{water.name}}</text>
-      </view>
-      <view class="info-item">
-        <text class="info-label">天气:</text>
-        <text class="info-value">{{weather.name}}</text>
-      </view>
-    </view>
-    
-    <view class="result-message">
-      <text wx:if="{{fishCaught > fishEscaped}}">恭喜你！本次钓鱼收获颇丰。</text>
-      <text wx:elif="{{fishCaught === fishEscaped}}">不错的尝试，继续努力！</text>
-      <text wx:else>下次再接再厉，钓鱼需要耐心。</text>
-    </view>
+    </neo-card>
   </view>
-  
-  <button class="restart-btn" bindtap="restart" hover-class="btn-hover">再来亿竿</button>
-  <button class="restart-btn" bindtap="goBack" hover-class="btn-hover">返回主页</button>
-</view>
+  <view class="button-group">
+  <view class="restart-btn-container">
+    <neo-button text="再来亿竿" 
+                bind:tap="restart"
+                bg-color="#06D6A0"
+                text-color="#333">
+    </neo-button>
+  </view>
+  <view class="restart-btn-container">
+    <neo-button text="返回主页" 
+                bind:tap="goBack"
+                bg-color="#FFD166"
+                text-color="#333">
+    </neo-button>
+  </view>
+</view></view>

@@ -88,6 +88,7 @@ Page({
         qteTimeLeft: 0,
         fishCaught: 0,
         fishEscaped: 0,
+        sessionFishEscaped: 0, // 本局脱钩数量
         // 新增事件加成列表
         eventBuffs: [],
         hasEventBuffs: false,
@@ -95,6 +96,7 @@ Page({
         showFishStatus: false,
         qteStatusText: '',
         canCastRod: true, // 控制抛竿按钮是否可点击
+        fishStatusAnimating: false, // 记录fish-status组件动画状态
         // 钓鱼成功弹窗相关
         showFishCaughtPopup: false,
         caughtFish: {
@@ -103,7 +105,18 @@ Page({
             battleTime: '', // 搏鱼时间
             strengthRatio: 0 // 强度比
         },
-        fishBiteTime: 0 // 记录鱼咬钩的时间戳
+        fishBiteTime: 0, // 记录鱼咬钩的时间戳
+        // 自定义弹窗相关
+        showCustomModal: false,
+        customModalData: {
+            title: '',
+            content: ''
+        },
+        // 自定义tooltip相关
+        showCustomTooltip: false,
+        customTooltipData: {
+            content: ''
+        }
     },
     // 返回准备页面的方法
     goBack() {
@@ -230,6 +243,7 @@ Page({
             fishCaught: app.globalData.fishCaught || 0,
             backgroundImage: backgroundImage,
             fishEscaped: app.globalData.fishEscaped || 0,
+            sessionFishEscaped: 0, // 每局开始重置为0
             sceneBgFadeIn: true // 开始淡入动画
         });
         
@@ -270,7 +284,8 @@ Page({
         // 根据组件传来的locked状态设置页面交互状态
         const isLocked = e.detail.locked;
         this.setData({
-            canCastRod: !isLocked // 当locked为true时，禁用抛竿按钮
+            canCastRod: !isLocked, // 当locked为true时，禁用抛竿按钮
+            fishStatusAnimating: isLocked // 记录fish-status动画状态
         });
 
         // 如果需要，可以在这里添加更多的交互锁定逻辑
@@ -395,10 +410,7 @@ Page({
 
         if (selectedFishId === 'NONE') {
             // 没有鱼咬钩
-            wx.showToast({
-                title: '没有鱼上钩',
-                icon: 'none'
-            });
+            this.showCustomTooltip('没有鱼上钩');
             // 扣除时间
             this.updateFishingTime(fishtimeData.everyNONE);
             // 检查时间是否结束
@@ -1155,6 +1167,7 @@ Page({
         wx.setStorageSync('fishEscaped', app.globalData.fishEscaped); // 保存到本地存储
         this.setData({
             fishEscaped: app.globalData.fishEscaped,
+            sessionFishEscaped: this.data.sessionFishEscaped + 1, // 增加本局脱钩数量
             state: 'waiting',
             qteStatusText: '鱼儿逃脱了！',
             canCastRod: false // 禁用抛竿按钮，等待动画完成
@@ -1181,19 +1194,11 @@ Page({
         }
 
         // 显示鱼脱钩提示
-        wx.showToast({
-            title: `??? 脱钩了！`,
-            icon: 'none',
-            duration: 2000
-        });
+        this.showCustomTooltip('??? 脱钩了！', 2000);
 
         // 显示逃脱原因
         setTimeout(() => {
-            wx.showToast({
-                title: escapeReason,
-                icon: 'none',
-                duration: 3000
-            });
+            this.showCustomTooltip(escapeReason, 3000);
 
             // 检查是否需要屏蔽AFT_FISHON事件并触发EXTRA天气事件
             if (app.globalData.blockAFTEvent) {
@@ -1482,6 +1487,9 @@ Page({
             // 更新钓鱼相关成就进度
             this.updateFishingAchievementProgress();
 
+            // 将本局脱钩数量保存到全局数据
+            app.globalData.sessionFishEscaped = this.data.sessionFishEscaped;
+
             // 跳转到结果页面
             wx.redirectTo({
                 url: '../result/result'
@@ -1579,11 +1587,7 @@ Page({
             
             // 根据事件的触发概率决定是否触发
             if (Math.random() < triggerProbability) {
-                wx.showModal({
-              title: evt.name,
-              content: evt.description,
-                    showCancel: false,
-                    success: () => {
+                this.showCustomModal(evt.name, evt.description, () => {
                   // 初始化事件修正器（如果不存在）
                   if (!app.globalData.eventModifiers) {
                             app.globalData.eventModifiers = {
@@ -1638,15 +1642,10 @@ Page({
 
                         // 当触发了BEF_FISHON事件后，直接跳过本次抛竿
                         // 不调用callback，而是直接返回，等待玩家下次点击抛竿
-                        wx.showToast({
-                            title: '请继续钓鱼吧~',
-                            icon: 'none',
-                            duration: 2000
-                        });
+                        this.showCustomTooltip('请继续钓鱼吧~', 2000);
 
                         // 检查钓鱼时间是否结束
                         this.checkFishingTime();
-                    }
                 });
             } else {
                 callback();
@@ -1730,11 +1729,7 @@ Page({
             
             // 根据事件的触发概率决定是否触发
             if (Math.random() < triggerProbability) {
-                wx.showModal({
-              title: evt.name,
-              content: evt.description,
-                    showCancel: false,
-                    success: () => {
+                this.showCustomModal(evt.name, evt.description, () => {
                   // 初始化事件修正器（如果不存在）
                   if (!app.globalData.eventModifiers) {
                             app.globalData.eventModifiers = {
@@ -1788,7 +1783,6 @@ Page({
                         }
 
                         callback();
-                    }
                 });
             } else {
                 callback();
@@ -1858,11 +1852,7 @@ Page({
          if (!evt && extraWeathers.length > 0) {
              evt = extraWeathers[0];
          }
-         wx.showModal({
-             title: evt.name,
-             content: evt.description,
-             showCancel: false,
-             success: () => {
+         this.showCustomModal(evt.name, evt.description, () => {
                  // 初始化事件修正器（如果不存在）
                  if (!app.globalData.eventModifiers) {
                      app.globalData.eventModifiers = {
@@ -1899,7 +1889,6 @@ Page({
 
                  console.log('[钓鱼游戏] 触发EXTRA天气事件:', evt.name, app.globalData.eventModifiers);
                  callback();
-             }
          });
 
     },
@@ -2355,6 +2344,9 @@ Page({
             // 更新钓鱼相关成就进度
             this.updateFishingAchievementProgress();
 
+            // 将本局脱钩数量保存到全局数据
+            app.globalData.sessionFishEscaped = this.data.sessionFishEscaped;
+
             // 跳转到结果页面
             wx.redirectTo({
                 url: '../result/result'
@@ -2415,6 +2407,81 @@ Page({
                     
                     console.log(`[钓鱼成就] 更新 ${achievementId} 进度: ${currentCount}/${achievement.value}`);
                 }
+            }
+        });
+    },
+
+    // 显示自定义弹窗
+    showCustomModal(title, content, callback) {
+        // 保存回调函数
+        this.customModalCallback = callback;
+        
+        // 检查是否有fish-status正在动画中
+        if (this.data.fishStatusAnimating) {
+            // 等待fish-status动画结束后再显示弹窗（默认600ms）
+            setTimeout(() => {
+                this.setData({
+                    showCustomModal: true,
+                    customModalData: {
+                        title: title,
+                        content: content
+                    }
+                });
+            }, 600);
+        } else {
+            // 立即显示弹窗
+            this.setData({
+                showCustomModal: true,
+                customModalData: {
+                    title: title,
+                    content: content
+                }
+            });
+        }
+    },
+
+    // 隐藏自定义弹窗
+    hideCustomModal() {
+        this.setData({
+            showCustomModal: false,
+            customModalData: {
+                title: '',
+                content: ''
+            }
+        });
+        // 执行回调函数
+        if (this.customModalCallback) {
+            this.customModalCallback();
+            this.customModalCallback = null;
+        }
+    },
+
+    // 阻止事件冒泡
+    stopPropagation() {
+        // 空函数，用于阻止事件冒泡
+    },
+
+    // 显示自定义tooltip
+    showCustomTooltip(content, duration = 2000) {
+        this.setData({
+            showCustomTooltip: true,
+            customTooltipData: {
+                content: content
+            }
+        });
+        
+        // 自动隐藏tooltip
+        setTimeout(() => {
+            this.hideCustomTooltip();
+        }, duration);
+    },
+
+    // 隐藏自定义tooltip
+    hideCustomTooltip() {
+        this.setData({
+            showCustomTooltip: false,
+            customTooltipData: {
+                content: ''
             }
         });
     }

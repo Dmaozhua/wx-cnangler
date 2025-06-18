@@ -58,4 +58,34 @@
       <boat-animation></boat-animation>
     </view>
   </view>
+  
+  <!-- 新增组件演示 -->
+  <view class="new-components-section">
+    <text class="section-title">新增动画组件演示</text>
+    
+    <!-- Loading Demo 组件 -->
+    <view class="component-demo">
+      <text class="demo-title">Loading Demo 组件</text>
+      <loading-demo text="加载中..." show="{{true}}"></loading-demo>
+      <loading-demo text="处理数据" show="{{true}}"></loading-demo>
+    </view>
+    
+    <!-- 进度条组件 -->
+    <view class="component-demo">
+      <text class="demo-title">进度条组件</text>
+      <jindu-bar progress="{{progressValue}}" color="#92C81A" animated="{{true}}"></jindu-bar>
+      <view class="progress-controls">
+        <neo-button text="设置25%" size="small" bind:tap="setProgress25"></neo-button>
+        <neo-button text="设置50%" size="small" bind:tap="setProgress50"></neo-button>
+        <neo-button text="设置75%" size="small" bind:tap="setProgress75"></neo-button>
+        <neo-button text="设置100%" size="small" bind:tap="setProgress100"></neo-button>
+      </view>
+    </view>
+    
+    <!-- Glow Cards 组件 -->
+    <view class="component-demo">
+      <text class="demo-title">发光卡片组件</text>
+      <glow-cards cards="{{cardData}}" bind:cardtap="onGlowCardTap" bind:buttontap="onGlowButtonTap"></glow-cards>
+    </view>
+  </view>
 </view>

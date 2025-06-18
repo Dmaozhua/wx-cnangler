@@ -1,4 +1,7 @@
 {
   "component": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "neo-card": "/components/neo-card/neo-card",
+    "neo-button": "/components/neo-button/neo-button"
+  }
 }

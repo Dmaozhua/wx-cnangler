@@ -12,7 +12,8 @@ Page({
   onLoad() {
     // 获取全局数据中的钓鱼结果
     const fishCaught = app.globalData.fishCaught || 0;
-    const fishEscaped = app.globalData.fishEscaped || 0;
+    // const fishEscaped = app.globalData.fishEscaped || 0;
+    const fishEscaped = app.globalData.sessionFishEscaped || 0; // 使用本局脱钩数量
     const totalFish = fishCaught + fishEscaped;
     const successRate = totalFish > 0 ? Math.round((fishCaught / totalFish) * 100) : 0;
     
@@ -38,6 +39,7 @@ Page({
         // 重置全局数据
         app.globalData.fishCaught = 0;
         app.globalData.fishEscaped = 0;
+        app.globalData.sessionFishEscaped = 0; // 重置本局脱钩数量
         app.globalData.fishingTime = 0;
         app.globalData.nextFishRarity = null;
         app.globalData.triggeredEvents = [];

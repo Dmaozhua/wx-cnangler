@@ -1,0 +1,26 @@
+<!-- components/jinduBar/jinduBar.wxml -->
+<view class="progress-container">
+  <view class="center">
+    <view class="main" wx:style="{'background-color': color, 'width': progress + '%'}"></view>
+    <view class="row" id="r-one">
+      <view class="sq" id="sq-1"></view>
+      <view class="sq" id="sq-2"></view>
+      <view class="sq" id="sq-3"></view>
+    </view>
+    <view class="row" id="r-two">
+      <view class="sq" id="sq-4"></view>
+      <view class="sq" id="sq-5"></view>
+      <view class="sq" id="sq-6"></view>
+    </view>
+    <view class="row" id="r-three">
+      <view class="sq" id="sq-7"></view>
+      <view class="sq" id="sq-8"></view>
+      <view class="sq" id="sq-9"></view>
+    </view>
+    <view class="row" id="r-four">
+      <view class="sq" id="sq-10"></view>
+      <view class="sq" id="sq-11"></view>
+      <view class="sq" id="sq-12"></view>
+    </view>
+  </view>
+</view>
