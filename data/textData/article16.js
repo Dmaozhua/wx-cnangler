@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "鱼类对水中震动的感知及其对路亚钓鱼的影响研究",
   "author": "AImPhish",
-  "publishDate": "2024-03-15",
+  "publishDate": "2025-03-15",
   "content": "",
   "children": [
     {

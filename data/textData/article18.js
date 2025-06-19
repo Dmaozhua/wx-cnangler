@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "鳡鱼的生物学特性、习性与路亚钓法综合研究",
   "author": "AImPhish",
-  "publishDate": "2024-03-16",
+  "publishDate": "2025-03-16",
   "content": "",
   "children": [
     {

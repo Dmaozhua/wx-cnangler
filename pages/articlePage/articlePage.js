@@ -45,13 +45,16 @@ Page({
             // 动态构建require路径
             const articleModule = require(`../../data/textData/${fileName}`);
             // 检查导出方式，支持多种导出格式
+            let currentArticle;
             if (articleModule.fishingData) {
-              articleData.push(articleModule.fishingData);
+              currentArticle = articleModule.fishingData;
             } else if (articleModule.default) {
-              articleData.push(articleModule.default);
+              currentArticle = articleModule.default;
             } else {
-              articleData.push(articleModule);
+              currentArticle = articleModule;
             }
+            // 将文章数据和对应的ID一起存储
+            articleData.push({id: i, data: currentArticle});
             console.log(`成功加载文章: ${fileName}`);
           } catch (e) {
             // 如果连续5个文件都加载失败，则认为已经没有更多文章了
@@ -88,7 +91,7 @@ Page({
             }
           ]
         };
-        articleData.push(article1);
+        articleData.push({id: 1, data: article1});
         
         // 显示提示信息
         wx.showToast({
@@ -110,12 +113,14 @@ Page({
       });
       
       // 处理文章数据
-      const articles = articleData.map((fishingData, index) => {
+      const articles = articleData.map((fishingDataWithId, index) => {
+        const fishingData = fishingDataWithId.data;
+        const articleId = fishingDataWithId.id;
         // 检查文章格式，适配新旧两种格式
         if (fishingData.content !== undefined) {
           // 新格式使用 content 属性
           return {
-            id: index + 1,
+            id: articleId,
             meta: {
               title: fishingData.title || "无标题",
               author: fishingData.author || "未知作者",
@@ -129,7 +134,7 @@ Page({
         } else if (fishingData.text !== undefined) {
           // 旧格式使用 text 属性
           return {
-            id: index + 1,
+            id: articleId,
             meta: {
               title: fishingData.title || "无标题",
               author: fishingData.author || "未知作者",
@@ -142,7 +147,7 @@ Page({
         } else {
           // 如果两种属性都不存在，提供默认值
           return {
-            id: index + 1,
+            id: articleId,
             meta: {
               title: fishingData.title || "无标题",
               author: fishingData.author || "未知作者",

@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "春季路亚鲈鱼技巧与找鱼方式全解析",
   "author": "AImPhish",
-  "publishDate": "2024-02-15",
+  "publishDate": "2025-02-15",
   "content": "",
   "children": [
     {

@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "鱼探器在路亚钓法中的应用与影响：技术原理、功能及争议",
   "author": "AImPhish",
-  "publishDate": "2024-02-22",
+  "publishDate": "2025-02-22",
   "content": "",
   "children": [
     {

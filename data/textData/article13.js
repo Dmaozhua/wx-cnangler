@@ -1,7 +1,7 @@
 const fishingData = {
   "title": "路亚钓法中的VIB：历史、分类、操作手法与使用心得",
   "author": "AImPhish",
-  "publishDate": "2024-02-22",
+  "publishDate": "2025-02-22",
   "content": "",
   "children": [
     {
