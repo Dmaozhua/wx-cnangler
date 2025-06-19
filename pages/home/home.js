@@ -24,6 +24,9 @@ Page({
         sectionTitleStyle: {},
         // 添加测试题目数量
         testCount: 0,
+        // 全局加载状态
+        isGlobalLoading: true,
+        loadingText: '正在初始化...',
         // 添加bannerList初始化，支持webp格式
         bannerList: [
             { 
@@ -44,6 +47,16 @@ Page({
         ]
     },
     onLoad() {
+        // 同步全局加载状态
+        const app = getApp()
+        this.setData({
+          isGlobalLoading: app.globalData.isGlobalLoading,
+          loadingText: app.globalData.loadingText
+        })
+        
+        // 监听全局加载状态变化
+        this.checkGlobalLoadingStatus()
+        
         // 检查是否首次访问
         const hasClosed = wx.getStorageSync('hasClosedPrompt')
         if (hasClosed) {
@@ -806,6 +819,19 @@ Page({
     const b = parseChannel(hex.substr(5,2))
     const brightness = (r * 299 + g * 587 + b * 114) / 1000
     return brightness > 128 ? 'black' : 'white'
+  },
+
+  // 监听全局加载状态变化
+  checkGlobalLoadingStatus() {
+    const app = getApp()
+    const checkInterval = setInterval(() => {
+      if (!app.globalData.isGlobalLoading) {
+        this.setData({
+          isGlobalLoading: false
+        })
+        clearInterval(checkInterval)
+      }
+    }, 100)
   },
 
   // 获取测试题目数量

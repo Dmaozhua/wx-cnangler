@@ -3,7 +3,10 @@
     <navigation-bar id="navigation-bar" title="钓鱼人测试" background="#BDC3C7" color="#000000" back="{{false}}" style="transition: background 0.3s ease, color 0.3s ease;"></navigation-bar>
 </page-meta>
 
-<view class="page-container" style="background: {{containerStyle}};">
+<!-- 全局加载动画 -->
+<global-loading wx:if="{{isGlobalLoading}}" show="{{isGlobalLoading}}" text="{{loadingText}}" />
+
+<view class="page-container" style="background: {{containerStyle}};" wx:if="{{!isGlobalLoading}}">
     <view wx:if="{{showPrompt}}" class="first-tip">
         <text class="icon-huanying1 iconfont topicon"></text>
         <text class="huanyingtips">欢迎使用钓鱼人测试!</text>

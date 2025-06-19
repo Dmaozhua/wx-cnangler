@@ -7,6 +7,8 @@ Page({
     data: {
         inputValue: '',
         progressValue: 0,
+        showLoading1: false,
+        showLoading2: false,
         cardData: [
             {
                 title: '卡片1',
@@ -81,6 +83,30 @@ Page({
 
     setProgress100: function() {
         this.setData({ progressValue: 100 });
+    },
+
+    // Loading 控制函数
+    showLoading1: function() {
+        this.setData({ showLoading1: true });
+        // 3秒后自动隐藏
+        setTimeout(() => {
+            this.setData({ showLoading1: false });
+        }, 3000);
+    },
+
+    showLoading2: function() {
+        this.setData({ showLoading2: true });
+        // 3秒后自动隐藏
+        setTimeout(() => {
+            this.setData({ showLoading2: false });
+        }, 3000);
+    },
+
+    hideAllLoading: function() {
+        this.setData({ 
+            showLoading1: false,
+            showLoading2: false 
+        });
     },
 
     // Glow Cards 事件处理

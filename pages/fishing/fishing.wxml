@@ -3,6 +3,9 @@
     <!-- 自定义导航栏 -->
     <navigation-bar title="钓鱼中" background="#BDC3C7" color="#000000" back="{{false}}"></navigation-bar>
 </page-meta>
+
+<!-- 页面级加载动画 -->
+<global-loading wx:if="{{pageLoading}}" show="{{pageLoading}}" text="{{pageLoadingText}}" />
 <!-- 新增背景图容器 -->
 <view class="scene-bg-container">
     <image class="scene-bg {{sceneBgFadeIn ? 'scene-bg-fade-in' : ''}}" src="{{backgroundImage}}" mode="aspectFill"></image>

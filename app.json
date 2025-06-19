@@ -1,4 +1,7 @@
 {
+    "usingComponents": {
+        "global-loading": "/components/loadingdemo/loadingdemo"
+    },
     "lazyCodeLoading": "requiredComponents",
     "requiredBackgroundModes": [
         "audio"

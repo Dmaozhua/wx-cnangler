@@ -1,45 +1,45 @@
 // pages/achievement/achievement.js
 const app = getApp()
 const fs = wx.getFileSystemManager()
-import lottie from 'lottie-miniprogram';
+// import lottie from 'lottie-miniprogram';
 Page({
     onReady() {
         // 添加延迟确保canvas已完全渲染
-        setTimeout(() => {
-            wx.createSelectorQuery().select('#lottie-canvas').node(res => {
-              if (!res || !res.node) {
-                console.error('获取canvas节点失败，节点可能未渲染完成');
-                return;
-              }
-              
-              const canvas = res.node;
-              const context = canvas.getContext('2d');
-              const dpr = wx.getSystemInfoSync().pixelRatio;
-        
-              // 设置 Canvas 尺寸
-              canvas.width = 300 * dpr;
-              canvas.height = 300 * dpr;
-              context.scale(dpr, dpr);
-        
-              // 初始化 Lottie
-              try {
-                lottie.setup(canvas);
-                
-                // 加载动画数据
-                this.animation = lottie.loadAnimation({
-                  loop: true,
-                  autoplay: true,
-                  animationData: require('../../Lottie/Animation.js'),
-                  rendererSettings: { context }
-                });
-              } catch (error) {
-                console.error('Lottie初始化失败:', error);
-              }
-            }).exec();
-        }, 300); // 延迟300ms确保canvas已渲染
+        // setTimeout(() => {
+        //     wx.createSelectorQuery().select('#lottie-canvas').node(res => {
+        //       if (!res || !res.node) {
+        //         console.error('获取canvas节点失败，节点可能未渲染完成');
+        //         return;
+        //       }
+        //       
+        //       const canvas = res.node;
+        //       const context = canvas.getContext('2d');
+        //       const dpr = wx.getSystemInfoSync().pixelRatio;
+        // 
+        //       // 设置 Canvas 尺寸
+        //       canvas.width = 300 * dpr;
+        //       canvas.height = 300 * dpr;
+        //       context.scale(dpr, dpr);
+        // 
+        //       // 初始化 Lottie
+        //       try {
+        //         lottie.setup(canvas);
+        //         
+        //         // 加载动画数据
+        //         this.animation = lottie.loadAnimation({
+        //           loop: true,
+        //           autoplay: true,
+        //           animationData: require('../../Lottie/Animation.js'),
+        //           rendererSettings: { context }
+        //         });
+        //       } catch (error) {
+        //         console.error('Lottie初始化失败:', error);
+        //       }
+        //     }).exec();
+        // }, 300); // 延迟300ms确保canvas已渲染
     },
     onUnload() {
-        if (this.animation) this.animation.destroy();
+        // if (this.animation) this.animation.destroy();
       },
       
       // 每次显示页面时刷新成就数据
@@ -95,7 +95,7 @@ Page({
   onLoad(options) {
     this.loadAchievements()
     this.checkNewAchievements()
-    this.loadAnimationData()
+    // this.loadAnimationData()
     
     // 处理从其他页面传递过来的成就ID参数
     if (options && options.achievementId) {
@@ -635,15 +635,15 @@ Page({
 
   // 加载动画数据
   loadAnimationData() {
-    try {
-      // 读取动画JSON文件
-      const animationData = require('../../Lottie/Animation.js')
-      this.setData({
-        animationData: animationData
-      })
-    } catch (error) {
-      console.error('加载动画数据失败:', error)
-    }
+    // try {
+    //   // 读取动画JSON文件
+    //   const animationData = require('../../Lottie/Animation.js')
+    //   this.setData({
+    //     animationData: animationData
+    //   })
+    // } catch (error) {
+    //   console.error('加载动画数据失败:', error)
+    // }
   },
 
   // 显示动画效果

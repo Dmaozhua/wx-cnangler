@@ -1,13 +1,11 @@
 {
   "usingComponents": {
-    "boat-animation": "/components/boat-animation/boat-animation",
     "component-library": "/components/componentLibrary/componentLibrary",
     "neo-button": "/components/neo-button/neo-button",
     "neo-card": "/components/neo-card/neo-card",
     "neo-input": "/components/neo-input/neo-input",
     "loading-demo": "/components/loadingdemo/loadingdemo",
     "jindu-bar": "/components/jinduBar/jinduBar",
-    "glow-cards": "/components/glowcards/glowcards",
-    "circular-animations": "/components/circular-animations/circular-animations"
+    "glow-cards": "/components/glowcards/glowcards"
   }
 }

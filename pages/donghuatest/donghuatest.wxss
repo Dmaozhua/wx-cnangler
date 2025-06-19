@@ -48,6 +48,22 @@
 .animation-container {
   margin-top: 20rpx;
   padding: 20rpx;
+}
+
+/* 控制按钮样式 */
+.loading-controls,
+.progress-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+  justify-content: center;
+}
+
+.loading-controls neo-button,
+.progress-controls neo-button {
+  flex: 0 0 auto;
+  margin: 5rpx;
   background-color: #f8f9fa;
   border-radius: 10rpx;
 }

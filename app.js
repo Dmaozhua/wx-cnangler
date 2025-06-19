@@ -7,7 +7,9 @@ App({
     pendingAchievements: [],
     completedTests: [], // 添加已完成测试记录
     fishingSessionCount: 0, // 添加钓鱼会话次数计数器
-    fishEscaped: 0 // 添加累计跑鱼次数计数器
+    fishEscaped: 0, // 添加累计跑鱼次数计数器
+    isGlobalLoading: true, // 全局加载状态
+    loadingText: '正在初始化...' // 加载文本
   },
   
   onLaunch() {
@@ -68,6 +70,12 @@ App({
     } catch (error) {
       console.error('加载成就定义失败:', error)
     }
+    
+    // 模拟初始化过程，完成后隐藏全局加载动画
+    setTimeout(() => {
+      this.globalData.isGlobalLoading = false
+      console.log('全局初始化完成，隐藏加载动画')
+    }, 2000)
   },
   
   // 标记成就为已查看

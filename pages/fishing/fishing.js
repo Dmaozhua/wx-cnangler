@@ -116,7 +116,10 @@ Page({
         showCustomTooltip: false,
         customTooltipData: {
             content: ''
-        }
+        },
+        // 页面级加载状态
+        pageLoading: false,
+        pageLoadingText: '加载中...'
     },
     // 返回准备页面的方法
     goBack() {
@@ -159,6 +162,19 @@ Page({
     },
 
     onLoad() {
+        // 显示页面级加载动画
+        this.setData({
+            pageLoading: true,
+            pageLoadingText: '正在初始化钓鱼环境...'
+        });
+        
+        // 模拟资源加载过程
+        setTimeout(() => {
+            this.setData({
+                pageLoading: false
+            });
+        }, 1500);
+        
         // 初始化事件屏蔽标记
         app.globalData.blockAFTEvent = false;
         app.globalData.blockBEFEvent = false;
