@@ -51,13 +51,7 @@
     <component-library></component-library>
   </view>
   
-  <!-- 动画演示部分 -->
-  <view class="animation-section">
-    <text class="section-title">船只动画演示</text>
-    <view class="animation-container">
-      <boat-animation></boat-animation>
-    </view>
-  </view>
+
   
   <!-- 新增组件演示 -->
   <view class="new-components-section">
@@ -88,10 +82,6 @@
       <glow-cards cards="{{cardData}}" bind:cardtap="onGlowCardTap" bind:buttontap="onGlowButtonTap"></glow-cards>
     </view>
     
-    <!-- Circular Animations 组件 -->
-    <view class="component-demo">
-      <text class="demo-title">圆形动画组件</text>
-      <circular-animations></circular-animations>
-    </view>
+
   </view>
 </view>
