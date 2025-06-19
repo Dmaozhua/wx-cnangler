@@ -82,15 +82,88 @@
 /* 动画背景 */
 .icon-background-animation {
   position: absolute;
-  width: 80vw;
-  height: 80vw;
-  max-width: 500rpx;
-  max-height: 500rpx;
-  /* border-radius: 50%; */
-  /* background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(255, 165, 0, 0.2) 30%, rgba(255, 69, 0, 0.1) 60%, transparent 100%);
-  animation: pulse 3s ease-in-out infinite; */
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
   z-index: 1;
   pointer-events: none; /* 让点击事件穿透到下面的图标 */
+}
+
+/* 脉冲圆圈动画点 */
+.pulse-dot {
+  position: absolute;
+  border-radius: 50%;
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.3;
+  }
+}
+
+/* 旋转轨道容器 */
+.orbit-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: rotateOrbit 8s linear infinite;
+}
+
+.orbit-dot {
+  position: absolute;
+  border-radius: 50%;
+}
+
+@keyframes rotateOrbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 序列环动画点 */
+.ring-dot {
+  position: absolute;
+  border-radius: 50%;
+  animation: expandRing 3s infinite;
+}
+
+@keyframes expandRing {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+}
+
+/* 同心旋转容器 */
+.concentric-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: rotateConcentric 3s linear infinite;
+}
+
+.concentric-dot {
+  position: absolute;
+  border-radius: 50%;
+}
+
+@keyframes rotateConcentric {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes pulse {

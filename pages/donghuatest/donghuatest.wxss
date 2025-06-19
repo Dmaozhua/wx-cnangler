@@ -124,3 +124,19 @@ neo-card {
 neo-input {
   margin-bottom: 20rpx;
 }
+
+/* 圆形动画组件样式 */
+circular-animations {
+  display: block;
+  width: 100%;
+  background-color: #000;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  margin-top: 20rpx;
+}
+
+/* 确保动画组件在页面中正确显示 */
+.component-demo circular-animations {
+  min-height: 400rpx;
+  overflow: hidden;
+}

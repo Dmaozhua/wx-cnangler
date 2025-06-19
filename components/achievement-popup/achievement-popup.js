@@ -23,7 +23,8 @@ Component({
     animationData: {},
     canSwitchPrev: false,
     canSwitchNext: false,
-    achievementCount: 0
+    achievementCount: 0,
+    circularWaves: []
   },
   
     lifetimes: {
@@ -84,6 +85,7 @@ Component({
         }
         
         this.updateSwitchButtons();
+        this.generateCircularWaves();
         this.showAnimation()
       } else {
         this.hideAnimation()
@@ -167,6 +169,46 @@ Component({
         this.triggerEvent('close')
       },
   
+      // 生成圆形波浪动画数据
+      generateCircularWaves() {
+        const waves = [];
+        let id = 0;
+        
+        // 生成多个同心圆的波浪点
+        for (let ring = 0; ring < 6; ring++) {
+          const radius = 25 + ring * 25; // 每个环的半径
+          const pointCount = 10 + ring * 4; // 每个环的点数
+          
+          for (let i = 0; i < pointCount; i++) {
+            const angle = (i / pointCount) * 2 * Math.PI;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+            
+            // 计算点的大小和延迟
+            const size = 5 + ring * 0.3;
+            const delay = ring * 0.4 + (i / pointCount) * 0.2;
+            
+            // 生成颜色（金色系）
+            const opacity = (100 - ring * 12) / 100;
+            const color = `rgba(255, 215, 0, ${opacity})`;
+            
+            waves.push({
+              id: id++,
+              style: `
+                width: ${size}px;
+                height: ${size}px;
+                left: calc(50% + ${x}px - ${size / 2}px);
+                top: calc(50% + ${y}px - ${size / 2}px);
+                background: ${color};
+                animation-delay: ${delay}s;
+              `
+            });
+          }
+        }
+        
+        this.setData({ circularWaves: waves });
+      },
+
       onViewDetails() {
         console.log('成就弹窗: 点击查看详情按钮');
         console.log('当前成就信息:', JSON.stringify(this.properties.achievement));

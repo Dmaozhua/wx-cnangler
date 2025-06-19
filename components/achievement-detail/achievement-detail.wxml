@@ -8,13 +8,37 @@
   
   <!-- 成就图标区域 -->
   <view class="achievement-icon-section">
-  <view class="icon-background-animation"></view>
-  <image 
-    class="achievement-icon" 
-    src="{{achievement.icon}}" 
-    mode="aspectFit"
-    catchtap="onIconTap"
-  />
+    <view class="icon-background-animation">
+      <!-- 脉冲圆圈动画 -->
+      <block wx:if="{{currentAnimation === 'pulse'}}">
+        <view wx:for="{{pulsatingCircles}}" wx:key="id" class="pulse-dot" style="{{item.style}}"></view>
+      </block>
+      
+      <!-- 旋转轨道动画 -->
+      <block wx:elif="{{currentAnimation === 'orbit'}}">
+        <view wx:for="{{rotatingOrbits}}" wx:key="id" class="orbit-container" style="{{item.containerStyle}}">
+          <view wx:for="{{item.dots}}" wx:for-item="dot" wx:key="id" class="orbit-dot" style="{{dot.style}}"></view>
+        </view>
+      </block>
+      
+      <!-- 序列环动画 -->
+      <block wx:elif="{{currentAnimation === 'ring'}}">
+        <view wx:for="{{sequentialRings}}" wx:key="id" class="ring-dot" style="{{item.style}}"></view>
+      </block>
+      
+      <!-- 同心旋转动画 -->
+      <block wx:elif="{{currentAnimation === 'concentric'}}">
+        <view wx:for="{{concentricRings}}" wx:key="id" class="concentric-container" style="{{item.containerStyle}}">
+          <view wx:for="{{item.dots}}" wx:for-item="dot" wx:key="id" class="concentric-dot" style="{{dot.style}}"></view>
+        </view>
+      </block>
+    </view>
+    <image 
+      class="achievement-icon" 
+      src="{{achievement.icon}}" 
+      mode="aspectFit"
+      catchtap="onIconTap"
+    />
   </view>
   
   <!-- 成就信息区域 -->

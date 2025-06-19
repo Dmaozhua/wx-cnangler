@@ -7,6 +7,7 @@
     "neo-input": "/components/neo-input/neo-input",
     "loading-demo": "/components/loadingdemo/loadingdemo",
     "jindu-bar": "/components/jinduBar/jinduBar",
-    "glow-cards": "/components/glowcards/glowcards"
+    "glow-cards": "/components/glowcards/glowcards",
+    "circular-animations": "/components/circular-animations/circular-animations"
   }
 }

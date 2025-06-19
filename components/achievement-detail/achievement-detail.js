@@ -17,7 +17,12 @@ Component({
   data: {
     animationData: {},
     formattedTime: '',
-    showFullscreenIcon: false
+    showFullscreenIcon: false,
+    currentAnimation: 'pulse',
+    pulsatingCircles: [],
+    rotatingOrbits: [],
+    sequentialRings: [],
+    concentricRings: []
   },
 
   observers: {
@@ -32,6 +37,10 @@ Component({
     },
     'visible': function(visible) {
       console.log('visible状态变化:', visible);
+      if (visible) {
+        // 每次打开时随机选择一个动画效果
+        this.selectRandomAnimation();
+      }
     }
   },
 
@@ -71,6 +80,148 @@ lifetimes: {
     // 阻止触摸事件穿透
     preventTouchMove() {
       return false;
+    },
+
+    // 随机选择动画效果
+    selectRandomAnimation() {
+      const animations = ['pulse', 'orbit', 'ring', 'concentric'];
+      const randomIndex = Math.floor(Math.random() * animations.length);
+      const selectedAnimation = animations[randomIndex];
+      
+      console.log('选择的动画效果:', selectedAnimation);
+      this.setData({ currentAnimation: selectedAnimation });
+      
+      // 根据选择的动画生成对应的数据
+      switch (selectedAnimation) {
+        case 'pulse':
+          this.generatePulsatingCircles();
+          break;
+        case 'orbit':
+          this.generateRotatingOrbits();
+          break;
+        case 'ring':
+          this.generateSequentialRings();
+          break;
+        case 'concentric':
+          this.generateConcentricRings();
+          break;
+      }
+    },
+
+    // 生成脉冲圆圈数据
+    generatePulsatingCircles() {
+      const circles = [];
+      let id = 0;
+      
+      for (let r = 0; r < 6; r++) {
+        const radius = 20 + r * 25;
+        const count = 8 + r * 4;
+        
+        for (let i = 0; i < count; i++) {
+          const angle = (i / count) * 2 * Math.PI;
+          const x = Math.cos(angle) * radius;
+          const y = Math.sin(angle) * radius;
+          const sz = 4 + r * 0.5;
+          
+          circles.push({
+            id: id++,
+            style: `width: ${sz}px; height: ${sz}px; left: calc(50% + ${x}px - ${sz / 2}px); top: calc(50% + ${y}px - ${sz / 2}px); animation-delay: ${r * 0.2 + i * 0.1}s; background: rgba(255,215,0,${(90 - r * 8) / 100});`
+          });
+        }
+      }
+      
+      this.setData({ pulsatingCircles: circles });
+    },
+
+    // 生成旋转轨道数据
+    generateRotatingOrbits() {
+      const orbits = [];
+      let orbitId = 0;
+      
+      for (let r = 0; r < 5; r++) {
+        const radius = 25 + r * 30;
+        const count = 8 + r * 4;
+        const dots = [];
+        let dotId = 0;
+        
+        for (let i = 0; i < count; i++) {
+          const angle = (i / count) * 2 * Math.PI;
+          const x = Math.cos(angle) * radius;
+          const y = Math.sin(angle) * radius;
+          const sz = 5 - r * 0.3;
+          
+          dots.push({
+            id: dotId++,
+            style: `width: ${sz}px; height: ${sz}px; left: calc(50% + ${x}px - ${sz / 2}px); top: calc(50% + ${y}px - ${sz / 2}px); background: rgba(255,215,0,${(90 - r * 12) / 100});`
+          });
+        }
+        
+        orbits.push({
+          id: orbitId++,
+          containerStyle: `animation-duration: ${8 + r * 3}s; animation-direction: ${r % 2 ? 'reverse' : 'normal'};`,
+          dots: dots
+        });
+      }
+      
+      this.setData({ rotatingOrbits: orbits });
+    },
+
+    // 生成序列环数据
+    generateSequentialRings() {
+      const rings = [];
+      let id = 0;
+      
+      for (let i = 0; i < 7; i++) {
+        const rad = 20 + i * 20;
+        const count = 10 + i * 4;
+        
+        for (let j = 0; j < count; j++) {
+          const angle = (j / count) * 2 * Math.PI;
+          const x = Math.cos(angle) * rad;
+          const y = Math.sin(angle) * rad;
+          const sz = 4 + i * 0.3;
+          
+          rings.push({
+            id: id++,
+            style: `width: ${sz}px; height: ${sz}px; left: calc(50% + ${x}px - ${sz / 2}px); top: calc(50% + ${y}px - ${sz / 2}px); animation-delay: ${i * 0.3 + (j / count) * 0.1}s; background: rgba(255,215,0,${(90 - i * 10) / 100});`
+          });
+        }
+      }
+      
+      this.setData({ sequentialRings: rings });
+    },
+
+    // 生成同心旋转数据
+    generateConcentricRings() {
+      const rings = [];
+      let ringId = 0;
+      
+      for (let r = 0; r < 6; r++) {
+        const radius = 25 + r * 25;
+        const count = 8 + r * 3;
+        const dots = [];
+        let dotId = 0;
+        
+        for (let i = 0; i < count; i++) {
+          const angle = (i / count) * 2 * Math.PI;
+          const x = Math.cos(angle) * radius;
+          const y = Math.sin(angle) * radius;
+          const sz = 5 - r * 0.2;
+          
+          dots.push({
+            id: dotId++,
+            style: `width: ${sz}px; height: ${sz}px; left: calc(50% + ${x}px - ${sz / 2}px); top: calc(50% + ${y}px - ${sz / 2}px); background: rgba(255,215,0,${(90 - r * 10) / 100});`
+          });
+        }
+        
+        rings.push({
+          id: ringId++,
+          containerStyle: `animation-duration: ${6 + r * 2}s; animation-direction: ${r % 2 ? 'reverse' : 'normal'};`,
+          dots: dots
+        });
+      }
+      
+      this.setData({ concentricRings: rings });
     },
     
 // 格式化解锁时间为易读格式

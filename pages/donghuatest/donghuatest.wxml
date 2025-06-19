@@ -87,5 +87,11 @@
       <text class="demo-title">发光卡片组件</text>
       <glow-cards cards="{{cardData}}" bind:cardtap="onGlowCardTap" bind:buttontap="onGlowButtonTap"></glow-cards>
     </view>
+    
+    <!-- Circular Animations 组件 -->
+    <view class="component-demo">
+      <text class="demo-title">圆形动画组件</text>
+      <circular-animations></circular-animations>
+    </view>
   </view>
 </view>
